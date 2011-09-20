@@ -1,0 +1,5 @@
+C:\Users\sylvaiam\Desktop\It's A Lie\VMat\VMat\bin\VMat.dll
+C:\Users\sylvaiam\Desktop\It's A Lie\VMat\VMat\bin\VMat.pdb
+C:\Users\sylvaiam\Desktop\It's A Lie\VMat\VMat\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\sylvaiam\Desktop\It's A Lie\VMat\VMat\obj\Debug\VMat.dll
+C:\Users\sylvaiam\Desktop\It's A Lie\VMat\VMat\obj\Debug\VMat.pdb
