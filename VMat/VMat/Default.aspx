@@ -3,6 +3,7 @@
 
 
 <form id="form1" runat="server">
+<h2>Setup new VM</h2>
 <asp:Label ID="Label1" runat="server" Text="Requested Virtual Machine Size (GB):"></asp:Label>
 <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
 <br />
