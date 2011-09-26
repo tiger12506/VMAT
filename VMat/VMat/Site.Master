@@ -13,7 +13,9 @@
     <div class="page">
         <div class="header">
             <div class="title">
-                <a href="Default.aspx">VMAT</a>
+                <a href="Default.aspx">
+                    <img src="Images/logo_vmat.png" alt="VMAT" />
+                </a>
             </div>
             <div class="loginDisplay">
                 <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
