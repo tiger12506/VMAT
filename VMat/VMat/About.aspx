@@ -5,10 +5,10 @@
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <h2>About</h2>
     <p>
-        VMAT
-        Nathan Mendel
-        Jacob Schmidt
-        Anthony Sylvain
-        Calvin Mlynarczyk
+        <b>VMAT</b><br />
+        Nathan Mendel<br />
+        Jacob Schmidt<br />
+        Anthony Sylvain<br />
+        Calvin Mlynarczyk<br />
     </p>
 </asp:Content>
