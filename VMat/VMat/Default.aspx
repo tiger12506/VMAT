@@ -5,6 +5,10 @@
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
     <div class="startpage">
+        <div class="startpage-header">
+            <h2>Welcome to VMAT</h2>
+        </div>
+
         <div class="startpage-buttons">
             <ul>
                 <li class="create">
