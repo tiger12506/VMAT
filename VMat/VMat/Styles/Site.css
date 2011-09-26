@@ -11,26 +11,11 @@ body
     color: #696969;
 }
 
-a:link, a:visited
+.main
 {
-    color: #034af3;
-}
-
-a:hover
-{
-    color: #1d60ff;
-    text-decoration: none;
-}
-
-a:active
-{
-    color: #034af3;
-}
-
-p
-{
-    margin-bottom: 10px;
-    line-height: 1.6em;
+    padding: 0px 12px;
+    margin: 12px 8px 8px 8px;
+    min-height: 420px;
 }
 
 
@@ -104,11 +89,6 @@ first child of the left and right table columns */
     height: 75px;
 }
 
-.header div
-{
-    height: 75px;
-}
-
 .header h1
 {
     font-weight: 700;
@@ -118,13 +98,6 @@ first child of the left and right table columns */
     border: none;
     line-height: 2em;
     font-size: 2em;
-}
-
-.main
-{
-    padding: 0px 12px;
-    margin: 12px 8px 8px 8px;
-    min-height: 420px;
 }
 
 .leftCol
@@ -144,54 +117,22 @@ first child of the left and right table columns */
     line-height: normal;
 }
 
-
-/* TAB MENU   
-----------------------------------------------------------*/
-
-div.hideSkiplink
+.footer a
 {
-    background-color:#3a4f63;
-    width:100%;
-}
-
-div.menu
-{
-    padding: 4px 0px 4px 8px;
-}
-
-div.menu ul
-{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-    width: auto;
-}
-
-div.menu ul li a, div.menu ul li a:visited
-{
-    background-color: #465c71;
-    border: 1px #4e667d solid;
-    color: #dde4ec;
-    display: block;
-    line-height: 1.35em;
-    padding: 4px 20px;
     text-decoration: none;
-    white-space: nowrap;
+    padding: 10px 20px 10px 20px;
 }
 
-div.menu ul li a:hover
+.footer a:hover
 {
-    background-color: #bfcbd6;
-    color: #465c71;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
-div.menu ul li a:active
+.footer a:visited
 {
-    background-color: #465c71;
-    color: #cfdbe6;
-    text-decoration: none;
+    color: Blue;
 }
+
 
 /* FORM ELEMENTS   
 ----------------------------------------------------------*/
@@ -268,6 +209,12 @@ div.accountInfo
     color: White;
 }
 
+.loginDisplay a
+{
+    color: White;
+    text-decoration: none;
+}
+
 .loginDisplay a:link
 {
     color: white;
@@ -281,6 +228,7 @@ div.accountInfo
 .loginDisplay a:hover
 {
     color: white;
+    text-decoration: underline;
 }
 
 .failureNotification
@@ -300,10 +248,79 @@ div.accountInfo
     padding-right: 10px;
 }
 
-div.startpage ul
+
+/*******************************************/
+/***             Start Page              ***/
+/*******************************************/
+
+div.startpage
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+div.startpage-buttons
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+
+.startpage ul
 {
     list-style: none;
     list-style-type: none;
     position: relative;
     overflow: hidden;
+}
+
+.startpage ul li
+{
+    float: left;
+    text-align: center;
+    background: #A2CD5A;
+    border: 1px solid #556B2F;
+    border-radius: 5px 5px 5px 5px;
+    color: #666;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.startpage ul li:hover
+{
+    background: #6E8B3D;
+}
+
+.startpage ul li:active
+{
+    background: #556B2F;
+}
+
+.startpage ul li.create, li.viewlist
+{
+    margin: 0 30px 0 0;
+}
+
+.startpage ul li configure
+{
+    margin: 0 0 0 0;
+}
+
+.startpage .icon img
+{
+    width: 160px;
+    height: 160px;
+}
+
+.startpage .label h3
+{
+    width: 160px;
+    height: 80px;
+    font-size: x-large;
+    font-style: normal;
+    text-decoration: none;
+    font-family: Tahoma, Geneva, sans-serif;
+    color: #141414;
+    font-variant: normal;
 }
