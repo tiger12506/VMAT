@@ -3,34 +3,38 @@
 
 body   
 {
-    background: #b6b7bc;
+    background: #BDBFBA;
     font-size: .80em;
-    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-family: Helvetica, Arial, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
-    color: #696969;
+    color: #000000;
 }
 
-.main
+a
 {
-    padding: 0px 12px;
-    margin: 12px 8px 8px 8px;
-    min-height: 300px;
+    color: #6380A5;
+    text-decoration: none;
+}
+
+a:link
+{
+    color: #6380A5;
+}
+
+a:visited
+{
+    color: #6380A5;
+}
+
+a:hover
+{
+    text-decoration: underline;
 }
 
 
-/* HEADINGS   
+/* HEADINGS
 ----------------------------------------------------------*/
-
-h1, h2, h3, h4, h5, h6
-{
-    font-size: 1.5em;
-    color: #666666;
-    font-variant: small-caps;
-    text-transform: none;
-    font-weight: 200;
-    margin-bottom: 0px;
-}
 
 h1
 {
@@ -53,6 +57,8 @@ h3
 h4
 {
     font-size: 1.1em;
+    padding: 0px;
+    margin: 0px;
 }
 
 h5, h6
@@ -74,9 +80,53 @@ first child of the left and right table columns */
 .page
 {
     width: 960px;
-    background-color: #fff;
+    background-color: #ffffff;
     margin: 20px auto 0px auto;
-    border: 1px solid #496077;
+    border: 2px solid #496077;
+    border-radius: 7px 7px 7px 7px;
+}
+
+.main
+{
+    margin: 0px 0px 0px 0px;
+    min-height: 300px;
+    width: 100%;
+    border-top: 2px solid #4F4F4F;
+    border-bottom: 2px solid #4F4F4F;
+    
+    background-color: #eeeeee;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+div.main-header
+{
+    width: 100%;
+    height: 40px;
+    font-size: large;
+    font-style: normal;
+    text-decoration: none;
+    color: #141414;
+    font-variant: normal;
+    border-bottom: 2px ridge #7D7D7D;
+    margin-top: 0;
+    padding-top: 10px;
+    
+    background: #b2b7b0; /* Old browsers */
+    background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b7b0), color-stop(100%,#7f7f7f)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2b7b0', endColorstr='#7f7f7f',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
+}
+
+.main-header h2
+{
+    padding-left: 70px;
+    display: inline;
 }
 
 .header
@@ -84,7 +134,7 @@ first child of the left and right table columns */
     position: relative;
     margin: 0px;
     padding: 0px;
-    background: #aa3322;
+    background: #ffffff;
     width: 100%;
     height: 75px;
 }
@@ -111,8 +161,8 @@ first child of the left and right table columns */
 .footer
 {
     color: #4e5766;
-    padding: 8px 0px 0px 0px;
-    margin: 0px auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
     text-align: center;
     line-height: normal;
 }
@@ -186,11 +236,6 @@ div.accountInfo
 /* MISC  
 ----------------------------------------------------------*/
 
-.clear
-{
-    clear: both;
-}
-
 .title
 {
     display: block;
@@ -198,6 +243,7 @@ div.accountInfo
     text-align: left;
     width: auto;
     height: auto;
+    margin-left: 20px;
 }
 
 .loginDisplay
@@ -211,23 +257,23 @@ div.accountInfo
 
 .loginDisplay a
 {
-    color: White;
+    color: #FE2A29;
     text-decoration: none;
 }
 
 .loginDisplay a:link
 {
-    color: white;
+    color: Blue;
 }
 
 .loginDisplay a:visited
 {
-    color: white;
+    color: Blue;
 }
 
 .loginDisplay a:hover
 {
-    color: white;
+    color: Blue;
     text-decoration: underline;
 }
 
@@ -237,146 +283,134 @@ div.accountInfo
     color: Red;
 }
 
-.bold
-{
-    font-weight: bold;
-}
-
-.submitButton
-{
-    text-align: right;
-    padding-right: 10px;
-}
-
 
 /*******************************************/
 /***             Start Page              ***/
 /*******************************************/
 
-div.startpage
+div.startpage-buttons
 {
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    width: 90%;
-    border: 2px solid #4F4F4F;
-    border-radius: 7px 7px 7px 7px;
     
     background-color: #eeeeee;
+    padding-top: 0;
     padding-right: 0;
     padding-left: 0;
 }
 
-div.startpage-header
+.startpage-buttons ul
 {
-    width: 100%;
-    height: 40px;
-    font-size: large;
-    font-style: normal;
-    text-decoration: none;
-    font-family: Tahoma, Geneva, sans-serif;
-    color: #141414;
-    font-variant: normal;
-    border-bottom: 1px solid #7D7D7D;
-    background-color: #B3B3B3;
-}
-
-.startpage-header h2
-{
-    padding-left: 30px;
-}
-
-div.startpage-buttons
-{
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
-    width: 95%;
-}
-
-.startpage ul
-{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
     list-style: none;
     list-style-type: none;
-    position: relative;
     overflow: hidden;
 }
 
-.startpage ul li
+.startpage-buttons ul li
 {
     float: left;
     text-align: center;
-    background: #ddffff;
-    border: 1px solid #55aaff;
+    border: 3px groove #76A4F2;
     border-radius: 12px 12px 12px 12px;
     color: #666;
-    padding-left: 30px;
-    padding-right: 30px;
+    width: 220px;
+    
+    background: #b5c4f2; /* Old browsers */
+    background: -moz-linear-gradient(top, #b5c4f2 1%, #7ca2e2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#b5c4f2), color-stop(100%,#7ca2e2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #b5c4f2 1%,#7ca2e2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #b5c4f2 1%,#7ca2e2 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #b5c4f2 1%,#7ca2e2 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b5c4f2', endColorstr='#7ca2e2',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #b5c4f2 1%,#7ca2e2 100%); /* W3C */
 }
 
-.startpage ul li:hover
+.startpage-buttons ul li:hover
 {
-    background: #aaffff;
+    background: #99baf7; /* Old browsers */
+    background: -moz-linear-gradient(top, #99baf7 7%, #6380a5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(7%,#99baf7), color-stop(100%,#6380a5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #99baf7 7%,#6380a5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #99baf7 7%,#6380a5 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #99baf7 7%,#6380a5 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99baf7', endColorstr='#6380a5',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #99baf7 7%,#6380a5 100%); /* W3C */
 }
 
-.startpage ul li:active
+.startpage-buttons ul li:active
 {
-    background: #ffffff;
+    background: #6380a5; /* Old browsers */
+    background: -moz-linear-gradient(top, #6380a5 0%, #99baf7 92%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6380a5), color-stop(92%,#99baf7)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #6380a5 0%,#99baf7 92%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #6380a5 0%,#99baf7 92%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #6380a5 0%,#99baf7 92%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6380a5', endColorstr='#99baf7',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #6380a5 0%,#99baf7 92%); /* W3C */
 }
 
-.startpage ul li.create, li.viewlist
+.startpage-buttons ul li.create, li.viewlist
 {
     margin-left: 0;
-    margin-right: 30px;
+    margin-right: 50px;
 }
 
-.startpage ul li.configure
+.startpage-buttons ul li.configure
 {
-    margin: 0 0 0 0;
+    margin: 0px 0px 0px 0px;
 }
 
 .startpage-buttons div.icon
 {
-    border-bottom: 2px solid #bbccdd;
+    border-bottom: 4px groove #99BFE8;
     padding-bottom: 15px;
 }
 
-.startpage .icon img
+.startpage-buttons .icon img
 {
     width: 160px;
     height: 160px;
-    margin-top: 20px;
+    margin: 20px;
 }
 
-.startpage ul li a
+.startpage-buttons ul li a
 {
     text-decoration: none;
 }
 
-.startpage ul li a:visited
+.startpage-buttons ul li a:visited
 {
     text-decoration: none;
 }
 
-.startpage .label
+.startpage-buttons .label
 {
     text-align: center;
 }
 
 .startpage-buttons div.label
 {
-    border-top: 2px solid #eeffff;
-    padding-top: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-.startpage .label h3
+.startpage-buttons .label h3
 {
-    width: 160px;
-    height: 80px;
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 60px;
     font-size: x-large;
     font-style: normal;
     text-decoration: none;
-    font-family: Tahoma, Geneva, sans-serif;
     color: #141414;
     font-variant: normal;
+    padding-bottom: auto;
 }
