@@ -84,7 +84,7 @@ first child of the left and right table columns */
     position: relative;
     margin: 0px;
     padding: 0px;
-    background: #4b6c9e;
+    background: #aa3322;
     width: 100%;
     height: 75px;
 }
@@ -262,7 +262,8 @@ div.startpage
     width: 90%;
     border: 2px solid #4F4F4F;
     border-radius: 7px 7px 7px 7px;
-    background-color: #B3B3B3;
+    
+    background-color: #eeeeee;
     padding-right: 0;
     padding-left: 0;
 }
@@ -278,6 +279,7 @@ div.startpage-header
     color: #141414;
     font-variant: normal;
     border-bottom: 1px solid #7D7D7D;
+    background-color: #B3B3B3;
 }
 
 .startpage-header h2
@@ -304,9 +306,9 @@ div.startpage-buttons
 {
     float: left;
     text-align: center;
-    background: #919C7C;
-    border: 1px solid #556B2F;
-    border-radius: 5px 5px 5px 5px;
+    background: #ddffff;
+    border: 1px solid #55aaff;
+    border-radius: 12px 12px 12px 12px;
     color: #666;
     padding-left: 30px;
     padding-right: 30px;
@@ -314,12 +316,12 @@ div.startpage-buttons
 
 .startpage ul li:hover
 {
-    background: #829360;
+    background: #aaffff;
 }
 
 .startpage ul li:active
 {
-    background: #6E8B3D;
+    background: #ffffff;
 }
 
 .startpage ul li.create, li.viewlist
@@ -335,7 +337,7 @@ div.startpage-buttons
 
 .startpage-buttons div.icon
 {
-    border-bottom: 2px solid #839C50;
+    border-bottom: 2px solid #bbccdd;
     padding-bottom: 15px;
 }
 
@@ -343,6 +345,7 @@ div.startpage-buttons
 {
     width: 160px;
     height: 160px;
+    margin-top: 20px;
 }
 
 .startpage ul li a
@@ -358,6 +361,12 @@ div.startpage-buttons
 .startpage .label
 {
     text-align: center;
+}
+
+.startpage-buttons div.label
+{
+    border-top: 2px solid #eeffff;
+    padding-top: 5px;
 }
 
 .startpage .label h3
