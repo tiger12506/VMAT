@@ -2,7 +2,7 @@
 
 To run the program from _Command Prompt_ (can not run it from a Unix shell), use the command:
 
-    	cd "c:\Program Files (x86)\Common Files\microsoft shared\DevServer\10.0"
+	cd "c:\Program Files (x86)\Common Files\microsoft shared\DevServer\10.0"
 	start /B WebDev.WebServer40.exe /port:8080 /path:"c:\WebsiteDirectory"
 
 Replace "WebsiteDirectory" with the path to the root of your local webpage files. The value for the /port option can be any valid, unused port.
