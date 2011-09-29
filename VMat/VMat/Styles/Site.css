@@ -285,6 +285,36 @@ div.accountInfo
 
 
 /*******************************************/
+/***            Server List              ***/
+/*******************************************/
+
+.servers-table
+{
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+.status-icon img
+{
+    width: 40px;
+    height: 40px;
+}
+
+.status-icon button
+{
+    background-color: transparent;
+    border-style: none;
+}
+
+.status-icon button:hover
+{
+    background-color: #96A4AD;
+}
+
+
+/*******************************************/
 /***             Start Page              ***/
 /*******************************************/
 
