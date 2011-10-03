@@ -10,4 +10,6 @@
     <asp:textbox id="TextBox2" runat="server"></asp:textbox>
     <br />
     <asp:button id="SubmitButton" runat="server" text="Submit" />
+    <asp:GridView ID="GridView1" runat="server">
+    </asp:GridView>
 </form>
