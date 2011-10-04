@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Welcome - VMAT" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VMat.Default" %>
+﻿<%@ Page Title="Welcome - VMAT" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VMat._Default" %>
 
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>

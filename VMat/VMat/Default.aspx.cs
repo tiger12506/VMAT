@@ -11,7 +11,7 @@ namespace VMat
 {
     public partial class _Default : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        /*protected void Page_Load(object sender, EventArgs e)
         {
             // Create connection string variable. Modify the "Data Source"
             // parameter as appropriate for your environment.
@@ -44,11 +44,11 @@ namespace VMat
             objAdapter1.Fill(objDataset1, "XLData");
 
             // Bind data to DataGrid control.
-            GridView1.DataSource = objDataset1.Tables[0].DefaultView;
-            GridView1.DataBind();
+            //GridView1.DataSource = objDataset1.Tables[0].DefaultView;
+            //GridView1.DataBind();
 
             // Clean up objects.
             objConn.Close();
-        }
+        }*/
     }
 }
