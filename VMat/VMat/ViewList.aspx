@@ -8,6 +8,25 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
+    <div class="server-controls">
+        <a href="Create.aspx">
+            <span class="button">
+                <span class="icon">
+                    <img src="Images/icon_server-create.png" />
+                </span>
+                Create
+            </span>
+        </a>
+        <a href="Configure.aspx">
+            <span class="button">
+                <span class="icon">
+                    <img src="Images/icon_server-admin.png" />
+                </span>
+                Admin
+            </span>
+        </a>
+    </div>
+
     <div class="servers">
         <div class="servers-list">
             <table class="servers-table">
@@ -21,9 +40,11 @@
                     <tr class="server-item">
                         <td class="server-status">
                             <div class="status-icon">
-                                <button>
-                                    <img src="Images/icon_led-red.png" />
-                                </button>
+                                <center>
+                                    <a href="/#" runat="server">
+                                        <img src="Images/icon_led-red.png" alt="Inactive"/>
+                                    </a>
+                                </center>
                             </div>
                         </td>
                         <td class="server-name">Pikachu</td>
@@ -37,9 +58,11 @@
                     <tr class="server-item">
                         <td class="server-status">
                             <div class="status-icon">
-                                <button>
-                                    <img src="Images/icon_led-red.png" />
-                                </button>
+                                <center>
+                                    <a href="/#" runat="server">
+                                        <img src="Images/icon_led-green.png" alt="Active"/>
+                                    </a>
+                                </center>
                             </div>
                         </td>
                         <td class="server-name">Charmander</td>
@@ -52,9 +75,11 @@
                     <tr class="server-item">
                         <td class="server-status">
                             <div class="status-icon">
-                                <button>
-                                    <img src="Images/icon_led-green.png" />
-                                </button>
+                                <center>
+                                    <a href="/#" runat="server">
+                                        <img src="Images/icon_led-green.png" alt="Active"/>
+                                    </a>
+                                </center>
                             </div>
                         </td>
                         <td class="server-name">Mudkip</td>
