@@ -10,6 +10,7 @@
 namespace VMat {
     
     
+<<<<<<< HEAD
     public partial class _Default {
         
         /// <summary>
@@ -74,5 +75,8 @@ namespace VMat {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
+=======
+    public partial class Default {
+>>>>>>> mlynarcs
     }
 }
