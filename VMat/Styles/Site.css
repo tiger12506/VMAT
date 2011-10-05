@@ -301,20 +301,29 @@ div.accountInfo
     text-align: left;
 }
 
+tr.servers-table-header
+{
+    margin-bottom: 20px;
+}
+
 .status-icon img
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 23px 23px 23px 23px;
+    padding: 3px 3px 3px 3px;
+}
+
+.status-icon a
 {
     width: 40px;
     height: 40px;
 }
 
-.status-icon a
-{
-    border-style: none;
-}
-
-.status-icon a:hover
+.status-icon img:hover
 {
     background-color: #96A4AD;
+    
 }
 
 div.server-controls
@@ -385,8 +394,9 @@ div.server-controls
 .server-controls .icon img
 {
     text-align: center;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
+    margin-bottom: 0;
 }
 
 
