@@ -10,6 +10,6 @@
 namespace VMat {
     
     
-    public partial class _Default {
+    public partial class Create {
     }
 }
