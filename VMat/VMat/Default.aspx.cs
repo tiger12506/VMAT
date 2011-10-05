@@ -15,9 +15,10 @@ namespace VMat
         {
             // Create connection string variable. Modify the "Data Source"
             // parameter as appropriate for your environment.
-            String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                "Data Source=" + "C:/Users/sylvaiam/VMAT/Vmat/Vmat/VirtualList.xlsx" + ";" +
-                "Extended Properties=Excel 8.0;";
+            String path = @"C:/Users/sylvaiam/VMAT/Vmat/Vmat/VirtualList.xlsx";
+            String sConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" +
+                "Data Source=" + path + ";" +
+                "Extended Properties=Excel 12.0;";
 
             // Create connection object by using the preceding connection string.
             OleDbConnection objConn = new OleDbConnection(sConnectionString);
@@ -29,6 +30,7 @@ namespace VMat
 
             // Create new OleDbCommand to return data from worksheet.
             OleDbCommand objCmdSelect = new OleDbCommand("SELECT * FROM TestName", objConn);
+
 
             // Create new OleDbDataAdapter that is used to build a DataSet
             // based on the preceding SQL SELECT statement.
@@ -46,6 +48,10 @@ namespace VMat
             // Bind data to DataGrid control.
             GridView1.DataSource = objDataset1.Tables[0].DefaultView;
             GridView1.DataBind();
+
+
+            objCmdSelect.CommandText = "Update TestName set FirstName = 'Jacob' where FirstName = 'Scott'";
+            objCmdSelect.ExecuteNonQuery();
 
             // Clean up objects.
             objConn.Close();
