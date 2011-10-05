@@ -9,9 +9,9 @@
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
   <div class="server-controls">
     <a href="Create.aspx"><span class="button"><span class="icon">
-      <img src="Images/icon_server-create.png" />
+      <img src="Images/icon_server-create.png" alt="" />
     </span>Create </span></a><a href="Configure.aspx"><span class="button"><span class="icon">
-      <img src="Images/icon_server-admin.png" />
+      <img src="Images/icon_server-admin.png" alt="" />
     </span>Admin </span></a>
   </div>
   <div class="servers">
@@ -19,27 +19,28 @@
       <table class="servers-table">
         <tbody>
           <tr class="servers-table-header">
-            <th class="servers-table-header-status">
+            <th id="server-status">
               Status
             </th>
-            <th class="servers-table-header-servername">
+            <th>
               Server Name
             </th>
-            <th class="servers-table-header-os">
+            <th>
               Operating System
             </th>
-            <th class="servers-table-header-projectname">
+            <th>
               Project Name
+            </th>
+            <th>
+              Created On
             </th>
           </tr>
           <tr class="server-item">
             <td class="server-status">
               <div class="status-icon">
-                <center>
-                  <a href="/#" runat="server">
-                    <img src="Images/icon_led-red.png" alt="Inactive" />
-                  </a>
-                </center>
+                <a href="/#" runat="server">
+                  <img src="/Images/icon_led-red.png" alt="Idle" />
+                </a>
               </div>
             </td>
             <td class="server-name">
@@ -54,17 +55,21 @@
             <td class="server-project">
               MAKE ALL THE PROGRAMS!!!
             </td>
-            <td class="server-complete">
+            <td class="server-date">
+              Jan. 11, 2012
+            </td>
+            <td class="project-complete">
+              <a href="/#"><span class="button"><span class="icon">
+                <img src="Images/icon_server-complete.png" alt="" />
+              </span>Complete </span></a>
             </td>
           </tr>
           <tr class="server-item">
             <td class="server-status">
               <div class="status-icon">
-                <center>
-                  <a href="/#" runat="server">
-                    <img src="Images/icon_led-green.png" alt="Active" />
-                  </a>
-                </center>
+                <a href="/#" runat="server">
+                  <img src="/Images/icon_led-green.png" alt="Active" />
+                </a>
               </div>
             </td>
             <td class="server-name">
@@ -79,15 +84,21 @@
             <td class="server-project">
               The New Coke
             </td>
+            <td class="server-date">
+              Jan. 9, 2012
+            </td>
+            <td class="project-complete">
+              <a href="/#"><span class="button"><span class="icon">
+                <img src="Images/icon_server-complete.png" alt="" />
+              </span>Complete </span></a>
+            </td>
           </tr>
           <tr class="server-item">
             <td class="server-status">
               <div class="status-icon">
-                <center>
-                  <a href="/#" runat="server">
-                    <img src="Images/icon_led-green.png" alt="Active" />
-                  </a>
-                </center>
+                <a href="/#" runat="server">
+                  <img src="/Images/icon_led-green.png" alt="Active" />
+                </a>
               </div>
             </td>
             <td class="server-name">
@@ -101,6 +112,14 @@
             </td>
             <td class="server-project">
               Operation Spank-Noodle
+            </td>
+            <td class="server-date">
+              Dec. 4, 2010
+            </td>
+            <td class="project-complete">
+              <a href="/#"><span class="button"><span class="icon">
+                <img src="Images/icon_server-complete.png" alt="" />
+              </span>Complete </span></a>
             </td>
           </tr>
         </tbody>

@@ -60,10 +60,15 @@
     <Content Include="Images\icon_create.png" />
     <Content Include="Images\icon_led-green.png" />
     <Content Include="Images\icon_led-red.png" />
+    <Content Include="Images\icon_server-admin.png" />
+    <Content Include="Images\icon_server-complete.png" />
+    <Content Include="Images\icon_server-create.png" />
     <Content Include="Images\icon_servers.png" />
     <Content Include="Configure.aspx" />
     <Content Include="Create.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Images\logo_vmat.png" />
+    <Content Include="Images\logo_windows-server-2008.png" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
