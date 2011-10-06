@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
   <title></title>
-  <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+  <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
   <asp:ContentPlaceHolder ID="HeadContent" runat="server">
   </asp:ContentPlaceHolder>
 </head>
@@ -20,7 +20,7 @@
       <div class="loginDisplay">
         <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
           <AnonymousTemplate>
-            [ <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
+            [ <a href="/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
             ]
           </AnonymousTemplate>
           <LoggedInTemplate>
@@ -43,7 +43,8 @@
       <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
     <div class="footer">
-      <a href="Help.aspx">Help</a> <a href="About.aspx">About</a>
+      <a href="Help.aspx">Help</a> 
+      <a href="About.aspx">About</a>
     </div>
   </div>
   </form>

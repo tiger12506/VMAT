@@ -147,7 +147,7 @@
     <div class="header">
       <h2>Create Server</h2>
       <a href="#" onclick="closeWindow('create-window');" target="_self">
-        <img src="/Images/icon_close-window.png" />
+        <img src="/Images/icon_close-window.png" alt="close" />
       </a>
     </div>
     <div class="create-form">
@@ -156,7 +156,7 @@
         <input type="text" name="mname" maxlength="30" /><br />
         Operating System:
         <select name="operatingsystems">
-          <!--- Either make this dynamic or update list based on client's OS's --->
+          <!-- Either make this dynamic or update list based on client's OS's -->
           <option value="win7">Windows 7</option>
           <option value="winserv2003">Windows Server 2003</option>
           <option value="winserv2008">Windows Server 2008</option>
@@ -179,7 +179,7 @@
     <div class="header">
       <h2>Configure Server</h2>
       <a href="#" onclick="closeWindow('config-window');" target="_self">
-        <img src="/Images/icon_close-window.png" />
+        <img src="/Images/icon_close-window.png" alt="close" />
       </a>
     </div>
   </div>

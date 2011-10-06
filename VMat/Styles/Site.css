@@ -14,12 +14,8 @@ body
 a
 {
     color: #6380A5;
+    font-size: medium;
     text-decoration: none;
-}
-
-a:link
-{
-    color: #6380A5;
 }
 
 a:visited
@@ -169,18 +165,7 @@ div.main-header
 
 .footer a
 {
-    text-decoration: none;
-    padding: 10px 20px 10px 20px;
-}
-
-.footer a:hover
-{
-    text-decoration: underline;
-}
-
-.footer a:visited
-{
-    color: Blue;
+    margin: 10px 20px 10px 20px;
 }
 
 
@@ -228,10 +213,6 @@ input.passwordEntry
     border: 1px solid #ccc;
 }
 
-div.accountInfo
-{
-    width: 42%;
-}
 
 /* MISC  
 ----------------------------------------------------------*/
@@ -255,26 +236,16 @@ div.accountInfo
     color: White;
 }
 
-.loginDisplay a
+.accountInfo .submitButton
 {
-    color: #FE2A29;
-    text-decoration: none;
+    text-align: center;
 }
 
-.loginDisplay a:link
+div.accountInfo
 {
-    color: Blue;
-}
-
-.loginDisplay a:visited
-{
-    color: Blue;
-}
-
-.loginDisplay a:hover
-{
-    color: Blue;
-    text-decoration: underline;
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .failureNotification
