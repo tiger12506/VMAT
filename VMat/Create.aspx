@@ -3,9 +3,11 @@
 
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
+
 <asp:Content ContentPlaceHolderID="MainHeader" runat="server">
   Create A New Virtual Server
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
   <form action="">
   Server Name:
@@ -23,6 +25,7 @@
   <br />
   <input type="submit" value="Create" />
   <button onclick="Default.aspx">
-    Cancel</button>
+    Cancel
+  </button>
   </form>
 </asp:Content>

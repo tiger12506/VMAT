@@ -608,3 +608,63 @@ div.startpage-buttons
     font-variant: normal;
     padding-bottom: auto;
 }
+
+
+/*******************************************/
+/***            Popup Windows            ***/
+/*******************************************/
+
+.popup-window
+{
+    visibility: hidden;
+    position: absolute;
+    width: 300px;
+    height: auto;
+    top: 160px;
+    z-index: 99999;
+    background-color: #BDBFBA;
+    border: solid 2px Black;
+}
+
+.popup-window div.header
+{
+    background-color: White;
+    height: auto;
+    height: 28px;
+    border-bottom: solid 1px Black;
+    margin-bottom: 5px;
+}
+
+.popup-window .header h2
+{
+    margin-left: 10px;
+    display: inline;
+    vertical-align: middle;
+}
+
+.popup-window .header img
+{
+    margin-right: 5px;
+    display: inline;
+    float: right;
+    height: 25px;
+    width: 25px;
+}
+
+.popup-window div.create-form
+{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.popup-window div.create-form-buttons
+{
+    text-align: center;
+}
+
+.popup-window .create-form-buttons input
+{
+    margin-right: 20px;
+    margin-bottom: 8px;
+}

@@ -69,6 +69,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Images\logo_vmat.png" />
     <Content Include="Images\logo_windows-server-2008.png" />
+    <Content Include="Scripts\popupDiv.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -181,7 +182,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51678</DevelopmentServerPort>
+          <DevelopmentServerPort>58432</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
