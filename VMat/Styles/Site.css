@@ -618,7 +618,6 @@ div.startpage-buttons
 {
     visibility: hidden;
     position: absolute;
-    width: 300px;
     height: auto;
     top: 160px;
     z-index: 99999;

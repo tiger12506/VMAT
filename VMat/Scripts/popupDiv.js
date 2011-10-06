@@ -14,7 +14,8 @@ function setVisible(obj) {
     var thisObj = document.getElementById(obj);
 
     thisObj.style.visibility = 'visible';
-    centerHorizontally(obj);
+    thisObj.style.width = '300px';
+    thisObj.style.left = Math.round((document.documentElement.clientWidth - parseInt(thisObj.style.width)) / 2) + "px";
 }
 
 function closeWindow(obj) {
@@ -46,4 +47,5 @@ function centerHorizontally(objectID) {
     var objectWidth = parseInt(thisObj.style.width);
     var newLocation = (width - objectWidth) / 2;
     thisObj.style.left = newLocation + 'px';
+    
 }

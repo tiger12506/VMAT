@@ -168,7 +168,7 @@
         <div class="create-form-buttons">
           <input type="submit" value="Create" />
           <button onclick="closeWindow('create-window');">
-            Cancel
+            Reset
           </button>
         </div>
       </form>
