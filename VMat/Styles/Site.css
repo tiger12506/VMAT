@@ -256,10 +256,10 @@ div.accountInfo
 
 
 /*******************************************/
-/***            Server List              ***/
+/***          Server Management          ***/
 /*******************************************/
 
-.servers-table
+.servers-management div.list
 {
     width: 90%;
     margin-right: auto;
@@ -267,25 +267,52 @@ div.accountInfo
     margin-top: 20px;
 }
 
-.servers-table th
+.server-management ol
 {
-    text-align: left;
+    list-style: none;
+    list-style-type: none;
 }
 
-.servers-table #server-status
+ol.projects-list
 {
-    text-align: center;
-    width: 100px;
+    
 }
 
-tr.servers-table-header
+li.project-item
 {
-    height: 40px;
+    border: solid 2px Blue;
+    border-radius: 5px 5px 5px 5px;
+    background-color: White;
+    margin-bottom: 20px;
 }
 
-td.server-status
+div.project-header
 {
-    text-align: center;
+    border-bottom: solid 2px Black;
+}
+
+.project-header h3
+{
+    margin-left: 5px;
+    display: inline;
+}
+
+.servers-list h4
+{
+    display: inline;
+    margin-left: 10px;
+}
+
+li.server-item
+{
+    border: none;
+    border-radius: 0 0 0 0;
+    border-bottom: solid 1px Black;
+}
+
+.servers-list div
+{
+    display: inline;
 }
 
 .status-icon img
@@ -380,6 +407,12 @@ div.server-controls
     height: 20px;
     margin-bottom: 5px;
     vertical-align: middle;
+}
+
+div.project-complete
+{
+    display: inline;
+    float: right;
 }
 
 .project-complete a

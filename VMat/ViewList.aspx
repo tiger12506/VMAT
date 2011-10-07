@@ -28,116 +28,115 @@
       </span>
     </a>
   </div>
-  <div class="servers">
-    <div class="servers-list">
-      <table class="servers-table">
-        <tbody>
-          <tr class="servers-table-header">
-            <th id="server-status">
-              Status
-            </th>
-            <th>
-              Server Name
-            </th>
-            <th>
-              Operating System
-            </th>
-            <th>
-              Project Name
-            </th>
-            <th>
-              Created On
-            </th>
-          </tr>
-          <tr class="server-item">
-            <td class="server-status">
-              <div class="status-icon">
-                <a href="#" runat="server">
-                  <img src="/Images/icon_led-red.png" alt="Idle" />
-                </a>
-              </div>
-            </td>
-            <td class="server-name">
-              Pikachu
-            </td>
-            <td class="server-os">
-              <div class="os-icon">
-              </div>
-              <div class="os-name">
-                Windows ME</div>
-            </td>
-            <td class="server-project">
-              MAKE ALL THE PROGRAMS!!!
-            </td>
-            <td class="server-date">
-              Jan. 11, 2012
-            </td>
-            <td class="project-complete">
-              <a href="#"><span class="button"><span class="icon">
-                <img src="Images/icon_server-complete.png" alt="" />
-              </span>Complete </span></a>
-            </td>
-          </tr>
-          <tr class="server-item">
-            <td class="server-status">
-              <div class="status-icon">
-                <a href="#" runat="server">
-                  <img src="/Images/icon_led-green.png" alt="Active" />
-                </a>
-              </div>
-            </td>
-            <td class="server-name">
-              Charmander
-            </td>
-            <td class="server-os">
-              <div class="os-icon">
-              </div>
-              <div class="os-name">
-                WebOS</div>
-            </td>
-            <td class="server-project">
-              The New Coke
-            </td>
-            <td class="server-date">
-              Jan. 9, 2012
-            </td>
-            <td class="project-complete">
-              <a href="#"><span class="button"><span class="icon">
-                <img src="Images/icon_server-complete.png" alt="" />
-              </span>Complete </span></a>
-            </td>
-          </tr>
-          <tr class="server-item">
-            <td class="server-status">
-              <div class="status-icon">
-                <a href="#" runat="server">
-                  <img src="/Images/icon_led-green.png" alt="Active" />
-                </a>
-              </div>
-            </td>
-            <td class="server-name">
-              Mudkip
-            </td>
-            <td class="server-os">
-              <div class="os-icon">
-              </div>
-              <div class="os-name">
-                FreeBSD</div>
-            </td>
-            <td class="server-project">
-              Operation Spank-Noodle
-            </td>
-            <td class="server-date">
-              Dec. 4, 2010
-            </td>
-            <td class="project-complete">
-              <a href="#"><span class="button"><span class="icon">
-                <img src="Images/icon_server-complete.png" alt="" />
-              </span>Complete </span></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+  <div class="server-management">
+    <div class="list">
+      <ol class="projects-list">
+        <li class="project-item">
+          <div class="project-header">
+            <h3>BH90210</h3>
+            <div class="project-complete">
+              <a href="#">
+                <span class="button">
+                  <span class="icon">
+                    <img src="Images/icon_server-complete.png" alt="" />
+                  </span>
+                  Completed
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-servers">
+            <ol class="servers-list">
+              <li class="server-item">
+                <div class="status-icon">
+                  <a href="#" runat="server">
+                    <img src="/Images/icon_led-green.png" />
+                  </a>
+                </div>
+                <div class="server-name">
+                  <h4>Pikachu</h4>
+                </div>
+                <div class="os-icon">
+                  <img src="/Images/logo_windows-server-2008.png" />
+                </div>
+                <div class="iso-name">
+                  fakewindowsserver
+                </div>
+                <div class="ip-address">
+                  192.168.1.9
+                </div>
+                <div class="server-date">
+                  Jan. 11, 2012
+                </div>
+              </li>
+            </ol>
+          </div>
+        </li>
+        <li class="project-item">
+          <div class="project-header">
+            <h3>BH90210</h3>
+            <div class="project-complete">
+              <a href="#">
+                <span class="button">
+                  <span class="icon">
+                    <img src="Images/icon_server-complete.png" alt="" />
+                  </span>
+                  Completed
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="project-servers">
+            <ol class="servers-list">
+              <li class="server-item">
+                <div class="status-icon">
+                  <a href="#" runat="server">
+                    <img src="/Images/icon_led-red.png" />
+                  </a>
+                </div>
+                <div class="server-name">
+                  <h4>Pikachu</h4>
+                </div>
+                <div class="os-icon">
+                  <img src="/Images/logo_windows-server-2008.png" />
+                </div>
+                <div class="iso-name">
+                  fakewindowsserver
+                </div>
+                <div class="ip-address">
+                  192.168.1.9
+                </div>
+                <div class="server-date">
+                  Jan. 11, 2012
+                </div>
+              </li>
+              <li class="server-item">
+                <div class="status-icon">
+                  <a href="#" runat="server">
+                    <img src="/Images/icon_led-green.png" />
+                  </a>
+                </div>
+                <div class="server-name">
+                  <h4>Pikachu</h4>
+                </div>
+                <div class="os-icon">
+                  <img src="/Images/logo_windows-server-2008.png" />
+                </div>
+                <div class="iso-name">
+                  fakewindowsserver
+                </div>
+                <div class="ip-address">
+                  192.168.1.9
+                </div>
+                <div class="server-date">
+                  Jan. 11, 2012
+                </div>
+              </li>
+            </ol>
+          </div>
+        </li>
+      </ol>
     </div>
   </div>
 
