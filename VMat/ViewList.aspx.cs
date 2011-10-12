@@ -11,6 +11,8 @@ namespace VMat
 {
     public partial class ViewList : System.Web.UI.Page
     {
+        //ArrayList<Project> Projects = new ArrayList<Project>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             /*// Create connection string variable. Modify the "Data Source"

@@ -31,11 +31,11 @@
 
   <div class="server-management">
     <div class="list">
-      <ol class="projects-list">
+      <ul class="projects-list">
         <li class="project-item">
           <div class="project-header">
-            <h3>BH90210</h3>
-            <div class="project-complete">
+            <h2>BH90210</h2>
+            <span class="project-complete">
               <a href="#">
                 <span class="button">
                   <span class="icon">
@@ -44,99 +44,38 @@
                   Completed
                 </span>
               </a>
-            </div>
+            </span>
           </div>
           <div class="project-servers">
-            <ol class="servers-list">
+            <ul class="servers-list">
               <li class="server-item">
-                <div class="status-icon">
-                  <a href="#" runat="server">
-                    <img src="/Images/icon_led-green.png" />
-                  </a>
-                </div>
-                <div class="server-name">
-                  <h4>Pikachu</h4>
-                </div>
-                <div class="os-icon">
-                  <img src="/Images/logo_windows-server-2008.png" />
-                </div>
-                <div class="iso-name">
-                  fakewindowsserver
-                </div>
-                <div class="ip-address">
-                  192.168.1.9
-                </div>
-                <div class="server-date">
-                  Jan. 11, 2012
-                </div>
-              </li>
-            </ol>
-          </div>
-        </li>
-        <li class="project-item">
-          <div class="project-header">
-            <h3>BH90210</h3>
-            <div class="project-complete">
-              <a href="#">
-                <span class="button">
-                  <span class="icon">
-                    <img src="Images/icon_server-complete.png" alt="" />
+                <span class="server-item-info">
+                  <span class="status-icon">
+                    <a href="#" runat="server">
+                      <img src="/Images/icon_led-green.png" />
+                    </a>
                   </span>
-                  Completed
+                  <span class="server-name">
+                    Pikachu
+                  </span>
+                  <span class="os-icon">
+                    <img src="/Images/logo_windows-server-2008.png" />
+                  </span>
+                  <span class="iso-name">
+                    fakewindowsserver
+                  </span>
+                  <span class="ip-address">
+                    192.168.1.9
+                  </span>
+                  <span class="server-date">
+                    Jan. 11, 2012
+                  </span>
                 </span>
-              </a>
-            </div>
-          </div>
-          <div class="project-servers">
-            <ol class="servers-list">
-              <li class="server-item">
-                <div class="status-icon">
-                  <a href="#" runat="server">
-                    <img src="/Images/icon_led-red.png" />
-                  </a>
-                </div>
-                <div class="server-name">
-                  <h4>Pikachu</h4>
-                </div>
-                <div class="os-icon">
-                  <img src="/Images/logo_windows-server-2008.png" />
-                </div>
-                <div class="iso-name">
-                  fakewindowsserver
-                </div>
-                <div class="ip-address">
-                  192.168.1.9
-                </div>
-                <div class="server-date">
-                  Jan. 11, 2012
-                </div>
               </li>
-              <li class="server-item">
-                <div class="status-icon">
-                  <a href="#" runat="server">
-                    <img src="/Images/icon_led-green.png" />
-                  </a>
-                </div>
-                <div class="server-name">
-                  <h4>Pikachu</h4>
-                </div>
-                <div class="os-icon">
-                  <img src="/Images/logo_windows-server-2008.png" />
-                </div>
-                <div class="iso-name">
-                  fakewindowsserver
-                </div>
-                <div class="ip-address">
-                  192.168.1.9
-                </div>
-                <div class="server-date">
-                  Jan. 11, 2012
-                </div>
-              </li>
-            </ol>
+            </ul>
           </div>
         </li>
-      </ol>
+      </ul>
     </div>
   </div>
 
