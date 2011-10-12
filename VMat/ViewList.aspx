@@ -55,19 +55,19 @@
                       <img src="/Images/icon_led-green.png" />
                     </a>
                   </span>
-                  <span class="server-name">
+                  <span class="server-name server-item-tag">
                     Pikachu
                   </span>
-                  <span class="os-icon">
+                  <span class="os-icon server-item-tag">
                     <img src="/Images/logo_windows-server-2008.png" />
                   </span>
-                  <span class="iso-name">
+                  <span class="iso-name server-item-tag">
                     fakewindowsserver
                   </span>
-                  <span class="ip-address">
+                  <span class="ip-address server-item-tag">
                     192.168.1.9
                   </span>
-                  <span class="server-date">
+                  <span class="server-date server-item-tag">
                     Jan. 11, 2012
                   </span>
                 </span>

@@ -96,7 +96,7 @@ first child of the left and right table columns */
     padding-left: 0;
 }
 
-div.main-header
+.main-header
 {
     width: 100%;
     height: 40px;
@@ -105,7 +105,7 @@ div.main-header
     text-decoration: none;
     color: #141414;
     font-variant: normal;
-    border-bottom: 2px ridge #7D7D7D;
+    border-bottom: 2px solid #4F4F4F;
     margin-top: 0;
     padding-top: 10px;
     
@@ -133,6 +133,7 @@ div.main-header
     background: #ffffff;
     width: 100%;
     height: 75px;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .header h1
@@ -225,6 +226,7 @@ input.passwordEntry
     width: auto;
     height: auto;
     margin-left: 20px;
+    vertical-align: middle;
 }
 
 .loginDisplay
@@ -281,7 +283,7 @@ div.accountInfo
 {
     list-style: none;
     margin-left: 0;
-    border: solid 2px Blue;
+    border: solid 2px #496077;
     border-radius: 5px 5px 5px 5px;
     background-color: White;
     margin-bottom: 20px;
@@ -289,9 +291,18 @@ div.accountInfo
 
 .project-header
 {
-    border-bottom: solid 2px Black;
+    border-bottom: solid 2px #4F4F4F;
     padding-top: 0;
     height: 30px;
+    
+    background: #b2b7b0; /* Old browsers */
+    background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b7b0), color-stop(100%,#7f7f7f)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2b7b0', endColorstr='#7f7f7f',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
 }
 
 .project-header h2
@@ -312,7 +323,7 @@ div.accountInfo
 {
     border: none;
     border-radius: 0 0 0 0;
-    top: solid 1px Black;
+    border-top: solid 1px #4F4F4F;
 }
 
 .server-item:first-child
@@ -349,14 +360,12 @@ div.accountInfo
 {
     display: block;
     overflow: hidden;
-    vertical-align: middle;
 }
 
 .server-item-info span
 {
     overflow: hidden;
     float: left;
-    vertical-align: middle;
     display: block;
 }
 
@@ -364,32 +373,41 @@ div.accountInfo
 {
     width: 140px;
     margin-left: 15px;
-    font-size: large;
 }
 
 .os-icon
 {
-    width: 250px;
+    width: 200px;
 }
 
 .os-icon img
 {
-    height: 30px;
+    height: 22px;
 }
 
 .iso-name
 {
-    width: 140px;
+    width: 160px;
 }
 
 .ip-address
 {
-    width: 140px;
+    width: 130px;
 }
 
 .server-date
 {
     width: 150px;
+}
+
+.server-item-label
+{
+    font-size: 0.9em;
+}
+
+.server-item-tag
+{
+    font-size: 1.3em;
 }
 
 .server-controls
@@ -405,7 +423,7 @@ div.accountInfo
     width: 80px;
     margin-right: 50px;
     margin-left: 50px;
-    border: 2px groove #76A4F2;
+    border: 2px solid #76A4F2;
     border-radius: 10px 10px 10px 10px;
     font-size: x-large;
     color: #141414;
@@ -470,7 +488,6 @@ div.accountInfo
 {
     float: right;
     padding-top: 0;
-    
 }
 
 .project-complete a
@@ -478,10 +495,8 @@ div.accountInfo
     height: 30px;
     width: auto;
     margin-left: 10px;
-    border: 2px groove #5E2323;
-    border-top: 0;
-    border-right: 0;
-    border-top-right-radius: 3px;
+    border-left: 2px solid #4F4F4F;
+    border-bottom: 2px solid #4F4F4F;
     color: #141414;
     display: block;
     
