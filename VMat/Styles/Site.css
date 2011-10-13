@@ -343,17 +343,19 @@ div.accountInfo
     height: 40px;
     border-radius: 23px 23px 23px 23px;
     padding: 3px 3px 3px 3px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.status-icon img:hover
+{
+    background-color: #96A4AD;
 }
 
 .status-icon a
 {
     width: 40px;
     height: 40px;
-}
-
-.status-icon img:hover
-{
-    background-color: #96A4AD;
 }
 
 .server-item-info
@@ -382,7 +384,7 @@ div.accountInfo
 
 .os-icon img
 {
-    height: 22px;
+    height: 28px;
 }
 
 .iso-name
@@ -395,19 +397,21 @@ div.accountInfo
     width: 130px;
 }
 
-.server-date
+.creation-date
 {
-    width: 150px;
+    width: 120px;
 }
 
 .server-item-label
 {
     font-size: 0.9em;
+    display: block;
 }
 
 .server-item-tag
 {
     font-size: 1.3em;
+    width: inherit;
 }
 
 .server-controls
@@ -423,7 +427,7 @@ div.accountInfo
     width: 80px;
     margin-right: 50px;
     margin-left: 50px;
-    border: 2px solid #76A4F2;
+    border: 2px solid #496077;
     border-radius: 10px 10px 10px 10px;
     font-size: x-large;
     color: #141414;
@@ -579,6 +583,7 @@ div.accountInfo
     height: 28px;
     border-bottom: solid 1px Black;
     margin-bottom: 5px;
+    border-radius: 0 0 0 0;
 }
 
 .popup-window .header h2
