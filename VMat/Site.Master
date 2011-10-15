@@ -13,7 +13,7 @@
   <div class="page">
     <div class="header">
       <div class="title">
-        <a href="/ViewList.aspx">
+        <a href="/">
           <img src="/Images/logo_vmat.png" alt="VMAT" />
         </a>
       </div>
