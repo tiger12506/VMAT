@@ -13,5 +13,17 @@ namespace VMat
         {
 
         }
+
+        protected void CancelClick(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        }
+
+        protected void CreateClick(object sender, EventArgs e)
+        {
+            //Create code here
+        }
+
+        
     }
 }

@@ -23,9 +23,7 @@
   Project Number:
   <input type="text" name="projnum" maxlength="20" /><br />
   <br />
-  <input type="submit" value="Create" />
-  <button onclick="Default.aspx">
-    Cancel
-  </button>
+  <asp:button runat="server" Text="Create" OnClick="CreateClick" />
+  <asp:button runat="server" onclick="CancelClick" Text="Cancel" />
   </form>
 </asp:Content>
