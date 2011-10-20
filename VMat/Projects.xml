@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <records>
   <project>
     <name>gapdev</name>
@@ -29,4 +29,59 @@
       <creation-date>Jan. 8, 2006</creation-date>
     </server>
   </project>
+
+  <iso>
+    <name>Windows 7</name>
+    <description>Windows 7 Base Image</description>
+    <file>win7.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows 7 RC</name>
+    <description>Windows 7 RC</description>
+    <file>win7rc.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows XP</name>
+    <description>Windows XP Base Image, No Service Pack.</description>
+    <file>winxp.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows XP Termsrv</name>
+    <description>Windows XP Base Image, No Service Pack. Modified termsrv.dll</description>
+    <file>winxp-termsrv.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows XP SP1</name>
+    <description>Windows XP Service Pack 1</description>
+    <file>winxp-sp1.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows XP SP2</name>
+    <description>Windows XP Service Pack 2</description>
+    <file>winxp-sp2.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows XP SP3</name>
+    <description>Windows XP Service Pack 3</description>
+    <file>winxp-sp1.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows Server 2003</name>
+    <description>Windows Server 2003</description>
+    <file>winserv-2003.iso</file>
+  </iso>
+
+  <iso>
+    <name>Windows Server 2008</name>
+    <description>Windows Server 2008</description>
+    <file>winserv-2008.iso</file>
+  </iso>
+
 </records>

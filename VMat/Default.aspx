@@ -53,12 +53,7 @@
         Server Name:
         <input type="text" name="mname" maxlength="30" /><br />
         Operating System:
-        <select name="operatingsystems">
-          <!-- Either make this dynamic or update list based on client's OS's -->
-          <option value="win7">Windows 7</option>
-          <option value="winserv2003">Windows Server 2003</option>
-          <option value="winserv2008">Windows Server 2008</option>
-        </select>
+        <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load"></asp:DropDownList>
         <br />
         Project Number:
         <input type="text" name="projnum" maxlength="20" /><br />
