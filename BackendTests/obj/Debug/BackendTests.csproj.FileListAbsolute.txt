@@ -1,0 +1,12 @@
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\BackendTests.dll
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\BackendTests.pdb
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\BackendVMWare.dll
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\Vestris.VMWareLib.dll
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\BackendVMWare.pdb
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\obj\Debug\ResolveAssemblyReference.cache
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\obj\Debug\BackendTests.dll
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\obj\Debug\BackendTests.pdb
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\Moq.dll
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\Moq.pdb
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\Moq.xml
+D:\NateData\Documents\CSSE497\Repo\VMAT\BackendTests\bin\Debug\Interop.VixCOM.dll

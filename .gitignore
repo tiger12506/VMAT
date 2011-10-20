@@ -1,2 +1,5 @@
 *.db
 *.suo
+*.vsmdi
+TestResults/
+*.testsettings

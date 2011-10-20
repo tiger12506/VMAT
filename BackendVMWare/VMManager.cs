@@ -6,17 +6,21 @@ using Vestris.VMWareLib;
 
 namespace BackendVMWare
 {
-    class VMManager
+    public class VMManager
     {
-        //from vmwaretools example
         public void createServer()
         {
-            // declare a virtual host
             VMWareVirtualHost virtualHost = new VMWareVirtualHost();
+            createServer(virtualHost);
+        }
+        //from vmwaretools example
+        public void createServer(VMWareVirtualHost virtualHost)
+        {
+            // declare a virtual host
             // connect to a local VMWare Workstation virtual host
             virtualHost.ConnectToVMWareWorkstation();
             // open an existing virtual machine
-            VMWareVirtualMachine virtualMachine = virtualHost.Open(@"C:\Virtual Machines\xp\xp.vmx");
+            var virtualMachine= virtualHost.Open(@"C:\Virtual Machines\xp\xp.vmx");
             // power on this virtual machine
             virtualMachine.PowerOn();
             // wait for VMWare Tools

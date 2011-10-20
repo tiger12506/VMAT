@@ -58,5 +58,14 @@ namespace VMat
             // Clean up objects.
             objConn.Close();*/
         }
+
+        protected void ImageList_Load(object sender, EventArgs e)
+        {
+            DataSet imagelist = new DataSet();
+            imagelist.ReadXml(Server.MapPath("Projects.xml"));
+            ImageList.DataSource = imagelist.Tables["iso"];
+            ImageList.DataTextField = "name";
+            ImageList.DataBind();
+        }
     }
 }
