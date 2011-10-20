@@ -40,8 +40,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Vestris.VMWareLib">
-      <HintPath>.\Vestris.VMWareLib.dll</HintPath>
+    <Reference Include="Vestris.VMWareLib, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Vestris.VMWareLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

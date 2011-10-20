@@ -160,6 +160,12 @@
   <ItemGroup>
     <None Include="VirtualList.xlsx" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackendVMWare\BackendVMWare.csproj">
+      <Project>{5CC28BC4-4D11-418E-B962-41FC2DEE2E1E}</Project>
+      <Name>BackendVMWare</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>

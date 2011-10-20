@@ -21,7 +21,8 @@ namespace VMat
 
         protected void CreateClick(object sender, EventArgs e)
         {
-            //Create code here
+            var vmm = new BackendVMWare.VMManager();
+            vmm.createServer();
         }
 
         
