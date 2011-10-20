@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.OleDb;
 using System.Data;
-using System.IO;
 
 namespace VMat
 {
@@ -63,7 +62,7 @@ namespace VMat
         protected void ImageList_Load(object sender, EventArgs e)
         {
             DataSet imagelist = new DataSet();
-            imagelist.ReadXml(@"/Users/Jacob/Desktop/VMAT/VMat/Projects.xml");
+            imagelist.ReadXml(Server.MapPath("Projects.xml"));
             ImageList.DataSource = imagelist.Tables["iso"];
             ImageList.DataTextField = "name";
             ImageList.DataBind();
