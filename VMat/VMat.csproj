@@ -64,7 +64,9 @@
     <Content Include="Images\icon_servers.png" />
     <Content Include="Configure.aspx" />
     <Content Include="Create.aspx" />
-    <Content Include="Projects.xsl" />
+    <Content Include="Projects.xsl">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\displayProjects.js" />
     <Content Include="StartPage.aspx" />
     <Content Include="Images\logo_vmat.png" />
