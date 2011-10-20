@@ -28,7 +28,8 @@ namespace VMat
 
         protected void CreateClick(object sender, EventArgs e)
         {
-            //Create code here
+            var vmm = new BackendVMWare.VMManager();
+            vmm.createServer();
         }
 
         protected void ImageList_SelectedIndexChanged(object sender, EventArgs e)
