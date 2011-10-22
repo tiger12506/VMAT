@@ -25,417 +25,412 @@ namespace BackendVMWare
 
         public Dictionary<long, Vestris.VMWareLib.VMWareVirtualMachine.Process> GuestProcesses
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.GuestProcesses; }
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.VariableIndexer GuestVariables
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.GuestVariables; }
         }
 
         public bool IsPaused
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.IsPaused; }
         }
 
         public bool IsRecording
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.IsRecording; }
         }
 
         public bool IsReplaying
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.IsReplaying; }
         }
 
         public bool IsRunning
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.IsRunning; }
         }
 
         public bool IsSuspended
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.IsSuspended; }
         }
 
         public int MemorySize
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.MemorySize; }
         }
 
         public string PathName
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.PathName; }
         }
 
         public int PowerState
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.PowerState; }
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.VariableIndexer RuntimeConfigVariables
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.RuntimeConfigVariables; }
         }
 
         public Vestris.VMWareLib.VMWareSharedFolderCollection SharedFolders
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.SharedFolders; }
         }
 
         public Vestris.VMWareLib.VMWareRootSnapshotCollection Snapshots
         {
-            get { throw new NotImplementedException(); }
+            get { return vm.Snapshots; }
         }
 
         public Vestris.VMWareLib.VMWareSnapshot BeginRecording(string name)
         {
-            throw new NotImplementedException();
+            return vm.BeginRecording(name);
         }
 
         public Vestris.VMWareLib.VMWareSnapshot BeginRecording(string name, string description)
         {
-            throw new NotImplementedException();
+            return vm.BeginRecording(name, description);
         }
 
         public Vestris.VMWareLib.VMWareSnapshot BeginRecording(string name, string description, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
-        }
-
-        public System.Drawing.Image CaptureScreenImage()
-        {
-            throw new NotImplementedException();
+            return vm.BeginRecording(name, description, timeoutInSeconds);
         }
 
         public void Clone(Vestris.VMWareLib.VMWareVirtualMachineCloneType cloneType, string destConfigPathName)
         {
-            throw new NotImplementedException();
+            vm.Clone(cloneType, destConfigPathName);
         }
 
         public void Clone(Vestris.VMWareLib.VMWareVirtualMachineCloneType cloneType, string destConfigPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Clone(cloneType, destConfigPathName, timeoutInSeconds);
         }
 
         public void CopyFileFromGuestToHost(string guestPathName, string hostPathName)
         {
-            throw new NotImplementedException();
+            vm.CopyFileFromGuestToHost(guestPathName, hostPathName);
         }
 
         public void CopyFileFromGuestToHost(string guestPathName, string hostPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.CopyFileFromGuestToHost(guestPathName, hostPathName, timeoutInSeconds);
         }
 
         public void CopyFileFromHostToGuest(string hostPathName, string guestPathName)
         {
-            throw new NotImplementedException();
+            vm.CopyFileFromHostToGuest(hostPathName, guestPathName);
         }
 
         public void CopyFileFromHostToGuest(string hostPathName, string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.CopyFileFromHostToGuest(hostPathName, guestPathName, timeoutInSeconds);
         }
 
         public void CreateDirectoryInGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            vm.CreateDirectoryInGuest(guestPathName);
         }
 
         public void CreateDirectoryInGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.CreateDirectoryInGuest(guestPathName, timeoutInSeconds);
         }
 
         public string CreateTempFileInGuest()
         {
-            throw new NotImplementedException();
+            return vm.CreateTempFileInGuest();
         }
 
         public string CreateTempFileInGuest(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.CreateTempFileInGuest(timeoutInSeconds);
         }
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            vm.Delete();
         }
 
         public void Delete(int deleteOptions)
         {
-            throw new NotImplementedException();
+            vm.Delete(deleteOptions);
         }
 
         public void Delete(int deleteOptions, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Delete(deleteOptions, timeoutInSeconds);
         }
 
         public void DeleteDirectoryFromGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            vm.DeleteDirectoryFromGuest(guestPathName);
         }
 
         public void DeleteDirectoryFromGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.DeleteDirectoryFromGuest(guestPathName, timeoutInSeconds);
         }
 
         public void DeleteFileFromGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            vm.DeleteFileFromGuest(guestPathName);
         }
 
         public void DeleteFileFromGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.DeleteFileFromGuest(guestPathName, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName)
         {
-            throw new NotImplementedException();
+            return vm.DetachProgramInGuest(guestProgramName);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs)
         {
-            throw new NotImplementedException();
+            return vm.DetachProgramInGuest(guestProgramName, commandLineArgs);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.DetachProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText)
         {
-            throw new NotImplementedException();
+            return vm.DetachScriptInGuest(interpreter, scriptText);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.DetachScriptInGuest(interpreter, scriptText, timeoutInSeconds);
         }
 
         public bool DirectoryExistsInGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            return vm.DirectoryExistsInGuest(guestPathName);
         }
 
         public bool DirectoryExistsInGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.DirectoryExistsInGuest(guestPathName, timeoutInSeconds);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            vm.Dispose();
         }
 
         public void EndRecording()
         {
-            throw new NotImplementedException();
+            vm.EndRecording();
         }
 
         public void EndRecording(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.EndRecording(timeoutInSeconds);
         }
 
         public bool FileExistsInGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            return vm.FileExistsInGuest(guestPathName);
         }
 
         public bool FileExistsInGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.FileExistsInGuest(guestPathName, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName)
         {
-            throw new NotImplementedException();
+            return vm.GetFileInfoInGuest(guestPathName);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.GetFileInfoInGuest(guestPathName, timeoutInSeconds);
         }
 
         public void InstallTools()
         {
-            throw new NotImplementedException();
+            vm.InstallTools();
         }
 
         public void InstallTools(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.InstallTools(timeoutInSeconds);
         }
 
         public List<string> ListDirectoryInGuest(string pathName, bool recurse)
         {
-            throw new NotImplementedException();
+            return vm.ListDirectoryInGuest(pathName, recurse);
         }
 
         public List<string> ListDirectoryInGuest(string pathName, bool recurse, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.ListDirectoryInGuest(pathName, recurse, timeoutInSeconds);
         }
 
         public void LoginInGuest(string username, string password)
         {
-            throw new NotImplementedException();
+            vm.LoginInGuest(username, password);
         }
 
         public void LoginInGuest(string username, string password, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.LoginInGuest(username, password, timeoutInSeconds);
         }
 
         public void LoginInGuest(string username, string password, int options, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.LoginInGuest(username, password, options, timeoutInSeconds);
         }
 
         public void LogoutFromGuest()
         {
-            throw new NotImplementedException();
+            vm.LogoutFromGuest();
         }
 
         public void LogoutFromGuest(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.LogoutFromGuest(timeoutInSeconds);
         }
 
         public void Pause()
         {
-            throw new NotImplementedException();
+            vm.Pause();
         }
 
         public void Pause(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Pause(timeoutInSeconds);
         }
 
         public void PowerOff()
         {
-            throw new NotImplementedException();
+            vm.PowerOff();
         }
 
         public void PowerOff(int powerOffOptions, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.PowerOff(powerOffOptions, timeoutInSeconds);
         }
 
         public void PowerOn()
         {
-            throw new NotImplementedException();
+            vm.PowerOn();
         }
 
         public void PowerOn(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.PowerOn(timeoutInSeconds);
         }
 
         public void PowerOn(int powerOnOptions, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.PowerOn(powerOnOptions, timeoutInSeconds);
         }
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            vm.Reset();
         }
 
         public void Reset(int resetOptions)
         {
-            throw new NotImplementedException();
+            vm.Reset(resetOptions);
         }
 
         public void Reset(int resetOptions, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Reset(resetOptions, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName)
         {
-            throw new NotImplementedException();
+            return vm.RunProgramInGuest(guestProgramName);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs)
         {
-            throw new NotImplementedException();
+            return vm.RunProgramInGuest(guestProgramName, commandLineArgs);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.RunProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.RunProgramInGuest(guestProgramName, commandLineArgs, options, timeoutInSeconds);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText)
         {
-            throw new NotImplementedException();
+            return vm.RunScriptInGuest(interpreter, scriptText);
         }
 
         public Vestris.VMWareLib.VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            return vm.RunScriptInGuest(interpreter, scriptText, options, timeoutInSeconds);
         }
 
         public void ShutdownGuest()
         {
-            throw new NotImplementedException();
+            vm.ShutdownGuest();
         }
 
         public void ShutdownGuest(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.ShutdownGuest(timeoutInSeconds);
         }
 
         public void Suspend()
         {
-            throw new NotImplementedException();
+            vm.Suspend();
         }
 
         public void Suspend(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Suspend(timeoutInSeconds);
         }
 
         public void Unpause()
         {
-            throw new NotImplementedException();
+            vm.Unpause();
         }
 
         public void Unpause(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.Unpause(timeoutInSeconds);
         }
 
         public void UpgradeVirtualHardware()
         {
-            throw new NotImplementedException();
+            vm.UpgradeVirtualHardware();
         }
 
         public void UpgradeVirtualHardware(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.UpgradeVirtualHardware(timeoutInSeconds);
         }
 
         public void WaitForToolsInGuest()
         {
-            throw new NotImplementedException();
+            vm.WaitForToolsInGuest();
         }
 
         public void WaitForToolsInGuest(int timeoutInSeconds)
         {
-            throw new NotImplementedException();
+            vm.WaitForToolsInGuest(timeoutInSeconds);
         }
     }
 }
