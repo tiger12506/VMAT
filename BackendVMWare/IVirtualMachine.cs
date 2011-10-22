@@ -8,91 +8,90 @@ namespace BackendVMWare
     interface IVirtualMachine
     {
 
-        public int CPUCount { get; }
-        public VMWareVirtualMachine.VariableIndexer GuestEnvironmentVariables { get; }
-        public Dictionary<long, VMWareVirtualMachine.Process> GuestProcesses { get; }
-        public VMWareVirtualMachine.VariableIndexer GuestVariables { get; }
-        public bool IsPaused { get; }
-        public bool IsRecording { get; }
-        public bool IsReplaying { get; }
-        public bool IsRunning { get; }
-        public bool IsSuspended { get; }
-        public int MemorySize { get; }
-        public string PathName { get; }
-        public int PowerState { get; }
-        public VMWareVirtualMachine.VariableIndexer RuntimeConfigVariables { get; }
-        public VMWareSharedFolderCollection SharedFolders { get; }
-        public VMWareRootSnapshotCollection Snapshots { get; }
+        int CPUCount { get; }
+        VMWareVirtualMachine.VariableIndexer GuestEnvironmentVariables { get; }
+        Dictionary<long, VMWareVirtualMachine.Process> GuestProcesses { get; }
+        VMWareVirtualMachine.VariableIndexer GuestVariables { get; }
+        bool IsPaused { get; }
+        bool IsRecording { get; }
+        bool IsReplaying { get; }
+        bool IsRunning { get; }
+        bool IsSuspended { get; }
+        int MemorySize { get; }
+        string PathName { get; }
+        int PowerState { get; }
+        VMWareVirtualMachine.VariableIndexer RuntimeConfigVariables { get; }
+        VMWareSharedFolderCollection SharedFolders { get; }
+        VMWareRootSnapshotCollection Snapshots { get; }
 
-        public VMWareSnapshot BeginRecording(string name);
-        public VMWareSnapshot BeginRecording(string name, string description);
-        public VMWareSnapshot BeginRecording(string name, string description, int timeoutInSeconds);
-        public System.Drawing.Image CaptureScreenImage();
-        public void Clone(VMWareVirtualMachineCloneType cloneType, string destConfigPathName);
-        public void Clone(VMWareVirtualMachineCloneType cloneType, string destConfigPathName, int timeoutInSeconds);
-        public void CopyFileFromGuestToHost(string guestPathName, string hostPathName);
-        public void CopyFileFromGuestToHost(string guestPathName, string hostPathName, int timeoutInSeconds);
-        public void CopyFileFromHostToGuest(string hostPathName, string guestPathName);
-        public void CopyFileFromHostToGuest(string hostPathName, string guestPathName, int timeoutInSeconds);
-        public void CreateDirectoryInGuest(string guestPathName);
-        public void CreateDirectoryInGuest(string guestPathName, int timeoutInSeconds);
-        public string CreateTempFileInGuest();
-        public string CreateTempFileInGuest(int timeoutInSeconds);
-        public void Delete();
-        public void Delete(int deleteOptions);
-        public void Delete(int deleteOptions, int timeoutInSeconds);
-        public void DeleteDirectoryFromGuest(string guestPathName);
-        public void DeleteDirectoryFromGuest(string guestPathName, int timeoutInSeconds);
-        public void DeleteFileFromGuest(string guestPathName);
-        public void DeleteFileFromGuest(string guestPathName, int timeoutInSeconds);
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName);
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs);
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds);
-        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText);
-        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds);
-        public bool DirectoryExistsInGuest(string guestPathName);
-        public bool DirectoryExistsInGuest(string guestPathName, int timeoutInSeconds);
-        public override void Dispose();
-        public void EndRecording();
-        public void EndRecording(int timeoutInSeconds);
-        public bool FileExistsInGuest(string guestPathName);
-        public bool FileExistsInGuest(string guestPathName, int timeoutInSeconds);
-        public VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName);
-        public VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName, int timeoutInSeconds);
-        public void InstallTools();
-        public void InstallTools(int timeoutInSeconds);
-        public List<string> ListDirectoryInGuest(string pathName, bool recurse);
-        public List<string> ListDirectoryInGuest(string pathName, bool recurse, int timeoutInSeconds);
-        public void LoginInGuest(string username, string password);
-        public void LoginInGuest(string username, string password, int timeoutInSeconds);
-        public void LoginInGuest(string username, string password, int options, int timeoutInSeconds);
-        public void LogoutFromGuest();
-        public void LogoutFromGuest(int timeoutInSeconds);
-        public void Pause();
-        public void Pause(int timeoutInSeconds);
-        public void PowerOff();
-        public void PowerOff(int powerOffOptions, int timeoutInSeconds);
-        public void PowerOn();
-        public void PowerOn(int timeoutInSeconds);
-        public void PowerOn(int powerOnOptions, int timeoutInSeconds);
-        public void Reset();
-        public void Reset(int resetOptions);
-        public void Reset(int resetOptions, int timeoutInSeconds);
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName);
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs);
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds);
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds);
-        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText);
-        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds);
-        public void ShutdownGuest();
-        public void ShutdownGuest(int timeoutInSeconds);
-        public void Suspend();
-        public void Suspend(int timeoutInSeconds);
-        public void Unpause();
-        public void Unpause(int timeoutInSeconds);
-        public void UpgradeVirtualHardware();
-        public void UpgradeVirtualHardware(int timeoutInSeconds);
-        public void WaitForToolsInGuest();
-        public void WaitForToolsInGuest(int timeoutInSeconds);
+        VMWareSnapshot BeginRecording(string name);
+        VMWareSnapshot BeginRecording(string name, string description);
+        VMWareSnapshot BeginRecording(string name, string description, int timeoutInSeconds);
+        void Clone(VMWareVirtualMachineCloneType cloneType, string destConfigPathName);
+        void Clone(VMWareVirtualMachineCloneType cloneType, string destConfigPathName, int timeoutInSeconds);
+        void CopyFileFromGuestToHost(string guestPathName, string hostPathName);
+        void CopyFileFromGuestToHost(string guestPathName, string hostPathName, int timeoutInSeconds);
+        void CopyFileFromHostToGuest(string hostPathName, string guestPathName);
+        void CopyFileFromHostToGuest(string hostPathName, string guestPathName, int timeoutInSeconds);
+        void CreateDirectoryInGuest(string guestPathName);
+        void CreateDirectoryInGuest(string guestPathName, int timeoutInSeconds);
+        string CreateTempFileInGuest();
+        string CreateTempFileInGuest(int timeoutInSeconds);
+        void Delete();
+        void Delete(int deleteOptions);
+        void Delete(int deleteOptions, int timeoutInSeconds);
+        void DeleteDirectoryFromGuest(string guestPathName);
+        void DeleteDirectoryFromGuest(string guestPathName, int timeoutInSeconds);
+        void DeleteFileFromGuest(string guestPathName);
+        void DeleteFileFromGuest(string guestPathName, int timeoutInSeconds);
+        VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName);
+        VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs);
+        VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds);
+        VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText);
+        VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds);
+        bool DirectoryExistsInGuest(string guestPathName);
+        bool DirectoryExistsInGuest(string guestPathName, int timeoutInSeconds);
+        void Dispose();
+        void EndRecording();
+        void EndRecording(int timeoutInSeconds);
+        bool FileExistsInGuest(string guestPathName);
+        bool FileExistsInGuest(string guestPathName, int timeoutInSeconds);
+        VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName);
+        VMWareVirtualMachine.GuestFileInfo GetFileInfoInGuest(string guestPathName, int timeoutInSeconds);
+        void InstallTools();
+        void InstallTools(int timeoutInSeconds);
+        List<string> ListDirectoryInGuest(string pathName, bool recurse);
+        List<string> ListDirectoryInGuest(string pathName, bool recurse, int timeoutInSeconds);
+        void LoginInGuest(string username, string password);
+        void LoginInGuest(string username, string password, int timeoutInSeconds);
+        void LoginInGuest(string username, string password, int options, int timeoutInSeconds);
+        void LogoutFromGuest();
+        void LogoutFromGuest(int timeoutInSeconds);
+        void Pause();
+        void Pause(int timeoutInSeconds);
+        void PowerOff();
+        void PowerOff(int powerOffOptions, int timeoutInSeconds);
+        void PowerOn();
+        void PowerOn(int timeoutInSeconds);
+        void PowerOn(int powerOnOptions, int timeoutInSeconds);
+        void Reset();
+        void Reset(int resetOptions);
+        void Reset(int resetOptions, int timeoutInSeconds);
+        VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName);
+        VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs);
+        VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds);
+        VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds);
+        VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText);
+        VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds);
+        void ShutdownGuest();
+        void ShutdownGuest(int timeoutInSeconds);
+        void Suspend();
+        void Suspend(int timeoutInSeconds);
+        void Unpause();
+        void Unpause(int timeoutInSeconds);
+        void UpgradeVirtualHardware();
+        void UpgradeVirtualHardware(int timeoutInSeconds);
+        void WaitForToolsInGuest();
+        void WaitForToolsInGuest(int timeoutInSeconds);
     }
 }
