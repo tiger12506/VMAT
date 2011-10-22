@@ -223,7 +223,7 @@ namespace BackendVMWare
             return vm.DirectoryExistsInGuest(guestPathName, timeoutInSeconds);
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             vm.Dispose();
         }
