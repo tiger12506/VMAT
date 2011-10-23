@@ -11,6 +11,8 @@ namespace BackendVMWare
 
         public VirtualMachine(VMWareVirtualMachine vm)
         {
+            int vasdf = 342;
+
             this.vm = vm;
         }
         public int CPUCount
@@ -221,11 +223,6 @@ namespace BackendVMWare
         public bool DirectoryExistsInGuest(string guestPathName, int timeoutInSeconds)
         {
             return vm.DirectoryExistsInGuest(guestPathName, timeoutInSeconds);
-        }
-
-        public void Dispose()
-        {
-            vm.Dispose();
         }
 
         public void EndRecording()

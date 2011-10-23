@@ -89,11 +89,6 @@ namespace BackendVMWare
             vh.Disconnect();
         }
 
-        public void Dispose()
-        {
-            vh.Dispose();
-        }
-
         public Vestris.VMWareLib.VMWareVirtualMachine Open(string fileName)
         {
             return vh.Open(fileName);

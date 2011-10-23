@@ -25,7 +25,6 @@ namespace BackendVMWare
         void ConnectToVMWareWorkstation();
         void ConnectToVMWareWorkstation(int timeoutInSeconds);
         void Disconnect();
-        void Dispose();
         VMWareVirtualMachine Open(string fileName);
         VMWareVirtualMachine Open(string fileName, int timeoutInSeconds);
         void Register(string fileName);

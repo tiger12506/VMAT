@@ -51,7 +51,6 @@ namespace BackendVMWare
         VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds);
         bool DirectoryExistsInGuest(string guestPathName);
         bool DirectoryExistsInGuest(string guestPathName, int timeoutInSeconds);
-        void Dispose();
         void EndRecording();
         void EndRecording(int timeoutInSeconds);
         bool FileExistsInGuest(string guestPathName);
