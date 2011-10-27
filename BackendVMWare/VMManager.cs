@@ -19,10 +19,10 @@ namespace BackendVMWare
             // declare a virtual host
             // connect to a local VMWare Workstation virtual host
             virtualHost.ConnectToVMWareWorkstation();
+            
             // open an existing virtual machine
             var virtualMachine= virtualHost.Open(@"C:\Virtual Machines\xp\xp.vmx");
             // power on this virtual machine
-            virtualMachine.PowerOn();
             // wait for VMWare Tools
             virtualMachine.WaitForToolsInGuest();
             // login to the virtual machine
