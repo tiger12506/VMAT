@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Vestris.VMWareLib;
+using BackendVMWare;
 namespace BackendTests
 {
     /// <summary>
@@ -64,12 +65,12 @@ namespace BackendTests
         public void testCreateVM()
         {
             var vmm= new BackendVMWare.VMManager();
-            var mServer = new Mock<VMWareVirtualMachine>();
-            var mHost = new Mock<VMWareVirtualHost>();
+            var mServer = new Mock<IVirtualMachine>();
+            var mHost = new Mock<IVirtualHost>();
 
             
             //mHost.Setup(foo => foo.Open("/vm.vmx")).Returns(mServer.Object);
-            vmm.createServer(mHost.Object);
+            vmm.createServer(mHost.Object,@"c:/vm.vmx");
 
 
         }

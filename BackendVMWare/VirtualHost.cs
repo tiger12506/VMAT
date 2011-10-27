@@ -5,7 +5,7 @@ using System.Text;
 using Vestris.VMWareLib;
 namespace BackendVMWare
 {
-    class VirtualHost : IVirtualHost
+    public class VirtualHost : IVirtualHost
     {
 
         private VMWareVirtualHost vh;
@@ -89,14 +89,14 @@ namespace BackendVMWare
             vh.Disconnect();
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine Open(string fileName)
+        public IVirtualMachine Open(string fileName)
         {
-            return vh.Open(fileName);
+            return new VirtualMachine(vh.Open(fileName));
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine Open(string fileName, int timeoutInSeconds)
+        public IVirtualMachine Open(string fileName, int timeoutInSeconds)
         {
-            return vh.Open(fileName, timeoutInSeconds);
+            return new VirtualMachine(vh.Open(fileName, timeoutInSeconds));
         }
 
         public void Register(string fileName)
