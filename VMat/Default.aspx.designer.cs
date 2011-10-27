@@ -13,6 +13,24 @@ namespace VMat {
     public partial class ViewList {
         
         /// <summary>
+        /// ProjectDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater ProjectDisplay;
+        
+        /// <summary>
+        /// ServerNameSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ServerNameSuffix;
+        
+        /// <summary>
         /// ImageList control.
         /// </summary>
         /// <remarks>
@@ -20,5 +38,14 @@ namespace VMat {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ImageList;
+        
+        /// <summary>
+        /// ProjectList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ProjectList;
     }
 }

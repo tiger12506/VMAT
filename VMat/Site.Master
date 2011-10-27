@@ -9,7 +9,6 @@
   </asp:ContentPlaceHolder>
 </head>
 <body>
-  <form runat="server">
   <div class="page">
     <div class="header">
       <div class="title">
@@ -47,6 +46,5 @@
       <a href="About.aspx">About</a>
     </div>
   </div>
-  </form>
 </body>
 </html>

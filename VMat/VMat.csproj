@@ -62,13 +62,8 @@
     <Content Include="Images\icon_server-complete.png" />
     <Content Include="Images\icon_server-create.png" />
     <Content Include="Images\icon_servers.png" />
-    <Content Include="Configure.aspx" />
-    <Content Include="Create.aspx" />
-    <Content Include="Projects.xsl">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Projects.xsl" />
     <Content Include="Scripts\displayProjects.js" />
-    <Content Include="StartPage.aspx" />
     <Content Include="Images\logo_vmat.png" />
     <Content Include="Images\logo_windows-server-2008.png" />
     <Content Include="Scripts\popupDiv.js" />
@@ -89,6 +84,7 @@
     <Content Include="Projects.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ImageFiles.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -111,27 +107,6 @@
     </Compile>
     <Compile Include="Help.aspx.designer.cs">
       <DependentUpon>Help.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Configure.aspx.cs">
-      <DependentUpon>Configure.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Configure.aspx.designer.cs">
-      <DependentUpon>Configure.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Create.aspx.cs">
-      <DependentUpon>Create.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Create.aspx.designer.cs">
-      <DependentUpon>Create.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="StartPage.aspx.cs">
-      <DependentUpon>StartPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="StartPage.aspx.designer.cs">
-      <DependentUpon>StartPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -158,9 +133,6 @@
   <ItemGroup>
     <Content Include="Account\Web.config" />
     <Content Include="Site.Master" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="VirtualList.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackendVMWare\BackendVMWare.csproj">

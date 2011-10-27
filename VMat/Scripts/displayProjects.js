@@ -1,4 +1,4 @@
-﻿function loadXMLDoc(dname) {
+﻿﻿function loadXMLDoc(dname) {
     if (window.XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
     }
@@ -11,7 +11,7 @@
     return xhttp.responseXML;
 }
 
-function displayResult() {
+function displayList() {
     xml = loadXMLDoc("Projects.xml");
     xsl = loadXMLDoc("Projects.xsl");
 

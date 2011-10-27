@@ -6,66 +6,43 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.OleDb;
 using System.Data;
+using System.Xml;
 
 namespace VMat
 {
     public partial class ViewList : System.Web.UI.Page
     {
-        //ArrayList<Project> Projects = new ArrayList<Project>();
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            /*// Create connection string variable. Modify the "Data Source"
-            // parameter as appropriate for your environment.
-            String path = @"/VirtualList.xlsx";
-            String sConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" +
-                "Data Source=" + path + ";" +
-                "Extended Properties=Excel 12.0;";
-
-            // Create connection object by using the preceding connection string.
-            OleDbConnection objConn = new OleDbConnection(sConnectionString);
-
-            // Open connection with the database.
-            objConn.Open();
-
-            // The code to follow uses a SQL SELECT command to display the data from the worksheet.
-
-            // Create new OleDbCommand to return data from worksheet.
-            OleDbCommand objCmdSelect = new OleDbCommand("SELECT * FROM TestName", objConn);
-
-
-            // Create new OleDbDataAdapter that is used to build a DataSet
-            // based on the preceding SQL SELECT statement.
-            OleDbDataAdapter objAdapter1 = new OleDbDataAdapter();
-
-            // Pass the Select command to the adapter.
-            objAdapter1.SelectCommand = objCmdSelect;
-
-            // Create new DataSet to hold information from the worksheet.
-            DataSet objDataset1 = new DataSet();
-
-            // Fill the DataSet with the information from the worksheet.
-            objAdapter1.Fill(objDataset1, "XLData");
-
-            // Bind data to DataGrid control.
-            //GridView1.DataSource = objDataset1.Tables[0].DefaultView;
-            //GridView1.DataBind();
-
-
-            objCmdSelect.CommandText = "Update TestName set FirstName = 'Jacob' where FirstName = 'Scott'";
-            objCmdSelect.ExecuteNonQuery();
-
-            // Clean up objects.
-            objConn.Close();*/
+            DataSet projectData = new DataSet();
+            projectData.ReadXml(Server.MapPath("Projects.xml"));
+            ProjectDisplay.DataSource = projectData.Tables["project"];
+            ProjectDisplay.DataBind();
         }
 
         protected void ImageList_Load(object sender, EventArgs e)
         {
             DataSet imagelist = new DataSet();
-            imagelist.ReadXml(Server.MapPath("Projects.xml"));
+            imagelist.ReadXml(Server.MapPath("ImageFiles.xml"));
             ImageList.DataSource = imagelist.Tables["iso"];
             ImageList.DataTextField = "name";
             ImageList.DataBind();
+        }
+
+        protected void ProjectList_Load(object sender, EventArgs e)
+        {
+            DataSet projectList = new DataSet();
+            projectList.ReadXml(Server.MapPath("Projects.xml"));
+            ProjectList.DataSource = projectList.Tables["project"];
+            ProjectList.DataTextField = "projectname";
+            ProjectList.DataBind();
+        }
+
+        protected void CreateServer()
+        {
+            string project = ProjectList.SelectedValue;
+            string image = ImageList.SelectedValue;
+            string server = ServerNameSuffix.Text;
         }
     }
 }
