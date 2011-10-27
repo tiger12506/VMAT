@@ -13,6 +13,11 @@ namespace BackendVMWare
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
             createServer(virtualHost,@"C:/img.vmx");
         }
+
+        public void Jacob(string baseImageFilename, string newImageName, string[] otherStuffz)
+        {
+
+        }
         //from vmwaretools example
         public IVirtualMachine createServer(IVirtualHost virtualHost, string imageLocation)
         {

@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestVirtualMachine.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestVMManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackendVMWare\BackendVMWare.csproj">
