@@ -35,7 +35,7 @@ namespace BackendTests
         public void TestSetIP_Fail()
         {
             //arrange
-            var newIP = "12.123.1.255";
+            var newIP = "12.123.1255";
             var mVM = new Mock<IVirtualMachine>();
 
             //setup functions that SetIP should call
