@@ -5,16 +5,60 @@ using System.Text;
 using Vestris.VMWareLib;
 namespace BackendVMWare
 {
-    class VirtualMachine : IVirtualMachine
+    public class VirtualMachine : IVirtualMachine
     {
+        
+            /*Function Set-WinVMIP ($VM, $HC, $GC, $IP, $SNM, $GW){
+ $netsh = "c:\windows\system32\netsh.exe interface ip set address ""Local Area Connection"" static $IP $SNM $GW 1"
+ Write-Host "Setting IP address for $VM..."
+ Invoke-VMScript -VM $VM -HostCredential $HC -GuestCredential $GC -ScriptType bat -ScriptText $netsh
+ Write-Host "Setting IP address completed."
+}*/
+
+        //vm used for wrapped methods, is real library instance
         private VMWareVirtualMachine vm;
+        //ivm used for custom, added methods; is either this or an injected mock
+        private IVirtualMachine ivm;
 
         public VirtualMachine(VMWareVirtualMachine vm)
         {
-            int vasdf = 342;
 
             this.vm = vm;
+            ivm = this;
         }
+
+        public VirtualMachine(IVirtualMachine ivm)
+        {
+
+            this.vm = null;
+            this.ivm = ivm;
+        }
+
+
+        // * CUSTOM METHODS * (use ivm)
+        public void SetIP(string newIP)
+        {
+            var p = ivm.RunProgramInGuest("notepad.exe");
+            if (p.ExitCode != 0)
+            {
+                throw new InvalidOperationException("Failed to set IP address, exit code " + p.ExitCode);
+            }
+        }
+
+        public void SetHostname(string newName)
+        {
+            ivm.RunProgramInGuest("notepad.exe");
+        }
+
+        public void RebootSafely()
+        {
+            ivm.RunProgramInGuest("notepad.exe");
+        }
+
+
+
+
+        // * WRAPPED METHODS * (use vm, all one-line wraps)
         public int CPUCount
         {
             get { return vm.CPUCount; }
@@ -25,7 +69,7 @@ namespace BackendVMWare
             get { return vm.GuestEnvironmentVariables; }
         }
 
-        public Dictionary<long, Vestris.VMWareLib.VMWareVirtualMachine.Process> GuestProcesses
+        public Dictionary<long, VMWareVirtualMachine.Process> GuestProcesses
         {
             get { return vm.GuestProcesses; }
         }
@@ -190,27 +234,27 @@ namespace BackendVMWare
             vm.DeleteFileFromGuest(guestPathName, timeoutInSeconds);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName)
+        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName)
         {
             return vm.DetachProgramInGuest(guestProgramName);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs)
+        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs)
         {
             return vm.DetachProgramInGuest(guestProgramName, commandLineArgs);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
+        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
             return vm.DetachProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText)
+        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText)
         {
             return vm.DetachScriptInGuest(interpreter, scriptText);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds)
+        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds)
         {
             return vm.DetachScriptInGuest(interpreter, scriptText, timeoutInSeconds);
         }
@@ -350,32 +394,32 @@ namespace BackendVMWare
             vm.Reset(resetOptions, timeoutInSeconds);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName)
+        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName)
         {
             return vm.RunProgramInGuest(guestProgramName);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs)
+        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs)
         {
             return vm.RunProgramInGuest(guestProgramName, commandLineArgs);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
+        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
             return vm.RunProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds)
+        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds)
         {
             return vm.RunProgramInGuest(guestProgramName, commandLineArgs, options, timeoutInSeconds);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText)
+        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText)
         {
             return vm.RunScriptInGuest(interpreter, scriptText);
         }
 
-        public Vestris.VMWareLib.VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds)
+        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds)
         {
             return vm.RunScriptInGuest(interpreter, scriptText, options, timeoutInSeconds);
         }
@@ -429,5 +473,7 @@ namespace BackendVMWare
         {
             vm.WaitForToolsInGuest(timeoutInSeconds);
         }
+
+
     }
 }

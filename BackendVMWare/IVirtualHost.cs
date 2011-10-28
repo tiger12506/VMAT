@@ -6,7 +6,7 @@ using Vestris.VMWareLib;
 
 namespace BackendVMWare
 {
-    interface IVirtualHost
+    public interface IVirtualHost
     {
         
 
@@ -25,8 +25,8 @@ namespace BackendVMWare
         void ConnectToVMWareWorkstation();
         void ConnectToVMWareWorkstation(int timeoutInSeconds);
         void Disconnect();
-        VMWareVirtualMachine Open(string fileName);
-        VMWareVirtualMachine Open(string fileName, int timeoutInSeconds);
+        IVirtualMachine Open(string fileName);
+        IVirtualMachine Open(string fileName, int timeoutInSeconds);
         void Register(string fileName);
         void Register(string fileName, int timeoutInSeconds);
         void Unregister(string fileName);

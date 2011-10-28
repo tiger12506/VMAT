@@ -5,7 +5,7 @@ using System.Text;
 using Vestris.VMWareLib;
 namespace BackendVMWare
 {
-    interface IVirtualMachine
+    public interface IVirtualMachine
     {
 
         int CPUCount { get; }
@@ -23,6 +23,11 @@ namespace BackendVMWare
         VMWareVirtualMachine.VariableIndexer RuntimeConfigVariables { get; }
         VMWareSharedFolderCollection SharedFolders { get; }
         VMWareRootSnapshotCollection Snapshots { get; }
+
+        void SetIP(string newIP);
+        void SetHostname(string newName);
+        void RebootSafely();
+
 
         VMWareSnapshot BeginRecording(string name);
         VMWareSnapshot BeginRecording(string name, string description);
