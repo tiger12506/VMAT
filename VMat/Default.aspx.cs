@@ -38,11 +38,11 @@ namespace VMat
             ProjectList.DataBind();
         }
 
-        protected void CreateServer()
+        protected void CreateMachine(object sender, EventArgs e)
         {
             string project = ProjectList.SelectedValue;
             string image = ImageList.SelectedValue;
-            string server = ServerNameSuffix.Text;
+            string machine= MachineNameSuffix.Text;
         }
     }
 }

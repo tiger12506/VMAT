@@ -59,7 +59,7 @@
     <Content Include="Images\icon_led-green.png" />
     <Content Include="Images\icon_led-red.png" />
     <Content Include="Images\icon_server-admin.png" />
-    <Content Include="Images\icon_server-complete.png" />
+    <Content Include="Images\icon_project-complete.png" />
     <Content Include="Images\icon_server-create.png" />
     <Content Include="Images\icon_servers.png" />
     <Content Include="Projects.xsl" />
