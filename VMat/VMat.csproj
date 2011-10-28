@@ -62,8 +62,6 @@
     <Content Include="Images\icon_project-complete.png" />
     <Content Include="Images\icon_server-create.png" />
     <Content Include="Images\icon_servers.png" />
-    <Content Include="Projects.xsl" />
-    <Content Include="Scripts\displayProjects.js" />
     <Content Include="Images\logo_vmat.png" />
     <Content Include="Images\logo_windows-server-2008.png" />
     <Content Include="Scripts\popupDiv.js" />
@@ -72,7 +70,6 @@
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Styles\Unused.css" />
     <Content Include="Default.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
