@@ -39,7 +39,7 @@ namespace BackendVMWare
         public void SetIP(string newIP)
         {
             var p = ivm.RunProgramInGuest("notepad.exe");
-            if (p.ExitCode != 0)
+            if (p!=null && p.ExitCode != 0)
             {
                 throw new InvalidOperationException("Failed to set IP address, exit code " + p.ExitCode);
             }

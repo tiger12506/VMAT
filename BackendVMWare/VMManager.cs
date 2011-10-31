@@ -8,17 +8,45 @@ namespace BackendVMWare
 {
     public class VMManager
     {
-        public void createServer()
+        // given a name, looks up all info about the VM
+        public VMInfo getInfo(string imageFileName)
+        {
+            return new VMInfo();
+        }
+        //Create VM using provided info (Created, LastRunning fields ignored)
+        //Assume that IP is not already taken (tracking is done by frontend; can switch)
+        public VMInfo createVM(VMInfo info)
+        {
+            return new VMInfo();
+        }
+        //Mark server as active, idle (pause & don't autostart), or archived (stops & archives)
+        public void updateLifecycle(string imageFileName, VMLifecycle newLifecycle)
+        {
+
+        }
+        //Start up, shut down, or pause server
+        public void updateStatus(string imageFileName, VMStatus newStatus)
+        {
+
+        }
+
+        /* also need setting config options, which may require reading XML (since backend will have no persistence)
+            IP address allowable range
+            Set maximum simultaneous running server count
+            Set VM creation, backup, and archive batch process times
+            Set up list of base images & locations (optional, can just use folder names)
+         */
+    
+
+
+
+        private void createServer()
         {
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
-            createServer(virtualHost,@"C:/img.vmx");
+            createServer(virtualHost, @"C:/img.vmx");
         }
 
-        public void Jacob(string baseImageFilename, string newImageName, string[] otherStuffz)
-        {
-
-        }
-        //from vmwaretools example
+        //shouldn't really be called
         public IVirtualMachine createServer(IVirtualHost virtualHost, string imageLocation)
         {
             // TODO: add to autostart & backup lists
