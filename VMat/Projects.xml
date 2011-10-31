@@ -2,31 +2,33 @@
 <records>
   <project>
     <projectname>gapdev</projectname>
+    <hostname>gapsrvindyvm1.gap5.com</hostname>
     <status>1</status>
-    <server>
-      <servername>gapdev1234</servername>
+    <machine>
+      <machinename>gapdev1234</machinename>
       <status>1</status>
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.100</ipaddress>
       <creation-date>Nov. 12, 2008</creation-date>
-    </server>
+    </machine>
   </project>
   <project>
     <projectname>glolz</projectname>
+    <hostname>gapsrvindyvm1.gap5.com</hostname>
     <status>1</status>
-    <server>
-      <servername>glolz0000</servername>
+    <machine>
+      <machinename>glolz0000</machinename>
       <status>0</status>
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.101</ipaddress>
       <creation-date>Nov. 10, 2005</creation-date>
-    </server>
-    <server>
-      <servername>glolz5555</servername>
+    </machine>
+    <machine>
+      <machinename>glolz5555</machinename>
       <status>1</status>
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.102</ipaddress>
       <creation-date>Jan. 8, 2006</creation-date>
-    </server>
+    </machine>
   </project>
 </records>
