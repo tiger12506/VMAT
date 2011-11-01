@@ -39,9 +39,9 @@ namespace BackendVMWare
         public void SetIP(string newIP)
         {
             var p = ivm.RunProgramInGuest("notepad.exe");
-            if (p!=null && p.ExitCode != 0)
+            if (p!=null && p.getExitCode() != 0)
             {
-                throw new InvalidOperationException("Failed to set IP address, exit code " + p.ExitCode);
+                throw new InvalidOperationException("Failed to set IP address, exit code " + p.getExitCode());
             }
         }
 
@@ -234,29 +234,29 @@ namespace BackendVMWare
             vm.DeleteFileFromGuest(guestPathName, timeoutInSeconds);
         }
 
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName)
+        public IProcess DetachProgramInGuest(string guestProgramName)
         {
-            return vm.DetachProgramInGuest(guestProgramName);
+            return new Process(vm.DetachProgramInGuest(guestProgramName));
         }
 
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs)
+        public IProcess DetachProgramInGuest(string guestProgramName, string commandLineArgs)
         {
-            return vm.DetachProgramInGuest(guestProgramName, commandLineArgs);
+            return new Process(vm.DetachProgramInGuest(guestProgramName, commandLineArgs));
         }
 
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
+        public IProcess DetachProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
-            return vm.DetachProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
+            return new Process(vm.DetachProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds));
         }
 
-        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText)
+        public IProcess DetachScriptInGuest(string interpreter, string scriptText)
         {
-            return vm.DetachScriptInGuest(interpreter, scriptText);
+            return new Process(vm.DetachScriptInGuest(interpreter, scriptText));
         }
 
-        public VMWareVirtualMachine.Process DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds)
+        public IProcess DetachScriptInGuest(string interpreter, string scriptText, int timeoutInSeconds)
         {
-            return vm.DetachScriptInGuest(interpreter, scriptText, timeoutInSeconds);
+            return new Process(vm.DetachScriptInGuest(interpreter, scriptText, timeoutInSeconds));
         }
 
         public bool DirectoryExistsInGuest(string guestPathName)
@@ -394,34 +394,34 @@ namespace BackendVMWare
             vm.Reset(resetOptions, timeoutInSeconds);
         }
 
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName)
+        public IProcess RunProgramInGuest(string guestProgramName)
         {
-            return vm.RunProgramInGuest(guestProgramName);
+            return new Process(vm.RunProgramInGuest(guestProgramName));
         }
 
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs)
+        public IProcess RunProgramInGuest(string guestProgramName, string commandLineArgs)
         {
-            return vm.RunProgramInGuest(guestProgramName, commandLineArgs);
+            return new Process(vm.RunProgramInGuest(guestProgramName, commandLineArgs));
         }
 
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
+        public IProcess RunProgramInGuest(string guestProgramName, string commandLineArgs, int timeoutInSeconds)
         {
-            return vm.RunProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds);
+            return new Process(vm.RunProgramInGuest(guestProgramName, commandLineArgs, timeoutInSeconds));
         }
 
-        public VMWareVirtualMachine.Process RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds)
+        public IProcess RunProgramInGuest(string guestProgramName, string commandLineArgs, int options, int timeoutInSeconds)
         {
-            return vm.RunProgramInGuest(guestProgramName, commandLineArgs, options, timeoutInSeconds);
+            return new Process(vm.RunProgramInGuest(guestProgramName, commandLineArgs, options, timeoutInSeconds));
         }
 
-        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText)
+        public IProcess RunScriptInGuest(string interpreter, string scriptText)
         {
-            return vm.RunScriptInGuest(interpreter, scriptText);
+            return new Process(vm.RunScriptInGuest(interpreter, scriptText));
         }
 
-        public VMWareVirtualMachine.Process RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds)
+        public IProcess RunScriptInGuest(string interpreter, string scriptText, int options, int timeoutInSeconds)
         {
-            return vm.RunScriptInGuest(interpreter, scriptText, options, timeoutInSeconds);
+            return new Process(vm.RunScriptInGuest(interpreter, scriptText, options, timeoutInSeconds));
         }
 
         public void ShutdownGuest()

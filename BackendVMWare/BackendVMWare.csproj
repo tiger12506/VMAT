@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interop.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IVirtualHost.cs" />
     <Compile Include="IVirtualMachine.cs" />

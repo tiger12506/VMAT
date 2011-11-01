@@ -10,7 +10,7 @@ using BackendVMWare;
 namespace BackendTests
 {
     [TestClass]
-    public class TestVMManager
+    public class VMManagerTest
     {
         [TestMethod]
         public void testCreateVM()
@@ -20,10 +20,10 @@ namespace BackendTests
             var vmm = new BackendVMWare.VMManager();
             var mHost = new Mock<IVirtualHost>();
             var mVM = new Mock<IVirtualMachine>();
-            mHost.Setup(foo => foo.ConnectToVMWareServer("vmat.reshall.rose-hulman.edu", "Nathan", "Vmat1234"));
-            mHost.Setup(foo => foo.Open(imageLocation)).Returns(mVM.Object);
-            mVM.Setup(foo => foo.WaitForToolsInGuest());
-            mVM.Setup(foo => foo.LoginInGuest("Administrator", "password"));
+            mHost.Setup(host => host.ConnectToVMWareServer("vmat.reshall.rose-hulman.edu", "Nathan", "Vmat1234"));
+            mHost.Setup(host => host.Open(imageLocation)).Returns(mVM.Object);
+            mVM.Setup(vm => vm.WaitForToolsInGuest());
+            mVM.Setup(vm => vm.LoginInGuest("Administrator", "password"));
 
             //act
             vmm.createServer(mHost.Object, imageLocation);
