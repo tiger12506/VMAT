@@ -13,6 +13,12 @@ namespace BackendTests
     public class VMManagerTest
     {
         [TestMethod]
+        public void tmp()
+        {
+            var vmm = new VMManager();
+            vmm.vmTest();
+        }
+        [TestMethod]
         public void testCreateVM()
         {
             //arrange

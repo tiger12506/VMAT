@@ -45,7 +45,26 @@ namespace BackendVMWare
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
             createServer(virtualHost, @"C:/img.vmx");
         }
+        public int vmTest() {
+            VMWareVirtualHost vh1=new VMWareVirtualHost();
+            VMWareVirtualHost vh2=new VMWareVirtualHost();
+            try
+            {
+                vh1.ConnectToVMWareVIServer("vmat.reshall.rose-hulman.edu:8333", "Nathan", "Vmat1234", 15);//reshall
+                vh2.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
+            
+            }
+            catch (VMWareException vme)
+            {
+                ulong c=vme.ErrorCode;
+            }
+            vh1.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234", 15);
 
+            int c1 = vh1.RunningVirtualMachines.Count();
+           int c2 = vh2.RunningVirtualMachines.Count();
+           vh2.RunningVirtualMachines.First().CreateDirectoryInGuest("C:/ThisIsTestYeah");
+           return c1;
+        }
         //shouldn't really be called
         public IVirtualMachine createServer(IVirtualHost virtualHost, string imageLocation)
         {

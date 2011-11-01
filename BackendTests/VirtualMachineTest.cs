@@ -32,7 +32,6 @@ namespace BackendTests
             mVM.VerifyAll();
 
         }
-
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSetIP_Fail()

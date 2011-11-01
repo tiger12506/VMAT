@@ -18,6 +18,9 @@ namespace VMat
             projectData.ReadXml(Server.MapPath("Projects.xml")); //TODO: Update this in the future to access from external project
             ProjectDisplay.DataSource = projectData.Tables["project"];
             ProjectDisplay.DataBind();
+            var vmm = new BackendVMWare.VMManager();
+            int c1 = vmm.vmTest();
+            Response.Write("<h1>LOOKIEHERE!!! "+c1+"</h1>");
         }
 
         protected void ImageList_Load(object sender, EventArgs e)
