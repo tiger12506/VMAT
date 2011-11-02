@@ -58,12 +58,17 @@ namespace BackendVMWare
             {
                 ulong c=vme.ErrorCode;
             }
-            vh1.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234", 15);
 
             int c1 = vh1.RunningVirtualMachines.Count();
-           int c2 = vh2.RunningVirtualMachines.Count();
-           vh2.RunningVirtualMachines.First().CreateDirectoryInGuest("C:/ThisIsTestYeah");
-           return c1;
+            int c2 = vh2.RunningVirtualMachines.Count();
+            try
+            {
+                VMWareVirtualMachine vm = vh2.RunningVirtualMachines.First();
+                vm.LoginInGuest("John","Vmat1234");
+                vm.CreateDirectoryInGuest("C:/ThisIsTestYeah");
+            }
+            catch (Exception e) { }
+            return c2;
         }
         //shouldn't really be called
         public IVirtualMachine createServer(IVirtualHost virtualHost, string imageLocation)
