@@ -53,6 +53,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Account\Login.aspx" />
+    <Content Include="beTest.aspx" />
     <Content Include="Help.aspx" />
     <Content Include="Images\icon_close-window.png" />
     <Content Include="Images\icon_configure.png" />
@@ -82,7 +83,9 @@
     <Content Include="Projects.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="ImageFiles.xml" />
+    <Content Include="ImageFiles.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -98,6 +101,13 @@
     </Compile>
     <Compile Include="Account\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="beTest.aspx.cs">
+      <DependentUpon>beTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="beTest.aspx.designer.cs">
+      <DependentUpon>beTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Help.aspx.cs">
       <DependentUpon>Help.aspx</DependentUpon>

@@ -45,6 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Vestris.VMWareLib.dll</HintPath>
     </Reference>
+    <Reference Include="Vestris.VMWareTools">
+      <HintPath>References\Vestris.VMWareTools.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProcess.cs" />

@@ -24,11 +24,14 @@ namespace BackendVMWare
         VMWareSharedFolderCollection SharedFolders { get; }
         VMWareRootSnapshotCollection Snapshots { get; }
 
+        //Custom methods
         void SetIP(string newIP);
         void SetHostname(string newName);
+        string GetHostname();
         void RebootSafely();
+        string IpAddress { get; }
 
-
+        //Wrapped methods
         VMWareSnapshot BeginRecording(string name);
         VMWareSnapshot BeginRecording(string name, string description);
         VMWareSnapshot BeginRecording(string name, string description, int timeoutInSeconds);
