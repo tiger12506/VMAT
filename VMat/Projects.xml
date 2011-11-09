@@ -10,6 +10,10 @@
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.100</ipaddress>
       <creation-date>Nov. 12, 2008</creation-date>
+      <start-time>12:00 AM</start-time>
+      <shutdown-time>12:00 AM</shutdown-time>
+      <backup-time>12:00 AM</backup-time>
+      <archive-time>12:00 AM</archive-time>
     </machine>
   </project>
   <project>
@@ -22,6 +26,10 @@
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.101</ipaddress>
       <creation-date>Nov. 10, 2005</creation-date>
+      <start-time>12:00 AM</start-time>
+      <shutdown-time>12:00 AM</shutdown-time>
+      <backup-time>12:00 AM</backup-time>
+      <archive-time>12:00 AM</archive-time>
     </machine>
     <machine>
       <machinename>glolz5555</machinename>
@@ -29,6 +37,10 @@
       <isofile>fakewindowsserver</isofile>
       <ipaddress>192.168.1.102</ipaddress>
       <creation-date>Jan. 8, 2006</creation-date>
+      <start-time>12:00 AM</start-time>
+      <shutdown-time>12:00 AM</shutdown-time>
+      <backup-time>12:00 AM</backup-time>
+      <archive-time>12:00 AM</archive-time>
     </machine>
   </project>
 </records>
