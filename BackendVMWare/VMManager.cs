@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vestris.VMWareLib;
+using System.Runtime.InteropServices;
 
 namespace BackendVMWare
 {
@@ -48,15 +49,20 @@ namespace BackendVMWare
         public int vmTest() {
             VMWareVirtualHost vh1=new VMWareVirtualHost();
             VMWareVirtualHost vh2=new VMWareVirtualHost();
+
             try
             {
                 vh1.ConnectToVMWareVIServer("vmat.reshall.rose-hulman.edu:8333", "Nathan", "Vmat1234", 15);//reshall
                 vh2.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
-            
+
             }
             catch (VMWareException vme)
             {
-                ulong c=vme.ErrorCode;
+                ulong c = vme.ErrorCode;
+            }
+            catch (COMException cme)
+            {
+                return cme.ErrorCode;
             }
 
             int c1 = vh1.RunningVirtualMachines.Count();
