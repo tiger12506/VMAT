@@ -12,7 +12,7 @@
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
   <div class="machine-controls">
-    <a href="javascript:void(0)" onclick="setVisible('create-window');" target="_self">
+    <a href="CreateMachine.aspx">
       <span class="button">
         <span class="icon">
           <img src="Images/icon_server-create.png" alt="" />
@@ -20,7 +20,7 @@
         Create 
       </span>
     </a>
-    <a href="javascript:void(0)" onclick="setVisible('config-window');" target="_self">
+    <a href="ConfigHost.aspx">
       <span class="button">
         <span class="icon">
           <img src="Images/icon_server-admin.png" alt="" />
@@ -85,8 +85,34 @@
                     <%# DataBinder.Eval(Container.DataItem, "[\"creation-date\"]") %>
                   </span>
                 </span>
-                <span class="machine-details">
-                  <a href="javascript:void(0)" onclick="displayMachineDetails();">Details</a>
+                <span class="machine-details-toggle">
+                  <a href="javascript:void(0)" onclick="toggleMachineDetails();">Details</a>
+                </span>
+              </span>
+              <span class="machine-details-info">
+                <span class="last-start-time">
+                  <span class="details-item-label">Last Start Time</span>
+                  <span class="details-item-tag">
+                    <%# DataBinder.Eval(Container.DataItem, "[\"start-time\"]") %>
+                  </span>
+                </span>
+                <span class="last-shutdown-time">
+                  <span class="details-item-label">Last Shutdown Time</span>
+                  <span class="details-item-tag">
+                    <%# DataBinder.Eval(Container.DataItem, "[\"shutdown-time\"]") %>
+                  </span>
+                </span>
+                <span class="last-backup-time">
+                  <span class="details-item-label">Last Backup Time</span>
+                  <span class="details-item-tag">
+                    <%# DataBinder.Eval(Container.DataItem, "[\"backup-time\"]") %>
+                  </span>
+                </span>
+                <span class="last-archive-time">
+                  <span class="details-item-label">Last Archive Time</span>
+                  <span class="details-item-tag">
+                    <%# DataBinder.Eval(Container.DataItem, "[\"archive-time\"]") %>
+                  </span>
                 </span>
               </span>
               </ItemTemplate>
@@ -97,7 +123,7 @@
     </div>
   </div>
 
-  <!-- Popup Windows for virtual machine controls -->
+  <!-- UNUSED: Popup Windows for virtual machine controls
 
   <div class="popup-window" id="create-window">
     <div class="header">
@@ -107,9 +133,9 @@
       </a>
     </div>
     <div class="create-form">
-      <form runat="server">
+      <form action="" runat="server">
         Machine Name Suffix:
-        <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Width="100" runat="server" /><br />
+        <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Columns="8" runat="server" /><br />
         Image File:
         <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load" /><br />
         Project Number:
@@ -130,7 +156,24 @@
     </div>
     <div class="config-form">
       <form action="">
+        Max Virtual Machine Count:
+        <asp:TextBox ID="MaxVMCount" MaxLength="2" Columns="3" runat="server" /><br />
+        IP Address Range: <br />
+        192.168.1.
+        <asp:TextBox ID="IPLowerBound" MaxLength="3" Columns="4" runat="server" />
+        to
+        <asp:TextBox ID="IPUpperBound" MaxLength="3" Columns="4" runat="server" /><br />
+        VM Creation Time:
+        <asp:TextBox ID="CreationTime" MaxLength="10" Columns="12" runat="server" /><br />
+        VM Backup Time:
+        <asp:TextBox ID="BackupTime" MaxLength="10" Columns="12" runat="server" /><br />
+        VM Archive Time:
+        <asp:TextBox ID="ArchiveTime" MaxLength="10" Columns="12" runat="server" /><br />
+        <div class="update-host-config-buttons">
+          <asp:Button ID="UpdateHostConfigButton" Text="Save" runat="server" OnClick="UpdateHostConfig" />
+        </div>
       </form>
     </div>
   </div>
+  -->
 </asp:Content>
