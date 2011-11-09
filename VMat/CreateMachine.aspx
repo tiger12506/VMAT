@@ -8,16 +8,18 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
-  <form id="create-form" action="" runat="server">
-    Machine Name Suffix:
-    <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Columns="8" runat="server" /><br />
-    Image File:
-    <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load" /><br />
-    Project Number:
-    <asp:DropDownList ID="ProjectList" runat="server" OnLoad="ProjectList_Load" /><br />
-    <div class="create-form-buttons">
-      <asp:Button ID="CreateMachineSubmitButton" Text="Create" runat="server" OnClick="CreateMachine" />
-      <asp:Button ID="CancelButton" Text="Cancel" runat="server" OnClick="Default.aspx" />
-    </div>
-  </form>
+  <div class="form-content">
+    <form class="create-form" runat="server">
+      Machine Name Suffix:
+      <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Columns="8" runat="server" /><br />
+      Image File:
+      <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load" /><br />
+      Project Number:
+      <asp:DropDownList ID="ProjectList" runat="server" OnLoad="ProjectList_Load" /><br />
+      <div class="create-form-buttons">
+        <asp:Button ID="CreateMachineSubmitButton" Text="Create" runat="server" OnClick="CreateNewMachine" />
+        <asp:Button ID="CancelButton" Text="Cancel" runat="server" OnClick="Cancel_Click" />
+      </div>
+    </form>
+  </div>
 </asp:Content>

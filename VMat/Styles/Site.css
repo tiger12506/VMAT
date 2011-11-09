@@ -428,6 +428,17 @@ div.accountInfo
     width: inherit;
 }
 
+.details-item-label
+{
+    font-size: 0.9em;
+    display: block;
+}
+
+.details-item-tag
+{
+    font-size: 1.3em;
+}
+
 .machine-controls
 {
    text-align: center;
@@ -617,19 +628,58 @@ div.accountInfo
     width: 25px;
 }
 
-.popup-window .create-form
+
+/*******************************************/
+/***                Forms                ***/
+/*******************************************/
+
+.form-content
 {
-    width: 90%;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-content .create-form
+{
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.popup-window .create-form-buttons
+.form-content .create-form-buttons
 {
     text-align: center;
+    margin-top: 15px;
 }
 
-.popup-window .create-form-buttons input
+.form-content .create-form-buttons input
+{
+    margin-right: 20px;
+    margin-bottom: 8px;
+}
+
+.form-content
+{
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-content .config-form
+{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-content .update-host-config-buttons
+{
+    text-align: center;
+    margin-top: 15px;
+}
+
+.form-content .update-host-config-buttons input
 {
     margin-right: 20px;
     margin-bottom: 8px;

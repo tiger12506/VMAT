@@ -33,7 +33,12 @@ namespace VMat
             ProjectList.DataBind();
         }
 
-        protected void CreateMachine(object sender, EventArgs e)
+        protected void Cancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        }
+
+        protected void CreateNewMachine(object sender, EventArgs e)
         {
             string project = ProjectList.SelectedValue;
             string image = ImageList.SelectedValue;

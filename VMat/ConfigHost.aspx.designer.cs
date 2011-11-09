@@ -10,7 +10,7 @@
 namespace VMat {
     
     
-    public partial class WebForm2 {
+    public partial class ConfigHost {
         
         /// <summary>
         /// MaxVMCount control.

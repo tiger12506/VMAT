@@ -13,6 +13,7 @@
     <RootNamespace>VMat</RootNamespace>
     <AssemblyName>VMat</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +66,7 @@
     <Content Include="Images\icon_servers.png" />
     <Content Include="Images\logo_vmat.png" />
     <Content Include="Images\logo_windows-server-2008.png" />
+    <Content Include="Scripts\formControls.js" />
     <Content Include="Scripts\popupDiv.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
@@ -83,6 +85,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="ImageFiles.xml" />
+    <Content Include="CreateMachine.aspx" />
+    <Content Include="ConfigHost.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -123,6 +127,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateMachine.aspx.cs">
+      <DependentUpon>CreateMachine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateMachine.aspx.designer.cs">
+      <DependentUpon>CreateMachine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigHost.aspx.cs">
+      <DependentUpon>ConfigHost.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfigHost.aspx.designer.cs">
+      <DependentUpon>ConfigHost.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

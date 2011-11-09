@@ -13,15 +13,6 @@ namespace VMat {
     public partial class CreateMachine {
         
         /// <summary>
-        /// create-form control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm create-form;
-        
-        /// <summary>
         /// MachineNameSuffix control.
         /// </summary>
         /// <remarks>

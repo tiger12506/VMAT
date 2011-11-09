@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Virtual Machine Management - VMAT" Language="C#" MasterPageFile="~/Site.Master"
-  AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VMat.ViewList" %>
+  AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VMat.Default" %>
 <%@ Import Namespace="System.Data" %>
 
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
@@ -15,7 +15,7 @@
     <a href="CreateMachine.aspx">
       <span class="button">
         <span class="icon">
-          <img src="Images/icon_server-create.png" alt="" />
+          <img src="/Images/icon_server-create.png" alt="" />
         </span>
         Create 
       </span>
@@ -23,7 +23,7 @@
     <a href="ConfigHost.aspx">
       <span class="button">
         <span class="icon">
-          <img src="Images/icon_server-admin.png" alt="" />
+          <img src="/Images/icon_server-admin.png" alt="" />
         </span>
         Admin
       </span>
@@ -123,57 +123,4 @@
     </div>
   </div>
 
-  <!-- UNUSED: Popup Windows for virtual machine controls
-
-  <div class="popup-window" id="create-window">
-    <div class="header">
-      <h2>Create Machine</h2>
-      <a href="javascript:void(0)" onclick="closeWindow('create-window');" target="_self">
-        <img src="/Images/icon_close-window.png" alt="close" />
-      </a>
-    </div>
-    <div class="create-form">
-      <form action="" runat="server">
-        Machine Name Suffix:
-        <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Columns="8" runat="server" /><br />
-        Image File:
-        <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load" /><br />
-        Project Number:
-        <asp:DropDownList ID="ProjectList" runat="server" OnLoad="ProjectList_Load" /><br />
-        <div class="create-form-buttons">
-          <asp:Button ID="CreateMachineSubmitButton" Text="Create" runat="server" OnClick="CreateMachine" />
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup-window" id="config-window">
-    <div class="header">
-      <h2>Configure Host</h2>
-      <a href="javascript:void(0)" onclick="closeWindow('config-window');" target="_self">
-        <img src="/Images/icon_close-window.png" alt="close" />
-      </a>
-    </div>
-    <div class="config-form">
-      <form action="">
-        Max Virtual Machine Count:
-        <asp:TextBox ID="MaxVMCount" MaxLength="2" Columns="3" runat="server" /><br />
-        IP Address Range: <br />
-        192.168.1.
-        <asp:TextBox ID="IPLowerBound" MaxLength="3" Columns="4" runat="server" />
-        to
-        <asp:TextBox ID="IPUpperBound" MaxLength="3" Columns="4" runat="server" /><br />
-        VM Creation Time:
-        <asp:TextBox ID="CreationTime" MaxLength="10" Columns="12" runat="server" /><br />
-        VM Backup Time:
-        <asp:TextBox ID="BackupTime" MaxLength="10" Columns="12" runat="server" /><br />
-        VM Archive Time:
-        <asp:TextBox ID="ArchiveTime" MaxLength="10" Columns="12" runat="server" /><br />
-        <div class="update-host-config-buttons">
-          <asp:Button ID="UpdateHostConfigButton" Text="Save" runat="server" OnClick="UpdateHostConfig" />
-        </div>
-      </form>
-    </div>
-  </div>
-  -->
 </asp:Content>
