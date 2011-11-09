@@ -38,6 +38,7 @@ namespace BackendVMWare
         public VMStatus Status { get; set; }
 
         //probably query, uncertain
+	// LastRunning refers to the time the VM was last started
         public DateTime LastRunning { get; set; }
         public DateTime Created { get; set; }
 
