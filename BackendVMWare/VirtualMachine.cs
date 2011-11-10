@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vestris.VMWareLib;
+using Vestris.VMWareLib.Tools.Windows;
 namespace BackendVMWare
 {
     public class VirtualMachine : IVirtualMachine
@@ -49,15 +50,44 @@ namespace BackendVMWare
         {
             ivm.RunProgramInGuest("notepad.exe");
         }
-
+        public string GetHostname()
+        {
+            if (!ivm.IsRunning) return "offline";
+            try
+            {
+                ivm.WaitForToolsInGuest(); //todo refactor this out somewhere
+                ivm.LoginInGuest("Administrator", "Vmat1234");
+                Shell guestShell = new Shell(vm); //todo mock?
+                Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
+                return output.StdOut;
+            }
+            catch (Exception e) { }
+            return "name_error"; 
+        }
         public void RebootSafely()
         {
             ivm.RunProgramInGuest("notepad.exe");
         }
 
 
+        //todo: test
+        public string IpAddress 
+        {
+            get
+            {
+                try
+                {
+                    return this.IsRunning ? this.GuestVariables["ip"] : "offline";
+                }
+                catch (Exception)
+                {
+                    return "IP error";
+                }
+            }
+        }
 
 
+        
         // * WRAPPED METHODS * (use vm, all one-line wraps)
         public int CPUCount
         {

@@ -12,8 +12,8 @@ namespace BackendVMWare
 
         VMWareVirtualHost.ServiceProviderType ConnectionType { get; }
         bool IsConnected { get; }
-        IEnumerable<VMWareVirtualMachine> RegisteredVirtualMachines { get; }
-        IEnumerable<VMWareVirtualMachine> RunningVirtualMachines { get; }
+        IEnumerable<VirtualMachine> RegisteredVirtualMachines { get; }
+        IEnumerable<VirtualMachine> RunningVirtualMachines { get; }
 
         void ConnectToVMWarePlayer();
         void ConnectToVMWarePlayer(int timeoutInSeconds);

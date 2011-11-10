@@ -29,14 +29,32 @@ namespace BackendVMWare
             get { return vh.IsConnected; }
         }
 
-        public IEnumerable<Vestris.VMWareLib.VMWareVirtualMachine> RegisteredVirtualMachines
+        public IEnumerable<VirtualMachine> RegisteredVirtualMachines
         {
-            get { return vh.RegisteredVirtualMachines; }
+            get
+            {
+                List<VirtualMachine> ls = new List<VirtualMachine>();
+
+                foreach (VMWareVirtualMachine v in vh.RegisteredVirtualMachines)
+                {
+                    ls.Add(new VirtualMachine(v));
+                }
+                return ls.AsEnumerable();
+            }
         }
 
-        public IEnumerable<Vestris.VMWareLib.VMWareVirtualMachine> RunningVirtualMachines
+        public IEnumerable<VirtualMachine> RunningVirtualMachines
         {
-            get { return vh.RunningVirtualMachines; }
+            get
+            {
+                List<VirtualMachine> ls = new List<VirtualMachine>();
+
+                foreach (VMWareVirtualMachine v in vh.RunningVirtualMachines)
+                {
+                    ls.Add(new VirtualMachine(v));
+                }
+                return ls.AsEnumerable();
+            }
         }
 
         public void ConnectToVMWarePlayer()

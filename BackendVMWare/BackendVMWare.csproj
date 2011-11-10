@@ -45,6 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Vestris.VMWareLib.dll</HintPath>
     </Reference>
+    <Reference Include="Vestris.VMWareTools">
+      <HintPath>References\Vestris.VMWareTools.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProcess.cs" />
@@ -56,12 +59,6 @@
     <Compile Include="VirtualMachine.cs" />
     <Compile Include="VMInfo.cs" />
     <Compile Include="VMManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ImageFiles.xml" />
-    <Content Include="Projects.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
