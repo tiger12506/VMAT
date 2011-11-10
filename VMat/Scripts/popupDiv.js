@@ -13,6 +13,6 @@ function closeWindow(obj) {
     thisObj.style.visibility = 'hidden';
 }
 
-function displayServerDetails(obj) {
-
+function toggleServerDetails(obj) {
+    obj.style.visibility = ((obj.style.visibility == 'visible') ? 'hidden' : 'visible');
 }
