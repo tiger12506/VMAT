@@ -18,12 +18,21 @@ namespace VMat
             {
                 var vmi=vmm.getInfo(imageName);
                 mainText.Text += "<tr><td><strong>" + vmi.ImagePathName + "</strong></td><td>" + vmi.Status + "</td><td>" + vmi.HostnameWithDomain + "</td><td>" + vmi.IP 
-                    + "</td><td>" + vmi.Created + "</td><td>" + vmi.LastRunning + "</td></tr>";
+                    + "</td><td>" + vmi.Created + "</td><td>" + vmi.LastStopped + "</td></tr>";
             }
             mainText.Text += "</table>";
 
-            vmm.createVM(new VMInfo() { ImagePathName = "[ha-datacenter/standard] Server 2003 B/Server 2003 B.vmx", 
-                BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx" });
+            
+        }
+
+        protected void MakeServer_Click(object sender, EventArgs e)
+        {
+            var vmm = new VMManager();
+            vmm.createVM(new VMInfo()
+            {
+                ImagePathName = "[ha-datacenter/standard] Server 2003 C/Server 2003 C.vmx",
+                BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
+            });
         }
     }
 }

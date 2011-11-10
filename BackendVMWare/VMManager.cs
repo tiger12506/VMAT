@@ -65,26 +65,46 @@ namespace BackendVMWare
         //Assume that IP is not already taken (tracking is done by frontend; can switch)
         public VMInfo createVM(VMInfo newInfo)
         {
+            //"[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
+            //http://communities.vmware.com/message/1688542#1688542
+            //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
+            //we don't seem to have vmware-vdiskmanager 
 
+            string sourceVMX = VMInfo.convertPathToPhysical(newInfo.BaseImageName);
+            string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
+            string sourcePath = Path.GetDirectoryName(sourceVMX);
+            string destVMX = VMInfo.convertPathToPhysical(newInfo.ImagePathName);
+            string destName = Path.GetFileNameWithoutExtension(destVMX);
+            string destPath = Path.GetDirectoryName(destVMX);
+            
+            Directory.CreateDirectory(destPath);
+            File.Copy(sourceVMX, destVMX);
+            foreach(string iPath in Directory.GetFiles(sourcePath,"*.vmdk",SearchOption.TopDirectoryOnly))
+                File.Copy(iPath, iPath.Replace(sourcePath,destPath).Replace(sourceName,destName)); //can take several minutes
+
+            String strFile = File.ReadAllText(destVMX);
+            strFile = strFile.Replace(sourceName, destName);
+            strFile += "\r\nuuid.action = \"create\"\r\n";
+            strFile += "msg.autoAnswer = \"TRUE\"\r\n";
+            File.WriteAllText(destVMX, strFile);
+            
+            connectVH();
+            var ss = VMInfo.convertPathToDatasource(destVMX);
+            vh.Register(ss);
+
+            var newVM = vh.Open(ss);
+            string s=newVM.PathName;
+            bool b = newVM.IsRunning;
+            newVM.PowerOn();
+            //http://vmwaretasks.codeplex.com/discussions/276715
+
+            return getInfo(ss);
+
+            //failed try:
             //var baseVM = openVM(info.BaseImageName);
             //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
-            string sourcePath = Path.GetDirectoryName(VMInfo.convertPathToPhysical(newInfo.BaseImageName));
+            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
             
-            string destPath = VMInfo.convertPathToPhysical(newInfo.ImagePathName);
-            //Now Create all of the directories
-            /*foreach (string dirPath in Directory.GetDirectories(SourcePath, "*",
-                SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(SourcePath, DestinationPath));
-
-            //Copy all the files
-            foreach (string newPath in Directory.GetFiles(SourcePath, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(SourcePath, DestinationPath));
-
-            */
-            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported
-
-            return new VMInfo();
         }
         //Mark server as active, idle (pause & don't autostart), or archived (stops & archives)
         public void updateLifecycle(string imagePathName, VMLifecycle newLifecycle)

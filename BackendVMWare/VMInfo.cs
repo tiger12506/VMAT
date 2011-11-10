@@ -38,8 +38,10 @@ namespace BackendVMWare
         public VMStatus Status { get; set; }
 
         //probably query, uncertain
-	// LastRunning refers to the time the VM was last started
-        public DateTime LastRunning { get; set; }
+        public DateTime LastStopped { get; set; }
+        public DateTime LastStarted { get; set; }
+        public DateTime LastBackuped { get; set; }
+        public DateTime LastArchived { get; set; }
         public DateTime Created { get; set; }
 
         //query from _running_ vm
@@ -64,7 +66,7 @@ namespace BackendVMWare
             else if (vm.IsRecording || vm.IsReplaying) Status = VMStatus.Running;
             else Status = VMStatus.Stopped;
 
-            LastRunning = DateTime.Now; //todo
+            //todo others
             Created = DateTime.Now;
 
             this.IP = vm.IpAddress;
@@ -74,8 +76,11 @@ namespace BackendVMWare
 
         public static string convertPathToPhysical(string PathName)
         {
-            return PathName.Replace("[ha-datacenter/standard] ", @"C:\Virtual Machines\").Replace('/', '\\'); //todo get path better way
+            return PathName.Replace("[ha-datacenter/standard] ", @"\\vmat.csse.rose-hulman.edu\VirtualMachines\").Replace('/', '\\'); //todo get path better way
         }
-
+        public static string convertPathToDatasource(string PathName)
+        {
+            return PathName.Replace(@"\\vmat.csse.rose-hulman.edu\VirtualMachines\", "[ha-datacenter/standard] ").Replace('\\', '/'); //todo get path better way
+        }
     }
 }

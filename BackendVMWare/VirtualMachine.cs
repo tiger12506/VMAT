@@ -52,16 +52,17 @@ namespace BackendVMWare
         }
         public string GetHostname()
         {
+            if (!ivm.IsRunning) return "offline";
             try
             {
-                vm.WaitForToolsInGuest(); //todo refactor this out somewhere
-                vm.LoginInGuest("John", "Vmat1234");
-                Shell guestShell = new Shell(vm);
+                ivm.WaitForToolsInGuest(); //todo refactor this out somewhere
+                ivm.LoginInGuest("Administrator", "Vmat1234");
+                Shell guestShell = new Shell(vm); //todo mock?
                 Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
                 return output.StdOut;
             }
             catch (Exception e) { }
-            return "name error";
+            return "name_error"; 
         }
         public void RebootSafely()
         {

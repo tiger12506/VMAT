@@ -10,6 +10,10 @@
     <form id="form1" runat="server">
     <div>
     <h1>VM Info Test</h1>
+    <asp:Button runat="server" ID="MakeServer" Text="MakeServer" 
+            onclick="MakeServer_Click" />
+        <br />
+        <br />
     <asp:Literal ID="mainText" runat="server" />
     </div>
     </form>
