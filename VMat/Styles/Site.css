@@ -429,9 +429,8 @@ div.accountInfo
 
 .machine-details-info
 {
-    display: block;
+    display: none;
     overflow: hidden;
-    visibility: hidden;
 }
 
 .machine-details-info span
