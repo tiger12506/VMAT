@@ -425,18 +425,34 @@ div.accountInfo
 .machine-item-tag
 {
     font-size: 1.3em;
-    width: inherit;
+}
+
+.machine-details-info
+{
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.machine-details-info span
+{
+    overflow: hidden;
+    float: left;
+    display: block;
+    width: 200px;
 }
 
 .details-item-label
 {
     font-size: 0.9em;
     display: block;
+    width: 200px;
 }
 
 .details-item-tag
 {
     font-size: 1.3em;
+    width: 200px;
 }
 
 .machine-controls

@@ -54,7 +54,7 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <a href="javascript:void(0)" onclick="toggleMachineStatus();">
+                  <a href="javascript:void(0)" onclick='toggleMachineStatus(<%# DataBinder.Eval(Container.DataItem, "[\"machinename\"]") %>);'>
                     <img src="/Images/icon_led-green.png" />
                   </a>
                 </span>
@@ -86,10 +86,10 @@
                   </span>
                 </span>
                 <span class="machine-details-toggle">
-                  <a href="javascript:void(0)" onclick="toggleMachineDetails();">Details</a>
+                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "[\"machinename\"]") %>'); return false;">Details</a>
                 </span>
               </span>
-              <span class="machine-details-info">
+              <span id='details-<%# DataBinder.Eval(Container.DataItem, "[\"machinename\"]") %>' class="machine-details-info">
                 <span class="last-start-time">
                   <span class="details-item-label">Last Start Time</span>
                   <span class="details-item-tag">
@@ -116,6 +116,9 @@
                 </span>
               </span>
               </ItemTemplate>
+              <SeparatorTemplate>
+                <hr />
+              </SeparatorTemplate>
             </asp:Repeater>
           </div>
         </ItemTemplate>
