@@ -16,7 +16,15 @@ namespace VMat
         protected void Page_Load(object sender, EventArgs e)
         {
             DataSet projectData = new DataSet();
+
             DataTable projectTable = new DataTable();
+            DataTable machineTable = new DataTable();
+
+            projectData.Tables.Add(projectTable);
+            projectData.Tables.Add(machineTable);
+
+            DataColumn projectName = new DataColumn("ProjectName");
+            DataColumn machineName = new DataColumn("MachineName");
             DataColumn machineImagePath = new DataColumn("ImagePath");
             DataColumn machineStatus = new DataColumn("Status");
             DataColumn machineHostname = new DataColumn("Hostname");
@@ -24,20 +32,34 @@ namespace VMat
             DataColumn machineCreated = new DataColumn("Created");
             DataColumn machineStopped = new DataColumn("Stopped");
 
-            projectTable.Columns.Add(machineImagePath);
-            projectTable.Columns.Add(machineStatus);
-            projectTable.Columns.Add(machineHostname);
-            projectTable.Columns.Add(machineIPAddress);
-            projectTable.Columns.Add(machineCreated);
-            projectTable.Columns.Add(machineStopped);
+            projectTable.Columns.Add("ProjectName", typeof(string));
+
+            DataRow projectRow = projectTable.NewRow();
+            projectRow[projectName.ColumnName] = "gapdev";
+            projectTable.Rows.Add(projectRow);
+
+            machineTable.Columns.Add(projectName);
+            machineTable.Columns.Add(machineName);
+            machineTable.Columns.Add(machineImagePath);
+            machineTable.Columns.Add(machineStatus);
+            machineTable.Columns.Add(machineHostname);
+            machineTable.Columns.Add(machineIPAddress);
+            machineTable.Columns.Add(machineCreated);
+            machineTable.Columns.Add(machineStopped);
+
+            machineTable.PrimaryKey = new DataColumn[] { projectTable.Columns["MachineName"] };
+            projectData.Relations.Add("project_machine", projectTable.Columns["ProjectName"], machineTable.Columns["ProjectName"]);
 
             VMManager vm_manager = new VMManager();
 
             foreach (string imageName in vm_manager.getRegisteredVMs())
             {
-                DataRow machineData = projectTable.NewRow();
+                DataRow machineData = machineTable.NewRow();
                 var vmi = vm_manager.getInfo(imageName);
+                string name = vmi.ImagePathName.Substring((vmi.ImagePathName.LastIndexOf('/')));
 
+                machineData[projectName.ColumnName] = "gapdev";
+                machineData[machineName.ColumnName] = name;
                 machineData[machineImagePath.ColumnName] = vmi.ImagePathName;
                 machineData[machineStatus.ColumnName] = vmi.Status;
                 machineData[machineHostname.ColumnName] = vmi.HostnameWithDomain;
@@ -45,8 +67,10 @@ namespace VMat
                 machineData[machineCreated.ColumnName] = vmi.Created;
                 machineData[machineStopped.ColumnName] = vmi.LastStopped;
 
-                projectTable.Rows.Add(machineData);
+                machineTable.Rows.Add(machineData);
             }
+
+            
 
             //projectData.ReadXml(Server.MapPath("Projects.xml")); //TODO: Update this in the future to access from external project
             //ProjectDisplay.DataSource = projectData.Tables["project"];

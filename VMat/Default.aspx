@@ -35,8 +35,8 @@
       <asp:Repeater ID="ProjectDisplay" runat="server">
         <ItemTemplate>
           <div class="project-header">
-            <h2><%# DataBinder.Eval(Container.DataItem, "projectname") %></h2>
-            <h3>(<%# DataBinder.Eval(Container.DataItem, "hostname") %>)</h3>
+            <h2><%# DataBinder.Eval(Container.DataItem, "ProjectName") %></h2>
+            <h3>GAPDEV.COM</h3>
             <span class="project-complete">
               <a href="javascript:void(0)" onclick="">
                 <span class="button">
@@ -61,28 +61,28 @@
                 <span class="machine-name">
                   <span class="machine-item-label">Machine Name</span>
                   <span class="machine-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"machinename\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"MachineName\"]") %>
                   </span>
                 </span>
                 <span class="os-icon">
-                  <img src="/Images/logo_windows-server-2008.png" />
+                  <!--img src="/Images/logo_windows-server-2008.png" /-->
                 </span>
                 <span class="iso-name">
                   <span class="machine-item-label">Image File</span>
                   <span class="machine-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"isofile\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"ImagePath\"]") %>
                   </span>
                 </span>
                 <span class="ip-address">
                   <span class="machine-item-label">IP Address</span>
                   <span class="machine-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"ipaddress\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"IP\"]") %>
                   </span>
                 </span>
                 <span class="creation-date">
                   <span class="machine-item-label">Date Created</span>
                   <span class="machine-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"creation-date\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"Created\"]") %>
                   </span>
                 </span>
                 <span class="machine-details-toggle">
@@ -93,25 +93,25 @@
                 <span class="last-start-time">
                   <span class="details-item-label">Last Start Time</span>
                   <span class="details-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"start-time\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"Stopped\"]")%>
                   </span>
                 </span>
                 <span class="last-shutdown-time">
                   <span class="details-item-label">Last Shutdown Time</span>
                   <span class="details-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"shutdown-time\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"Stopped\"]") %>
                   </span>
                 </span>
                 <span class="last-backup-time">
                   <span class="details-item-label">Last Backup Time</span>
                   <span class="details-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"backup-time\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"Stopped\"]")%>
                   </span>
                 </span>
                 <span class="last-archive-time">
                   <span class="details-item-label">Last Archive Time</span>
                   <span class="details-item-tag">
-                    <%# DataBinder.Eval(Container.DataItem, "[\"archive-time\"]") %>
+                    <%# DataBinder.Eval(Container.DataItem, "[\"Stopped\"]")%>
                   </span>
                 </span>
               </span>
