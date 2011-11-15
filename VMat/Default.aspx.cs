@@ -13,15 +13,17 @@ namespace VMat
 {
     public partial class Default : System.Web.UI.Page
     {
+        private DataSet _projectData;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            DataSet projectData = new DataSet();
+            _projectData = new DataSet();
 
             DataTable projectTable = new DataTable();
             DataTable machineTable = new DataTable();
 
-            projectData.Tables.Add(projectTable);
-            projectData.Tables.Add(machineTable);
+            _projectData.Tables.Add(projectTable);
+            _projectData.Tables.Add(machineTable);
 
             DataColumn projectName = new DataColumn("ProjectName");
             DataColumn machineName = new DataColumn("MachineName");
@@ -34,6 +36,7 @@ namespace VMat
 
             projectTable.Columns.Add("ProjectName", typeof(string));
 
+            //Add a default project name to the 'Projects' table
             DataRow projectRow = projectTable.NewRow();
             projectRow[projectName.ColumnName] = "gapdev";
             projectTable.Rows.Add(projectRow);
@@ -47,18 +50,20 @@ namespace VMat
             machineTable.Columns.Add(machineCreated);
             machineTable.Columns.Add(machineStopped);
 
+            //The virtual machines are associated to the projects in the 'Project' table by their project name
             machineTable.PrimaryKey = new DataColumn[] { projectTable.Columns["MachineName"] };
-            projectData.Relations.Add("project_machine", projectTable.Columns["ProjectName"], machineTable.Columns["ProjectName"]);
+            _projectData.Relations.Add("project_machine", projectTable.Columns["ProjectName"], machineTable.Columns["ProjectName"]);
 
             VMManager vm_manager = new VMManager();
 
-            foreach (string imageName in vm_manager.getRegisteredVMs())
+            //Add each machine to the 'Machine' table by pulling from the VMware server
+            foreach (string imageName in vm_manager.GetRegisteredVMs())
             {
                 DataRow machineData = machineTable.NewRow();
-                var vmi = vm_manager.getInfo(imageName);
+                var vmi = vm_manager.GetInfo(imageName);
                 string name = vmi.ImagePathName.Substring((vmi.ImagePathName.LastIndexOf('/')));
 
-                machineData[projectName.ColumnName] = "gapdev";
+                machineData[projectName.ColumnName] = "gapdev"; //TODO: Placeholder
                 machineData[machineName.ColumnName] = name;
                 machineData[machineImagePath.ColumnName] = vmi.ImagePathName;
                 machineData[machineStatus.ColumnName] = vmi.Status;
@@ -119,6 +124,11 @@ namespace VMat
 
             // Clean up objects.
             objConn.Close();*/
+        }
+
+        public DataSet GetProjectData()
+        {
+            return _projectData;
         }
     }
 }
