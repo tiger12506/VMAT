@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using BackendVMWare;
 
 namespace VMat
 {
@@ -43,6 +44,14 @@ namespace VMat
             string project = ProjectList.SelectedValue;
             string image = ImageList.SelectedValue;
             string machine = MachineNameSuffix.Text;
+
+            VMInfo info = new VMInfo();
+            info.ImagePathName = image;
+            info.ProjectName = project;
+            info.BaseImageName = machine;
+
+            VMManager manager = new VMManager();
+            VMInfo status = manager.CreateVM(info);
         }
     }
 }
