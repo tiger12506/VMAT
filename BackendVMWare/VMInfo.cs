@@ -74,11 +74,11 @@ namespace BackendVMWare
 
         }
 
-        public static string convertPathToPhysical(string PathName)
+        public static string ConvertPathToPhysical(string PathName)
         {
             return PathName.Replace("[ha-datacenter/standard] ", @"\\vmat.csse.rose-hulman.edu\VirtualMachines\").Replace('/', '\\'); //todo get path better way
         }
-        public static string convertPathToDatasource(string PathName)
+        public static string ConvertPathToDatasource(string PathName)
         {
             return PathName.Replace(@"\\vmat.csse.rose-hulman.edu\VirtualMachines\", "[ha-datacenter/standard] ").Replace('\\', '/'); //todo get path better way
         }

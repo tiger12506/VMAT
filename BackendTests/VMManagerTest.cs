@@ -16,7 +16,7 @@ namespace BackendTests
         public void tmp()
         {
             var vmm = new VMManager();
-            vmm.vmTest();
+            vmm.VMTest();
         }
         [TestMethod]
         public void testCreateVM()
@@ -32,7 +32,7 @@ namespace BackendTests
             mVM.Setup(vm => vm.LoginInGuest("Administrator", "password"));
 
             //act
-            vmm.createServer(mHost.Object, imageLocation);
+            vmm.CreateServer(mHost.Object, imageLocation);
 
             //assert
             mHost.VerifyAll();

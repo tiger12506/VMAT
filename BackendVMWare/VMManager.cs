@@ -20,19 +20,19 @@ namespace BackendVMWare
         {
             this.vh = new VirtualHost();
         }
-        private void connectVH()
+        private void ConnectVH()
         {
             if (vh.IsConnected) return;
             vh.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
             
         }
-        private IVirtualMachine openVM(string imagePathName)
+        private IVirtualMachine OpenVM(string imagePathName)
         {
             return vh.Open(imagePathName);
         }
-        public IEnumerable<string> getRegisteredVMs()
+        public IEnumerable<string> GetRegisteredVMs()
         {
-            connectVH();
+            ConnectVH();
             foreach(VirtualMachine v in vh.RegisteredVirtualMachines) {
                 try
                 {
@@ -53,7 +53,7 @@ namespace BackendVMWare
             return ret;
         }
         // given a name, looks up all info about the VM
-        public VMInfo getInfo(string imagePathName)
+        public VMInfo GetInfo(string imagePathName)
         {
             var vmi = new VMInfo();
             var vm=vh.Open(imagePathName);
@@ -64,17 +64,17 @@ namespace BackendVMWare
         }
         //Create VM using provided info (Created, LastRunning fields ignored)
         //Assume that IP is not already taken (tracking is done by frontend; can switch)
-        public VMInfo createVM(VMInfo newInfo)
+        public VMInfo CreateVM(VMInfo newInfo)
         {
             //"[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
             //http://communities.vmware.com/message/1688542#1688542
             //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
             //we don't seem to have vmware-vdiskmanager 
 
-            string sourceVMX = VMInfo.convertPathToPhysical(newInfo.BaseImageName);
+            string sourceVMX = VMInfo.ConvertPathToPhysical(newInfo.BaseImageName);
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
             string sourcePath = Path.GetDirectoryName(sourceVMX);
-            string destVMX = VMInfo.convertPathToPhysical(newInfo.ImagePathName);
+            string destVMX = VMInfo.ConvertPathToPhysical(newInfo.ImagePathName);
             string destName = Path.GetFileNameWithoutExtension(destVMX);
             string destPath = Path.GetDirectoryName(destVMX);
             
@@ -89,8 +89,8 @@ namespace BackendVMWare
             strFile += "msg.autoAnswer = \"TRUE\"\r\n";
             File.WriteAllText(destVMX, strFile);
             
-            connectVH();
-            var ss = VMInfo.convertPathToDatasource(destVMX);
+            ConnectVH();
+            var ss = VMInfo.ConvertPathToDatasource(destVMX);
             vh.Register(ss);
 
             var newVM = vh.Open(ss);
@@ -99,7 +99,7 @@ namespace BackendVMWare
             newVM.PowerOn();
             //http://vmwaretasks.codeplex.com/discussions/276715
 
-            return getInfo(ss);
+            return GetInfo(ss);
 
             //failed try:
             //var baseVM = openVM(info.BaseImageName);
@@ -108,12 +108,12 @@ namespace BackendVMWare
             
         }
         //Mark server as active, idle (pause & don't autostart), or archived (stops & archives)
-        public void updateLifecycle(string imagePathName, VMLifecycle newLifecycle)
+        public void UpdateLifecycle(string imagePathName, VMLifecycle newLifecycle)
         {
 
         }
         //Start up, shut down, or pause server
-        public void updateStatus(string imagePathName, VMStatus newStatus)
+        public void UpdateStatus(string imagePathName, VMStatus newStatus)
         {
 
         }
@@ -128,12 +128,12 @@ namespace BackendVMWare
 
 
 
-        private void createServer()
+        private void CreateServer()
         {
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
-            createServer(virtualHost, @"C:/img.vmx");
+            CreateServer(virtualHost, @"C:/img.vmx");
         }
-        public int vmTest() {
+        public int VMTest() {
             VMWareVirtualHost vh1=new VMWareVirtualHost();
             VMWareVirtualHost vh2=new VMWareVirtualHost();
 
@@ -168,7 +168,7 @@ namespace BackendVMWare
             return c2;
         }
         //shouldn't really be called
-        public IVirtualMachine createServer(IVirtualHost virtualHost, string imageLocation)
+        public IVirtualMachine CreateServer(IVirtualHost virtualHost, string imageLocation)
         {
             // TODO: add to autostart & backup lists
             // http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1370

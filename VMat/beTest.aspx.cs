@@ -14,9 +14,9 @@ namespace VMat
         {
             mainText.Text = "<table><tr><td>ImagePathName</td><td>Status</td><td>HostnameWithDomain</td><td>IP</td><td>Created</td><td>LastRunning</td></tr>";
             var vmm = new VMManager();
-            foreach (string imageName in vmm.getRegisteredVMs())
+            foreach (string imageName in vmm.GetRegisteredVMs())
             {
-                var vmi=vmm.getInfo(imageName);
+                var vmi=vmm.GetInfo(imageName);
                 mainText.Text += "<tr><td><strong>" + vmi.ImagePathName + "</strong></td><td>" + vmi.Status + "</td><td>" + vmi.HostnameWithDomain + "</td><td>" + vmi.IP 
                     + "</td><td>" + vmi.Created + "</td><td>" + vmi.LastStopped + "</td></tr>";
             }
@@ -28,7 +28,7 @@ namespace VMat
         protected void MakeServer_Click(object sender, EventArgs e)
         {
             var vmm = new VMManager();
-            vmm.createVM(new VMInfo()
+            vmm.CreateVM(new VMInfo()
             {
                 ImagePathName = "[ha-datacenter/standard] Server 2003 C/Server 2003 C.vmx",
                 BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
