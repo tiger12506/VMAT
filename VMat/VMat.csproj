@@ -69,6 +69,7 @@
     <Content Include="Images\logo_windows-server-2008.png" />
     <Content Include="Scripts\formControls.js" />
     <Content Include="Scripts\popupDiv.js" />
+    <Content Include="Scripts\vmControls.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />

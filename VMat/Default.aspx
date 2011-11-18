@@ -4,6 +4,7 @@
 
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
   <script type="text/javascript" src="/Scripts/popupDiv.js"></script>
+  <script type="text/javascript" src="/Scripts/vmControls.js"></script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainHeader" runat="server">
@@ -53,32 +54,32 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <a href="javascript:void(0)" onclick='toggleMachineStatus(<%# DataBinder.Eval(Container.DataItem, "MachineName") %>);'>
-                    <img src="/Images/icon_led-green.png" />
+                  <a href="javascript:void(0)" onclick="toggleMachineStatus('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
+                    <img id='status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' src="/Images/icon_led-green.png" />
                   </a>
                 </span>
                 <span class="machine-name">
-                  <span class="machine-item-label">Machine Name</span>
-                  <span class="machine-item-tag">
+                  <span class="label">Machine Name</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "MachineName") %>
                   </span>
                 </span>
                 
                 <span class="ip-address">
-                  <span class="machine-item-label">IP Address</span>
-                  <span class="machine-item-tag">
+                  <span class="label">IP Address</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "IP") %>
                   </span>
                 </span>
                 <span class="creation-date">
-                  <span class="machine-item-label">Date Created</span>
-                  <span class="machine-item-tag">
+                  <span class="label">Date Created</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "Created") %>
                   </span>
                 </span>
                 <span class="last-shutdown-time">
-                  <span class="machine-item-label">Last Shutdown Time</span>
-                  <span class="machine-item-tag">
+                  <span class="label">Last Shutdown Time</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "LastStopped") %>
                   </span>
                 </span>
@@ -88,26 +89,26 @@
               </span>
               <span id='details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' class="machine-details-info">
                 <span class="iso-name">
-                  <span class="details-item-label">Image File</span>
-                  <span class="details-item-tag">
+                  <span class="label">Image File</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>
                   </span>
                 </span>
                 <span class="last-start-time">
-                  <span class="details-item-label">Last Start Time</span>
-                  <span class="details-item-tag">
+                  <span class="label">Last Start Time</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "LastStarted")%>
                   </span>
                 </span>
                 <span class="last-backup-time">
-                  <span class="details-item-label">Last Backup Time</span>
-                  <span class="details-item-tag">
+                  <span class="label">Last Backup Time</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "LastBackuped")%>
                   </span>
                 </span>
                 <span class="last-archive-time">
-                  <span class="details-item-label">Last Archive Time</span>
-                  <span class="details-item-tag">
+                  <span class="label">Last Archive Time</span>
+                  <span class="tag">
                     <%# DataBinder.Eval(Container.DataItem, "LastArchived")%>
                   </span>
                 </span>
