@@ -7,13 +7,12 @@ namespace BackendVMWare
 {
     public enum VMStatus
     {
-
         Stopped,
         Paused, //still in memory, like sleep
         Suspended, //to disk, like hibernate
         Running
-
     }
+
     public enum VMLifecycle
     {
         Active,
@@ -35,6 +34,7 @@ namespace BackendVMWare
 
         //query from vm
         public string ImagePathName { get; set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.vmx" actual HDD location harder to find
+        public string MachineName { get; set; }
         public VMStatus Status { get; set; }
 
         //probably query, uncertain
@@ -54,7 +54,6 @@ namespace BackendVMWare
         public VMLifecycle Lifecycle { get; set; } //if archived, won't be able to query a thing obviously
 
 
-        
         //queries & populates fields from a real vm (called by VMManager.getInfo)
         public void setFields(IVirtualHost vh, IVirtualMachine vm)
         {
@@ -71,13 +70,14 @@ namespace BackendVMWare
 
             this.IP = vm.IpAddress;
             this.HostnameWithDomain = vm.GetHostname();
-
+            this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
         }
 
         public static string ConvertPathToPhysical(string PathName)
         {
             return PathName.Replace("[ha-datacenter/standard] ", @"\\vmat.csse.rose-hulman.edu\VirtualMachines\").Replace('/', '\\'); //todo get path better way
         }
+
         public static string ConvertPathToDatasource(string PathName)
         {
             return PathName.Replace(@"\\vmat.csse.rose-hulman.edu\VirtualMachines\", "[ha-datacenter/standard] ").Replace('\\', '/'); //todo get path better way

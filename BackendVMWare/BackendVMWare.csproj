@@ -54,6 +54,7 @@
     <Compile Include="IVirtualHost.cs" />
     <Compile Include="IVirtualMachine.cs" />
     <Compile Include="Process.cs" />
+    <Compile Include="ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualHost.cs" />
     <Compile Include="VirtualMachine.cs" />

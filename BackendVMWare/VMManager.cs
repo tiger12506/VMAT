@@ -20,16 +20,19 @@ namespace BackendVMWare
         {
             this.vh = new VirtualHost();
         }
+
         private void ConnectVH()
         {
             if (vh.IsConnected) return;
             vh.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
             
         }
+
         private IVirtualMachine OpenVM(string imagePathName)
         {
             return vh.Open(imagePathName);
         }
+
         public IEnumerable<string> GetRegisteredVMs()
         {
             ConnectVH();
@@ -52,6 +55,7 @@ namespace BackendVMWare
 
             return ret;
         }
+
         // given a name, looks up all info about the VM
         public VMInfo GetInfo(string imagePathName)
         {
@@ -62,6 +66,23 @@ namespace BackendVMWare
 
             return vmi;
         }
+
+        public List<ProjectInfo> GetProjectInfo()
+        {
+            List<ProjectInfo> projects = new List<ProjectInfo>();
+
+            projects.Add(new ProjectInfo("gapdev"));
+
+            foreach (string imageName in GetRegisteredVMs())
+            {
+                VMInfo vmInfo = new VMInfo();
+                vmInfo = GetInfo(imageName);
+                projects[0].AddVirtualMachine(vmInfo);
+            }
+
+            return projects;
+        }
+
         //Create VM using provided info (Created, LastRunning fields ignored)
         //Assume that IP is not already taken (tracking is done by frontend; can switch)
         public VMInfo CreateVM(VMInfo newInfo)
@@ -107,11 +128,13 @@ namespace BackendVMWare
             //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
             
         }
+
         //Mark server as active, idle (pause & don't autostart), or archived (stops & archives)
         public void UpdateLifecycle(string imagePathName, VMLifecycle newLifecycle)
         {
 
         }
+
         //Start up, shut down, or pause server
         public void UpdateStatus(string imagePathName, VMStatus newStatus)
         {
@@ -133,6 +156,7 @@ namespace BackendVMWare
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
             CreateServer(virtualHost, @"C:/img.vmx");
         }
+
         public int VMTest() {
             VMWareVirtualHost vh1=new VMWareVirtualHost();
             VMWareVirtualHost vh2=new VMWareVirtualHost();
@@ -167,6 +191,7 @@ namespace BackendVMWare
             catch (Exception e) { }
             return c2;
         }
+
         //shouldn't really be called
         public IVirtualMachine CreateServer(IVirtualHost virtualHost, string imageLocation)
         {
