@@ -13,73 +13,21 @@ namespace VMat
 {
     public partial class Default : System.Web.UI.Page
     {
-        private DataSet _projectData;
+        protected List<ProjectInfo> _projects;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _projectData = new DataSet();
+            if(!IsPostBack)
+                LoadData();
+        }
 
-            DataTable projectTable = new DataTable();
-            DataTable machineTable = new DataTable();
+        private void LoadData()
+        {
+            VMManager vmManager = new VMManager();
 
-            _projectData.Tables.Add(projectTable);
-            _projectData.Tables.Add(machineTable);
+            _projects = vmManager.GetProjectInfo();
 
-            DataColumn projectName = new DataColumn("ProjectName");
-            DataColumn machineName = new DataColumn("MachineName");
-            DataColumn machineImagePath = new DataColumn("ImagePath");
-            DataColumn machineStatus = new DataColumn("Status");
-            DataColumn machineHostname = new DataColumn("Hostname");
-            DataColumn machineIPAddress = new DataColumn("IP");
-            DataColumn machineCreated = new DataColumn("Created");
-            DataColumn machineStopped = new DataColumn("Stopped");
-
-            projectTable.Columns.Add("ProjectName", typeof(string));
-
-            //Add a default project name to the 'Projects' table
-            DataRow projectRow = projectTable.NewRow();
-            projectRow[projectName.ColumnName] = "gapdev";
-            projectTable.Rows.Add(projectRow);
-
-            machineTable.Columns.Add(projectName);
-            machineTable.Columns.Add(machineName);
-            machineTable.Columns.Add(machineImagePath);
-            machineTable.Columns.Add(machineStatus);
-            machineTable.Columns.Add(machineHostname);
-            machineTable.Columns.Add(machineIPAddress);
-            machineTable.Columns.Add(machineCreated);
-            machineTable.Columns.Add(machineStopped);
-
-            //The virtual machines are associated to the projects in the 'Project' table by their project name
-            machineTable.PrimaryKey = new DataColumn[] { projectTable.Columns["MachineName"] };
-            _projectData.Relations.Add("project_machine", projectTable.Columns["ProjectName"], machineTable.Columns["ProjectName"]);
-
-            VMManager vm_manager = new VMManager();
-
-            //Add each machine to the 'Machine' table by pulling from the VMware server
-            foreach (string imageName in vm_manager.GetRegisteredVMs())
-            {
-                DataRow machineData = machineTable.NewRow();
-                var vmi = vm_manager.GetInfo(imageName);
-                string name = vmi.ImagePathName.Substring((vmi.ImagePathName.LastIndexOf('/')));
-
-                machineData[projectName.ColumnName] = "gapdev"; //TODO: Placeholder
-                machineData[machineName.ColumnName] = name;
-                machineData[machineImagePath.ColumnName] = vmi.ImagePathName;
-                machineData[machineStatus.ColumnName] = vmi.Status;
-                machineData[machineHostname.ColumnName] = vmi.HostnameWithDomain;
-                machineData[machineIPAddress.ColumnName] = vmi.IP;
-                machineData[machineCreated.ColumnName] = vmi.Created;
-                machineData[machineStopped.ColumnName] = vmi.LastStopped;
-
-                machineTable.Rows.Add(machineData);
-            }
-
-            
-
-            //projectData.ReadXml(Server.MapPath("Projects.xml")); //TODO: Update this in the future to access from external project
-            //ProjectDisplay.DataSource = projectData.Tables["project"];
-            ProjectDisplay.DataSource = projectTable;
+            ProjectDisplay.DataSource = _projects;
             ProjectDisplay.DataBind();
 
             /*// Create connection string variable. Modify the "Data Source"
@@ -124,11 +72,6 @@ namespace VMat
 
             // Clean up objects.
             objConn.Close();*/
-        }
-
-        public DataSet GetProjectData()
-        {
-            return _projectData;
         }
     }
 }
