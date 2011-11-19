@@ -13,10 +13,14 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                ImageList_Load();
+                ProjectList_Load();
+            }
         }
 
-        protected void ImageList_Load(object sender, EventArgs e)
+        private void ImageList_Load()
         {
             DataSet imagelist = new DataSet();
             imagelist.ReadXml(Server.MapPath("ImageFiles.xml")); //TODO: Update this in the future to access from external project
@@ -25,12 +29,12 @@ namespace VMat
             ImageList.DataBind();
         }
 
-        protected void ProjectList_Load(object sender, EventArgs e)
+        private void ProjectList_Load()
         {
-            DataSet projectList = new DataSet();
-            projectList.ReadXml(Server.MapPath("Projects.xml")); //TODO: Update this in the future to access from external project
-            ProjectList.DataSource = projectList.Tables["project"];
-            ProjectList.DataTextField = "projectname";
+            VMManager vmManager = new VMManager();
+            List<ProjectInfo> projects = vmManager.GetProjectInfo();
+            ProjectList.DataSource = projects;
+            ProjectList.DataTextField = "ProjectName";
             ProjectList.DataBind();
         }
 

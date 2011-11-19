@@ -13,9 +13,9 @@
       Machine Name Suffix:
       <asp:TextBox ID="MachineNameSuffix" MaxLength="5" Columns="8" runat="server" /><br />
       Image File:
-      <asp:DropDownList ID="ImageList" runat="server" onload="ImageList_Load" /><br />
+      <asp:DropDownList ID="ImageList" runat="server" /><br />
       Project Number:
-      <asp:DropDownList ID="ProjectList" runat="server" OnLoad="ProjectList_Load" /><br />
+      <asp:DropDownList ID="ProjectList" runat="server" /><br />
       <div class="create-form-buttons">
         <asp:Button ID="CreateMachineSubmitButton" Text="Create" runat="server" OnClick="CreateNewMachine" />
         <asp:Button ID="CancelButton" Text="Cancel" runat="server" OnClick="Cancel_Click" />
