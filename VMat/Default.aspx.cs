@@ -40,7 +40,7 @@ namespace VMat
             DataRow projectRow = projectTable.NewRow();
             projectRow[projectName.ColumnName] = "gapdev";
             projectTable.Rows.Add(projectRow);
-
+            
             machineTable.Columns.Add(projectName);
             machineTable.Columns.Add(machineName);
             machineTable.Columns.Add(machineImagePath);
