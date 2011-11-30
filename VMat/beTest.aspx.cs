@@ -34,5 +34,12 @@ namespace VMat
                 BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
             });
         }
+
+        protected void rename_Click(object sender, EventArgs e)
+        {
+            var vmm = new VMManager();
+            var vm=            vmm.GetInfo(vmm.GetRunningVMs().FirstOrDefault());
+            
+        }
     }
 }

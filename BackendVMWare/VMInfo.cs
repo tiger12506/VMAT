@@ -53,6 +53,7 @@ namespace BackendVMWare
         public string ProjectName { get; set; }
         public VMLifecycle Lifecycle { get; set; } //if archived, won't be able to query a thing obviously
 
+        
 
         //queries & populates fields from a real vm (called by VMManager.getInfo)
         public void setFields(IVirtualHost vh, IVirtualMachine vm)

@@ -33,24 +33,16 @@ namespace BackendVMWare
             return vh.Open(imagePathName);
         }
 
+        public IEnumerable<string> GetRunningVMs()
+        {
+            ConnectVH();
+            var ret = vh.RunningVirtualMachines.Select(v => v.PathName);
+
+            return ret;
+        }
         public IEnumerable<string> GetRegisteredVMs()
         {
             ConnectVH();
-            foreach(VirtualMachine v in vh.RegisteredVirtualMachines) {
-                try
-                {
-                    string p = v.PathName;
-                    if (v.IsRunning)
-                    {
-                        string ip = v.GuestVariables["ip"];
-                        var rcv = v.RuntimeConfigVariables;
-                    }
-                }
-                catch (Exception e) { }
-
-            }
-
-
             var ret = vh.RegisteredVirtualMachines.Select(v => v.PathName);
 
             return ret;
@@ -155,7 +147,7 @@ namespace BackendVMWare
     
 
 
-
+        /*
         private void CreateServer()
         {
             IVirtualHost virtualHost = new VirtualHost(new VMWareVirtualHost());
@@ -217,6 +209,6 @@ namespace BackendVMWare
             vm.LoginInGuest("Administrator", "password");
 
             return vm;
-        }
+        }*/
     }
 }

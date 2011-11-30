@@ -48,7 +48,30 @@ namespace BackendVMWare
 
         public void SetHostname(string newName)
         {
-            ivm.RunProgramInGuest("notepad.exe");
+            if (!ivm.IsRunning) throw new InvalidOperationException("VM is running");
+            Shell.ShellOutput output=new Shell.ShellOutput();
+            try
+            {
+                ivm.WaitForToolsInGuest(); //todo refactor this out somewhere
+                ivm.LoginInGuest("Administrator", "Vmat1234");
+                ivm.CopyFileFromHostToGuest(@"c:\VirtualMachines\renamecomp.vbs", @"c:\renamecomp.vbs");
+                Shell guestShell = new Shell(vm); //todo mock?
+                output = guestShell.RunCommandInGuest(@"cscript c:\renamecomp.vbs " + newName);
+                
+            }
+            catch (Exception e) { }
+            if (output.StdOut.Contains("rename-succ"))
+            {
+                return;
+            }
+            else if (output.StdOut.Contains("rename-fail"))
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
         public string GetHostname()
         {

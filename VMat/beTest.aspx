@@ -9,7 +9,9 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <h1>VM Info Test</h1>
+    <h1>
+        <asp:Button ID="rename" runat="server" onclick="rename_Click" Text="rename" />
+        VM Info Test</h1>
     <asp:Button runat="server" ID="MakeServer" Text="MakeServer" 
             onclick="MakeServer_Click" />
         <br />
