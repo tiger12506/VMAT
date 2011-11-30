@@ -55,7 +55,7 @@ namespace BackendVMWare
 
 
         //queries & populates fields from a real vm (called by VMManager.getInfo)
-        public void setFields(IVirtualHost vh, IVirtualMachine vm)
+        public void SetFields(IVirtualHost vh, IVirtualMachine vm)
         {
             this.ImagePathName = vm.PathName;
 

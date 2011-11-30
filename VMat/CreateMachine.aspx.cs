@@ -23,7 +23,8 @@ namespace VMat
         private void ImageList_Load()
         {
             DataSet imagelist = new DataSet();
-            imagelist.ReadXml(Server.MapPath("ImageFiles.xml")); //TODO: Update this in the future to access from external project
+            //TODO: Update this in the future to access from external project
+            imagelist.ReadXml(Server.MapPath("ImageFiles.xml"));
             ImageList.DataSource = imagelist.Tables["iso"];
             ImageList.DataTextField = "name";
             ImageList.DataBind();
