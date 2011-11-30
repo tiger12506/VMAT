@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IVirtualHost.cs" />
     <Compile Include="IVirtualMachine.cs" />

@@ -28,7 +28,7 @@ namespace BackendVMWare
         void SetIP(string newIP);
         void SetHostname(string newName);
         string GetHostname();
-        void RebootSafely();
+        void PowerOffSafely();
         string IpAddress { get; }
 
         //Wrapped methods

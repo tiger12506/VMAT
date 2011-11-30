@@ -39,11 +39,31 @@ namespace BackendVMWare
         // * CUSTOM METHODS * (use ivm)
         public void SetIP(string newIP)
         {
-            var p = ivm.RunProgramInGuest("notepad.exe");
-            if (p!=null && p.getExitCode() != 0)
+
+            if (!ivm.IsRunning) throw new InvalidOperationException("VM is running");
+            Shell.ShellOutput output = new Shell.ShellOutput();
+            try
             {
-                throw new InvalidOperationException("Failed to set IP address, exit code " + p.getExitCode());
+                ivm.WaitForToolsInGuest(); //todo refactor this out somewhere
+                ivm.LoginInGuest("Administrator", "Vmat1234");
+
+                Shell guestShell = new Shell(vm); //todo mock?
+                output = guestShell.RunCommandInGuest("netsh interface ip set address \"Local Area Connection\" static " + newIP);
             }
+            catch (Exception e) { }
+            if (output.StdOut.Length<6) //should not print any output if success
+            {
+                return;
+            }
+            else if (output.StdOut.Contains("failed"))
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
         }
 
         public void SetHostname(string newName)
@@ -54,10 +74,16 @@ namespace BackendVMWare
             {
                 ivm.WaitForToolsInGuest(); //todo refactor this out somewhere
                 ivm.LoginInGuest("Administrator", "Vmat1234");
-                ivm.CopyFileFromHostToGuest(@"c:\VirtualMachines\renamecomp.vbs", @"c:\renamecomp.vbs");
+
+                if (!ivm.DirectoryExistsInGuest(@"C:\temp"))
+                    ivm.CreateDirectoryInGuest(@"C:\temp");
+                if (!ivm.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
+                    ivm.CopyFileFromHostToGuest(@"C:\temp\renamecomp.vbs", @"C:\temp\renamecomp.vbs");
+                //note: Host means Webserver, NOT VMware server
+
                 Shell guestShell = new Shell(vm); //todo mock?
-                output = guestShell.RunCommandInGuest(@"cscript c:\renamecomp.vbs " + newName);
-                
+                output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + newName);
+                //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVmPath()+@"\renamecomp.vbs " + newName);
             }
             catch (Exception e) { }
             if (output.StdOut.Contains("rename-succ"))
@@ -87,9 +113,17 @@ namespace BackendVMWare
             catch (Exception e) { }
             return "name_error"; 
         }
-        public void RebootSafely()
+        public void PowerOffSafely()
         {
-            ivm.RunProgramInGuest("notepad.exe");
+            try
+            {
+                ivm.PowerOff(0x0004, 120); //VIX_VMPOWEROP_FROM_GUEST from vix.h
+            }
+            catch (Exception)
+            {
+                ivm.PowerOff();
+            }
+            //ivm.RunProgramInGuest("shutdown /r /c \"Reboot to rename/set IP\"");
         }
 
 

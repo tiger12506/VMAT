@@ -58,6 +58,8 @@ namespace BackendVMWare
         //queries & populates fields from a real vm (called by VMManager.getInfo)
         public void setFields(IVirtualHost vh, IVirtualMachine vm)
         {
+            
+            vm.WaitForToolsInGuest(10);
             this.ImagePathName = vm.PathName;
 
             if (vm.IsPaused) Status = VMStatus.Paused;
@@ -76,12 +78,12 @@ namespace BackendVMWare
 
         public static string ConvertPathToPhysical(string PathName)
         {
-            return PathName.Replace("[ha-datacenter/standard] ", @"\\vmat.csse.rose-hulman.edu\VirtualMachines\").Replace('/', '\\'); //todo get path better way
+            return PathName.Replace("[ha-datacenter/standard] ", Config.getWebserverVmPath()).Replace('/', '\\');
         }
 
         public static string ConvertPathToDatasource(string PathName)
         {
-            return PathName.Replace(@"\\vmat.csse.rose-hulman.edu\VirtualMachines\", "[ha-datacenter/standard] ").Replace('\\', '/'); //todo get path better way
+            return PathName.Replace(Config.getWebserverVmPath(), "[ha-datacenter/standard] ").Replace('\\', '/');
         }
     }
 }

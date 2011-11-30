@@ -47,12 +47,12 @@ namespace BackendVMWare
 
             return ret;
         }
-
         // given a name, looks up all info about the VM
         public VMInfo GetInfo(string imagePathName)
         {
             var vmi = new VMInfo();
             var vm=vh.Open(imagePathName);
+
             vmi.setFields(vh, vm);
             
 
@@ -138,6 +138,23 @@ namespace BackendVMWare
 
         }
 
+        public bool ChangeHostnameAndIp(string imagePathName, string newHostname, string newIP)
+        {
+            try
+            {
+                var vm = OpenVM(imagePathName);
+                vm.SetIP(newIP);
+                vm.SetHostname(newHostname);
+                vm.PowerOffSafely();
+                vm.PowerOn();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         /* also need setting config options, which may require reading XML (since backend will have no persistence)
             IP address allowable range
             Set maximum simultaneous running server count
@@ -145,6 +162,10 @@ namespace BackendVMWare
             Set up list of base images & locations (optional, can just use folder names)
          */
     
+
+
+
+
 
 
         /*

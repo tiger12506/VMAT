@@ -38,8 +38,8 @@ namespace VMat
         protected void rename_Click(object sender, EventArgs e)
         {
             var vmm = new VMManager();
-            var vm=            vmm.GetInfo(vmm.GetRunningVMs().FirstOrDefault());
-            
+            var succ1 = vmm.ChangeHostnameAndIp(vmm.GetRunningVMs().FirstOrDefault(), "hostname4", "192.168.23.184");
+            mainText.Text += "<h1>" + succ1 + "</h1>";
         }
     }
 }
