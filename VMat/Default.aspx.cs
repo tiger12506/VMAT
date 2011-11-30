@@ -6,14 +6,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.OleDb;
 using System.Data;
-using System.Xml;
 using BackendVMWare;
 
 namespace VMat
 {
     public partial class Default : System.Web.UI.Page
     {
-        protected List<ProjectInfo> _projects;
+        protected List<ProjectInfo> projects;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,9 +24,9 @@ namespace VMat
         {
             VMManager vmManager = new VMManager();
 
-            _projects = vmManager.GetProjectInfo();
+            projects = vmManager.GetProjectInfo();
 
-            ProjectDisplay.DataSource = _projects;
+            ProjectDisplay.DataSource = projects;
             ProjectDisplay.DataBind();
 
             /*// Create connection string variable. Modify the "Data Source"

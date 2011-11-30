@@ -11,6 +11,7 @@ namespace BackendVMWare
     public class VMManager
     {
         IVirtualHost vh;
+
         public VMManager(IVirtualHost vh)
         {
             this.vh = vh;
@@ -24,8 +25,7 @@ namespace BackendVMWare
         private void ConnectVH()
         {
             if (vh.IsConnected) return;
-            vh.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
-            
+            vh.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");          
         }
 
         private IVirtualMachine OpenVM(string imagePathName)
@@ -52,10 +52,8 @@ namespace BackendVMWare
         {
             var vmi = new VMInfo();
             var vm=vh.Open(imagePathName);
-
-            vmi.setFields(vh, vm);
+            vmi.SetFields(vh, vm);
             
-
             return vmi;
         }
 
@@ -98,7 +96,8 @@ namespace BackendVMWare
             
             Directory.CreateDirectory(destPath);
             File.Copy(sourceVMX, destVMX);
-            foreach(string iPath in Directory.GetFiles(sourcePath,"*.vmdk",SearchOption.TopDirectoryOnly))
+
+            foreach (string iPath in Directory.GetFiles(sourcePath,"*.vmdk",SearchOption.TopDirectoryOnly))
                 File.Copy(iPath, iPath.Replace(sourcePath,destPath).Replace(sourceName,destName)); //can take several minutes
 
             String strFile = File.ReadAllText(destVMX);
@@ -183,7 +182,6 @@ namespace BackendVMWare
             {
                 vh1.ConnectToVMWareVIServer("vmat.reshall.rose-hulman.edu:8333", "Nathan", "Vmat1234", 15);//reshall
                 vh2.ConnectToVMWareVIServer("vmat.csse.rose-hulman.edu:8333", "csse department", "Vmat1234");
-
             }
             catch (VMWareException vme)
             {
@@ -196,6 +194,7 @@ namespace BackendVMWare
 
             int c1 = vh1.RunningVirtualMachines.Count();
             int c2 = vh2.RunningVirtualMachines.Count();
+
             try
             {
                 VMWareVirtualMachine vm = vh2.RunningVirtualMachines.FirstOrDefault();
@@ -206,7 +205,11 @@ namespace BackendVMWare
                 }
                 
             }
-            catch (Exception e) { }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return c2;
         }
 
