@@ -16,6 +16,10 @@ namespace BackendVMWare
         {
             return @"\\vmat.csse.rose-hulman.edu\VirtualMachines\";
         }
+        public static string getWebserverTmpPath()
+        {
+            return @"C:\temp\";
+        }
 
         public static string getVMwareHostAndPort()
         {

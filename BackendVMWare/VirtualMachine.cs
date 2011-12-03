@@ -8,13 +8,13 @@ namespace BackendVMWare
 {
     public class VirtualMachine : IVirtualMachine
     {
-        
-            /*Function Set-WinVMIP ($VM, $HC, $GC, $IP, $SNM, $GW){
- $netsh = "c:\windows\system32\netsh.exe interface ip set address ""Local Area Connection"" static $IP $SNM $GW 1"
- Write-Host "Setting IP address for $VM..."
- Invoke-VMScript -VM $VM -HostCredential $HC -GuestCredential $GC -ScriptType bat -ScriptText $netsh
- Write-Host "Setting IP address completed."
-}*/
+
+        /*Function Set-WinVMIP ($VM, $HC, $GC, $IP, $SNM, $GW){
+        $netsh = "c:\windows\system32\netsh.exe interface ip set address ""Local Area Connection"" static $IP $SNM $GW 1"
+        Write-Host "Setting IP address for $VM..."
+        Invoke-VMScript -VM $VM -HostCredential $HC -GuestCredential $GC -ScriptType bat -ScriptText $netsh
+        Write-Host "Setting IP address completed."
+        }*/
 
         //vm used for wrapped methods, is real library instance
         private VMWareVirtualMachine vm;
@@ -38,7 +38,7 @@ namespace BackendVMWare
 
         public VMWareVirtualMachine VM { get { return this.vm; } }
 
-        
+
         // * WRAPPED METHODS * (use vm, all one-line wraps)
         public int CPUCount
         {

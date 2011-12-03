@@ -45,15 +45,47 @@ namespace BackendVMWare
         public string BaseImageName { get; set; }
         public string ProjectName { get; set; }
 
-        ///
 
-        //
-        //
+
+
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns></returns>
         public VMInfo CreateVM()
+        {
+            CopyVMFiles();
+
+            VMManager.getVH().Register(ImagePathName);
+
+            var newVM = new VMInfo(ImagePathName);
+
+            newVM.Status = VMStatus.Running;
+            newVM.IP = IP;
+            newVM.HostnameWithDomain = HostnameWithDomain;
+            newVM.BaseImageName = BaseImageName;
+            newVM.ProjectName = ProjectName;
+            newVM.Created = System.DateTime.Now;
+
+
+            return newVM;
+
+            //http://vmwaretasks.codeplex.com/discussions/276715
+            //"[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
+            //http://communities.vmware.com/message/1688542#1688542
+            //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
+            //we don't seem to have vmware-vdiskmanager 
+
+
+
+            //failed try:
+            //var baseVM = openVM(info.BaseImageName);
+            //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
+            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
+
+        }
+
+        private void CopyVMFiles()
         {
             string sourceVMX = VMInfo.ConvertPathToPhysical(BaseImageName);
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
@@ -73,33 +105,6 @@ namespace BackendVMWare
             strFile += "\r\nuuid.action = \"create\"\r\n";
             strFile += "msg.autoAnswer = \"TRUE\"\r\n";
             File.WriteAllText(destVMX, strFile);
-
-            var ss = VMInfo.ConvertPathToDatasource(destVMX);
-            VMManager.getVH().Register(ss);
-
-            var newVM = VMManager.getVH().Open(ss);
-            string s = newVM.PathName;
-            bool b = newVM.IsRunning;
-            newVM.PowerOn();
-            //http://vmwaretasks.codeplex.com/discussions/276715
-
-
-            //todo hostname, ip
-
-            return new VMInfo(ss);
-
-            //"[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
-            //http://communities.vmware.com/message/1688542#1688542
-            //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
-            //we don't seem to have vmware-vdiskmanager 
-
-
-
-            //failed try:
-            //var baseVM = openVM(info.BaseImageName);
-            //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
-            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
-            
         }
     }
 
@@ -168,7 +173,11 @@ namespace BackendVMWare
                 }
             }
         }
-
+        public void Reboot()
+        {
+            Status = VMStatus.Stopped;
+            Status = VMStatus.Running;
+        }
         //probably query, uncertain
         public DateTime LastStopped { get; set; }
         public DateTime LastStarted { get; set; }
@@ -176,14 +185,17 @@ namespace BackendVMWare
         public DateTime LastArchived { get; set; }
         public DateTime Created { get; set; }
 
-        //before running sets, check if null
-        //query from _running_ VM
+        //query from running vm
+        /// <summary>
+        /// Note: must reboot afterwards. 
+        /// </summary>
         public string IP
         {
             get
             {
                 try
                 {
+                    LoginTools();
                     return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : "offline";
                 }
                 catch (Exception)
@@ -197,9 +209,7 @@ namespace BackendVMWare
                 Shell.ShellOutput output = new Shell.ShellOutput();
                 try
                 {
-                    VM.WaitForToolsInGuest(); //todo refactor this out somewhere
-                    VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
-
+                    LoginTools();
                     Shell guestShell = new Shell(VM.VM); //todo mock?
                     output = guestShell.RunCommandInGuest("netsh interface ip set address \"Local Area Connection\" static " + value);
                 }
@@ -218,6 +228,11 @@ namespace BackendVMWare
                 }
             }
         }
+        private void LoginTools()
+        {
+            VM.WaitForToolsInGuest(10); //todo refactor this out somewhere
+            VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
+        }
         public string HostnameWithDomain
         {
             get
@@ -225,8 +240,7 @@ namespace BackendVMWare
                 if (!VM.IsRunning) return "offline";
                 try
                 {
-                    VM.WaitForToolsInGuest(); //todo refactor this out somewhere
-                    VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
+                    LoginTools();
                     Shell guestShell = new Shell(this.VM.VM); //todo mock?
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
                     return output.StdOut;
@@ -236,49 +250,54 @@ namespace BackendVMWare
             }
             set
             {
-                if (!VM.IsRunning) throw new InvalidOperationException("VM is running");
+                if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
                 Shell.ShellOutput output = new Shell.ShellOutput();
-                try
-                {
-                    VM.WaitForToolsInGuest(); //todo refactor this out somewhere
-                    VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
-                    
-                    //TODO ensure this file is here
-                    //note: Host means Webserver, NOT VMware server
-                    if (!VM.DirectoryExistsInGuest(@"C:\temp"))
-                        VM.CreateDirectoryInGuest(@"C:\temp");
-                    if (!VM.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
-                        VM.CopyFileFromHostToGuest(@"C:\temp\renamecomp.vbs", @"C:\temp\renamecomp.vbs");
 
-                    Shell guestShell = new Shell(this.VM.VM); //todo mock?
-                    output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + value);
-                    //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVMPath()+@"\renamecomp.vbs " + newName);
+                LoginTools();
+                var renameScriptHost = Config.getWebserverTmpPath() + "renamecomp.vbs";
+                if (!File.Exists(renameScriptHost))
+                {
+                    File.WriteAllText(renameScriptHost, @"Set objWMIService = GetObject(""Winmgmts:root\cimv2"")
+
+For Each objComputer in _
+    objWMIService.InstancesOf(""Win32_ComputerSystem"")
+    Name = WScript.Arguments.Item(0)
+    Return = objComputer.rename(Name,NULL,NULL)
+        If Return <> 0 Then
+           WScript.Echo ""rename-fail""
+        Else
+           WScript.Echo ""rename-succ""
+        End If
+Next
+");
                 }
-                catch (Exception e) { }
+
+                //note: Host means Webserver, NOT VMware server
+                if (!VM.DirectoryExistsInGuest(@"C:\temp"))
+                    VM.CreateDirectoryInGuest(@"C:\temp");
+                if (!VM.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
+                    VM.CopyFileFromHostToGuest(renameScriptHost, @"C:\temp\renamecomp.vbs");
+
+                Shell guestShell = new Shell(this.VM.VM); //todo mock?
+                output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + value);
+                //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVMPath()+@"\renamecomp.vbs " + newName);
+
                 if (output.StdOut.Contains("rename-succ"))
-                {
                     return;
-                }
                 else if (output.StdOut.Contains("rename-fail"))
-                {
-                    throw new InvalidOperationException();
-                }
+                    throw new InvalidOperationException(output.StdOut);
                 else
-                {
-                    throw new InvalidOperationException();
-                }
+                    throw new InvalidOperationException(output.StdOut);
             }
         }
 
         //can't really query so must store elsewhere or somehow derive (ie from naming conventions)
-        public string BaseImageName { get; private set; }
+        public string BaseImageName { get; set; }
         public string ProjectName { get; set; }
         public VMLifecycle Lifecycle { get; set; } //if archived, won't be able to query a thing obviously
 
 
         public IVirtualMachine VM { get; private set; }
-
-
 
 
         public static string ConvertPathToPhysical(string PathName)
@@ -290,11 +309,6 @@ namespace BackendVMWare
         {
             return PathName.Replace(Config.getWebserverVmPath(), "[ha-datacenter/standard] ").Replace('\\', '/');
         }
-
-
-
-
-
 
 
     }
