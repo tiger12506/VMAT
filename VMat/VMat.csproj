@@ -167,6 +167,10 @@
       <Name>BackendVMWare</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ImageFiles.xlsx" />
+    <None Include="Projects.xlsx" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
