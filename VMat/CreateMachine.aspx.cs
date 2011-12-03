@@ -50,13 +50,13 @@ namespace VMat
             string image = ImageList.SelectedValue;
             string machine = MachineNameSuffix.Text;
 
-            VMInfo info = new VMInfo();
+            //Nathan changed, also see beTest for example
+            var info = new PendingVM();
             info.ImagePathName = image;
             info.ProjectName = project;
             info.BaseImageName = machine;
 
-            VMManager manager = new VMManager();
-            VMInfo status = manager.CreateVM(info);
+            VMInfo status = info.CreateVM();
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BackendVMWare.VMManager">
+    <Position X="4" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAEAAAEAIAAAAAAAIIAAAIAAFAAAAAACAAgAAA=</HashCode>
+      <FileName>VMManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BackendVMWare.ProjectInfo">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>ProjectInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BackendVMWare.VirtualHost" BaseTypeListCollapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAgAAAAAIABAAAAAAAAIAAABABAADgAAAAAAEEA=</HashCode>
+      <FileName>VirtualHost.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BackendVMWare.VirtualMachine" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAUkQAAAAgA0hIJhCDAASIAQAAEAAKAIJAJgCUANIZA=</HashCode>
+      <FileName>VirtualMachine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BackendVMWare.VMInfo">
+    <Position X="2.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QECAAAgEAgQAAAIAiQCBCAAAIEACAAQABAAACAAEAAI=</HashCode>
+      <FileName>VMInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="BackendVMWare.VMStatus" Collapsed="true">
+    <Position X="8.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABAAAIAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>VMInfo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BackendVMWare.VMLifecycle" Collapsed="true">
+    <Position X="6.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>VMInfo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -14,6 +14,8 @@
         VM Info Test</h1>
     <asp:Button runat="server" ID="MakeServer" Text="MakeServer" 
             onclick="MakeServer_Click" />
+    <asp:Button runat="server" ID="Start" Text="Start" 
+            onclick="start_Click" />
         <br />
         <br />
     <asp:Literal ID="mainText" runat="server" />

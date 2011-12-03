@@ -25,11 +25,14 @@ namespace BackendVMWare
         VMWareRootSnapshotCollection Snapshots { get; }
 
         //Custom methods
+        VMWareVirtualMachine VM { get; }
+        /*
         void SetIP(string newIP);
         void SetHostname(string newName);
         string GetHostname();
         void PowerOffSafely();
         string IpAddress { get; }
+        */
 
         //Wrapped methods
         VMWareSnapshot BeginRecording(string name);

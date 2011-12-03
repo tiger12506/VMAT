@@ -26,7 +26,7 @@ namespace BackendTests
             var rVM = new VirtualMachine(mVM.Object);
 
             //act
-            rVM.SetIP(newIP);
+            //rVM.SetIP(newIP);
 
             //assert
             mVM.VerifyAll();
@@ -48,7 +48,7 @@ namespace BackendTests
             var rVM = new VirtualMachine(mVM.Object);
 
             //act, will throw exception
-            rVM.SetIP(newIP);
+            //rVM.SetIP(newIP);
 
             //assert
             mVM.VerifyAll();
