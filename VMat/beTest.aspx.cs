@@ -25,22 +25,30 @@ namespace VMat
 
         }
 
+
         protected void MakeServer_Click(object sender, EventArgs e)
         {
             var pvm = new PendingVM()
             {
-                ImagePathName = "[ha-datacenter/standard] Server 2003 D/Server 2003 D.vmx",
-                BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"
+                ImagePathName = "[ha-datacenter/standard] Server 2003 E/Server 2003 E.vmx",
+                MachineName = "E",
+                IP = "192.168.23.205",
+                HostnameWithDomain = "hostname-e",
+                BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx",
+                ProjectName = "gapinfo"
             };
             pvm.CreateVM();
         }
         protected void rename_Click(object sender, EventArgs e)
         {
             var vmm = new VMManager();
-            var vm = new VMInfo(vmm.GetRunningVMs().FirstOrDefault());
-            vm.HostnameWithDomain = "new-hostname";
-            vm.Status = VMStatus.Stopped;
+            var name=vmm.GetRunningVMs().Where(f => f.Contains("7")).FirstOrDefault();
+
+            var vm = new VMInfo(name);
             vm.Status = VMStatus.Running;
+            vm.IP = "192.168.23.200";
+            vm.HostnameWithDomain = "servertest";
+            vm.Reboot();
 
             //mainT
         }

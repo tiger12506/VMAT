@@ -11,9 +11,10 @@ namespace BackendVMWare
     public class VMManager
     {
         private static IVirtualHost vh;
-        public static IVirtualHost getVH() {
-            if (vh==null) 
-                vh=new VirtualHost();
+        public static IVirtualHost getVH()
+        {
+            if (vh == null)
+                vh = new VirtualHost();
             if (!vh.IsConnected)
                 vh.ConnectToVMWareVIServer(Config.getVMwareHostAndPort(), Config.getVMwareUsername(), Config.getVMwarePassword());
             return vh;
@@ -47,7 +48,7 @@ namespace BackendVMWare
             return ret;
         }
 
-        
+
         // given a name, looks up all info about the VM
         [Obsolete()]
         public VMInfo GetInfo(string imagePathName)
@@ -76,35 +77,12 @@ namespace BackendVMWare
         }
 
 
-        /*public bool ChangeHostnameAndIp(string imagePathName, string newHostname, string newIP)
-        {
-            try
-            {
-                var vm = OpenVM(imagePathName);
-                vm.SetIP(newIP);
-                vm.SetHostname(newHostname);
-                vm.PowerOffSafely();
-                vm.PowerOn();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        */
         /* also need setting config options, which may require reading XML (since backend will have no persistence)
             IP address allowable range
             Set maximum simultaneous running server count
             Set VM creation, backup, and archive batch process times
             Set up list of base images & locations (optional, can just use folder names)
          */
-    
-
-
-
-
-
 
     }
 }
