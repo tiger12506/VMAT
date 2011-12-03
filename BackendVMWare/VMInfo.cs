@@ -129,9 +129,7 @@ namespace BackendVMWare
 
         public VMInfo(string imagePathName)
             : this(VMManager.getVH().Open(imagePathName))
-        {
-
-        }
+        { }
 
 
         //query from VM
@@ -205,31 +203,29 @@ namespace BackendVMWare
             }
             set
             {
-                if (!VM.IsRunning) throw new InvalidOperationException("VM is running");
                 Shell.ShellOutput output = new Shell.ShellOutput();
-                try
-                {
-                    LoginTools();
-                    Shell guestShell = new Shell(VM.VM); //todo mock?
-                    output = guestShell.RunCommandInGuest("netsh interface ip set address \"Local Area Connection\" static " + value);
-                }
-                catch (Exception e) { }
+
+                LoginTools();
+                Shell guestShell = new Shell(VM.VM); //todo mock?
+                output = guestShell.RunCommandInGuest("netsh interface ip set address \"Local Area Connection\" static " + value);
+
                 if (output.StdOut.Length < 6) //should not print any output if success
                 {
                     return;
                 }
                 else if (output.StdOut.Contains("failed"))
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException(output.StdOut);
                 }
                 else
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException(output.StdOut);
                 }
             }
         }
         private void LoginTools()
         {
+            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(10); //todo refactor this out somewhere
             VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
         }
@@ -245,12 +241,11 @@ namespace BackendVMWare
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
                     return output.StdOut;
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
                 return "name_error";
             }
             set
             {
-                if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools();

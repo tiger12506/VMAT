@@ -84,11 +84,5 @@ namespace BackendVMWare
             Set up list of base images & locations (optional, can just use folder names)
          */
 
-
-
-
-
-
-
     }
 }

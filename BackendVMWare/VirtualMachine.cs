@@ -9,34 +9,14 @@ namespace BackendVMWare
     public class VirtualMachine : IVirtualMachine
     {
 
-        /*Function Set-WinVMIP ($VM, $HC, $GC, $IP, $SNM, $GW){
-        $netsh = "c:\windows\system32\netsh.exe interface ip set address ""Local Area Connection"" static $IP $SNM $GW 1"
-        Write-Host "Setting IP address for $VM..."
-        Invoke-VMScript -VM $VM -HostCredential $HC -GuestCredential $GC -ScriptType bat -ScriptText $netsh
-        Write-Host "Setting IP address completed."
-        }*/
-
         //vm used for wrapped methods, is real library instance
         private VMWareVirtualMachine vm;
-        //ivm used for custom, added methods; is either this or an injected mock
-        private IVirtualMachine ivm;
+        public VMWareVirtualMachine VM { get { return this.vm; } }
 
         public VirtualMachine(VMWareVirtualMachine vm)
         {
-
             this.vm = vm;
-            ivm = this;
         }
-
-        public VirtualMachine(IVirtualMachine ivm)
-        {
-
-            this.vm = null;
-            this.ivm = ivm;
-        }
-
-
-        public VMWareVirtualMachine VM { get { return this.vm; } }
 
 
         // * WRAPPED METHODS * (use vm, all one-line wraps)
