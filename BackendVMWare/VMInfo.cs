@@ -291,7 +291,10 @@ namespace BackendVMWare
             return PathName.Replace(Config.getWebserverVmPath(), "[ha-datacenter/standard] ").Replace('\\', '/');
         }
 
-
+        private string GetCacheIP() 
+        {
+            return "offline";
+        }
 
 
 
