@@ -11,7 +11,7 @@ namespace BackendVMWare
     public class VMManager
     {
         private static IVirtualHost vh;
-        public static IVirtualHost getVH()
+        public static IVirtualHost GetVH()
         {
             if (vh == null)
                 vh = new VirtualHost();
@@ -22,12 +22,12 @@ namespace BackendVMWare
         public VMManager(IVirtualHost vh)
         {
             VMManager.vh = vh;
-            getVH();
+            GetVH();
         }
 
         public VMManager()
         {
-            getVH();
+            GetVH();
         }
 
         private IVirtualMachine OpenVM(string imagePathName)

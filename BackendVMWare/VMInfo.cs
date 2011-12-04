@@ -56,7 +56,7 @@ namespace BackendVMWare
         {
             CopyVMFiles();
 
-            VMManager.getVH().Register(ImagePathName);
+            VMManager.GetVH().Register(ImagePathName);
 
             var newVM = new VMInfo(ImagePathName);
 
@@ -128,7 +128,7 @@ namespace BackendVMWare
         }
 
         public VMInfo(string imagePathName)
-            : this(VMManager.getVH().Open(imagePathName))
+            : this(VMManager.GetVH().Open(imagePathName))
         { }
 
 
