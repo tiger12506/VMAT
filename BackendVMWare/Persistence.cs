@@ -15,21 +15,30 @@ namespace BackendVMWare
         public static void WriteData(string option, string value)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE Value WHERE Option = '" + option + "'";
+            string command = "UPDATE Host SELECT Value = '" + value + "' WHERE Option = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, data);
         }
 
         public static void WriteVMIP(string name, string ip)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE  WHERE Option = '" + option + "'";
-            ConnectDataSource(CONFIGPATH, command, data);
+            string command = "UPDATE VirtualMachines SELECT IP = '" + ip + "' WHERE Name = '" + name + "'";
+            ConnectDataSource(VMCACHEPATH, command, data);
         }
 
         public static string GetValue(string option)
         {
             DataSet data = new DataSet();
-            string command = "SELECT Value FROM TestName WHERE Option = '" + option + "'";
+            string command = "SELECT Value FROM Host WHERE Option = '" + option + "'";
+            ConnectDataSource(CONFIGPATH, command, data);
+
+            return "null";
+        }
+
+        public static string GetIP(string name)
+        {
+            DataSet data = new DataSet();
+            string command = "SELECT IP FROM VirtualMachines WHERE Name = '" + name + "'";
             ConnectDataSource(CONFIGPATH, command, data);
 
             return "null";

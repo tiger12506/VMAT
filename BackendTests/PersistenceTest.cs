@@ -18,12 +18,27 @@ namespace BackendTests
         }
 
         [TestMethod]
-        public void TestWriteValue()
+        public void TestWriteData()
         {
             string option = "What";
             string value = "lol";
 
             BackendVMWare.Persistence.WriteData(option, value);
+
+            string result = BackendVMWare.Persistence.GetValue("What");
+            Assert.AreEqual(result, "lol");
+        }
+
+        [TestMethod]
+        public void TestWriteVMIP()
+        {
+            string name = "gapdev1234";
+            string ip = "192.168.1.16";
+
+            BackendVMWare.Persistence.WriteVMIP(name, ip);
+
+            string result = BackendVMWare.Persistence.GetIP(name);
+            Assert.AreEqual(result, "192.168.1.16");
         }
     }
 }

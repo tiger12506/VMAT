@@ -194,7 +194,7 @@ namespace BackendVMWare
                 try
                 {
                     LoginTools();
-                    return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : "offline";
+                    return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : GetCacheIP();
                 }
                 catch (Exception)
                 {
