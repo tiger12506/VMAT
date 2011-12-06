@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,8 +26,8 @@ namespace VMat
             DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
             //TODO: Make this information accessible project-wide
-            String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("ImageFiles.xlsx") +
-                ";Extended Properties=Excel 8.0;";
+            String conStr = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + Server.MapPath("ImageFiles.xlsx") +
+                ";Extended Properties=Excel 12.0;";
             OleDbConnection con = new OleDbConnection(conStr);
             con.Open();
             OleDbCommand cmd = new OleDbCommand("Select * From ImageFiles", con);

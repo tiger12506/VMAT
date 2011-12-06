@@ -9,6 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<form runat=server>
   <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false">
     <LayoutTemplate>
       <span class="failureNotification">
@@ -44,4 +45,5 @@
       </div>
     </LayoutTemplate>
   </asp:Login>
+  </form>
 </asp:Content>

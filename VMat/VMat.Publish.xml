@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="C:\Users\sylvaiam\Desktop\VMAT2" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Images/icon_server-create.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Help.aspx" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Images/logo_vmat.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="ConfigHost.aspx" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Global.asax" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Scripts/jquery-1.4.1-vsdoc.js" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Images/icon_close-window.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="bin/VMat.pdb" publishTime="12/05/2011 20:41:14" />
+    <file relUrl="Images/icon_configure.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="bin/BackendVMWare.dll" publishTime="12/05/2011 20:09:58" />
+    <file relUrl="About.aspx" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Site.Master" publishTime="11/02/2011 16:48:38" />
+    <file relUrl="bin/VMat.dll" publishTime="12/05/2011 20:41:14" />
+    <file relUrl="Images/icon_project-complete.png" publishTime="11/02/2011 16:48:38" />
+    <file relUrl="Images/icon_servers.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Images/icon_create.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Scripts/vmControls.js" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Account/Web.config" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Scripts/popupDiv.js" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="CreateMachine.aspx" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Account/Login.aspx" publishTime="12/05/2011 20:21:22" />
+    <file relUrl="Images/icon_led-green.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="beTest.aspx" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Scripts/jquery-1.4.1.min.js" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="bin/Vestris.VMWareTools.dll" publishTime="10/20/2011 06:02:30" />
+    <file relUrl="Default.aspx" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="bin/Interop.VixCOM.dll" publishTime="10/20/2011 06:02:30" />
+    <file relUrl="bin/BackendVMWare.pdb" publishTime="12/05/2011 20:09:58" />
+    <file relUrl="Scripts/formControls.js" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="bin/Vestris.VMWareLib.dll" publishTime="10/20/2011 06:02:30" />
+    <file relUrl="Images/icon_led-red.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Images/logo_windows-server-2008.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="ImageFiles.xml" publishTime="11/02/2011 16:48:38" />
+    <file relUrl="Images/icon_server-admin.png" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Styles/Site.css" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Scripts/jquery-1.4.1.js" publishTime="10/08/2011 16:23:52" />
+    <file relUrl="Projects.xml" publishTime="12/05/2011 19:36:10" />
+    <file relUrl="Web.config" publishTime="12/05/2011 20:25:14" />
+  </publishProfile>
+</publishData>
