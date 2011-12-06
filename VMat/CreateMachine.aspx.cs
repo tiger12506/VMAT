@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 using System.Data;
 using BackendVMWare;
 using System.Data.OleDb;
-using System.Data;
 
 namespace VMat
 {
@@ -27,7 +26,7 @@ namespace VMat
             DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
             //TODO: Make this information accessible project-wide
-            String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("ImageFiles.xlsx") +
+            String conStr = "Provider=Microsoft.Ace.OLEDB.4.0;Data Source=" + Server.MapPath("ImageFiles.xlsx") +
                 ";Extended Properties=Excel 8.0;";
             OleDbConnection con = new OleDbConnection(conStr);
             con.Open();

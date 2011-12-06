@@ -23,7 +23,7 @@ namespace BackendTests
             //setup functions that SetIP should call
             mProc.Setup(proc => proc.getExitCode()).Returns(0);
             mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //todo mock returned Process
-            var rVM = new VirtualMachine(mVM.Object);
+            //var rVM = new VirtualMachine(mVM.Object);
 
             //act
             //rVM.SetIP(newIP);
@@ -45,7 +45,7 @@ namespace BackendTests
             //setup functions that SetIP should call
             mProc.Setup(proc => proc.getExitCode()).Returns(-1);
             mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //todo mock returned Process
-            var rVM = new VirtualMachine(mVM.Object);
+            //var rVM = new VirtualMachine(mVM.Object);
 
             //act, will throw exception
             //rVM.SetIP(newIP);
