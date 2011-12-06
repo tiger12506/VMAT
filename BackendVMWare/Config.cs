@@ -14,6 +14,10 @@ namespace BackendVMWare
         {
             return @"C:\Virtual Machines\";
         }
+        public static string getDatastore()
+        {
+            return @"[ha-datacenter/standard] ";
+        }
         //virtual machine folder on host must be accessible by webserver, no opportunity to provide user/pass yet (unless map network drive)
         public static string getWebserverVmPath()
         {
@@ -23,6 +27,10 @@ namespace BackendVMWare
         public static string getWebserverTmpPath()
         {
             return @"C:\temp\";
+        }
+        public static string getNetworkInterfaceName()
+        {
+            return "\"Local Area Connection\"";
         }
 
         //credentials for VMware Server 2.0
@@ -38,6 +46,8 @@ namespace BackendVMWare
         {
             return "Vmat1234";
         }
+
+      
 
         //credentials for guest VMs
         public static string getVMsUsername()

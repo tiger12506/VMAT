@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-</head>
-<body>
+</head>wr
+<body><a href="beTest.aspx">betest</a>
     <form id="form1" runat="server">
     <div>
     <h1>
@@ -16,6 +16,8 @@
             onclick="MakeServer_Click" />
     <asp:Button runat="server" ID="Start" Text="Start" 
             onclick="start_Click" />
+    <asp:Button runat="server" ID="Stop" Text="Stop" 
+            onclick="stop_Click" />
         <br />
         <br />
     <asp:Literal ID="mainText" runat="server" />

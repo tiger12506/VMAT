@@ -31,8 +31,8 @@ namespace VMat
             var pvm = new PendingVM()
             {
                 ImagePathName = "[ha-datacenter/standard] Server 2003 E/Server 2003 E.vmx",
-                MachineName = "E",
-                IP = "192.168.23.205",
+                MachineName = "new",
+                IP = "192.168.23.204",
                 HostnameWithDomain = "hostname-e",
                 BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx",
                 ProjectName = "gapinfo"
@@ -42,12 +42,12 @@ namespace VMat
         protected void rename_Click(object sender, EventArgs e)
         {
             var vmm = new VMManager();
-            var name=vmm.GetRunningVMs().Where(f => f.Contains("7")).FirstOrDefault();
+            var name=vmm.GetRunningVMs().FirstOrDefault();
 
             var vm = new VMInfo(name);
             vm.Status = VMStatus.Running;
-            vm.IP = "192.168.23.200";
-            vm.HostnameWithDomain = "servertest";
+            vm.IP = "192.168.23.221";
+            vm.HostnameWithDomain = "newhn-1";
             vm.Reboot();
 
             //mainT
@@ -57,6 +57,14 @@ namespace VMat
             var vmm = new VMManager();
             var vm = new VMInfo(vmm.GetRegisteredVMs().FirstOrDefault());
             vm.Status = VMStatus.Running;
+
+            //mainT
+        }
+        protected void stop_Click(object sender, EventArgs e)
+        {
+            var vmm = new VMManager();
+            var vm = new VMInfo(vmm.GetRunningVMs().FirstOrDefault());
+            vm.Status = VMStatus.Stopped;
 
             //mainT
         }

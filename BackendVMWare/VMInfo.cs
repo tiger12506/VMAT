@@ -54,6 +54,14 @@ namespace BackendVMWare
         /// <returns></returns>
         public VMInfo CreateVM()
         {
+            var vmm = new VMManager();
+            if (vmm.GetRegisteredVMs().Contains(ImagePathName))
+                throw new InvalidDataException("Specified VM path already exists");
+            if (!ImagePathName.StartsWith(Config.getDatastore()) || !BaseImageName.StartsWith(Config.getDatastore()))
+                throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
+            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
+                throw new InvalidDataException("CreateVM required field unspecified or too short");
+
             CopyVMFiles();
 
             VMManager.GetVH().Register(ImagePathName);
@@ -61,12 +69,25 @@ namespace BackendVMWare
             var newVM = new VMInfo(ImagePathName);
 
             newVM.Status = VMStatus.Running;
+
+            //make triple-double-dog sure that the VM is online and ready
+            System.Threading.Thread.Sleep(180 * 1000); //allow VM time to power on
+            newVM.Reboot();
+            System.Threading.Thread.Sleep(180 * 1000); //allow VM time to power on
+            try
+            {
+                newVM.VM.WaitForToolsInGuest(150);
+            }
+            catch (TimeoutException)
+            {
+            }
             newVM.IP = IP;
             newVM.HostnameWithDomain = HostnameWithDomain;
             newVM.BaseImageName = BaseImageName;
             newVM.ProjectName = ProjectName;
             newVM.Created = System.DateTime.Now;
 
+            newVM.Reboot();
 
             return newVM;
 
@@ -174,6 +195,7 @@ namespace BackendVMWare
         public void Reboot()
         {
             Status = VMStatus.Stopped;
+            System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
             Status = VMStatus.Running;
         }
         //probably query, uncertain
@@ -183,9 +205,16 @@ namespace BackendVMWare
         public DateTime LastArchived { get; set; }
         public DateTime Created { get; set; }
 
+        private void LoginTools()
+        {
+            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
+            VM.WaitForToolsInGuest(40); //todo refactor this out somewhere
+            VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
+        }
         //query from running vm
+
         /// <summary>
-        /// Note: must reboot afterwards. 
+        /// Note: caller must reboot afterwards. 
         /// </summary>
         public string IP
         {
@@ -193,8 +222,9 @@ namespace BackendVMWare
             {
                 try
                 {
+                    if (!this.VM.IsRunning) return "offline";
                     LoginTools();
-                    return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : "offline";
+                    return this.VM.GuestVariables["ip"];
                 }
                 catch (Exception)
                 {
@@ -203,31 +233,28 @@ namespace BackendVMWare
             }
             set
             {
+                if (value.Length < 7)
+                    throw new InvalidDataException("IP too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools();
                 Shell guestShell = new Shell(VM.VM); //todo mock?
-                output = guestShell.RunCommandInGuest("netsh interface ip set address \"Local Area Connection\" static " + value);
+                string cmd = "netsh interface ip set address " + Config.getNetworkInterfaceName() + " static " + value + " 255.255.255.0";
+                output = guestShell.RunCommandInGuest(cmd);
 
-                if (output.StdOut.Length < 6) //should not print any output if success
+                if (output.StdOut.Length < 12) //depending on OS, should print "Ok.\n\n" or not print any output if success
                 {
                     return;
                 }
                 else if (output.StdOut.Contains("failed"))
                 {
-                    throw new InvalidOperationException(output.StdOut);
+                    throw new InvalidOperationException(cmd + "\n" + output.StdOut);
                 }
                 else
                 {
-                    throw new InvalidOperationException(output.StdOut);
+                    throw new InvalidProgramException(cmd + "\n" + output.StdOut);
                 }
             }
-        }
-        private void LoginTools()
-        {
-            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
-            VM.WaitForToolsInGuest(10); //todo refactor this out somewhere
-            VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
         }
         public string HostnameWithDomain
         {
@@ -246,12 +273,18 @@ namespace BackendVMWare
             }
             set
             {
+                if (value.Length < 3)
+                    throw new InvalidDataException("Hostname too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools();
                 var renameScriptHost = Config.getWebserverTmpPath() + "renamecomp.vbs";
                 if (!File.Exists(renameScriptHost))
                 {
+                    if (!Directory.Exists(Config.getWebserverTmpPath()))
+                        Directory.CreateDirectory(Config.getWebserverTmpPath());
+                    //if (!File.Exists(renameScriptHost))
+                    //File.Create(renameScriptHost);
                     File.WriteAllText(renameScriptHost, @"Set objWMIService = GetObject(""Winmgmts:root\cimv2"")
 
 For Each objComputer in _
@@ -265,6 +298,7 @@ For Each objComputer in _
         End If
 Next
 ");
+
                 }
 
                 //note: Host means Webserver, NOT VMware server
@@ -297,12 +331,12 @@ Next
 
         public static string ConvertPathToPhysical(string PathName)
         {
-            return PathName.Replace("[ha-datacenter/standard] ", Config.getWebserverVmPath()).Replace('/', '\\');
+            return PathName.Replace(Config.getDatastore(), Config.getWebserverVmPath()).Replace('/', '\\');
         }
 
         public static string ConvertPathToDatasource(string PathName)
         {
-            return PathName.Replace(Config.getWebserverVmPath(), "[ha-datacenter/standard] ").Replace('\\', '/');
+            return PathName.Replace(Config.getWebserverVmPath(), Config.getDatastore()).Replace('\\', '/');
         }
 
 
