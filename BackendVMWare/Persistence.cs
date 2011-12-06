@@ -9,46 +9,48 @@ namespace BackendVMWare
 {
     public class Persistence
     {
-        protected static const string CONFIGPATH = "/Host.xls";
-        protected static const string VMCACHEPATH = "/VirtualMachines.xls";
+        protected const string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls";
+        protected const string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls";
 
         public static void WriteData(string option, string value)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE Host SELECT Value = '" + value + "' WHERE Option = '" + option + "'";
+            string command = "UPDATE [Host] SELECT Value = '" + value + "' WHERE Option = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, data);
         }
 
         public static void WriteVMIP(string name, string ip)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE VirtualMachines SELECT IP = '" + ip + "' WHERE Name = '" + name + "'";
+            string command = "UPDATE [VirtualMachines] SELECT IP = '" + ip + "' WHERE Name = '" + name + "'";
             ConnectDataSource(VMCACHEPATH, command, data);
         }
 
         public static string GetValue(string option)
         {
             DataSet data = new DataSet();
-            string command = "SELECT Value FROM Host WHERE Option = '" + option + "'";
+            string command = "SELECT Value FROM [Host$] WHERE Option = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, data);
 
-            return "null";
+            string result = data.Tables[0].Rows[0][0].ToString();
+
+            return result;
         }
 
         public static string GetIP(string name)
         {
             DataSet data = new DataSet();
-            string command = "SELECT IP FROM VirtualMachines WHERE Name = '" + name + "'";
+            string command = "SELECT IP FROM [Sheet 1$] WHERE Name = '" + name + "'";
             ConnectDataSource(CONFIGPATH, command, data);
 
             return "null";
         }
 
-        private static void ConnectDataSource(string filePath, string command, DataSet data)
+        private static void ConnectDataSource(string resourceFile, string command, DataSet data)
         {
-            String sConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;" +
-                "Data Source=" + filePath + ";" +
-                "Extended Properties=Excel 12.0;";
+            String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                "Data Source=" + resourceFile + ";" +
+                "Extended Properties=Excel 8.0;";
 
             // Create connection object by using the preceding connection string.
             OleDbConnection objConn = new OleDbConnection(sConnectionString);

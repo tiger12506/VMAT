@@ -14,14 +14,14 @@ namespace BackendTests
         public void TestGetValue()
         {
             string value = BackendVMWare.Persistence.GetValue("MaxIP");
-            Assert.AreEqual(value, "192.168.1.255");
+            Assert.AreEqual(value, "255");
         }
 
         [TestMethod]
         public void TestWriteData()
         {
-            string option = "What";
-            string value = "lol";
+            string option = "test";
+            string value = "it worked";
 
             BackendVMWare.Persistence.WriteData(option, value);
 
