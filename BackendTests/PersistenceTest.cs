@@ -10,6 +10,22 @@ namespace BackendTests
     [TestClass]
     public class PersistenceTest
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            System.IO.File.Copy("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls",
+                "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls", true);
+            System.IO.File.Copy("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls",
+                "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls", true);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls");
+            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+        }
+
         [TestMethod]
         public void TestGetValue()
         {
@@ -25,8 +41,8 @@ namespace BackendTests
 
             BackendVMWare.Persistence.WriteData(option, value);
 
-            string result = BackendVMWare.Persistence.GetValue("What");
-            Assert.AreEqual(result, "lol");
+            string result = BackendVMWare.Persistence.GetValue("test");
+            Assert.AreEqual(result, "it worked");
         }
 
         [TestMethod]

@@ -9,20 +9,21 @@ namespace BackendVMWare
 {
     public class Persistence
     {
-        protected const string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls";
-        protected const string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls";
+        //TODO: Find a way to make these relative paths
+        protected const string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls";
+        protected const string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls";
 
         public static void WriteData(string option, string value)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE [Host] SELECT Value = '" + value + "' WHERE Option = '" + option + "'";
+            string command = String.Format("UPDATE [Host] SET Value='{1}' WHERE Option='{0}' IF @@ROWCOUNT=0 INSERT INTO [Host] (Option, Value) VALUES ({0}, {1})", option, value);
             ConnectDataSource(CONFIGPATH, command, data);
         }
 
         public static void WriteVMIP(string name, string ip)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE [VirtualMachines] SELECT IP = '" + ip + "' WHERE Name = '" + name + "'";
+            string command = "UPDATE [VirtualMachines] SET IP = '" + ip + "' WHERE Name = '" + name + "'";
             ConnectDataSource(VMCACHEPATH, command, data);
         }
 
@@ -40,10 +41,12 @@ namespace BackendVMWare
         public static string GetIP(string name)
         {
             DataSet data = new DataSet();
-            string command = "SELECT IP FROM [Sheet 1$] WHERE Name = '" + name + "'";
+            string command = "SELECT IP FROM [VirtualMachines$] WHERE Name = '" + name + "'";
             ConnectDataSource(CONFIGPATH, command, data);
 
-            return "null";
+            string result = data.Tables[0].Rows[0][0].ToString();
+
+            return result;
         }
 
         private static void ConnectDataSource(string resourceFile, string command, DataSet data)
