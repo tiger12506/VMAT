@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,14 +14,16 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                ImageList_Load();
-                ProjectList_Load();
-            }
+            //if (!IsPostBack)
+            //{
+            //    ImageList_Load(sender, e);
+            //    ProjectList_Load(sender, e);
+            //}
+
+            Update_Description(sender, e);
         }
 
-        private void ImageList_Load()
+        protected void ImageList_Load(object sender, EventArgs e)
         {
             DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
@@ -41,10 +43,11 @@ namespace VMat
             ImageList.DataBind();
         }
 
-        private void ProjectList_Load()
+        protected void ProjectList_Load(object sender, EventArgs e)
         {
             VMManager vmManager = new VMManager();
             List<ProjectInfo> projects = vmManager.GetProjectInfo();
+            DropDownList ProjectList = (DropDownList) ConfigurationPanel.FindControl("ProjectList");
             ProjectList.DataSource = projects;
             ProjectList.DataTextField = "ProjectName";
             ProjectList.DataBind();
@@ -60,14 +63,23 @@ namespace VMat
             string project = ProjectList.SelectedValue;
             string image = ImageList.SelectedValue;
             string machine = MachineNameSuffix.Text;
+            string hostname = "gapdev" + project + machine;
 
             //Nathan changed, also see beTest for example
             var info = new PendingVM();
             info.ImagePathName = image;
             info.ProjectName = project;
-            info.BaseImageName = machine;
+            info.BaseImageName = hostname;
+            info.HostnameWithDomain = hostname;
 
             VMInfo status = info.CreateVM();
         }
+
+        protected void Update_Description(object sender, EventArgs e)
+        {
+            ProjectNumber.Text = ProjectList.SelectedValue;
+            Hostname.Text = "gapdev" + ProjectList.SelectedValue + MachineNameSuffix.Text + "example.com";
+        }
+
     }
 }
