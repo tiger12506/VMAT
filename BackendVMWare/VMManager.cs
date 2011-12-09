@@ -12,6 +12,7 @@ namespace BackendVMWare
     public class VMManager
     {
         private static IVirtualHost vh;
+
         public static IVirtualHost getVH()
         {
             if (vh == null)
@@ -20,6 +21,7 @@ namespace BackendVMWare
                 vh.ConnectToVMWareVIServer(Config.getVMwareHostAndPort(), Config.getVMwareUsername(), Config.getVMwarePassword());
             return vh;
         }
+
         public VMManager(IVirtualHost vh)
         {
             VMManager.vh = vh;
@@ -42,13 +44,13 @@ namespace BackendVMWare
 
             return ret;
         }
+
         public IEnumerable<string> GetRegisteredVMs()
         {
             var ret = vh.RegisteredVirtualMachines.Select(v => v.PathName);
 
             return ret;
         }
-
 
         // given a name, looks up all info about the VM
         [Obsolete()]
@@ -81,7 +83,7 @@ namespace BackendVMWare
         ///  Find the lowest available IP address.
         /// </summary>
         /// <returns>The last octet of the lowest available IP address</returns>
-        public int GetNextAvailableIPTail()
+        public int GetNextAvailableIP()
         {
             DataSet virtualMachineInfo = Persistence.GetVirtualMachineData();
             bool[] usedIP = new bool[256];
@@ -102,13 +104,11 @@ namespace BackendVMWare
             return -1;
         }
 
-
         /* also need setting config options, which may require reading XML (since backend will have no persistence)
             IP address allowable range
             Set maximum simultaneous running server count
             Set VM creation, backup, and archive batch process times
             Set up list of base images & locations (optional, can just use folder names)
          */
-
     }
 }

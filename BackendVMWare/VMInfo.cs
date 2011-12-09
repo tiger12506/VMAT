@@ -198,7 +198,7 @@ namespace BackendVMWare
                 }
                 catch (Exception)
                 {
-                    return "IP error";
+                    return "IP cache error";
                 }
             }
             set
@@ -307,7 +307,9 @@ Next
 
         private string GetCacheIP() 
         {
-            return "offline";
+            string ipAddress = Persistence.GetIP(this.MachineName);
+
+            return ipAddress;
         }
     }
 }
