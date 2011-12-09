@@ -14,7 +14,7 @@ namespace BackendTests
     {
         //TODO doesn't test right method
         [TestMethod]
-        public void testCreateVM()
+        public void TestCreateVM()
         {
             //arrange
             var imageLocation = @"c:/vm.vmx";
@@ -33,7 +33,12 @@ namespace BackendTests
             //assert
             mHost.VerifyAll();
             mVM.VerifyAll();
+        }
 
+        [TestMethod]
+        public void TestGetNextAvailableIPTail()
+        {
+            //TODO: Integration test
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Vestris.VMWareLib;
 using System.IO;
+using System.Data;
 
 namespace BackendVMWare
 {
@@ -74,6 +75,31 @@ namespace BackendVMWare
             }
 
             return projects;
+        }
+
+        /// <summary>
+        ///  Find the lowest available IP address.
+        /// </summary>
+        /// <returns>The last octet of the lowest available IP address</returns>
+        public int GetNextAvailableIPTail()
+        {
+            DataSet virtualMachineInfo = Persistence.GetVirtualMachineData();
+            bool[] usedIP = new bool[256];
+
+            foreach (DataRow currentRow in virtualMachineInfo.Tables["VirtualMachines"].Rows)
+            {
+                string longIP = currentRow.Field<string>("IP");
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
+                usedIP[ipTail] = true;
+            }
+
+            for (int index = 0; index < usedIP.Length; index++)
+            {
+                if (usedIP[index] == null)
+                    return index;
+            }
+
+            return -1;
         }
 
 
