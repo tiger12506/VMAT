@@ -59,11 +59,12 @@ namespace BackendVMWare
             return new VMInfo(imagePathName);
         }
 
-        /* 
-         * Pull all of the information for each virtual machine. Parse the machine
-         * and project name and fill in any other derived information. Group the
-         * machines into their respective projects.
-         */
+        /// <summary>
+        /// Pull all of the information for each virtual machine. Parse the machine
+        /// and project name and fill in any other derived information. Group the
+        /// machines into their respective projects.
+        /// </summary>
+        /// <returns>A list of project items and information</returns>
         public List<ProjectInfo> GetProjectInfo()
         {
             List<ProjectInfo> projects = new List<ProjectInfo>();
