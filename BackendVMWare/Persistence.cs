@@ -32,7 +32,7 @@ namespace BackendVMWare
         /// <param name="value">The value for the associated option</param>
         public static void WriteData(string option, string value)
         {
-            DataSet data = new DataSet();
+            DataTable data = new DataTable();
             string command = "UPDATE [Host$] SET [Value] = '" + value + "' WHERE [Option] = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, "update", data);
         }
@@ -45,7 +45,7 @@ namespace BackendVMWare
         /// <param name="ip">The desired IP address</param>
         public static void WriteVMIP(string name, string ip)
         {
-            DataSet data = new DataSet();
+            DataTable data = new DataTable();
             string command = "UPDATE [VirtualMachines$] SET [IP] = '" + ip + "' WHERE [Name] = '" + name + "'";
             ConnectDataSource(VMCACHEPATH, command, "update", data);
         }
@@ -58,11 +58,11 @@ namespace BackendVMWare
         /// <returns>The value associated with the given option</returns>
         public static string GetValue(string option)
         {
-            DataSet data = new DataSet();
+            DataTable data = new DataTable("Host");
             string command = "SELECT Value FROM [Host$] WHERE Option = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, "select", data);
 
-            string result = data.Tables[0].Rows[0][0].ToString();
+            string result = data.Rows[0][0].ToString();
 
             return result;
         }
@@ -75,11 +75,11 @@ namespace BackendVMWare
         /// <returns>The IP address of the selected machine</returns>
         public static string GetIP(string name)
         {
-            DataSet data = new DataSet();
+            DataTable data = new DataTable("VirtualMachines");
             string command = "SELECT ip FROM [VirtualMachines$] WHERE Name = '" + name + "'";
             ConnectDataSource(VMCACHEPATH, command, "select", data);
 
-            string result = data.Tables[0].Rows[0][0].ToString();
+            string result = data.Rows[0][0].ToString();
 
             return result;
         }
@@ -88,16 +88,16 @@ namespace BackendVMWare
         /// Return all data stored within the static virtual machine data source.
         /// </summary>
         /// <returns>The entire data table of virtual machine information</returns>
-        public static DataSet GetVirtualMachineData()
+        public static DataTable GetVirtualMachineData()
         {
-            DataSet data = new DataSet();
-            string command = "SELECT * FROM [VirtualMachines$];";
+            DataTable data = new DataTable("VirtualMachines");
+            string command = "SELECT * FROM [VirtualMachines$]";
             ConnectDataSource(VMCACHEPATH, command, "select", data);
 
             return data;
         }
 
-        private static void ConnectDataSource(string resourceFile, string command, string type, DataSet data)
+        private static void ConnectDataSource(string resourceFile, string command, string type, DataTable data)
         {
             String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                 "Data Source=" + resourceFile + ";" +
@@ -120,7 +120,7 @@ namespace BackendVMWare
             if (type.Equals("select"))
             {
                 objAdapter.SelectCommand = objCmdSelect;
-                objAdapter.Fill(data, "XLData");
+                objAdapter.Fill(data);
             }
             else if (type.Equals("update"))
             {
@@ -130,6 +130,33 @@ namespace BackendVMWare
 
             // Clean up objects.
             objConn.Close();
+        }
+
+        /// <summary>
+        ///  Find the lowest available IP address.
+        /// </summary>
+        /// <returns>The last octet of the lowest available IP address</returns>
+        public static int GetNextAvailableIP()
+        {
+            DataTable virtualMachineInfo = GetVirtualMachineData();
+            bool[] usedIP = new bool[256];
+
+            foreach (DataRow currentRow in virtualMachineInfo.Rows)
+            {
+                string longIP = currentRow["IP"].ToString();
+                string tail = longIP.Substring(longIP.LastIndexOf('.') + 1);
+
+                int ipTail = int.Parse(tail);
+                usedIP[ipTail] = true;
+            }
+
+            for (int index = 0; index < usedIP.Length; index++)
+            {
+                if (!usedIP[index])
+                    return index;
+            }
+
+            return -1;
         }
     }
 }
