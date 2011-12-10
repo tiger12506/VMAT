@@ -10,8 +10,20 @@ namespace BackendVMWare
     public class Persistence
     {
         //TODO: Find a way to make these relative paths
-        protected const string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls";
-        protected const string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls";
+        protected static string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls";
+        protected static string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls";
+
+        /// <summary>
+        /// Write the file paths for the host configuration and virtual machine
+        /// cache files.
+        /// </summary>
+        /// <param name="configPath">The filepath of the host configuration file</param>
+        /// <param name="vmcachePath">The filepath of the virtual machine cache file</param>
+        public static void ChangeFileLocations(string configPath, string vmcachePath)
+        {
+            CONFIGPATH = configPath;
+            VMCACHEPATH = vmcachePath;
+        }
 
         /// <summary>
         /// Write the given key-value pair to the host configuration file.
@@ -21,8 +33,8 @@ namespace BackendVMWare
         public static void WriteData(string option, string value)
         {
             DataSet data = new DataSet();
-            string command = String.Format("UPDATE [Host] SET Value='{1}' WHERE Option='{0}' IF @@ROWCOUNT=0 INSERT INTO [Host] (Option, Value) VALUES ({0}, {1})", option, value);
-            ConnectDataSource(CONFIGPATH, command, data);
+            string command = "UPDATE [Host$] SET Value = '" + value + "' WHERE Option = '" + option + "'";
+            ConnectDataSource(CONFIGPATH, command, "update", data);
         }
 
         /// <summary>
@@ -34,8 +46,8 @@ namespace BackendVMWare
         public static void WriteVMIP(string name, string ip)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE [VirtualMachines] SET IP = '" + ip + "' WHERE Name = '" + name + "'";
-            ConnectDataSource(VMCACHEPATH, command, data);
+            string command = "UPDATE [VirtualMachines$] SET IP = '" + ip + "' WHERE Name = '" + name + "'";
+            ConnectDataSource(VMCACHEPATH, command, "update", data);
         }
 
         /// <summary>
@@ -48,7 +60,7 @@ namespace BackendVMWare
         {
             DataSet data = new DataSet();
             string command = "SELECT Value FROM [Host$] WHERE Option = '" + option + "'";
-            ConnectDataSource(CONFIGPATH, command, data);
+            ConnectDataSource(CONFIGPATH, command, "select", data);
 
             string result = data.Tables[0].Rows[0][0].ToString();
 
@@ -64,8 +76,8 @@ namespace BackendVMWare
         public static string GetIP(string name)
         {
             DataSet data = new DataSet();
-            string command = "SELECT IP FROM [VirtualMachines$] WHERE Name = '" + name + "'";
-            ConnectDataSource(VMCACHEPATH, command, data);
+            string command = "SELECT ip FROM [VirtualMachines$] WHERE Name = '" + name + "'";
+            ConnectDataSource(VMCACHEPATH, command, "select", data);
 
             string result = data.Tables[0].Rows[0][0].ToString();
 
@@ -80,12 +92,12 @@ namespace BackendVMWare
         {
             DataSet data = new DataSet();
             string command = "SELECT * FROM [VirtualMachines$];";
-            ConnectDataSource(VMCACHEPATH, command, data);
+            ConnectDataSource(VMCACHEPATH, command, "select", data);
 
             return data;
         }
 
-        private static void ConnectDataSource(string resourceFile, string command, DataSet data)
+        private static void ConnectDataSource(string resourceFile, string command, string type, DataSet data)
         {
             String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                 "Data Source=" + resourceFile + ";" +
@@ -105,11 +117,16 @@ namespace BackendVMWare
             OleDbDataAdapter objAdapter = new OleDbDataAdapter();
 
             // Pass the Select command to the adapter.
-            objAdapter.SelectCommand = objCmdSelect;
-
-            // Fill the DataSet with the information from the worksheet.
-            //objAdapter.Fill(data, "XLData");
-            objAdapter.Fill(data);
+            if (type.Equals("select"))
+            {
+                objAdapter.SelectCommand = objCmdSelect;
+                objAdapter.Fill(data, "XLData");
+            }
+            else if (type.Equals("update"))
+            {
+                objAdapter.UpdateCommand = objCmdSelect;
+                objAdapter.UpdateCommand.ExecuteNonQuery();
+            }
 
             // Clean up objects.
             objConn.Close();

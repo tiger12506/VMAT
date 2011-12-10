@@ -13,10 +13,12 @@ namespace BackendTests
         [TestInitialize]
         public void Setup()
         {
-            System.IO.File.Copy("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls",
-                "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls", true);
-            System.IO.File.Copy("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls",
-                "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls", true);
+            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls",
+                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls", true);
+            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls",
+                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls", true);
+            Persistence.ChangeFileLocations(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls",
+                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
         }
 
         [TestCleanup]
@@ -29,20 +31,27 @@ namespace BackendTests
         [TestMethod]
         public void TestGetValue()
         {
-            string value = BackendVMWare.Persistence.GetValue("MaxIP");
+            string value = Persistence.GetValue("MaxIP");
             Assert.AreEqual(value, "255");
+        }
+
+        [TestMethod]
+        public void TestGetIP()
+        {
+            string value = Persistence.GetIP("gapdev1234");
+            Assert.AreEqual(value, "192.168.1.1");
         }
 
         [TestMethod]
         public void TestWriteData()
         {
-            string option = "test";
-            string value = "it worked";
+            string option = "MaxIP";
+            string value = "1000";
 
-            BackendVMWare.Persistence.WriteData(option, value);
+            Persistence.WriteData(option, value);
 
-            string result = BackendVMWare.Persistence.GetValue("test");
-            Assert.AreEqual(result, "it worked");
+            string result = Persistence.GetValue("MaxIP");
+            Assert.AreEqual("1000", result);
         }
 
         [TestMethod]
@@ -54,7 +63,7 @@ namespace BackendTests
             BackendVMWare.Persistence.WriteVMIP(name, ip);
 
             string result = BackendVMWare.Persistence.GetIP(name);
-            Assert.AreEqual(result, "192.168.1.16");
+            Assert.AreEqual("192.168.1.16", result);
         }
     }
 }
