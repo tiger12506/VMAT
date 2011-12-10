@@ -33,7 +33,7 @@ namespace BackendVMWare
         public static void WriteData(string option, string value)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE [Host$] SET Value = '" + value + "' WHERE Option = '" + option + "'";
+            string command = "UPDATE [Host$] SET [Value] = '" + value + "' WHERE [Option] = '" + option + "'";
             ConnectDataSource(CONFIGPATH, command, "update", data);
         }
 
@@ -46,7 +46,7 @@ namespace BackendVMWare
         public static void WriteVMIP(string name, string ip)
         {
             DataSet data = new DataSet();
-            string command = "UPDATE [VirtualMachines$] SET IP = '" + ip + "' WHERE Name = '" + name + "'";
+            string command = "UPDATE [VirtualMachines$] SET [IP] = '" + ip + "' WHERE [Name] = '" + name + "'";
             ConnectDataSource(VMCACHEPATH, command, "update", data);
         }
 
