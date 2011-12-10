@@ -98,7 +98,7 @@ namespace BackendVMWare
 
             for (int index = 0; index < usedIP.Length; index++)
             {
-                if (usedIP[index] == null)
+                if (!usedIP[index])
                     return index;
             }
 

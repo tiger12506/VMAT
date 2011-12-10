@@ -36,9 +36,22 @@ namespace BackendTests
         }
 
         [TestMethod]
-        public void TestGetNextAvailableIPTail()
+        public void TestGetNextAvailableIP()
         {
-            //TODO: Integration test
+            Persistence.ChangeFileLocations(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls",
+                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+
+            VMManager man = new VMManager();
+            var imageLocation = @"c:/vm.vmx";
+            var mHost = new Mock<IVirtualHost>();
+            var mVM = new Mock<IVirtualMachine>();
+            mHost.Setup(host => host.ConnectToVMWareServer("vmat.reshall.rose-hulman.edu", "Nathan", "Vmat1234"));
+            mHost.Setup(host => host.Open(imageLocation)).Returns(mVM.Object);
+            mVM.Setup(vm => vm.WaitForToolsInGuest());
+            mVM.Setup(vm => vm.LoginInGuest("Administrator", "password"));
+
+            int nextIP = man.GetNextAvailableIP();
+            Assert.AreEqual(3, nextIP);
         }
     }
 }
