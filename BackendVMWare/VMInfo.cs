@@ -224,11 +224,12 @@ namespace BackendVMWare
                 {
                     if (!this.VM.IsRunning) return "offline";
                     LoginTools();
-                    return this.VM.GuestVariables["ip"];
+
+                    return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : GetCacheIP();
                 }
                 catch (Exception)
                 {
-                    return "IP error";
+                    return "IP cache error";
                 }
             }
             set
@@ -339,6 +340,11 @@ Next
             return PathName.Replace(Config.getWebserverVmPath(), Config.getDatastore()).Replace('\\', '/');
         }
 
+        private string GetCacheIP() 
+        {
+            string ipAddress = Persistence.GetIP(this.MachineName);
 
+            return ipAddress;
+        }
     }
 }

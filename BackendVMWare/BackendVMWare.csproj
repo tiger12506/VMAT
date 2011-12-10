@@ -54,6 +54,7 @@
     <Compile Include="IProcess.cs" />
     <Compile Include="IVirtualHost.cs" />
     <Compile Include="IVirtualMachine.cs" />
+    <Compile Include="Persistence.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Host.xls" />
+    <None Include="VirtualMachines.xls" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
