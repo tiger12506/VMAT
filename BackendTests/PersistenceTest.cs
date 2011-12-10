@@ -31,7 +31,7 @@ namespace BackendTests
         [TestMethod]
         public void TestGetValue()
         {
-            string value = Persistence.GetValue("MaxIP");
+            string value = Persistence.GetValue("maxIP");
             Assert.AreEqual(value, "255");
         }
 
@@ -45,12 +45,12 @@ namespace BackendTests
         [TestMethod]
         public void TestWriteData()
         {
-            string option = "MaxIP";
+            string option = "maxIP";
             string value = "1000";
 
             Persistence.WriteData(option, value);
 
-            string result = Persistence.GetValue("MaxIP");
+            string result = Persistence.GetValue("maxIP");
             Assert.AreEqual("1000", result);
         }
 
@@ -60,7 +60,7 @@ namespace BackendTests
             string name = "gapdev1234";
             string ip = "192.168.1.16";
 
-            BackendVMWare.Persistence.WriteVMIP(name, ip);
+            Persistence.WriteVMIP(name, ip);
 
             string result = BackendVMWare.Persistence.GetIP(name);
             Assert.AreEqual("192.168.1.16", result);
