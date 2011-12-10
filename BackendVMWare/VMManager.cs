@@ -5,12 +5,14 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Vestris.VMWareLib;
 using System.IO;
+using System.Data;
 
 namespace BackendVMWare
 {
     public class VMManager
     {
         private static IVirtualHost vh;
+
         public static IVirtualHost GetVH()
         {
             if (vh == null)
@@ -19,6 +21,7 @@ namespace BackendVMWare
                 vh.ConnectToVMWareVIServer(Config.getVMwareHostAndPort(), Config.getVMwareUsername(), Config.getVMwarePassword());
             return vh;
         }
+
         public VMManager(IVirtualHost vh)
         {
             VMManager.vh = vh;
@@ -41,13 +44,13 @@ namespace BackendVMWare
 
             return ret;
         }
+
         public IEnumerable<string> GetRegisteredVMs()
         {
             var ret = vh.RegisteredVirtualMachines.Select(v => v.PathName);
 
             return ret;
         }
-
 
         // given a name, looks up all info about the VM
         [Obsolete()]
@@ -56,11 +59,12 @@ namespace BackendVMWare
             return new VMInfo(imagePathName);
         }
 
-        /* 
-         * Pull all of the information for each virtual machine. Parse the machine
-         * and project name and fill in any other derived information. Group the
-         * machines into their respective projects.
-         */
+        /// <summary>
+        /// Pull all of the information for each virtual machine. Parse the machine
+        /// and project name and fill in any other derived information. Group the
+        /// machines into their respective projects.
+        /// </summary>
+        /// <returns>A list of project items and information</returns>
         public List<ProjectInfo> GetProjectInfo()
         {
             List<ProjectInfo> projects = new List<ProjectInfo>();
@@ -76,6 +80,30 @@ namespace BackendVMWare
             return projects;
         }
 
+        /// <summary>
+        ///  Find the lowest available IP address.
+        /// </summary>
+        /// <returns>The last octet of the lowest available IP address</returns>
+        public int GetNextAvailableIP()
+        {
+            DataSet virtualMachineInfo = Persistence.GetVirtualMachineData();
+            bool[] usedIP = new bool[256];
+
+            foreach (DataRow currentRow in virtualMachineInfo.Tables["VirtualMachines"].Rows)
+            {
+                string longIP = currentRow.Field<string>("IP");
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
+                usedIP[ipTail] = true;
+            }
+
+            for (int index = 0; index < usedIP.Length; index++)
+            {
+                if (!usedIP[index])
+                    return index;
+            }
+
+            return -1;
+        }
 
         /* also need setting config options, which may require reading XML (since backend will have no persistence)
             IP address allowable range
@@ -83,6 +111,5 @@ namespace BackendVMWare
             Set VM creation, backup, and archive batch process times
             Set up list of base images & locations (optional, can just use folder names)
          */
-
     }
 }
