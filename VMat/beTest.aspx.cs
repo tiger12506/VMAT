@@ -30,10 +30,10 @@ namespace VMat
         {
             var pvm = new PendingVM()
             {
-                ImagePathName = "[ha-datacenter/standard] Server 2003 E/Server 2003 E.vmx",
+                ImagePathName = "[ha-datacenter/standard] Server 2003 F/Server 2003 F.vmx",
                 MachineName = "new",
-                IP = "192.168.23.204",
-                HostnameWithDomain = "hostname-e",
+                IP = "192.168.23.206",
+                HostnameWithDomain = "hostname-f",
                 BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx",
                 ProjectName = "gapinfo"
             };
@@ -46,8 +46,8 @@ namespace VMat
 
             var vm = new VMInfo(name);
             vm.Status = VMStatus.Running;
-            vm.IP = "192.168.23.221";
-            vm.HostnameWithDomain = "newhn-1";
+            vm.IP = "192.168.23.222";
+            vm.HostnameWithDomain = "newhn-2";
             vm.Reboot();
 
             //mainT
