@@ -143,17 +143,47 @@ namespace BackendVMWare
 
             foreach (DataRow currentRow in virtualMachineInfo.Rows)
             {
-                string longIP = currentRow["IP"].ToString();
-                string tail = longIP.Substring(longIP.LastIndexOf('.') + 1);
+                string name = currentRow["Name"].ToString();
+                string ip = currentRow["IP"].ToString();
 
-                int ipTail = int.Parse(tail);
-                usedIP[ipTail] = true;
+                if (ip.Equals(""))
+                {
+                    if (name.Equals(""))
+                        break;
+                    else
+                    {
+                        Console.WriteLine("Empty IP address for machine name " +
+                            name + " in the static data source / cache.");
+                        continue;
+                    }
+                }
+
+                int ipTail = -1;
+
+                try
+                {
+                    ipTail = int.Parse(ip.Substring(ip.LastIndexOf('.') + 1));
+                }
+                catch(FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+                
+                try
+                {
+                    usedIP[ipTail - 1] = true;
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    Console.WriteLine("Invalid IP address " + ipTail + " in static data source / cache.");
+                }
             }
 
             for (int index = 0; index < usedIP.Length; index++)
             {
                 if (!usedIP[index])
-                    return index;
+                    return index + 1;
             }
 
             return -1;
