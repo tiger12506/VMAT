@@ -15,7 +15,7 @@ namespace BackendVMWare
 
         /// <summary>
         /// Write the file paths for the host configuration and virtual machine
-        /// cache files.
+        /// cache files. This is used primarily for testing pusposes.
         /// </summary>
         /// <param name="configPath">The filepath of the host configuration file</param>
         /// <param name="vmcachePath">The filepath of the virtual machine cache file</param>
