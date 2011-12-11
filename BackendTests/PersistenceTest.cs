@@ -65,5 +65,18 @@ namespace BackendTests
             string result = BackendVMWare.Persistence.GetIP(name);
             Assert.AreEqual("192.168.1.16", result);
         }
+
+        [TestMethod]
+        public void TestGetVirtualMachineData()
+        {
+            Persistence.GetVirtualMachineData();
+        }
+
+        [TestMethod]
+        public void TestGetNextAvailableIP()
+        {
+            int nextIP = Persistence.GetNextAvailableIP();
+            Assert.AreEqual(3, nextIP);
+        }
     }
 }

@@ -86,10 +86,14 @@ namespace BackendVMWare
         /// <returns>The last octet of the lowest available IP address</returns>
         public int GetNextAvailableIP()
         {
-            DataSet virtualMachineInfo = Persistence.GetVirtualMachineData();
+            // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            // +++++++++++ USE Persistence.cs VERSION OF THE METHOD INSTEAD +++++++++++++++
+            // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            DataTable virtualMachineInfo = Persistence.GetVirtualMachineData();
             bool[] usedIP = new bool[256];
 
-            foreach (DataRow currentRow in virtualMachineInfo.Tables["VirtualMachines"].Rows)
+            foreach (DataRow currentRow in virtualMachineInfo.Rows)
             {
                 string longIP = currentRow.Field<string>("IP");
                 int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
