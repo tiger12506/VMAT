@@ -10,22 +10,24 @@ namespace BackendTests
     [TestClass]
     public class PersistenceTest
     {
+        private string hostPath = Config.GetDataFilesDirectory() + "/Host.xls";
+        private string vmPath = Config.GetDataFilesDirectory() + "/VirtualMachines.xls";
+        private string testHostPath = Config.GetDataFilesDirectory() + "/HostTest.xls";
+        private string testVMPath = Config.GetDataFilesDirectory() + "/VirtualMachinesTest.xls";
+
         [TestInitialize]
         public void Setup()
         {
-            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls", true);
-            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls", true);
-            Persistence.ChangeFileLocations(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+            System.IO.File.Copy(hostPath, testHostPath, true);
+            System.IO.File.Copy(vmPath, testVMPath, true);
+            Persistence.ChangeFileLocations(testHostPath, testVMPath);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls");
-            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+            System.IO.File.Delete(testHostPath);
+            System.IO.File.Delete(testVMPath);
         }
 
         [TestMethod]

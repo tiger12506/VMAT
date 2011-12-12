@@ -175,7 +175,8 @@ namespace BackendVMWare
                 }
                 catch (IndexOutOfRangeException e)
                 {
-                    Console.WriteLine("Invalid IP address " + ipTail + " in static data source / cache.");
+                    Console.WriteLine(e.Message + ": Invalid IP address " + 
+                        ipTail + " in static data source / cache.");
                 }
             }
 
