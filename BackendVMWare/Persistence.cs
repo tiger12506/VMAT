@@ -15,7 +15,7 @@ namespace BackendVMWare
 
         /// <summary>
         /// Write the file paths for the host configuration and virtual machine
-        /// cache files.
+        /// cache files. This is used primarily for testing pusposes.
         /// </summary>
         /// <param name="configPath">The filepath of the host configuration file</param>
         /// <param name="vmcachePath">The filepath of the virtual machine cache file</param>
@@ -32,9 +32,8 @@ namespace BackendVMWare
         /// <param name="value">The value for the associated option</param>
         public static void WriteData(string option, string value)
         {
-            DataTable data = new DataTable();
             string command = "UPDATE [Host$] SET [Value] = '" + value + "' WHERE [Option] = '" + option + "'";
-            ConnectDataSource(CONFIGPATH, command, "update", data);
+            ExecuteUpdateQuery(CONFIGPATH, command);
         }
 
         /// <summary>
@@ -45,9 +44,8 @@ namespace BackendVMWare
         /// <param name="ip">The desired IP address</param>
         public static void WriteVMIP(string name, string ip)
         {
-            DataTable data = new DataTable();
             string command = "UPDATE [VirtualMachines$] SET [IP] = '" + ip + "' WHERE [Name] = '" + name + "'";
-            ConnectDataSource(VMCACHEPATH, command, "update", data);
+            ExecuteUpdateQuery(VMCACHEPATH, command);
         }
 
         /// <summary>
@@ -60,7 +58,7 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("Host");
             string command = "SELECT Value FROM [Host$] WHERE Option = '" + option + "'";
-            ConnectDataSource(CONFIGPATH, command, "select", data);
+            ExecuteSelectQuery(CONFIGPATH, command, data);
 
             string result = data.Rows[0][0].ToString();
 
@@ -77,7 +75,7 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("VirtualMachines");
             string command = "SELECT ip FROM [VirtualMachines$] WHERE Name = '" + name + "'";
-            ConnectDataSource(VMCACHEPATH, command, "select", data);
+            ExecuteSelectQuery(VMCACHEPATH, command, data);
 
             string result = data.Rows[0][0].ToString();
 
@@ -92,43 +90,44 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("VirtualMachines");
             string command = "SELECT * FROM [VirtualMachines$]";
-            ConnectDataSource(VMCACHEPATH, command, "select", data);
+            ExecuteSelectQuery(VMCACHEPATH, command, data);
 
             return data;
         }
 
-        private static void ConnectDataSource(string resourceFile, string command, string type, DataTable data)
+        private static void ExecuteSelectQuery(string resourceFile, string command, DataTable data)
         {
             String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                 "Data Source=" + resourceFile + ";" +
                 "Extended Properties=Excel 8.0;";
 
-            // Create connection object by using the preceding connection string.
             OleDbConnection objConn = new OleDbConnection(sConnectionString);
-
-            // Open connection with the database.
             objConn.Open();
 
-            // The code to follow uses a SQL SELECT command to display the data from the worksheet.
-            OleDbCommand objCmdSelect = new OleDbCommand(command, objConn);
-
-            // Create new OleDbDataAdapter that is used to build a DataSet
-            // based on the preceding SQL SELECT statement.
+            OleDbCommand objCmd = new OleDbCommand(command, objConn);
             OleDbDataAdapter objAdapter = new OleDbDataAdapter();
 
-            // Pass the Select command to the adapter.
-            if (type.Equals("select"))
-            {
-                objAdapter.SelectCommand = objCmdSelect;
-                objAdapter.Fill(data);
-            }
-            else if (type.Equals("update"))
-            {
-                objAdapter.UpdateCommand = objCmdSelect;
-                objAdapter.UpdateCommand.ExecuteNonQuery();
-            }
+            objAdapter.SelectCommand = objCmd;
+            objAdapter.Fill(data);
 
-            // Clean up objects.
+            objConn.Close();
+        }
+
+        private static void ExecuteUpdateQuery(string resourceFile, string command)
+        {
+            String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                "Data Source=" + resourceFile + ";" +
+                "Extended Properties=Excel 8.0;";
+
+            OleDbConnection objConn = new OleDbConnection(sConnectionString);
+            objConn.Open();
+
+            OleDbCommand objCmd = new OleDbCommand(command, objConn);
+            OleDbDataAdapter objAdapter = new OleDbDataAdapter();
+
+            objAdapter.UpdateCommand = objCmd;
+            objAdapter.UpdateCommand.ExecuteNonQuery();
+
             objConn.Close();
         }
 
@@ -143,17 +142,47 @@ namespace BackendVMWare
 
             foreach (DataRow currentRow in virtualMachineInfo.Rows)
             {
-                string longIP = currentRow["IP"].ToString();
-                string tail = longIP.Substring(longIP.LastIndexOf('.') + 1);
+                string name = currentRow["Name"].ToString();
+                string ip = currentRow["IP"].ToString();
 
-                int ipTail = int.Parse(tail);
-                usedIP[ipTail] = true;
+                if (ip.Equals(""))
+                {
+                    if (name.Equals(""))
+                        break;
+                    else
+                    {
+                        Console.WriteLine("Empty IP address for machine name " +
+                            name + " in the static data source / cache.");
+                        continue;
+                    }
+                }
+
+                int ipTail = -1;
+
+                try
+                {
+                    ipTail = int.Parse(ip.Substring(ip.LastIndexOf('.') + 1));
+                }
+                catch(FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+                
+                try
+                {
+                    usedIP[ipTail - 1] = true;
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    Console.WriteLine("Invalid IP address " + ipTail + " in static data source / cache.");
+                }
             }
 
             for (int index = 0; index < usedIP.Length; index++)
             {
                 if (!usedIP[index])
-                    return index;
+                    return index + 1;
             }
 
             return -1;

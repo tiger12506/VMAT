@@ -69,7 +69,7 @@ namespace BackendTests
         [TestMethod]
         public void TestGetVirtualMachineData()
         {
-            Persistence.GetVirtualMachineData();
+            Assert.Inconclusive("Unimplemented Test");
         }
 
         [TestMethod]
