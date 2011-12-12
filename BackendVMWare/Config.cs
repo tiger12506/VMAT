@@ -63,20 +63,16 @@ namespace BackendVMWare
         // Filepaths for data sources and configuration files
         public static string GetAppConfigFilepath()
         {
-            return "App.config";
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            return config.FilePath;
         }
 
         public static string GetDataFilesDirectory()
         {
-            System.Configuration.Configuration config =
-               ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            System.Configuration.ConnectionStringsSection appSettings =
-                (System.Configuration.ConnectionStringsSection)config.ConnectionStrings;
-            
-            foreach (string key in appSettings.ConnectionStrings)
-                Console.WriteLine(key);
+            AppSettingsSection appSettings = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).AppSettings;
 
-            return appSettings.ConnectionStrings["DataFilesDirectory"].ConnectionString;
+            return appSettings.Settings["DataFilesDirectory"].Value;
         }
     }
 }
