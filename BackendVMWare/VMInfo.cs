@@ -57,7 +57,7 @@ namespace BackendVMWare
             var vmm = new VMManager();
             if (vmm.GetRegisteredVMs().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
-            if (!ImagePathName.StartsWith(Config.getDatastore()) || !BaseImageName.StartsWith(Config.getDatastore()))
+            if (!ImagePathName.StartsWith(Config.GetDatastore()) || !BaseImageName.StartsWith(Config.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
             if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
@@ -209,7 +209,7 @@ namespace BackendVMWare
         {
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(40); //todo refactor this out somewhere
-            VM.LoginInGuest(Config.getVMsUsername(), Config.getVMsPassword());
+            VM.LoginInGuest(Config.GetVMsUsername(), Config.GetVMsPassword());
         }
         //query from running vm
 
@@ -240,7 +240,7 @@ namespace BackendVMWare
 
                 LoginTools();
                 Shell guestShell = new Shell(VM.VM); //todo mock?
-                string cmd = "netsh interface ip set address " + Config.getNetworkInterfaceName() + " static " + value + " 255.255.255.0";
+                string cmd = "netsh interface ip set address " + Config.GetNetworkInterfaceName() + " static " + value + " 255.255.255.0";
                 output = guestShell.RunCommandInGuest(cmd);
 
                 if (output.StdOut.Length < 12) //depending on OS, should print "Ok.\n\n" or not print any output if success
@@ -279,11 +279,11 @@ namespace BackendVMWare
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools();
-                var renameScriptHost = Config.getWebserverTmpPath() + "renamecomp.vbs";
+                var renameScriptHost = Config.GetWebserverTmpPath() + "renamecomp.vbs";
                 if (!File.Exists(renameScriptHost))
                 {
-                    if (!Directory.Exists(Config.getWebserverTmpPath()))
-                        Directory.CreateDirectory(Config.getWebserverTmpPath());
+                    if (!Directory.Exists(Config.GetWebserverTmpPath()))
+                        Directory.CreateDirectory(Config.GetWebserverTmpPath());
                     //if (!File.Exists(renameScriptHost))
                     //File.Create(renameScriptHost);
                     File.WriteAllText(renameScriptHost, @"Set objWMIService = GetObject(""Winmgmts:root\cimv2"")
@@ -332,12 +332,12 @@ Next
 
         public static string ConvertPathToPhysical(string PathName)
         {
-            return PathName.Replace(Config.getDatastore(), Config.getWebserverVmPath()).Replace('/', '\\');
+            return PathName.Replace(Config.GetDatastore(), Config.GetWebserverVmPath()).Replace('/', '\\');
         }
 
         public static string ConvertPathToDatasource(string PathName)
         {
-            return PathName.Replace(Config.getWebserverVmPath(), Config.getDatastore()).Replace('\\', '/');
+            return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
         private string GetCacheIP() 

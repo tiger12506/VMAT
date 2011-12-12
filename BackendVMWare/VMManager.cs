@@ -18,7 +18,7 @@ namespace BackendVMWare
             if (vh == null)
                 vh = new VirtualHost();
             if (!vh.IsConnected)
-                vh.ConnectToVMWareVIServer(Config.getVMwareHostAndPort(), Config.getVMwareUsername(), Config.getVMwarePassword());
+                vh.ConnectToVMWareVIServer(Config.GetVMwareHostAndPort(), Config.GetVMwareUsername(), Config.GetVMwarePassword());
             return vh;
         }
 
