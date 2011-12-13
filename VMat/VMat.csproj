@@ -53,9 +53,6 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="7za.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="About.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="beTest.aspx" />
