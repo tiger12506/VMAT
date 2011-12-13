@@ -9,9 +9,8 @@ namespace BackendVMWare
 {
     public class Persistence
     {
-        //TODO: Find a way to make these relative paths
-        protected static string CONFIGPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls";
-        protected static string VMCACHEPATH = "C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls";
+        protected static string configPath = Config.GetDataFilesDirectory() + "/Host.xls";
+        protected static string vmCachePath = Config.GetDataFilesDirectory() + "/VirtualMachines.xls";
 
         /// <summary>
         /// Write the file paths for the host configuration and virtual machine
@@ -19,10 +18,10 @@ namespace BackendVMWare
         /// </summary>
         /// <param name="configPath">The filepath of the host configuration file</param>
         /// <param name="vmcachePath">The filepath of the virtual machine cache file</param>
-        public static void ChangeFileLocations(string configPath, string vmcachePath)
+        public static void ChangeFileLocations(string cfgPath, string vmcachePath)
         {
-            CONFIGPATH = configPath;
-            VMCACHEPATH = vmcachePath;
+            configPath = cfgPath;
+            vmCachePath = vmcachePath;
         }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace BackendVMWare
         public static void WriteData(string option, string value)
         {
             string command = "UPDATE [Host$] SET [Value] = '" + value + "' WHERE [Option] = '" + option + "'";
-            ExecuteUpdateQuery(CONFIGPATH, command);
+            ExecuteUpdateQuery(configPath, command);
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace BackendVMWare
         public static void WriteVMIP(string name, string ip)
         {
             string command = "UPDATE [VirtualMachines$] SET [IP] = '" + ip + "' WHERE [Name] = '" + name + "'";
-            ExecuteUpdateQuery(VMCACHEPATH, command);
+            ExecuteUpdateQuery(vmCachePath, command);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("Host");
             string command = "SELECT Value FROM [Host$] WHERE Option = '" + option + "'";
-            ExecuteSelectQuery(CONFIGPATH, command, data);
+            ExecuteSelectQuery(configPath, command, data);
 
             string result = data.Rows[0][0].ToString();
 
@@ -75,7 +74,7 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("VirtualMachines");
             string command = "SELECT ip FROM [VirtualMachines$] WHERE Name = '" + name + "'";
-            ExecuteSelectQuery(VMCACHEPATH, command, data);
+            ExecuteSelectQuery(vmCachePath, command, data);
 
             string result = data.Rows[0][0].ToString();
 
@@ -90,7 +89,7 @@ namespace BackendVMWare
         {
             DataTable data = new DataTable("VirtualMachines");
             string command = "SELECT * FROM [VirtualMachines$]";
-            ExecuteSelectQuery(VMCACHEPATH, command, data);
+            ExecuteSelectQuery(vmCachePath, command, data);
 
             return data;
         }
