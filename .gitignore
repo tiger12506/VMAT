@@ -3,4 +3,4 @@
 *.vsmdi
 TestResults/
 *.testsettings
-BackendTests/App.config
+BackendVMWare/App.config

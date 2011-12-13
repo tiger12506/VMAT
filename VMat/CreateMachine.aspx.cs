@@ -14,11 +14,14 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!IsPostBack)
-            //{
-            //    ImageList_Load(sender, e);
-            //    ProjectList_Load(sender, e);
-            //}
+            var bob = System.IO.Directory.GetCurrentDirectory();           
+            Archiving arc = new Archiving();
+            arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare\\Archiving.cs", "");
+            if (!IsPostBack)
+            {
+                ImageList_Load(sender, e);
+                ProjectList_Load(sender, e);
+            }
 
             Update_Description(sender, e);
         }
@@ -28,8 +31,12 @@ namespace VMat
             DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
             //TODO: Make this information accessible project-wide
-            String conStr = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + Server.MapPath("ImageFiles.xlsx") +
-                ";Extended Properties=Excel 12.0;";
+
+            String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("ImageFiles.xls") +
+                ";Extended Properties=Excel 8.0;";
+//            System.Configuration.Configuration rootWebConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/MyWebSiteRoot");
+//            conStr = rootWebConfig.ConnectionStrings.ConnectionStrings["ImageFiles"].ConnectionString;
+
             OleDbConnection con = new OleDbConnection(conStr);
             con.Open();
             OleDbCommand cmd = new OleDbCommand("Select * From ImageFiles", con);

@@ -77,7 +77,9 @@
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Default.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -169,8 +171,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ImageFiles.xlsx" />
-    <None Include="Projects.xlsx" />
+    <Content Include="ImageFiles.xlsx" />
+    <Content Include="Projects.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImageFiles.xls" />
+    <None Include="Projects.xls" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
