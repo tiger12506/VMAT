@@ -2,52 +2,84 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace BackendVMWare
 {
-    class Config
+    public class Config
     {
+        private static AppSettingsSection appSettings = 
+            ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).AppSettings;
 
         //all folder names need trailing \
         //location of all VM files on host
-        public static string getHostVmPath()
+        public static string GetHostVmPath()
         {
-            return @"C:\Virtual Machines\";
+            return appSettings.Settings["HostVMPath"].Value;
         }
+
+        public static string GetDatastore()
+        {
+            return appSettings.Settings["VMDatastore"].Value;
+        }
+
         //virtual machine folder on host must be accessible by webserver, no opportunity to provide user/pass yet (unless map network drive)
-        public static string getWebserverVmPath()
+        public static string GetWebserverVmPath()
         {
-            return @"\\vmat.csse.rose-hulman.edu\VirtualMachines\";
+            return appSettings.Settings["WebserverVMPath"].Value;
         }
+
         //a script file will be placed here for copy from webserver to guest
-        public static string getWebserverTmpPath()
+        public static string GetWebserverTmpPath()
         {
-            return @"C:\temp\";
+            return appSettings.Settings["WebserverTmpPath"].Value;
+        }
+
+        public static string GetNetworkInterfaceName()
+        {
+            return appSettings.Settings["NetworkInterfaceName"].Value;
         }
 
         //credentials for VMware Server 2.0
-        public static string getVMwareHostAndPort()
+        public static string GetVMwareHostAndPort()
         {
-            return @"vmat.csse.rose-hulman.edu:8333";
+            return appSettings.Settings["VmwareHostAndPort"].Value;
         }
-        public static string getVMwareUsername()
+
+        public static string GetVMwareUsername()
         {
-            return "csse department";
+            return appSettings.Settings["VMwareUsername"].Value;
         }
-        public static string getVMwarePassword()
+
+        public static string GetVMwarePassword()
         {
-            return "Vmat1234";
+            return appSettings.Settings["VMwarePassword"].Value;
         }
+
 
         //credentials for guest VMs
-        public static string getVMsUsername()
+        public static string GetVMsUsername()
         {
-            return "Administrator";
-        }
-        public static string getVMsPassword()
-        {
-            return "Vmat1234";
+            return appSettings.Settings["VMUsername"].Value;
         }
 
+        public static string GetVMsPassword()
+        {
+            return appSettings.Settings["VMPassword"].Value;
+        }
+
+
+        // Filepaths for data sources and configuration files
+        public static string GetAppConfigFilepath()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            return config.FilePath;
+        }
+
+        public static string GetDataFilesDirectory()
+        {
+            return appSettings.Settings["DataFilesDirectory"].Value;
+        }
     }
 }

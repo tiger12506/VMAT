@@ -14,25 +14,29 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                ImageList_Load();
-                ProjectList_Load();
-            }
             var bob = System.IO.Directory.GetCurrentDirectory();           
             Archiving arc = new Archiving();
             arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare\\Archiving.cs", "");
+            if (!IsPostBack)
+            {
+                ImageList_Load(sender, e);
+                ProjectList_Load(sender, e);
+            }
+
+            Update_Description(sender, e);
         }
 
-        private void ImageList_Load()
+        protected void ImageList_Load(object sender, EventArgs e)
         {
             DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
             //TODO: Make this information accessible project-wide
+
             String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("ImageFiles.xls") +
                 ";Extended Properties=Excel 8.0;";
 //            System.Configuration.Configuration rootWebConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/MyWebSiteRoot");
 //            conStr = rootWebConfig.ConnectionStrings.ConnectionStrings["ImageFiles"].ConnectionString;
+
             OleDbConnection con = new OleDbConnection(conStr);
             con.Open();
             OleDbCommand cmd = new OleDbCommand("Select * From ImageFiles", con);
@@ -46,7 +50,7 @@ namespace VMat
             ImageList.DataBind();
         }
 
-        private void ProjectList_Load()
+        protected void ProjectList_Load(object sender, EventArgs e)
         {
             VMManager vmManager = new VMManager();
             List<ProjectInfo> projects = vmManager.GetProjectInfo();
@@ -65,14 +69,29 @@ namespace VMat
             string project = ProjectList.SelectedValue;
             string image = ImageList.SelectedValue;
             string machine = MachineNameSuffix.Text;
+            string hostname = "gapdev" + project + machine;
 
             //Nathan changed, also see beTest for example
             var info = new PendingVM();
             info.ImagePathName = image;
             info.ProjectName = project;
-            info.BaseImageName = machine;
+            info.BaseImageName = hostname;
+            info.HostnameWithDomain = hostname;
+            info.IP = IPAddress.Text;
 
             VMInfo status = info.CreateVM();
         }
+
+        protected void Update_Description(object sender, EventArgs e)
+        {
+            ProjectNumber.Text = ProjectList.SelectedValue;
+            Hostname.Text = "gapdev" + ProjectList.SelectedValue + MachineNameSuffix.Text + "example.com";
+        }
+
+        protected void DescriptionTable_Load(object sender, EventArgs e)
+        {
+            IPAddress.Text = "192.168.1."+Persistence.GetNextAvailableIP().ToString();
+        }
+
     }
 }

@@ -36,6 +36,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,7 @@
     <Compile Include="IProcess.cs" />
     <Compile Include="IVirtualHost.cs" />
     <Compile Include="IVirtualMachine.cs" />
+    <Compile Include="Persistence.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,7 +66,15 @@
     <Compile Include="VMManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="App.cfgt">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Host.xls" />
+    <None Include="VirtualMachines.xls" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="7za.exe">

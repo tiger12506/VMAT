@@ -49,6 +49,15 @@ namespace VMat {
         protected global::System.Web.UI.WebControls.Button Start;
         
         /// <summary>
+        /// Stop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Stop;
+        
+        /// <summary>
         /// mainText control.
         /// </summary>
         /// <remarks>

@@ -13,6 +13,24 @@ namespace VMat {
     public partial class CreateMachine {
         
         /// <summary>
+        /// ConfigurationPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ConfigurationPanel;
+        
+        /// <summary>
+        /// ProjectList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ProjectList;
+        
+        /// <summary>
         /// MachineNameSuffix control.
         /// </summary>
         /// <remarks>
@@ -31,13 +49,94 @@ namespace VMat {
         protected global::System.Web.UI.WebControls.DropDownList ImageList;
         
         /// <summary>
-        /// ProjectList control.
+        /// DescriptionPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ProjectList;
+        protected global::System.Web.UI.WebControls.Panel DescriptionPanel;
+        
+        /// <summary>
+        /// DescriptionTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table DescriptionTable;
+        
+        /// <summary>
+        /// ProjectNumberRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow ProjectNumberRow;
+        
+        /// <summary>
+        /// ProjectNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell ProjectNumber;
+        
+        /// <summary>
+        /// HostnameRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow HostnameRow;
+        
+        /// <summary>
+        /// Hostname control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell Hostname;
+        
+        /// <summary>
+        /// IPAddressRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow IPAddressRow;
+        
+        /// <summary>
+        /// IPAddress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell IPAddress;
+        
+        /// <summary>
+        /// ImageFileRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow ImageFileRow;
+        
+        /// <summary>
+        /// ImageFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell ImageFile;
         
         /// <summary>
         /// CreateMachineSubmitButton control.
