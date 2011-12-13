@@ -4,28 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BackendVMWare;
+using System.Data;
 
 namespace BackendTests
 {
     [TestClass]
     public class PersistenceTest
     {
+        private string hostPath = Config.GetDataFilesDirectory() + "/Host.xls";
+        private string vmPath = Config.GetDataFilesDirectory() + "/VirtualMachines.xls";
+        private string testHostPath = Config.GetDataFilesDirectory() + "/HostTest.xls";
+        private string testVMPath = Config.GetDataFilesDirectory() + "/VirtualMachinesTest.xls";
+
         [TestInitialize]
         public void Setup()
         {
-            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/Host.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls", true);
-            System.IO.File.Copy(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachines.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls", true);
-            Persistence.ChangeFileLocations(@"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls",
-                @"C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+            System.IO.File.Copy(hostPath, testHostPath, true);
+            System.IO.File.Copy(vmPath, testVMPath, true);
+            Persistence.ChangeFileLocations(testHostPath, testVMPath);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/HostTest.xls");
-            System.IO.File.Delete("C:/Users/Calvin/Documents/VMAT/VMAT/BackendVMWare/VirtualMachinesTest.xls");
+            System.IO.File.Delete(testHostPath);
+            System.IO.File.Delete(testVMPath);
         }
 
         [TestMethod]
@@ -69,7 +72,17 @@ namespace BackendTests
         [TestMethod]
         public void TestGetVirtualMachineData()
         {
-            Assert.Inconclusive("Unimplemented Test");
+            DataTable actualData = Persistence.GetVirtualMachineData();
+
+            DataTable expectedData = new DataTable("VirtualMachines");
+            expectedData.MinimumCapacity = 99;
+            expectedData.Columns.Add("Name");
+            expectedData.Columns.Add("IP");
+            expectedData.Rows.Add(new string[] { "gapdev1234", "192.168.1.1" });
+            expectedData.Rows.Add(new string[] { "gapdev5678", "192.168.1.2" });
+            expectedData.Rows.Add(new string[] { "gapdev9999", "192.168.1.255" });
+
+            Assert.AreEqual(expectedData, actualData);
         }
 
         [TestMethod]
