@@ -26,7 +26,7 @@
       <asp:Panel ID="DescriptionPanel" runat="server" BorderStyle="None" 
           GroupingText="Description" Height="240px" style="width: 960px" Width="531px">
           <asp:Table ID="DescriptionTable" runat="server" 
-    Height="136px" Width="531px" CellPadding="0">
+    Height="136px" Width="531px" CellPadding="0" onload="DescriptionTable_Load">
               <asp:TableRow ID="ProjectNumberRow" runat="server">
                   <asp:TableCell runat="server">Project Number:</asp:TableCell>
                   <asp:TableCell ID="ProjectNumber" runat="server">Gxxxx</asp:TableCell>
