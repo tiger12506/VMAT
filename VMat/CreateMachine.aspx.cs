@@ -70,6 +70,7 @@ namespace VMat
             info.ProjectName = project;
             info.BaseImageName = hostname;
             info.HostnameWithDomain = hostname;
+            info.IP = IPAddress.Text;
 
             VMInfo status = info.CreateVM();
         }
