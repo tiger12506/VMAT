@@ -47,7 +47,6 @@ namespace VMat
         {
             VMManager vmManager = new VMManager();
             List<ProjectInfo> projects = vmManager.GetProjectInfo();
-            DropDownList ProjectList = (DropDownList) ConfigurationPanel.FindControl("ProjectList");
             ProjectList.DataSource = projects;
             ProjectList.DataTextField = "ProjectName";
             ProjectList.DataBind();
@@ -79,6 +78,11 @@ namespace VMat
         {
             ProjectNumber.Text = ProjectList.SelectedValue;
             Hostname.Text = "gapdev" + ProjectList.SelectedValue + MachineNameSuffix.Text + "example.com";
+        }
+
+        protected void DescriptionTable_Load(object sender, EventArgs e)
+        {
+            IPAddress.Text = "192.168.1."+Persistence.GetNextAvailableIP().ToString();
         }
 
     }

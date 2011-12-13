@@ -101,16 +101,23 @@ namespace BackendVMWare
                 "Data Source=" + resourceFile + ";" +
                 "Extended Properties=Excel 8.0;";
 
-            OleDbConnection objConn = new OleDbConnection(sConnectionString);
-            objConn.Open();
+            try
+            {
+                OleDbConnection objConn = new OleDbConnection(sConnectionString);
+                objConn.Open();
 
-            OleDbCommand objCmd = new OleDbCommand(command, objConn);
-            OleDbDataAdapter objAdapter = new OleDbDataAdapter();
+                OleDbCommand objCmd = new OleDbCommand(command, objConn);
+                OleDbDataAdapter objAdapter = new OleDbDataAdapter();
 
-            objAdapter.SelectCommand = objCmd;
-            objAdapter.Fill(data);
+                objAdapter.SelectCommand = objCmd;
+                objAdapter.Fill(data);
 
-            objConn.Close();
+                objConn.Close();
+            }
+            catch (OleDbException e)
+            {
+                //do something
+            }
         }
 
         private static void ExecuteUpdateQuery(string resourceFile, string command)
@@ -119,16 +126,23 @@ namespace BackendVMWare
                 "Data Source=" + resourceFile + ";" +
                 "Extended Properties=Excel 8.0;";
 
-            OleDbConnection objConn = new OleDbConnection(sConnectionString);
-            objConn.Open();
+            try
+            {
+                OleDbConnection objConn = new OleDbConnection(sConnectionString);
+                objConn.Open();
 
-            OleDbCommand objCmd = new OleDbCommand(command, objConn);
-            OleDbDataAdapter objAdapter = new OleDbDataAdapter();
+                OleDbCommand objCmd = new OleDbCommand(command, objConn);
+                OleDbDataAdapter objAdapter = new OleDbDataAdapter();
 
-            objAdapter.UpdateCommand = objCmd;
-            objAdapter.UpdateCommand.ExecuteNonQuery();
+                objAdapter.UpdateCommand = objCmd;
+                objAdapter.UpdateCommand.ExecuteNonQuery();
 
-            objConn.Close();
+                objConn.Close();
+            }
+            catch (OleDbException e)
+            {
+                //do something
+            }
         }
 
         /// <summary>
