@@ -79,7 +79,14 @@ namespace BackendVMWare
 
         public void ConnectToVMWareVIServer(string hostName, string username, string password)
         {
-            vh.ConnectToVMWareVIServer(hostName, username, password);
+            try
+            {
+                vh.ConnectToVMWareVIServer(hostName, username, password);
+            }
+            catch (TimeoutException e)
+            {
+                Console.WriteLine(e.Message + ": Connection to VMware server timed out.");
+            }
         }
 
         public void ConnectToVMWareVIServer(string hostName, string username, string password, int timeoutInSeconds)
