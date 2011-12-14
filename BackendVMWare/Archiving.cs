@@ -45,9 +45,9 @@ namespace BackendVMWare
             l.EnableRaisingEvents = true;
             l.StartInfo.UseShellExecute = false;
             l.StartInfo.RedirectStandardOutput = true;
-            l.Start(); // This is were it throuws the exception because it can't find the file.
+            //l.Start(); // This is were it throuws the exception because it can't find the file.
             // Do stuff to verify zip archive is not corrupt
-            l.WaitForExit();
+            //l.WaitForExit();
         }
     }
 }
