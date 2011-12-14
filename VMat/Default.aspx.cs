@@ -29,5 +29,29 @@ namespace VMat
             ProjectDisplay.DataSource = projects;
             ProjectDisplay.DataBind();
         }
+
+        protected bool IsMachineRunning(string machineName)
+        {
+            VMManager vmManager = new VMManager();
+
+            VMStatus status = vmManager.GetInfo(machineName).Status;
+
+            // TODO: Update for all possible statuses
+            return (status == VMStatus.Running);
+        }
+
+        protected bool ToggleMachineStatus(string machineName)
+        {
+            VMManager vmManager = new VMManager();
+
+            VirtualMachine vm = vmManager.OpenVM(machineName) as VirtualMachine;
+
+            if (vm.IsRunning) 
+                vm.PowerOff();
+            else
+                vm.PowerOn();
+            
+            return true;
+        }
     }
 }

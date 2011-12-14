@@ -54,9 +54,9 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <a href="javascript:void(0)" onclick="toggleMachineStatus('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
-                    <img id='status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' src="/Images/icon_led-green.png" />
-                  </a>
+                  <button onclick="toggleMachineStatus('statusicon-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
+                    <script type="text/javascript">document.write(getStatusIcon('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'));</script>
+                  </button>
                 </span>
                 <span class="machine-name">
                   <span class="label">Machine Name</span>
