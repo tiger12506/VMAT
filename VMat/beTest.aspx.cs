@@ -31,7 +31,6 @@ namespace VMat
             var pvm = new PendingVM()
             {
                 ImagePathName = "[ha-datacenter/standard] Server 2003 F/Server 2003 F.vmx",
-                MachineName = "new",
                 IP = "192.168.23.206",
                 HostnameWithDomain = "hostname-f",
                 BaseImageName = "[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx",
