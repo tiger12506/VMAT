@@ -9,8 +9,8 @@ namespace BackendVMWare
 {
     public class Persistence
     {
-        protected static string configPath = Config.GetDataFilesDirectory() + "/Host.xls";
-        protected static string vmCachePath = Config.GetDataFilesDirectory() + "/VirtualMachines.xls";
+        protected static string configPath = Config.GetDataFilesDirectory() + "Host.xls";
+        protected static string vmCachePath = Config.GetDataFilesDirectory() + "VirtualMachines.xls";
 
         /// <summary>
         /// Write the file paths for the host configuration and virtual machine
