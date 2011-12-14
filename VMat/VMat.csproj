@@ -175,6 +175,9 @@
     <Content Include="Projects.xlsx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="ImageFiles.xls" />
     <None Include="Projects.xls" />
   </ItemGroup>

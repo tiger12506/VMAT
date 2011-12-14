@@ -66,12 +66,6 @@
     <Compile Include="VMManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="App.cfgt">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Host.xls" />
     <None Include="VirtualMachines.xls" />
   </ItemGroup>

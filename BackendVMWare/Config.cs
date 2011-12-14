@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
+using System.Web.Configuration;
 
 namespace BackendVMWare
 {
     public class Config
     {
-        private static AppSettingsSection appSettings = 
-            ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).AppSettings;
+        private static AppSettingsSection appSettings = WebConfigurationManager.OpenWebConfiguration("~").AppSettings;
+            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).AppSettings;
 
         //all folder names need trailing \
         //location of all VM files on host
