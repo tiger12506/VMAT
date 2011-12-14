@@ -370,7 +370,7 @@ input.passwordEntry
 {
     width: 40px;
     height: 40px;
-    background-color: none;
+    background-color: transparent;
     border-style: none;
     border-radius: 23px 23px 23px 23px;
     padding: 3px 3px 3px 3px;

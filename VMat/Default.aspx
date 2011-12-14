@@ -33,10 +33,12 @@
 
   <div class="machine-management">
     <div id="display-projects-list" class="list">
+    <form runat="server">
       <asp:Repeater ID="ProjectDisplay" runat="server">
         <ItemTemplate>
           <div class="project-header">
             <h2><%# DataBinder.Eval(Container.DataItem, "ProjectName") %></h2>
+            <!-- TODO: Pull actual Host Domain -->
             <h3>GAPDEV.COM</h3>
             <span class="project-complete">
               <a href="javascript:void(0)" onclick="">
@@ -54,9 +56,11 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <button onclick="toggleMachineStatus('statusicon-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
-                    <script type="text/javascript">document.write(getStatusIcon('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'));</script>
-                  </button>
+                  <asp:Button OnClick="ToggleMachineStatus" text="Turn Off" runat="server" />
+                  <!--<button onclick="< ToggleMachineStatus(DataBinder.Eval(Container.DataItem, "MachineName").ToString()); %>">
+                    <img id="status-<# DataBinder.Eval(Container.DataItem, "MachineName") %>" 
+                        src='<# GetStatusImagePath(DataBinder.Eval(Container.DataItem, "MachineName").ToString()) %>' alt="?" />
+                  </button>-->
                 </span>
                 <span class="machine-name">
                   <span class="label">Machine Name</span>
@@ -84,7 +88,7 @@
                   </span>
                 </span>
                 <span class="machine-details-toggle">
-                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">Details</a>
+                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">See More</a>
                 </span>
               </span>
               <span id='details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' class="machine-details-info">
@@ -121,6 +125,7 @@
           </div>
         </ItemTemplate>
       </asp:Repeater>
+      </form>
     </div>
   </div>
 

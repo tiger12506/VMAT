@@ -13,6 +13,7 @@ namespace VMat
     public partial class Default : System.Web.UI.Page
     {
         protected List<ProjectInfo> projects;
+        VMManager vmManager;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,7 +23,7 @@ namespace VMat
 
         private void LoadData()
         {
-            VMManager vmManager = new VMManager();
+            vmManager = new VMManager();
 
             projects = vmManager.GetProjectInfo();
 
@@ -32,26 +33,52 @@ namespace VMat
 
         protected bool IsMachineRunning(string machineName)
         {
-            VMManager vmManager = new VMManager();
-
             VMStatus status = vmManager.GetInfo(machineName).Status;
 
-            // TODO: Update for all possible statuses
+            // TODO: Expand for all possible statuses
             return (status == VMStatus.Running);
         }
 
-        protected bool ToggleMachineStatus(string machineName)
+        protected string GetStatusImagePath(string machineName)
         {
-            VMManager vmManager = new VMManager();
+            if (IsMachineRunning(machineName))
+                return "/Images/icon_led-green.png";
+            else
+                return "/Images/icon_led-red.png";
+        }
 
-            VirtualMachine vm = vmManager.OpenVM(machineName) as VirtualMachine;
+        protected void ToggleMachineStatus(string machineName)
+        {
+            VirtualMachine vm = vmManager.OpenVM(Config.GetDatastore() + "/" + machineName) as VirtualMachine;
 
             if (vm.IsRunning) 
                 vm.PowerOff();
             else
                 vm.PowerOn();
-            
-            return true;
+
+            UpdateStatusIcon(machineName);
+        }
+
+        protected void ToggleMachineStatus(object sender, EventArgs e)
+        {
+            /*VirtualMachine vm = vmManager.OpenVM(Config.GetDatastore() + "/" + machineName) as VirtualMachine;
+
+            if (vm.IsRunning)
+                vm.PowerOff();
+            else
+                vm.PowerOn();
+
+            UpdateStatusIcon(machineName);*/
+        }
+
+        protected void UpdateStatusIcon(string machineName)
+        {
+
+        }
+
+        protected void UpdateStatusIcon(Button sender)
+        {
+            sender.Attributes["src"] = null;
         }
     }
 }
