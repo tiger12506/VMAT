@@ -5,16 +5,28 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BackendVMWare;
 using System.Data;
+using System.Web.Configuration;
+using System.Configuration;
 
 namespace BackendTests
 {
     [TestClass]
     public class PersistenceTest
     {
-        private string hostPath = Config.GetDataFilesDirectory() + "/Host.xls";
-        private string vmPath = Config.GetDataFilesDirectory() + "/VirtualMachines.xls";
-        private string testHostPath = Config.GetDataFilesDirectory() + "/HostTest.xls";
-        private string testVMPath = Config.GetDataFilesDirectory() + "/VirtualMachinesTest.xls";
+        private string hostPath;
+        private string vmPath;
+        private string testHostPath;
+        private string testVMPath;
+
+        public PersistenceTest()
+        {
+            Config.SetWebConfigurationFile(
+                WebConfigurationManager.OpenWebConfiguration(Properties.Settings.Default["WebConfigFilePath"].ToString()).AppSettings);
+            hostPath = Config.GetDataFilesDirectory() + "Host.xls";
+            vmPath = Config.GetDataFilesDirectory() + "VirtualMachines.xls";
+            testHostPath = Config.GetDataFilesDirectory() + "HostTest.xls";
+            testVMPath = Config.GetDataFilesDirectory() + "VirtualMachinesTest.xls";
+        }
 
         [TestInitialize]
         public void Setup()

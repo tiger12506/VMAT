@@ -4,16 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using System.Web.Configuration;
+using System.Web;
+using System.Web.UI.WebControls;
 
 namespace BackendVMWare
 {
     public class Config
     {
         private static AppSettingsSection appSettings = WebConfigurationManager.OpenWebConfiguration("~").AppSettings;
-            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).AppSettings;
 
-        //all folder names need trailing \
-        //location of all VM files on host
+        /// <summary>
+        /// Set the appSettings section to the given instance of an object. Used primarily for
+        /// testing purposes.
+        /// </summary>
+        /// <param name="settings">The intended appSettings section object</param>
+        public static void SetWebConfigurationFile(AppSettingsSection settings)
+        {
+            appSettings = settings;
+        }
+
+        // Location of all VM files on host
         public static string GetHostVmPath()
         {
             return appSettings.Settings["HostVMPath"].Value;
@@ -24,13 +34,13 @@ namespace BackendVMWare
             return appSettings.Settings["VMDatastore"].Value;
         }
 
-        //virtual machine folder on host must be accessible by webserver, no opportunity to provide user/pass yet (unless map network drive)
+        // Virtual machine folder on host must be accessible by webserver, no opportunity to provide user/pass yet (unless map network drive)
         public static string GetWebserverVmPath()
         {
             return appSettings.Settings["WebserverVMPath"].Value;
         }
 
-        //a script file will be placed here for copy from webserver to guest
+        // A script file will be placed here for copy from webserver to guest
         public static string GetWebserverTmpPath()
         {
             return appSettings.Settings["WebserverTmpPath"].Value;
@@ -41,10 +51,10 @@ namespace BackendVMWare
             return appSettings.Settings["NetworkInterfaceName"].Value;
         }
 
-        //credentials for VMware Server 2.0
+        // Credentials for VMware Server 2.0
         public static string GetVMwareHostAndPort()
         {
-            return appSettings.Settings["VmwareHostAndPort"].Value;
+            return appSettings.Settings["VMwareHostAndPort"].Value;
         }
 
         public static string GetVMwareUsername()
@@ -58,7 +68,7 @@ namespace BackendVMWare
         }
 
 
-        //credentials for guest VMs
+        // Credentials for guest VMs
         public static string GetVMsUsername()
         {
             return appSettings.Settings["VMUsername"].Value;
