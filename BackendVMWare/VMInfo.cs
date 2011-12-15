@@ -235,14 +235,14 @@ namespace BackendVMWare
             {
                 try
                 {
-                    if (!this.VM.IsRunning) return "offline";
+                    //if (!this.VM.IsRunning) return "offline";
                     LoginTools();
 
                     return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : GetCacheIP();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return "IP cache error";
+                    return e.Message + ": IP cache error";
                 }
             }
             set
@@ -361,10 +361,17 @@ Next
             return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
+        private string GetMachineName()
+        {
+            string imagePathNameTail = ImagePathName.Substring(ImagePathName.LastIndexOf("\\") + 1);
+            string machineName = imagePathNameTail.Substring(0, ImagePathName.LastIndexOf("."));
+
+            return machineName;
+        }
+
         private string GetCacheIP() 
         {
-            string ipAddress = Persistence.GetIP("");
-//            string ipAddress = Persistence.GetIP(this.MachineName);
+            string ipAddress = Persistence.GetIP(GetMachineName());
 
             return ipAddress;
         }
