@@ -1,4 +1,4 @@
-
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +19,6 @@ namespace BackendVMWare
         public VirtualHost(VMWareVirtualHost vh)
         {
             this.vh = vh;
-        }
-
-        public List<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(Config.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-
-            return filePaths;
         }
 
         public Vestris.VMWareLib.VMWareVirtualHost.ServiceProviderType ConnectionType

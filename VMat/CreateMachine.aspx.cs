@@ -46,9 +46,8 @@ namespace VMat
             con.Close();
             ImageList.DataSource = imagelist.Tables["iso"];
             ImageList.DataTextField = "name";*/
-            VirtualHost host = new VirtualHost();
 
-            ImageList.DataSource = host.GetBaseImageFiles();
+            ImageList.DataSource = VMInfo.GetBaseImageFiles();
             ImageList.DataBind();
         }
 

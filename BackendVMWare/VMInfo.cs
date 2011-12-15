@@ -47,12 +47,14 @@ namespace BackendVMWare
 
 
 
+
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns></returns>
         public VMInfo CreateVM()
         {
+
             var vmm = new VMManager();
             if (vmm.GetRegisteredVMs().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
@@ -122,8 +124,11 @@ namespace BackendVMWare
 
             String strFile = File.ReadAllText(destVMX);
             strFile = strFile.Replace(sourceName, destName);
-            strFile += "\r\nuuid.action = \"create\"\r\n";
-            strFile += "msg.autoAnswer = \"TRUE\"\r\n";
+            if (strFile.Contains("\r\nuuid.action = \"create\"\r\n"))
+            {
+                strFile += "\r\nuuid.action = \"create\"\r\n";
+                strFile += "msg.autoAnswer = \"TRUE\"\r\n";
+            }
             File.WriteAllText(destVMX, strFile);
         }
     }
@@ -133,6 +138,15 @@ namespace BackendVMWare
     /// </summary>
     public class VMInfo
     {
+
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(Config.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => VMInfo.ConvertPathToDatasource(foo));
+        }
+
+
         /* I think those fields cover everything we'll need to show, but that should be verified. 
          * 
          * Note about querying these fields: 
