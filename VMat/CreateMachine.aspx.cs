@@ -28,7 +28,7 @@ namespace VMat
 
         protected void ImageList_Load(object sender, EventArgs e)
         {
-            DataSet imagelist = new DataSet();
+            /*DataSet imagelist = new DataSet();
             //TODO: Update this in the future to access from external project
             //TODO: Make this information accessible project-wide
 
@@ -44,9 +44,11 @@ namespace VMat
             da.SelectCommand = cmd;
             da.Fill(imagelist, "iso");
             con.Close();
-            //imagelist.ReadXml(Server.MapPath("ImageFiles.xml"));
             ImageList.DataSource = imagelist.Tables["iso"];
-            ImageList.DataTextField = "name";
+            ImageList.DataTextField = "name";*/
+            VirtualHost host = new VirtualHost();
+
+            ImageList.DataSource = host.GetBaseImageFiles();
             ImageList.DataBind();
         }
 

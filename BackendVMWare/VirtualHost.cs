@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vestris.VMWareLib;
+using System.IO;
+
 namespace BackendVMWare
 {
     public class VirtualHost : IVirtualHost
     {
-
         private VMWareVirtualHost vh;
 
         public VirtualHost()
@@ -17,6 +18,13 @@ namespace BackendVMWare
         public VirtualHost(VMWareVirtualHost vh)
         {
             this.vh = vh;
+        }
+
+        public List<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(Config.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+
+            return filePaths;
         }
 
         public Vestris.VMWareLib.VMWareVirtualHost.ServiceProviderType ConnectionType
