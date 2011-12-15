@@ -349,10 +349,10 @@ Next
 
         public static string GetMachineName(string imagePathName)
         {
-            string imagePathNameTail = imagePathName.Substring(imagePathName.LastIndexOf("\\") + 1);
-            string machineName = imagePathNameTail.Substring(0, imagePathNameTail.LastIndexOf("."));
-
-            return machineName;
+//            string imagePathNameTail = imagePathName.Substring(imagePathName.LastIndexOf("\\") + 1);
+//            string machineName = imagePathNameTail.Substring(0, imagePathNameTail.LastIndexOf("."));
+//            return machineName;
+            return imagePathName.Substring(imagePathName.LastIndexOf("\\")+1, imagePathName.LastIndexOf("."));
         }
 
         public string GetCacheIP() 

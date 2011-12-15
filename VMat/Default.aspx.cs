@@ -25,38 +25,24 @@ namespace VMat
         {
             projects = vmManager.GetProjectInfo();
 
-//            ProjectDisplay.DataSource = projects;
-//            ProjectDisplay.DataBind();
+            ImageClickEventHandler handleToggleDetails = new ImageClickEventHandler(ToggleDetailsPanel);
+            ImageClickEventHandler handleCloseProject = new ImageClickEventHandler(CloseProject);
+            EventHandler handleShowMore = new EventHandler(ShowMore);
 
             foreach (ProjectInfo project in projects)
             {
+                ImageButton closeProjectButton = new ImageButton();
+                closeProjectButton.Click += handleCloseProject;
+                closeProjectButton.ImageUrl = "/Images/icon_project-complete.png";
+                closeProjectButton.AlternateText = "Completed";
+                closeProjectButton.Width = 30;
+                closeProjectButton.Height = 30;
+
                 Panel projectPanel = new Panel();
 
-                // ******* Project Header *******
-                Panel projectHeader = new Panel();
-
-                Label projectName = new Label();
-                projectName.Text = project.ProjectName;
-
-                Label projectDomain = new Label();
-                projectDomain.Text = project.HostName;
-
-                Button closeProjectButton = new Button();
-
-                Image closeProjectImage = new Image();
-                closeProjectImage.ImageUrl = "/Images/icon_project-complete.png";
-
-                Label closeProjectLabel = new Label();
-                closeProjectLabel.Text = "Completed";
-
-                closeProjectButton.Controls.Add(closeProjectImage);
-                closeProjectButton.Controls.Add(closeProjectLabel);
-
-                projectHeader.Controls.Add(projectName);
-                projectHeader.Controls.Add(projectDomain);
-                projectHeader.Controls.Add(closeProjectButton);
-
-                projectPanel.Controls.Add(projectHeader);
+                projectPanel.GroupingText = project.ProjectName + "   " + project.HostName;
+                projectPanel.BorderWidth = 10;
+                projectPanel.BorderStyle = BorderStyle.Outset;
 
                 foreach (VMInfo vm in project.VirtualMachines)
                 {
@@ -67,13 +53,14 @@ namespace VMat
                     statusButton.Height = 30;
                     statusButton.Attributes.Add("VM", vm.ImagePathName);
                     statusButton.ImageUrl = GetStatusImagePath(vm.Status);
-                    statusButton.Click += new ImageClickEventHandler(ToggleDetailsPanel);
+                    statusButton.Click += handleToggleDetails;
                     
                     Panel vmNamePanel = new Panel();
                     Label vmNameLabel = new Label();
                     vmNameLabel.Text = "Name";
                     Label vmName = new Label();
-                    vmName.Text = vm.ImagePathName; // Fix me
+                    vmName.Text = VMInfo.GetMachineName(vm.ImagePathName);
+//                    vmName.Text = vm.ImagePathName;
                     vmNamePanel.Controls.Add(vmNameLabel);
                     vmNamePanel.Controls.Add(vmName);
 
@@ -101,13 +88,16 @@ namespace VMat
                     vmShutdownPanel.Controls.Add(vmShutdownLabel);
                     vmShutdownPanel.Controls.Add(vmShutdown);
 
-                    Button showMoreButton = new Button();
-                    showMoreButton.Text = "Show More";
-
                     // ******* Details Panel *******
                     Panel detailsPanel = new Panel();
+                    detailsPanel.GroupingText = "Details go here!"; // Get rid of when details are added
+                    detailsPanel.ID = vm.ImagePathName+"detail";
                     detailsPanel.Visible = false;
-
+                    
+                    Button showMoreButton = new Button();
+                    showMoreButton.Attributes.Add("detailPanelID", detailsPanel.ID);
+                    showMoreButton.Click += handleShowMore;
+                    showMoreButton.Text = "Show More";
 
                     machinePanel.Controls.Add(statusButton);
                     machinePanel.Controls.Add(vmNamePanel);
@@ -121,6 +111,41 @@ namespace VMat
                 }
 
                 ServerListPanel.Controls.Add(projectPanel);
+            }
+        }
+
+        protected void CloseProject(object sender, EventArgs e)
+        {
+            if (sender is ImageButton)
+            {
+                ImageButton closeButton = (ImageButton)sender;
+                foreach (Control c in closeButton.Parent.Controls)
+                {
+                    c.Visible = false;
+                }
+
+                // Do other stuff for closing out a project (call backend stuff)
+            }
+        }
+
+        protected void ShowMore(object sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                Button statusButton = (Button)sender;
+                string detailPanelID = statusButton.Attributes["detailPanelID"];
+                Panel detailPanel = (Panel) statusButton.Parent.FindControl(detailPanelID);
+                if (detailPanel.Visible)
+                {
+                    detailPanel.Visible = false;
+                    statusButton.Text = "Show Details";
+                }
+                else
+                {
+                    detailPanel.Visible = true;
+                    statusButton.Text = "Hide Details";
+                }
+
             }
         }
 
