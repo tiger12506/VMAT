@@ -14,16 +14,18 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var bob = System.IO.Directory.GetCurrentDirectory();           
-            Archiving arc = new Archiving();
-            arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare\\Archiving.cs", "");
+            //var bob = System.IO.Directory.GetCurrentDirectory();           
+            //Archiving arc = new Archiving();
+            //arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare\\Archiving.cs", "");
             if (!IsPostBack)
             {
                 ImageList_Load(sender, e);
                 ProjectList_Load(sender, e);
             }
-
-            Update_Description(sender, e);
+            else
+            {
+                Update_Description(sender, e);
+            }
         }
 
         protected void ImageList_Load(object sender, EventArgs e)
@@ -68,26 +70,29 @@ namespace VMat
         protected void CreateNewMachine(object sender, EventArgs e)
         {
             string project = ProjectList.SelectedValue; //4-digit
-            string image = ImageList.SelectedValue;
+            string baseImagePathName = VMInfo.ConvertPathToDatasource(ImageList.SelectedValue);
             string machine = MachineNameSuffix.Text;
             string hostname = "gapdev" + project + machine;
+
             string imageName = Config.GetDatastore() + project + "/" + hostname + ".vmx";
 
-            //Nathan changed, also see beTest for example
             var info = new PendingVM();
             info.ImagePathName = imageName;
             info.ProjectName = project;
-            info.BaseImageName = image;
+            info.BaseImageName = baseImagePathName;
             info.HostnameWithDomain = hostname;
             info.IP = IPAddress.Text;
 
             VMInfo status = info.CreateVM();
+
+            Response.Redirect("Default.aspx");
         }
 
         protected void Update_Description(object sender, EventArgs e)
         {
             ProjectNumber.Text = ProjectList.SelectedValue;
-            Hostname.Text = "gapdev" + ProjectList.SelectedValue + MachineNameSuffix.Text + "example.com";
+            Hostname.Text = "gapdev" + ProjectList.SelectedValue + MachineNameSuffix.Text + ".example.com";
+            ImageFile.Text = VMInfo.ConvertPathToDatasource(ImageList.SelectedValue);
         }
 
         protected void DescriptionTable_Load(object sender, EventArgs e)

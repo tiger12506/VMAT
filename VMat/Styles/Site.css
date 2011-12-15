@@ -353,24 +353,36 @@ input.passwordEntry
 
 .status-icon img
 {
+    width: 34px;
+    height: 34px;
+    /*border-radius: 23px 23px 23px 23px;
+    padding: 3px 3px 3px 3px;
+    margin-right: 5px;
+    margin-left: 5px;*/
+}
+
+    .status-icon img:hover
+    {
+        /*background-color: #96A4AD;*/
+    }
+
+.status-icon button
+{
     width: 40px;
     height: 40px;
+    background-color: transparent;
+    border-style: none;
     border-radius: 23px 23px 23px 23px;
     padding: 3px 3px 3px 3px;
     margin-right: 5px;
     margin-left: 5px;
 }
 
-    .status-icon img:hover
+    .status-icon button:hover 
     {
         background-color: #96A4AD;
+        cursor: pointer;
     }
-
-.status-icon a
-{
-    width: 40px;
-    height: 40px;
-}
 
 .machine-item-info
 {

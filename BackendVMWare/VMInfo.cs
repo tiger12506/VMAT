@@ -124,7 +124,7 @@ namespace BackendVMWare
 
             String strFile = File.ReadAllText(destVMX);
             strFile = strFile.Replace(sourceName, destName);
-            if (strFile.Contains("\r\nuuid.action = \"create\"\r\n"))
+            if (!strFile.Contains("uuid.action = \"create\""))
             {
                 strFile += "\r\nuuid.action = \"create\"\r\n";
                 strFile += "msg.autoAnswer = \"TRUE\"\r\n";
@@ -361,17 +361,17 @@ Next
             return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
-        private string GetMachineName()
+        public static string GetMachineName(string imagePathName)
         {
-            string imagePathNameTail = ImagePathName.Substring(ImagePathName.LastIndexOf("\\") + 1);
-            string machineName = imagePathNameTail.Substring(0, ImagePathName.LastIndexOf("."));
-
-            return machineName;
+//            string imagePathNameTail = imagePathName.Substring(imagePathName.LastIndexOf("\\") + 1);
+//            string machineName = imagePathNameTail.Substring(0, imagePathNameTail.LastIndexOf("."));
+//            return machineName;
+            return imagePathName.Substring(imagePathName.LastIndexOf("\\")+1, imagePathName.LastIndexOf("."));
         }
 
-        private string GetCacheIP() 
+        public string GetCacheIP() 
         {
-            string ipAddress = Persistence.GetIP(GetMachineName());
+            string ipAddress = Persistence.GetIP(GetMachineName(this.ImagePathName));
 
             return ipAddress;
         }
