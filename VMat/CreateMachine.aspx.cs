@@ -74,7 +74,7 @@ namespace VMat
             string machine = MachineNameSuffix.Text;
             string hostname = "gapdev" + project + machine;
 
-            string imageName = Config.GetDatastore() + project + "/" + hostname + ".vmx";
+            string imageName = Config.GetDatastore() + project + "/" + hostname +"/"+hostname+ ".vmx";
 
             var info = new PendingVM();
             info.ImagePathName = imageName;

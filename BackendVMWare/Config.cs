@@ -43,7 +43,7 @@ namespace BackendVMWare
         // A script file will be placed here for copy from webserver to guest
         public static string GetWebserverTmpPath()
         {
-            return appSettings.Settings["WebserverTmpPath"].Value;
+            return appSettings.Settings["WebserverTempPath"].Value;
         }
 
         public static string GetNetworkInterfaceName()
