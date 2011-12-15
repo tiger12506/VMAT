@@ -54,15 +54,9 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <a href="javascript:void(0)" onclick="toggleMachineStatus('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
-                    <img id='status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' src="/Images/icon_led-green.png" />
-                  </a>
                 </span>
                 <span class="machine-name">
                   <span class="label">Machine Name</span>
-                  <span class="tag">
-                    <%# DataBinder.Eval(Container.DataItem, "MachineName") %>
-                  </span>
                 </span>
                 
                 <span class="ip-address">
@@ -83,11 +77,8 @@
                     <%# DataBinder.Eval(Container.DataItem, "LastStopped") %>
                   </span>
                 </span>
-                <span class="machine-details-toggle">
-                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">Details</a>
-                </span>
               </span>
-              <span id='details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' class="machine-details-info">
+              <span id='details-' class="machine-details-info">
                 <span class="iso-name">
                   <span class="label">Image File</span>
                   <span class="tag">

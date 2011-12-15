@@ -147,6 +147,7 @@ namespace BackendVMWare
             //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
         }
 
+        // TODO error handle, check if starts with getDatasource
         public VMInfo(string imagePathName)
             : this(VMManager.GetVH().Open(imagePathName))
         { }

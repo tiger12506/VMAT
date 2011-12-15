@@ -46,7 +46,7 @@ namespace VMat
             con.Close();
             //imagelist.ReadXml(Server.MapPath("ImageFiles.xml"));
             ImageList.DataSource = imagelist.Tables["iso"];
-            ImageList.DataTextField = "name";
+            ImageList.DataTextField = "file";
             ImageList.DataBind();
         }
 
@@ -66,16 +66,17 @@ namespace VMat
 
         protected void CreateNewMachine(object sender, EventArgs e)
         {
-            string project = ProjectList.SelectedValue;
+            string project = ProjectList.SelectedValue; //4-digit
             string image = ImageList.SelectedValue;
             string machine = MachineNameSuffix.Text;
             string hostname = "gapdev" + project + machine;
+            string imageName = Config.GetDatastore() + project + "/" + hostname + ".vmx";
 
             //Nathan changed, also see beTest for example
             var info = new PendingVM();
-            info.ImagePathName = image;
+            info.ImagePathName = imageName;
             info.ProjectName = project;
-            info.BaseImageName = hostname;
+            info.BaseImageName = image;
             info.HostnameWithDomain = hostname;
             info.IP = IPAddress.Text;
 

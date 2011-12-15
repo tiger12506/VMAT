@@ -69,7 +69,7 @@ namespace BackendVMWare
         {
             List<ProjectInfo> projects = new List<ProjectInfo>();
 
-            projects.Add(new ProjectInfo("gapdev"));
+            projects.Add(new ProjectInfo("1234"));
 
             foreach (string imageName in GetRegisteredVMs())
             {
@@ -84,6 +84,7 @@ namespace BackendVMWare
         ///  Find the lowest available IP address.
         /// </summary>
         /// <returns>The last octet of the lowest available IP address</returns>
+        [Obsolete()]
         public int GetNextAvailableIP()
         {
             // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
