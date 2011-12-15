@@ -30,20 +30,19 @@ namespace BackendVMWare
     /// </summary>
     public class PendingVM
     {
+        //all paths are "datastore-style," ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         //query from VM
         public string ImagePathName { get; set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx" actual HDD location harder to find
-        public string MachineName { get; set; } //the 5-digit code
 
         //probably query, uncertain
-
         //before running sets, check if null
         //query from _running_ VM
         public string IP { get; set; }
         public string HostnameWithDomain { get; set; }
 
         //can't really query so must store elsewhere or somehow derive (ie from naming conventions)
-        public string BaseImageName { get; set; }
-        public string ProjectName { get; set; }
+        public string BaseImageName { get; set; } //the pathname of the image file this VM was copied from
+        public string ProjectName { get; set; } //the name of the project, could be changed, format in reqs doc
 
 
 
@@ -145,9 +144,10 @@ namespace BackendVMWare
         {
             this.VM = vm;
             this.ImagePathName = VM.PathName;
-            this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
+            //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
         }
 
+        // TODO error handle, check if starts with getDatasource
         public VMInfo(string imagePathName)
             : this(VMManager.GetVH().Open(imagePathName))
         { }
@@ -155,7 +155,6 @@ namespace BackendVMWare
 
         //query from VM
         public string ImagePathName { get; set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx" actual HDD location harder to find
-        public string MachineName { get; set; } //the 5-digit code
         public VMStatus Status
         {
             get
@@ -214,7 +213,7 @@ namespace BackendVMWare
         //query from running vm
 
         /// <summary>
-        /// Note: caller must reboot afterwards. 
+        /// Note: caller must reboot after setting. 
         /// </summary>
         public string IP
         {
@@ -257,6 +256,9 @@ namespace BackendVMWare
                 }
             }
         }
+        /// <summary>
+        /// Note: caller must reboot after setting. 
+        /// </summary>
         public string HostnameWithDomain
         {
             get
@@ -269,13 +271,18 @@ namespace BackendVMWare
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
                     return output.StdOut;
                 }
-                catch (Exception) { }
-                return "name_error";
+                catch (TimeoutException)
+                {
+                    return "name_timeout";
+                }
+                catch (Exception) {
+                    return "name_error";
+                }
             }
             set
             {
                 if (value.Length < 3)
-                    throw new InvalidDataException("Hostname too short");
+                    throw new ArgumentException("Hostname too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools();
@@ -301,7 +308,7 @@ Next
 ");
 
                 }
-
+                
                 //note: Host means Webserver, NOT VMware server
                 if (!VM.DirectoryExistsInGuest(@"C:\temp"))
                     VM.CreateDirectoryInGuest(@"C:\temp");
@@ -342,7 +349,8 @@ Next
 
         private string GetCacheIP() 
         {
-            string ipAddress = Persistence.GetIP(this.MachineName);
+            string ipAddress = Persistence.GetIP("");
+//            string ipAddress = Persistence.GetIP(this.MachineName);
 
             return ipAddress;
         }

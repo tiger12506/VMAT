@@ -73,7 +73,7 @@ namespace VMat
                     Label vmNameLabel = new Label();
                     vmNameLabel.Text = "Name";
                     Label vmName = new Label();
-                    vmName.Text = vm.MachineName;
+                    vmName.Text = vm.ImagePathName; // Fix me
                     vmNamePanel.Controls.Add(vmNameLabel);
                     vmNamePanel.Controls.Add(vmName);
 
