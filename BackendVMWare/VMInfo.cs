@@ -47,12 +47,14 @@ namespace BackendVMWare
 
 
 
+
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns></returns>
         public VMInfo CreateVM()
         {
+
             var vmm = new VMManager();
             if (vmm.GetRegisteredVMs().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
@@ -122,8 +124,11 @@ namespace BackendVMWare
 
             String strFile = File.ReadAllText(destVMX);
             strFile = strFile.Replace(sourceName, destName);
-            strFile += "\r\nuuid.action = \"create\"\r\n";
-            strFile += "msg.autoAnswer = \"TRUE\"\r\n";
+            if (strFile.Contains("\r\nuuid.action = \"create\"\r\n"))
+            {
+                strFile += "\r\nuuid.action = \"create\"\r\n";
+                strFile += "msg.autoAnswer = \"TRUE\"\r\n";
+            }
             File.WriteAllText(destVMX, strFile);
         }
     }
@@ -133,6 +138,15 @@ namespace BackendVMWare
     /// </summary>
     public class VMInfo
     {
+
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(Config.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => VMInfo.ConvertPathToDatasource(foo));
+        }
+
+
         /* I think those fields cover everything we'll need to show, but that should be verified. 
          * 
          * Note about querying these fields: 
@@ -147,6 +161,7 @@ namespace BackendVMWare
             //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
         }
 
+        // TODO error handle, check if starts with getDatasource
         public VMInfo(string imagePathName)
             : this(VMManager.GetVH().Open(imagePathName))
         { }
@@ -220,14 +235,14 @@ namespace BackendVMWare
             {
                 try
                 {
-                    if (!this.VM.IsRunning) return "offline";
+                    //if (!this.VM.IsRunning) return "offline";
                     LoginTools();
 
                     return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : GetCacheIP();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return "IP cache error";
+                    return e.Message + ": IP cache error";
                 }
             }
             set
@@ -346,10 +361,17 @@ Next
             return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
+        private string GetMachineName()
+        {
+            string imagePathNameTail = ImagePathName.Substring(ImagePathName.LastIndexOf("\\") + 1);
+            string machineName = imagePathNameTail.Substring(0, ImagePathName.LastIndexOf("."));
+
+            return machineName;
+        }
+
         private string GetCacheIP() 
         {
-            string ipAddress = Persistence.GetIP("");
-//            string ipAddress = Persistence.GetIP(this.MachineName);
+            string ipAddress = Persistence.GetIP(GetMachineName());
 
             return ipAddress;
         }

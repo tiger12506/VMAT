@@ -54,14 +54,14 @@
               <ItemTemplate>
               <span class="machine-item-info">
                 <span class="status-icon">
-                  <a href="javascript:void(0)" onclick="toggleMachineStatus('status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">
-                    <img id='status-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' src="/Images/icon_led-green.png" />
+                  <a href="javascript:void(0)" onclick="toggleMachineStatus('status-<%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>'); return false;">
+                    <img id='status-<%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>' src="/Images/icon_led-green.png" />
                   </a>
                 </span>
                 <span class="machine-name">
                   <span class="label">Machine Name</span>
                   <span class="tag">
-                    <%# DataBinder.Eval(Container.DataItem, "MachineName") %>
+                    <%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>
                   </span>
                 </span>
                 
@@ -84,14 +84,14 @@
                   </span>
                 </span>
                 <span class="machine-details-toggle">
-                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>'); return false;">Details</a>
+                  <a href="javascript:void(0)" onclick="toggleMachineDetails('details-<%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>'); return false;">Details</a>
                 </span>
               </span>
-              <span id='details-<%# DataBinder.Eval(Container.DataItem, "MachineName") %>' class="machine-details-info">
+              <span id='details-<%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>' class="machine-details-info">
                 <span class="iso-name">
                   <span class="label">Image File</span>
                   <span class="tag">
-                    <%# DataBinder.Eval(Container.DataItem, "ImagePathName") %>
+                    <%# DataBinder.Eval(Container.DataItem, "BaseImageName") %>
                   </span>
                 </span>
                 <span class="last-start-time">

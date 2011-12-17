@@ -1,13 +1,15 @@
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vestris.VMWareLib;
+using System.IO;
+
 namespace BackendVMWare
 {
     public class VirtualHost : IVirtualHost
     {
-
         private VMWareVirtualHost vh;
 
         public VirtualHost()
@@ -79,7 +81,14 @@ namespace BackendVMWare
 
         public void ConnectToVMWareVIServer(string hostName, string username, string password)
         {
-            vh.ConnectToVMWareVIServer(hostName, username, password);
+            try
+            {
+                vh.ConnectToVMWareVIServer(hostName, username, password);
+            }
+            catch (TimeoutException e)
+            {
+                Console.WriteLine(e.Message + ": Connection to VMware server timed out.");
+            }
         }
 
         public void ConnectToVMWareVIServer(string hostName, string username, string password, int timeoutInSeconds)
