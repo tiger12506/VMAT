@@ -14,9 +14,9 @@ namespace VMat
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var bob = System.IO.Directory.GetCurrentDirectory();           
-            Archiving arc = new Archiving();
-            arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare\\Archiving.cs", "");
+            //Example archiving:
+            //Archiving arc = new Archiving();
+            //arc.ArchiveFile("C:\\Users\\sylvaiam\\VMAT\\BackendVMWare", "C:\\Users\\sylvaiam\\VMAT\\Archiving.7z");
             if (!IsPostBack)
             {
                 ImageList_Load(sender, e);
