@@ -443,12 +443,17 @@ Next
             return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
+        /// <summary>
+        /// Takes either a physical path or datasource path and provides just the base path name
+        /// </summary>
+        /// <param name="PathName">Physical or datasource path, ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Base path name, ie "Windows 7"</returns>
         public static string GetMachineName(string imagePathName)
         {
-//            string imagePathNameTail = imagePathName.Substring(imagePathName.LastIndexOf("\\") + 1);
-//            string machineName = imagePathNameTail.Substring(0, imagePathNameTail.LastIndexOf("."));
-//            return machineName;
-            return imagePathName.Substring(imagePathName.LastIndexOf("\\") + 1, imagePathName.LastIndexOf("."));
+            string ipnClean = imagePathName.Replace('\\', '/');
+            int index1 = ipnClean.LastIndexOf("/") + 1;
+            int index2 = ipnClean.LastIndexOf(".") - index1;
+            return ipnClean.Substring(index1, index2);
         }
 
     }
