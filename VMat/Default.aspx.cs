@@ -31,6 +31,9 @@ namespace VMat
 
             foreach (ProjectInfo project in projects)
             {
+                Table table = new Table();
+                table.CellSpacing = 20;
+
                 ImageButton closeProjectButton = new ImageButton();
                 closeProjectButton.Click += handleCloseProject;
                 closeProjectButton.ImageUrl = "/Images/icon_project-complete.png";
@@ -46,69 +49,133 @@ namespace VMat
 
                 foreach (VMInfo vm in project.VirtualMachines)
                 {
-                    Panel machinePanel = new Panel();
+                    TableRow tableDescRow = new TableRow();
+                    TableRow tableValueRow = new TableRow();
+                    TableRow detailDescRow = new TableRow();
+                    TableRow detailValueRow = new TableRow();
+                    //detailDescRow.Visible = false;
+                    //detailValueRow.Visible = false;
 
                     ImageButton statusButton = new ImageButton();
-                    statusButton.Width = 30;
-                    statusButton.Height = 30;
+                    statusButton.Width = 32;
+                    statusButton.Height = 32;
                     statusButton.Attributes.Add("VM", vm.ImagePathName);
                     statusButton.ImageUrl = GetStatusImagePath(vm.Status);
                     statusButton.Click += handleToggleDetails;
+                    TableCell statusButtonCell = new TableCell();
+                    statusButtonCell.Controls.Add(statusButton);
+                    tableDescRow.Cells.Add(statusButtonCell);
+                    tableValueRow.Cells.Add(new TableCell());
                     
-                    Panel vmNamePanel = new Panel();
                     Label vmNameLabel = new Label();
                     vmNameLabel.Text = "Name";
                     Label vmName = new Label();
                     vmName.Text = VMInfo.GetMachineName(vm.ImagePathName);
-//                    vmName.Text = vm.ImagePathName;
-                    vmNamePanel.Controls.Add(vmNameLabel);
-                    vmNamePanel.Controls.Add(vmName);
+                    TableCell nameLabelCell = new TableCell();
+                    nameLabelCell.Controls.Add(vmNameLabel);
+                    TableCell nameCell = new TableCell();
+                    nameCell.Controls.Add(vmName);
+                    tableDescRow.Cells.Add(nameLabelCell);
+                    tableValueRow.Cells.Add(nameCell);
 
-                    Panel vmIPPanel = new Panel();
+                    detailDescRow.ID = vmName.Text + "descRow";
+                    detailValueRow.ID = vmName.Text + "valueRow";
+
                     Label vmIPLabel = new Label();
                     vmIPLabel.Text = "IP Address";
                     Label vmIP = new Label();
                     vmIP.Text = vm.IP;
-                    vmIPPanel.Controls.Add(vmIPLabel);
-                    vmIPPanel.Controls.Add(vmIP);
+                    TableCell vmIPLabelCell = new TableCell();
+                    vmIPLabelCell.Controls.Add(vmIPLabel);
+                    TableCell vmIPCell = new TableCell();
+                    vmIPCell.Controls.Add(vmIP);
+                    tableDescRow.Cells.Add(vmIPLabelCell);
+                    tableValueRow.Cells.Add(vmIPCell);
 
-                    Panel vmCreatedPanel = new Panel();
                     Label vmCreatedLabel = new Label();
                     vmCreatedLabel.Text = "Created";
                     Label vmCreated = new Label();
                     vmCreated.Text = vm.Created.ToString();
-                    vmCreatedPanel.Controls.Add(vmCreatedLabel);
-                    vmCreatedPanel.Controls.Add(vmCreated);
+                    TableCell vmCreatedLabelCell = new TableCell();
+                    vmCreatedLabelCell.Controls.Add(vmCreatedLabel);
+                    TableCell vmCreatedCell = new TableCell();
+                    vmCreatedCell.Controls.Add(vmCreated);
+                    tableDescRow.Cells.Add(vmCreatedLabelCell);
+                    tableValueRow.Cells.Add(vmCreatedCell);
 
-                    Panel vmShutdownPanel = new Panel();
                     Label vmShutdownLabel = new Label();
                     vmShutdownLabel.Text = "Last Shutdown Time";
                     Label vmShutdown = new Label();
                     vmShutdown.Text = vm.LastStopped.ToString();
-                    vmShutdownPanel.Controls.Add(vmShutdownLabel);
-                    vmShutdownPanel.Controls.Add(vmShutdown);
+                    TableCell vmShutdownLabelCell = new TableCell();
+                    vmShutdownLabelCell.Controls.Add(vmShutdownLabel);
+                    TableCell vmShutdownCell = new TableCell();
+                    vmShutdownCell.Controls.Add(vmShutdown);
+                    tableDescRow.Cells.Add(vmShutdownLabelCell);
+                    tableValueRow.Cells.Add(vmShutdownCell);
 
-                    // ******* Details Panel *******
-                    Panel detailsPanel = new Panel();
-                    detailsPanel.GroupingText = "Details go here!"; // Get rid of when details are added
-                    detailsPanel.ID = vm.ImagePathName+"detail";
-                    detailsPanel.Visible = false;
-                    
+                    detailDescRow.Cells.Add(new TableCell());
+                    detailValueRow.Cells.Add(new TableCell());
+
+                    Label vmImageFileLabel = new Label();
+                    vmImageFileLabel.Text = "Image File";
+                    Label vmImageFile = new Label();
+                    vmImageFile.Text = vm.ImagePathName;
+                    TableCell vmImageFileLabelCell = new TableCell();
+                    TableCell vmImageFileCell = new TableCell();
+                    vmImageFileLabelCell.Controls.Add(vmImageFileLabel);
+                    vmImageFileCell.Controls.Add(vmImageFile);
+                    detailDescRow.Cells.Add(vmImageFileLabelCell);
+                    detailValueRow.Cells.Add(vmImageFileCell);
+
                     Button showMoreButton = new Button();
-                    showMoreButton.Attributes.Add("detailPanelID", detailsPanel.ID);
+                    showMoreButton.Attributes.Add("VM", vmName.Text);
                     showMoreButton.Click += handleShowMore;
-                    showMoreButton.Text = "Show More";
+                    showMoreButton.Text = "Hide Details";
+                    TableCell smbCell = new TableCell();
+                    smbCell.Controls.Add(showMoreButton);
+                    tableDescRow.Cells.Add(smbCell);
 
-                    machinePanel.Controls.Add(statusButton);
-                    machinePanel.Controls.Add(vmNamePanel);
-                    machinePanel.Controls.Add(vmIPPanel);
-                    machinePanel.Controls.Add(vmCreatedPanel);
-                    machinePanel.Controls.Add(vmShutdownPanel);
-                    machinePanel.Controls.Add(showMoreButton);
-                    machinePanel.Controls.Add(detailsPanel);
+                    Label vmLSTLabel = new Label();
+                    vmLSTLabel.Text = "Last Start Time";
+                    Label vmLST = new Label();
+                    vmLST.Text = vm.LastStarted.ToString();
+                    TableCell vmLSTLabelCell = new TableCell();
+                    TableCell vmLSTCell = new TableCell();
+                    vmLSTLabelCell.Controls.Add(vmLSTLabel);
+                    vmLSTCell.Controls.Add(vmLST);
+                    detailDescRow.Cells.Add(vmLSTLabelCell);
+                    detailValueRow.Cells.Add(vmLSTCell);
 
-                    projectPanel.Controls.Add(machinePanel);
+                    Label vmLBTLabel = new Label();
+                    vmLBTLabel.Text = "Last Backup Time";
+                    Label vmLBT = new Label();
+                    vmLBT.Text = vm.LastBackuped.ToString();
+                    TableCell vmLBTLabelCell = new TableCell();
+                    TableCell vmLBTCell = new TableCell();
+                    vmLBTLabelCell.Controls.Add(vmLBTLabel);
+                    vmLBTCell.Controls.Add(vmLBT);
+                    detailDescRow.Cells.Add(vmLBTLabelCell);
+                    detailValueRow.Cells.Add(vmLBTCell);
+
+                    Label vmLATLabel = new Label();
+                    vmLATLabel.Text = "Last Archive Time";
+                    Label vmLAT = new Label();
+                    vmLAT.Text = vm.LastArchived.ToString();
+                    TableCell vmLATLabelCell = new TableCell();
+                    TableCell vmLATCell = new TableCell();
+                    vmLATLabelCell.Controls.Add(vmLATLabel);
+                    vmLATCell.Controls.Add(vmLAT);
+                    detailDescRow.Cells.Add(vmLATLabelCell);
+                    detailValueRow.Cells.Add(vmLATCell);
+
+
+                    table.Rows.Add(tableDescRow);
+                    table.Rows.Add(tableValueRow);
+                    table.Rows.Add(detailDescRow);
+                    table.Rows.Add(detailValueRow);
                 }
+                projectPanel.Controls.Add(table);
 
                 ServerListPanel.Controls.Add(projectPanel);
             }
@@ -132,18 +199,23 @@ namespace VMat
         {
             if (sender is Button)
             {
-                Button statusButton = (Button)sender;
-                string detailPanelID = statusButton.Attributes["detailPanelID"];
-                Panel detailPanel = (Panel) statusButton.Parent.FindControl(detailPanelID);
-                if (detailPanel.Visible)
+                Button showDetailsButton = (Button)sender;
+                TableCell sdbCell = (TableCell) showDetailsButton.Parent;
+                TableRow sdbcRow = (TableRow)sdbCell.Parent;
+                Table table = (Table)sdbcRow.Parent;
+                TableRow descRow = (TableRow) table.FindControl(showDetailsButton.Attributes["VM"] + "descRow");
+                TableRow valueRow = (TableRow) table.FindControl(showDetailsButton.Attributes["VM"] + "valueRow");
+                if (descRow.Visible)
                 {
-                    detailPanel.Visible = false;
-                    statusButton.Text = "Show Details";
+                    descRow.Visible = false;
+                    valueRow.Visible = false;
+                    showDetailsButton.Text = "Show Details";
                 }
                 else
                 {
-                    detailPanel.Visible = true;
-                    statusButton.Text = "Hide Details";
+                    descRow.Visible = true;
+                    valueRow.Visible = true;
+                    showDetailsButton.Text = "Hide Details";
                 }
 
             }
