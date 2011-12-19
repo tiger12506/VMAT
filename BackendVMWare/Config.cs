@@ -1,40 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration;
 using System.Web.Configuration;
-using System.Web;
-using System.Web.UI.WebControls;
 
 namespace BackendVMWare
 {
+    /// <summary>
+    /// Interface with the Web.config file.
+    /// </summary>
     public class Config
     {
+        /// <summary>
+        /// The interface object for the 'appSettings' section of Web.config.
+        /// </summary>
         private static AppSettingsSection appSettings = WebConfigurationManager.OpenWebConfiguration("~").AppSettings;
 
         /// <summary>
         /// Set the appSettings section to the given instance of an object. Used primarily for
         /// testing purposes.
         /// </summary>
-        /// <param name="settings">The intended appSettings section object</param>
+        /// <param name="settings">The intended appSettings section object.</param>
         public static void SetWebConfigurationFile(AppSettingsSection settings)
         {
             appSettings = settings;
         }
 
         // Location of all VM files on host
+        /// <summary>
+        /// Return the path to the directory containing the virtual machines
+        /// on the VMware server.
+        /// </summary>
+        /// <returns>The full path of the directory containing the virtual machines.</returns>
         public static string GetHostVmPath()
         {
             return appSettings.Settings["HostVMPath"].Value;
         }
 
+        /// <summary>
+        /// Return the datastore value for the VMware server.
+        /// </summary>
+        /// <returns>The datastore value.</returns>
         public static string GetDatastore()
         {
             return appSettings.Settings["VMDatastore"].Value;
         }
 
         // Virtual machine folder on host must be accessible by webserver, no opportunity to provide user/pass yet (unless map network drive)
+        /// <summary>
+        /// Return the 
+        /// </summary>
+        /// <returns></returns>
         public static string GetWebserverVmPath()
         {
             return appSettings.Settings["WebserverVMPath"].Value;
@@ -91,6 +106,18 @@ namespace BackendVMWare
         public static string GetDataFilesDirectory()
         {
             return appSettings.Settings["DataFilesDirectory"].Value;
+        }
+
+        /// <summary>
+        /// Remove the port number from the 'VMWareHostAndPort' option in Web.config.
+        /// </summary>
+        /// <returns>The hostname of the VMware server.</returns>
+        public static string GetVMHostName()
+        {
+            string hostName = GetVMwareHostAndPort();
+            hostName = hostName.Remove(hostName.IndexOf(':'));
+
+            return hostName;
         }
     }
 }

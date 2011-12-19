@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using Vestris.VMWareLib;
 using System.IO;
 using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Vestris.VMWareLib;
 
 namespace BackendVMWare
 {
+    /// <summary>
+    /// Interact with the VMware server.
+    /// </summary>
     public class VMManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private static IVirtualHost vh;
 
         public static IVirtualHost GetVH()
@@ -52,7 +57,11 @@ namespace BackendVMWare
             return ret;
         }
 
-        // given a name, looks up all info about the VM
+        /// <summary>
+        /// Return all the information associated to the given virtual machine.
+        /// </summary>
+        /// <param name="imagePathName">The name of the selected virtual machine.</param>
+        /// <returns>The information for the virtual machine.</returns>
         [Obsolete()]
         public VMInfo GetInfo(string imagePathName)
         {
@@ -83,7 +92,7 @@ namespace BackendVMWare
         /// <summary>
         ///  Find the lowest available IP address.
         /// </summary>
-        /// <returns>The last octet of the lowest available IP address</returns>
+        /// <returns>The last octet of the lowest available IP address.</returns>
         [Obsolete()]
         public int GetNextAvailableIP()
         {

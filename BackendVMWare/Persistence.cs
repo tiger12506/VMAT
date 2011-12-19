@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.OleDb;
 using System.Data;
 
 namespace BackendVMWare
 {
+    /// <summary>
+    /// Interface with the data files associated with the application.
+    /// </summary>
     public class Persistence
     {
+        /// <summary>
+        /// The local filepath to the VMware host configuration file.
+        /// </summary>
         protected static string configPath = Config.GetDataFilesDirectory() + "Host.xls";
+
+        /// <summary>
+        /// The local filepath to the VMware virtual machine cache file.
+        /// </summary>
         protected static string vmCachePath = Config.GetDataFilesDirectory() + "VirtualMachines.xls";
+
 
         /// <summary>
         /// Write the file paths for the host configuration and virtual machine
@@ -94,6 +103,12 @@ namespace BackendVMWare
             return data;
         }
 
+        /// <summary>
+        /// Connect to the given data file and perform a select operation on it.
+        /// </summary>
+        /// <param name="resourceFile">The selected data file name.</param>
+        /// <param name="command">The query to execute.</param>
+        /// <param name="data">The data set to place the selected cells in.</param>
         private static void ExecuteSelectQuery(string resourceFile, string command, DataTable data)
         {
             String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
@@ -119,6 +134,11 @@ namespace BackendVMWare
             }
         }
 
+        /// <summary>
+        /// Connect to the given data file and perform an update operation on it.
+        /// </summary>
+        /// <param name="resourceFile">The selected data file name.</param>
+        /// <param name="command">The query to execute.</param>
         private static void ExecuteUpdateQuery(string resourceFile, string command)
         {
             String sConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
