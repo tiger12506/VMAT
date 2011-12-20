@@ -67,7 +67,7 @@ namespace BackendVMWare
         /// <returns>The full path of the temp directory.</returns>
         public static string GetWebserverTmpPath()
         {
-            return appSettings.Settings["WebserverTmpPath"].Value;
+            return appSettings.Settings["WebserverTempPath"].Value;
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace BackendVMWare
             GetVH();
         }
 
-        private IVirtualMachine OpenVM(string imagePathName)
+        public IVirtualMachine OpenVM(string imagePathName)
         {
             return vh.Open(imagePathName);
         }
@@ -57,12 +57,16 @@ namespace BackendVMWare
             return ret;
         }
 
+
         /// <summary>
         /// Return all the information associated to the given virtual machine.
         /// </summary>
         /// <param name="imagePathName">The name of the selected virtual machine.</param>
         /// <returns>The information for the virtual machine.</returns>
         [Obsolete()]
+
+        // given a name, looks up all info about the VM
+
         public VMInfo GetInfo(string imagePathName)
         {
             return new VMInfo(imagePathName);
