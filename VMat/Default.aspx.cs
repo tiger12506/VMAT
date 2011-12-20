@@ -47,7 +47,7 @@ namespace VMat
                 projectPanel.GroupingText = project.ProjectName + "   " + project.HostName;
                 projectPanel.BorderWidth = 10;
                 projectPanel.BorderStyle = BorderStyle.Outset;
-
+                //creates the table and dynamic controls
                 foreach (VMInfo vm in project.VirtualMachines)
                 {
                     TableRow tableDescRow = new TableRow();
@@ -178,11 +178,21 @@ namespace VMat
                     detailDescRow.Cells.Add(vmLATLabelCell);
                     detailValueRow.Cells.Add(vmLATCell);
 
+                    //Line break to make it look prettier
+                    Label l = new Label();
+                    l.Text = "<hr />";
+                    TableRow row = new TableRow();
+                    TableCell cell = new TableCell();
+                    cell.Controls.Add(l);
+                    cell.ColumnSpan = 6;
+                    row.Cells.Add(cell);
 
                     table.Rows.Add(tableDescRow);
                     table.Rows.Add(tableValueRow);
                     table.Rows.Add(detailDescRow);
                     table.Rows.Add(detailValueRow);
+                    table.Rows.Add(row);
+                    
                 }
                 projectPanel.Controls.Add(table);
 
@@ -197,6 +207,7 @@ namespace VMat
                 ImageButton closeButton = (ImageButton)sender;
                 foreach (Control c in closeButton.Parent.Controls)
                 {
+                    if(!c.Equals(sender))
                     c.Visible = false;
                 }
 

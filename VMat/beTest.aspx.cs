@@ -16,7 +16,7 @@ namespace VMat
             var vmm = new VMManager();
             foreach (string imageName in vmm.GetRegisteredVMs())
             {
-                var vmi = vmm.GetInfo(imageName);
+                var vmi = new VMInfo(imageName);
                 mainText.Text += "<tr><td><strong>" + vmi.ImagePathName + "</strong></td><td>" + vmi.Status + "</td><td>" + vmi.HostnameWithDomain + "</td><td>" + vmi.IP
                     + "</td><td>" + vmi.Created + "</td><td>" + vmi.LastStopped + "</td></tr>";
             }
