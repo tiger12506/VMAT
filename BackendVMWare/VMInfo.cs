@@ -32,16 +32,30 @@ namespace BackendVMWare
     {
         //all paths are "datastore-style," ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         //query from VM
+        /// <summary>
+        /// The image file that the VM will be running from (will be created). Should probably follow ProjectName/gapdevppppnnnnn.vmx, but existing ones may not. p is project number, n is engineer-selected name (1-5 char)
+        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
+        /// </summary>
         public string ImagePathName { get; set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx" actual HDD location harder to find
 
-        //probably query, uncertain
-        //before running sets, check if null
-        //query from _running_ VM
+        /// <summary>
+        /// ie 137.112.147.145
+        /// </summary>
         public string IP { get; set; }
+        /// <summary>
+        /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
+        /// </summary>
         public string HostnameWithDomain { get; set; }
 
         //can't really query so must store elsewhere or somehow derive (ie from naming conventions)
+        /// <summary>
+        /// The base image file that the VM was originally copied from when first created. Unknown naming conventions, likely contains OS version.
+        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
+        /// </summary>
         public string BaseImageName { get; set; } //the pathname of the image file this VM was copied from
+        /// <summary>
+        /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
+        /// </summary>
         public string ProjectName { get; set; } //the name of the project, could be changed, format in reqs doc
 
 
@@ -51,7 +65,7 @@ namespace BackendVMWare
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New object representing VM</returns>
         public VMInfo CreateVM()
         {
 
@@ -63,7 +77,10 @@ namespace BackendVMWare
             if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
 
+            //this all really needs to be async, report status, and handle errors in individual steps better
             CopyVMFiles();
+
+            System.Threading.Thread.Sleep(8 * 1000); //ensure file copied 
 
             VMManager.GetVH().Register(ImagePathName);
 
@@ -77,7 +94,7 @@ namespace BackendVMWare
             System.Threading.Thread.Sleep(180 * 1000); //allow VM time to power on
             try
             {
-                newVM.VM.WaitForToolsInGuest(150);
+                
             }
             catch (TimeoutException)
             {
@@ -124,7 +141,7 @@ namespace BackendVMWare
 
             String strFile = File.ReadAllText(destVMX);
             strFile = strFile.Replace(sourceName, destName);
-            if (strFile.Contains("\r\nuuid.action = \"create\"\r\n"))
+            if (!strFile.Contains("uuid.action = \"create\""))
             {
                 strFile += "\r\nuuid.action = \"create\"\r\n";
                 strFile += "msg.autoAnswer = \"TRUE\"\r\n";
@@ -132,7 +149,26 @@ namespace BackendVMWare
             File.WriteAllText(destVMX, strFile);
         }
     }
+    /*
+    public class CachedVMInfo : VMInfo
+    {
+        public CachedVMInfo(IVirtualMachine vm) : base(vm) { }
+        public CachedVMInfo(IVirtualMachine vm) : base(vm) { }
 
+
+        public string IP
+        {
+            get
+            {
+                try
+                {
+                    Persistence.GetIP(GetMachineName(this.ImagePathName));
+                }
+                catch (Exception) { }
+                return ((VMInfo)this).IP;
+            }
+        }
+    }*/
     /// <summary>
     /// Stores info about a particular VM.
     /// </summary>
@@ -168,7 +204,14 @@ namespace BackendVMWare
 
 
         //query from VM
-        public string ImagePathName { get; set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx" actual HDD location harder to find
+        /// <summary>
+        /// The current image file that the VM is running on. Will not be modifiable. Should probably follow ProjectName/gapdevppppnnnnn.vmx, but existing ones may not. p is project number, n is engineer-selected name (1-5 char)
+        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
+        /// </summary>
+        public string ImagePathName { get; private set; } //ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx" actual HDD location harder to find
+        /// <summary>
+        /// Stopped, Paused (in memory), Suspended (to disk), Running
+        /// </summary>
         public VMStatus Status
         {
             get
@@ -218,15 +261,16 @@ namespace BackendVMWare
         public DateTime LastArchived { get; set; }
         public DateTime Created { get; set; }
 
-        private void LoginTools()
+        private void LoginTools(bool waitLong=false)
         {
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
-            VM.WaitForToolsInGuest(40); //todo refactor this out somewhere
+            VM.WaitForToolsInGuest(waitLong?120:30); //todo refactor this out somewhere
             VM.LoginInGuest(Config.GetVMsUsername(), Config.GetVMsPassword());
         }
         //query from running vm
 
         /// <summary>
+        /// ie 137.112.147.145
         /// Note: caller must reboot after setting. 
         /// </summary>
         public string IP
@@ -235,14 +279,15 @@ namespace BackendVMWare
             {
                 try
                 {
-                    //if (!this.VM.IsRunning) return "offline";
+                    if (!this.VM.IsRunning) return "offline";
                     LoginTools();
-
-                    return this.VM.IsRunning ? this.VM.GuestVariables["ip"] : GetCacheIP();
+                    var ret=this.VM.GuestVariables["ip"];
+                    Persistence.WriteVMIP(ImagePathName, ret);
+                    return ret;
                 }
                 catch (Exception e)
                 {
-                    return e.Message + ": IP cache error";
+                    return "IP error";
                 }
             }
             set
@@ -251,7 +296,7 @@ namespace BackendVMWare
                     throw new InvalidDataException("IP too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
-                LoginTools();
+                LoginTools(true);
                 Shell guestShell = new Shell(VM.VM); //todo mock?
                 string cmd = "netsh interface ip set address " + Config.GetNetworkInterfaceName() + " static " + value + " 255.255.255.0";
                 output = guestShell.RunCommandInGuest(cmd);
@@ -271,6 +316,7 @@ namespace BackendVMWare
             }
         }
         /// <summary>
+        /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
         /// Note: caller must reboot after setting. 
         /// </summary>
         public string HostnameWithDomain
@@ -299,7 +345,7 @@ namespace BackendVMWare
                     throw new ArgumentException("Hostname too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
-                LoginTools();
+                LoginTools(true);
                 var renameScriptHost = Config.GetWebserverTmpPath() + "renamecomp.vbs";
                 if (!File.Exists(renameScriptHost))
                 {
@@ -320,7 +366,6 @@ For Each objComputer in _
         End If
 Next
 ");
-
                 }
                 
                 //note: Host means Webserver, NOT VMware server
@@ -341,39 +386,75 @@ Next
                     throw new InvalidOperationException(output.StdOut);
             }
         }
-
+        /// <summary>
+        /// Not stored separately, generated from Image Path Name. 1-5 char engineer-selected name
+        /// </summary>
+        public string MachineName
+        {
+            get {
+                return ImagePathName.Substring(ImagePathName.LastIndexOf("\\") + 1, ImagePathName.LastIndexOf("."));
+            }
+        }
         //can't really query so must store elsewhere or somehow derive (ie from naming conventions)
+        /// <summary>
+        /// The base image file that the VM was originally copied from when first created. Unknown naming conventions, likely contains OS version.
+        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
+        /// </summary>
         public string BaseImageName { get; set; }
+        /// <summary>
+        /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
+        /// </summary>
         public string ProjectName { get; set; }
+        /// <summary>
+        /// Active, Idle, Archived
+        /// </summary>
         public VMLifecycle Lifecycle { get; set; } //if archived, won't be able to query a thing obviously
+        
+        /// <summary>
+        /// The VMwareTasks API object behind this VM instance.
+        /// </summary>
+        private IVirtualMachine VM { get; set; }
 
+        //should probably move, ie to CachedVM
+        private string GetCacheIP()
+        {
+            string ipAddress = Persistence.GetIP(MachineName);
 
-        public IVirtualMachine VM { get; private set; }
+            return ipAddress;
+        }
 
-
+        /// <summary>
+        /// Converts datasource-style path to physical network path
+        /// </summary>
+        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
+        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
         public static string ConvertPathToPhysical(string PathName)
         {
             return PathName.Replace(Config.GetDatastore(), Config.GetWebserverVmPath()).Replace('/', '\\');
         }
 
+        /// <summary>
+        /// Converts physical network path to datasource-style path
+        /// </summary>
+        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
         public static string ConvertPathToDatasource(string PathName)
         {
             return PathName.Replace(Config.GetWebserverVmPath(), Config.GetDatastore()).Replace('\\', '/');
         }
 
-        private string GetMachineName()
+        /// <summary>
+        /// Takes either a physical path or datasource path and provides just the base path name
+        /// </summary>
+        /// <param name="PathName">Physical or datasource path, ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Base path name, ie "Windows 7"</returns>
+        public static string GetMachineName(string imagePathName)
         {
-            string imagePathNameTail = ImagePathName.Substring(ImagePathName.LastIndexOf("\\") + 1);
-            string machineName = imagePathNameTail.Substring(0, ImagePathName.LastIndexOf("."));
-
-            return machineName;
+            string ipnClean = imagePathName.Replace('\\', '/');
+            int index1 = ipnClean.LastIndexOf("/") + 1;
+            int index2 = ipnClean.LastIndexOf(".") - index1;
+            return ipnClean.Substring(index1, index2);
         }
 
-        private string GetCacheIP() 
-        {
-            string ipAddress = Persistence.GetIP(GetMachineName());
-
-            return ipAddress;
-        }
     }
 }
