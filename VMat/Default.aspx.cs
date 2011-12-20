@@ -143,7 +143,7 @@ namespace VMat
                     editMachineButton.Click += handleEditMachine;
                     TableCell eMBCell = new TableCell();
                     eMBCell.Controls.Add(editMachineButton);
-                    tableValueRow.Cells.Add(eMBCell);
+//                    tableValueRow.Cells.Add(eMBCell);
 
                     Label vmLSTLabel = new Label();
                     vmLSTLabel.Text = "Last Start Time";
