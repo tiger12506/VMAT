@@ -3,8 +3,8 @@
 <%@ Import Namespace="System.Data" %>
 
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
-    <script type="text/javascript" src="/Scripts/popupDiv.js"></script>
-  <script type="text/javascript" src="/Scripts/vmControls.js"></script>
+    <script type="text/javascript" src="Scripts/popupDiv.js"></script>
+  <script type="text/javascript" src="Scripts/vmControls.js"></script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainHeader" runat="server">
@@ -16,7 +16,7 @@
     <a href="CreateMachine.aspx">
       <span class="button">
         <span class="icon">
-          <img src="/Images/icon_server-create.png" alt="" />
+          <img src="Images/icon_server-create.png" alt="" />
         </span>
         Create 
       </span>
@@ -24,7 +24,7 @@
     <a href="ConfigHost.aspx">
       <span class="button">
         <span class="icon">
-          <img src="/Images/icon_server-admin.png" alt="" />
+          <img src="Images/icon_server-admin.png" alt="" />
         </span>
         Admin
       </span>

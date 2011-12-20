@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
   <title></title>
-  <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
+  <link href="Styles/Site.css" rel="stylesheet" type="text/css" />
   <asp:ContentPlaceHolder ID="HeadContent" runat="server">
   </asp:ContentPlaceHolder>
 </head>
@@ -12,14 +12,14 @@
   <div class="page">
     <div class="header">
       <div class="title">
-        <a href="/">
-          <img src="/Images/logo_vmat.png" alt="VMAT" />
+        <a href="">
+          <img src="Images/logo_vmat.png" alt="VMAT" />
         </a>
       </div>
       <div class="loginDisplay">
         <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
           <AnonymousTemplate>
-            [ <a href="/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
+            [ <a href="Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
             ]
           </AnonymousTemplate>
           <LoggedInTemplate>

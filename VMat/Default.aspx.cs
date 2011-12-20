@@ -37,7 +37,7 @@ namespace VMat
 
                 ImageButton closeProjectButton = new ImageButton();
                 closeProjectButton.Click += handleCloseProject;
-                closeProjectButton.ImageUrl = "/Images/icon_project-complete.png";
+                closeProjectButton.ImageUrl = "Images/icon_project-complete.png";
                 closeProjectButton.AlternateText = "Completed";
                 closeProjectButton.Width = 30;
                 closeProjectButton.Height = 30;
@@ -268,7 +268,7 @@ namespace VMat
 
         protected string GetStatusImagePath(VMStatus status)
         {
-            return ((status == VMStatus.Running) ? "/Images/icon_led-green.png" : "/Images/icon_led-red.png");
+            return ((status == VMStatus.Running) ? "Images/icon_led-green.png" : "Images/icon_led-red.png");
         }
 
         protected VMStatus ToggleMachineStatus(VMInfo vm)
