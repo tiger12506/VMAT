@@ -22,6 +22,9 @@
           <asp:DropDownList ID="ImageList" runat="server" AutoPostBack="True" 
               ViewStateMode="Enabled" />
           <br />
+          <asp:Label ID="IPEntryLabel" runat="server" Text="IP Address: "></asp:Label>
+          <asp:TextBox ID="IPEntry" runat="server" AutoPostBack="True"></asp:TextBox>
+          <br />
       </asp:Panel>
       <asp:Panel ID="DescriptionPanel" runat="server" BorderStyle="None" 
           GroupingText="Description" Height="240px" style="width: 960px" Width="531px">
