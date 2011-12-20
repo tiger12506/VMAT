@@ -28,6 +28,7 @@ namespace VMat
             ImageClickEventHandler handleToggleDetails = new ImageClickEventHandler(ToggleDetailsPanel);
             ImageClickEventHandler handleCloseProject = new ImageClickEventHandler(CloseProject);
             EventHandler handleShowMore = new EventHandler(ShowMore);
+            EventHandler handleEditMachine = new EventHandler(editMachine);
 
             foreach (ProjectInfo project in projects)
             {
@@ -136,6 +137,14 @@ namespace VMat
                     smbCell.Controls.Add(showMoreButton);
                     tableDescRow.Cells.Add(smbCell);
 
+                    Button editMachineButton = new Button();
+                    editMachineButton.Text = "Edit Machine";
+                    editMachineButton.Attributes["imageName"] = vm.ImagePathName;
+                    editMachineButton.Click += handleEditMachine;
+                    TableCell eMBCell = new TableCell();
+                    eMBCell.Controls.Add(editMachineButton);
+                    tableValueRow.Cells.Add(eMBCell);
+
                     Label vmLSTLabel = new Label();
                     vmLSTLabel.Text = "Last Start Time";
                     Label vmLST = new Label();
@@ -192,6 +201,17 @@ namespace VMat
                 }
 
                 // Do other stuff for closing out a project (call backend stuff)
+            }
+        }
+
+        protected void editMachine(object sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                Button editButton = (Button)sender;
+                string imageName = editButton.Attributes["imageName"];
+                string encoded = Server.UrlEncode(imageName);
+                Response.Redirect("Edit.aspx?imageName=" + encoded);
             }
         }
 

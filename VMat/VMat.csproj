@@ -56,6 +56,7 @@
     <Content Include="About.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="beTest.aspx" />
+    <Content Include="Edit.aspx" />
     <Content Include="Help.aspx" />
     <Content Include="Images\icon_close-window.png" />
     <Content Include="Images\icon_configure.png" />
@@ -113,6 +114,13 @@
     </Compile>
     <Compile Include="beTest.aspx.designer.cs">
       <DependentUpon>beTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Help.aspx.cs">
       <DependentUpon>Help.aspx</DependentUpon>
