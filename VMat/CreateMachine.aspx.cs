@@ -86,7 +86,7 @@ namespace VMat
             info.ProjectName = project;
             info.BaseImageName = baseImagePathName;
             info.HostnameWithDomain = hostname;
-            info.IP = IPAddress.Text;
+            info.IP = IPEntry.Text;
 
             VMInfo status = info.CreateVM();
 
@@ -102,7 +102,9 @@ namespace VMat
 
         protected void DescriptionTable_Load(object sender, EventArgs e)
         {
-            IPAddress.Text = "192.168.1."+Persistence.GetNextAvailableIP().ToString();
+// For later when GetNextAvailableIP has persistence
+//            IPAddress.Text = "192.168.1."+Persistence.GetNextAvailableIP().ToString();
+            IPAddress.Text = IPEntry.Text;
         }
 
     }

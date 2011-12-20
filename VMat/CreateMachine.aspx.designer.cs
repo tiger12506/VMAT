@@ -49,6 +49,24 @@ namespace VMat {
         protected global::System.Web.UI.WebControls.DropDownList ImageList;
         
         /// <summary>
+        /// IPEntryLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label IPEntryLabel;
+        
+        /// <summary>
+        /// IPEntry control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox IPEntry;
+        
+        /// <summary>
         /// DescriptionPanel control.
         /// </summary>
         /// <remarks>
