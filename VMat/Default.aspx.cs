@@ -215,7 +215,7 @@ namespace VMat
             }
         }
 
-        protected void editMachine(object sender, EventArgs e)
+            protected void editMachine(object sender, EventArgs e)
         {
             if (sender is Button)
             {
