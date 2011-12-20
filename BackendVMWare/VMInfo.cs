@@ -281,7 +281,7 @@ namespace BackendVMWare
                 {
                     if (!this.VM.IsRunning) return "offline";
                     LoginTools();
-                    var ret=this.VM.GuestVariables["ip"];
+                    var ret = this.VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
                     Persistence.WriteVMIP(ImagePathName, ret);
                     return ret;
                 }
@@ -329,7 +329,7 @@ namespace BackendVMWare
                     LoginTools();
                     Shell guestShell = new Shell(this.VM.VM); //todo mock?
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
-                    return output.StdOut;
+                    return output.StdOut.Replace("\n","").Replace("\r","");
                 }
                 catch (TimeoutException)
                 {
