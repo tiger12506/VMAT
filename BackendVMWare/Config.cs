@@ -24,7 +24,65 @@ namespace BackendVMWare
         {
             appSettings = settings;
         }
+        public static string CheckConfigSettings()
+        {
+            string ret = "";
+            string c = GetHostVmPath();
+            if (!(c.EndsWith("/") || c.EndsWith("\\")))
+                ret += "HostVMPath should end with / or \\<br />";
 
+            c = GetDatastore();
+            if (!(c.Contains("] ") && (c.Contains("["))))
+                ret += "Datastore should contain [ and ] (with trailing space)<br />";
+
+            ret+=CheckPath(GetWebserverVmPath(),"WebserverVmPath");
+            ret += CheckPath(GetWebserverTmpPath(), "WebserverTmpPath");
+
+            c = GetNetworkInterfaceName();
+            if (c.Length < 6)
+                ret += "Network Interface Name too short<br />";
+
+            c = GetVMwareHostAndPort();
+            if (c.Contains(":"))
+            {
+                var p = new System.Net.NetworkInformation.Ping();
+                try
+                {
+                    p.Send(GetVMHostName(), 10000);
+                    
+                }
+                catch (Exception e)
+                {
+                    ret += "couldn't ping VMwareHost, exception: " + e.Message+"<br />";
+                }
+            }
+            else
+                ret += "VMwareHostAndPort must contain hostname and port, seperated by colon<br />";
+
+            try
+            {
+                VMManager.GetVH();
+            }
+            catch (Exception e)
+            {
+                ret += "can't connect to VMware Server. Check hostname, username, password. Exception: "+e.Message+"<br />";
+            }
+
+            //usernames, passwords, GetDataFilesDirectory skipped
+
+            ret += "<br />Check complete.<br />";
+
+            return ret;
+        }
+        private static string CheckPath(string path, string name)
+        {
+            string ret="";
+            if (!System.IO.Directory.Exists(path))
+                ret += name + " doesn't exist<br />";
+            if (!(path.EndsWith("/") || path.EndsWith("\\")))
+                ret += name + " should end with / or \\<br />";
+            return ret;
+        }
         // Location of all VM files on host
         /// <summary>
         /// Return the path to the directory containing the virtual machines
@@ -89,6 +147,18 @@ namespace BackendVMWare
         }
 
         /// <summary>
+        /// Remove the port number from the 'VMWareHostAndPort' option in Web.config.
+        /// </summary>
+        /// <returns>The hostname of the VMware server.</returns>
+        public static string GetVMHostName()
+        {
+            string hostName = GetVMwareHostAndPort();
+            hostName = hostName.Remove(hostName.IndexOf(':'));
+
+            return hostName;
+        }
+
+        /// <summary>
         /// Return the username for the VMware server.
         /// </summary>
         /// <returns>The VMware username.</returns>
@@ -134,16 +204,5 @@ namespace BackendVMWare
             return appSettings.Settings["DataFilesDirectory"].Value;
         }
 
-        /// <summary>
-        /// Remove the port number from the 'VMWareHostAndPort' option in Web.config.
-        /// </summary>
-        /// <returns>The hostname of the VMware server.</returns>
-        public static string GetVMHostName()
-        {
-            string hostName = GetVMwareHostAndPort();
-            hostName = hostName.Remove(hostName.IndexOf(':'));
-
-            return hostName;
-        }
     }
 }
