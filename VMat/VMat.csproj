@@ -6,13 +6,14 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1BC6B2B9-B049-4924-B6A1-A23107008097}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{F8D909F5-1FBD-4DFB-B0CF-CDECF4F799E5}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VMat</RootNamespace>
-    <AssemblyName>VMat</AssemblyName>
+    <RootNamespace>VMAT</RootNamespace>
+    <AssemblyName>VMAT</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,177 +32,228 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.VixCOM, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1a2e7e25925ba452, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>References\Interop.VixCOM.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\MicrosoftWebInfrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Optimization">
+      <HintPath>..\packages\Microsoft.Web.Optimization.0.1\lib\net40\Microsoft.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetMvc.4.0.10906.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="Vestris.VMWareComLib, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Vestris.VMWareComLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Vestris.VMWareLib, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Vestris.VMWareLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Vestris.VMWareLib.MSBuildTasks, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Vestris.VMWareLib.MSBuildTasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Vestris.VMWareTools, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Vestris.VMWareTools.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
-    <Content Include="Account\Login.aspx" />
-    <Content Include="beTest.aspx" />
-    <Content Include="CheckConfig.aspx" />
-    <Content Include="Edit.aspx" />
-    <Content Include="Help.aspx" />
-    <Content Include="Images\icon_close-window.png" />
-    <Content Include="Images\icon_configure.png" />
-    <Content Include="Images\icon_create.png" />
-    <Content Include="Images\icon_led-green.png" />
-    <Content Include="Images\icon_led-red.png" />
-    <Content Include="Images\icon_server-admin.png" />
-    <Content Include="Images\icon_project-complete.png" />
-    <Content Include="Images\icon_server-create.png" />
-    <Content Include="Images\icon_servers.png" />
-    <Content Include="Images\logo_vmat.png" />
-    <Content Include="Images\logo_windows-server-2008.png" />
-    <Content Include="Scripts\formControls.js" />
-    <Content Include="Scripts\popupDiv.js" />
-    <Content Include="Scripts\vmControls.js" />
-    <Content Include="Styles\Site.css" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VirtualMachineController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ArchivedVirtualMachine.cs" />
+    <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\HostConfiguration.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\PendingVirtualMachine.cs" />
+    <Compile Include="Models\Persistence.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\VirtualMachine.cs" />
+    <Compile Include="Models\VirtualMachineManager.cs" />
+    <Compile Include="Models\VMware\IProcess.cs" />
+    <Compile Include="Models\VMware\IVirtualHost.cs" />
+    <Compile Include="Models\VMware\IVirtualMachine.cs" />
+    <Compile Include="Models\VMware\Process.cs" />
+    <Compile Include="Models\VMware\VirtualHost.cs" />
+    <Compile Include="Models\VMware\VirtualMachine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ProjectList.cs" />
+    <Compile Include="ViewModels\ToggleStatusViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="7za.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Default.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
+    <Content Include="Content\themes\images\favicon.png" />
+    <Content Include="Content\themes\images\icon_close-window.png" />
+    <Content Include="Content\themes\images\icon_configure.png" />
+    <Content Include="Content\themes\images\icon_create.png" />
+    <Content Include="Content\themes\images\icon_project-complete.png" />
+    <Content Include="Content\themes\images\icon_server-admin.png" />
+    <Content Include="Content\themes\images\icon_server-create.png" />
+    <Content Include="Content\themes\images\icon_servers.png" />
+    <Content Include="Content\themes\images\logo_windows-server-2003.gif" />
+    <Content Include="Content\themes\images\logo_windows-server-2008.png" />
+    <Content Include="Scripts\AjaxLogin.js" />
+    <Content Include="Scripts\forms.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-1.3.0beta.debug.js" />
+    <Content Include="Scripts\knockout-1.3.0beta.js" />
+    <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
+    <Content Include="Scripts\popups.js" />
+    <Content Include="Scripts\toggleMachineStatus.js" />
+    <Content Include="Scripts\validate.js" />
+    <Content Include="Scripts\validateCreateForm.js" />
+    <Content Include="Scripts\validateEditForm.js" />
+    <Content Include="Scripts\vmManagement.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Projects.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="CreateMachine.aspx" />
-    <Content Include="ConfigHost.aspx" />
-    <Content Include="ImageFiles.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="packages.config" />
+    <None Include="App_Data\Host.xls" />
+    <None Include="App_Data\VirtualMachines.xls" />
+    <None Include="readme.txt" />
+    <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\VirtualMachine\Index.cshtml" />
+    <Content Include="Views\VirtualMachine\Edit.cshtml" />
+    <Content Include="Views\VirtualMachine\Create.cshtml" />
+    <Content Include="Views\Configuration\Index.cshtml" />
+    <Content Include="Views\Configuration\Host.cshtml" />
+    <Content Include="Views\Shared\_Popup.cshtml" />
+    <Content Include="Views\VirtualMachine\_ProjectCompleteForm.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Account\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Account\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="beTest.aspx.cs">
-      <DependentUpon>beTest.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="beTest.aspx.designer.cs">
-      <DependentUpon>beTest.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CheckConfig.aspx.cs">
-      <DependentUpon>CheckConfig.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CheckConfig.aspx.designer.cs">
-      <DependentUpon>CheckConfig.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Edit.aspx.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Edit.aspx.designer.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Help.aspx.cs">
-      <DependentUpon>Help.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help.aspx.designer.cs">
-      <DependentUpon>Help.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Site.Master.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Site.Master.designer.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CreateMachine.aspx.cs">
-      <DependentUpon>CreateMachine.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CreateMachine.aspx.designer.cs">
-      <DependentUpon>CreateMachine.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigHost.aspx.cs">
-      <DependentUpon>ConfigHost.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ConfigHost.aspx.designer.cs">
-      <DependentUpon>ConfigHost.aspx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Account\Web.config" />
-    <Content Include="Site.Master" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BackendVMWare\BackendVMWare.csproj">
-      <Project>{5CC28BC4-4D11-418E-B962-41FC2DEE2E1E}</Project>
-      <Name>BackendVMWare</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ImageFiles.xlsx" />
-    <Content Include="Projects.xlsx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ImageFiles.xls" />
-    <None Include="Projects.xls" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>58432</DevelopmentServerPort>
+          <DevelopmentServerPort>51619</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -215,11 +266,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

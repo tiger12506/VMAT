@@ -1,0 +1,23 @@
+﻿@model IEnumerable<VMAT.Models.Organization>
+
+@{
+    ViewBag.Title = "About";
+}
+
+<div class="about">
+    <h2 class="about">Created By</h2>
+    <ul class="about created-by">
+        @foreach (var org in Model)
+        {
+            <li>
+                <h3>@org.Name</h3>
+                <ul class="about">
+                    @foreach (var author in org.Authors)
+                    {
+                        <li>@author</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>

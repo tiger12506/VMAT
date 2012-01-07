@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="VMat.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="VMAT.MvcApplication" Language="C#" %>

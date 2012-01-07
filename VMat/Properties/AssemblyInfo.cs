@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VMat")]
+[assembly: AssemblyTitle("VMAT")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rose-Hulman Institute of Technology")]
-[assembly: AssemblyProduct("VMat")]
-[assembly: AssemblyCopyright("Copyright © Rose-Hulman Institute of Technology 2011")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("VMAT")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5197463d-1464-4dc7-be7d-32252b65d9c9")]
+[assembly: Guid("335af67a-20d0-4236-a6f5-c9151e408048")]
 
 // Version information for an assembly consists of the following four values:
 //

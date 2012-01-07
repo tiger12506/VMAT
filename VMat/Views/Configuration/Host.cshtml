@@ -1,0 +1,33 @@
+﻿@model VMAT.Models.HostConfiguration
+
+@{
+    ViewBag.Title = "Host Configuration";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MaxVMCount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MaxVMCount)
+            @Html.ValidationMessageFor(model => model.MaxVMCount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MinIP)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MinIP)
+            @Html.ValidationMessageFor(model => model.MinIP)
+        </div>
+
+        <input type="submit" value="Save" />
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "VirtualMachine")
+</div>
