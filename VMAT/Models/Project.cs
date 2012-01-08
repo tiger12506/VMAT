@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VMAT.Models
 {
@@ -10,6 +12,9 @@ namespace VMAT.Models
         /// <summary>
         /// Gets or sets the name of the project.
         /// </summary>
+        [Required(ErrorMessage = "Project Name required")]
+        [MinLength(4, ErrorMessage = "Project Name must be 4 digits")]
+        [MaxLength(4, ErrorMessage = "Project Name must be 4 digits")]
         public string ProjectName { get; set; }
 
         /// <summary>

@@ -83,7 +83,7 @@ namespace VMAT.Models
         /// ie 137.112.147.145
         /// Note: caller must reboot after setting. 
         /// </summary>
-        [StringLength(15)]
+        [MaxLength(15, ErrorMessage = "Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP
         {
@@ -206,6 +206,7 @@ namespace VMAT.Models
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
         /// </summary>
+        [ScaffoldColumn(false)]
         [DisplayName("Machine Name")]
         public string MachineName
         {
@@ -231,7 +232,8 @@ namespace VMAT.Models
         /// Company, Site, tiny description. Project Identifier is latter 3 items.
         /// </summary>
         [Required(ErrorMessage = "Project Number required")]
-        [StringLength(4)]
+        [MinLength(4, ErrorMessage = "Project Name must be 4 digits")]
+        [MaxLength(4, ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Name")]
         public string ProjectName { get; set; }
 
