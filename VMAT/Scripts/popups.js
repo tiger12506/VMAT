@@ -13,8 +13,8 @@ $(document).ready(function () {
         disablePopup();
     });
 
-    $(document).keypress(function (e) {
-        if (e.keyCode == 27 && popupStatus)
+    $(document).keydown(function (e) {
+        if (e.keyCode == 27)
             disablePopup();
     });
 
@@ -37,6 +37,7 @@ function loadPopup(title, element) {
         $("#popup").fadeIn("fast", function () {
             popupStatus = true;
         });
+        $("#popup-background").fadeIn("fast");
     }
 }
 
@@ -47,6 +48,7 @@ function disablePopup() {
             $("#popup-content").html("");
             popupStatus = false;
         });
+        $("#popup-background").fadeOut("fast");
     }
 }
 
@@ -60,6 +62,10 @@ function centerPopup() {
         "top": windowHeight / 2 - popupHeight / 2,
         "left": windowWidth / 2 - popupWidth / 2
     });
+
+    $("#popup-background").css({
+        "height": windowHeight
+    }); 
 }  
 
 // *****************************************************************
