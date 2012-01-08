@@ -20,6 +20,30 @@
                 @Html.EditorFor(model => model.MinIP)
                 @Html.ValidationMessageFor(model => model.MinIP)
             </li>
+
+            <li>
+                @Html.LabelFor(model => model.MaxIP)
+                @Html.EditorFor(model => model.MinIP)
+                @Html.ValidationMessageFor(model => model.MinIP)
+            </li>
+
+            <li>
+                @Html.LabelFor(model => model.CreateVMTime)
+                @Html.EditorFor(model => model.CreateVMTime)
+                @Html.ValidationMessageFor(model => model.CreateVMTime)
+            </li>
+
+            <li>
+                @Html.LabelFor(model => model.BackupVMTime)
+                @Html.EditorFor(model => model.BackupVMTime)
+                @Html.ValidationMessageFor(model => model.BackupVMTime)
+            </li>
+
+            <li>
+                @Html.LabelFor(model => model.ArchiveVMTime)
+                @Html.EditorFor(model => model.ArchiveVMTime)
+                @Html.ValidationMessageFor(model => model.ArchiveVMTime)
+            </li>
         </ul>
     </fieldset>
     
