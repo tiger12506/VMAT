@@ -14,7 +14,7 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Host");
         }
 
         //
@@ -23,6 +23,20 @@ namespace VMAT.Controllers
         public ActionResult Host()
         {
             var config = new HostConfiguration();
+
+            return View(config);
+        }
+
+        //
+        // POST: /Configuration/Host
+
+        [HttpPost]
+        public ActionResult Host(HostConfiguration config)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "VirtualMachine");
+            }
 
             return View(config);
         }

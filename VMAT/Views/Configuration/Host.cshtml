@@ -8,26 +8,24 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MaxVMCount)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MaxVMCount)
-            @Html.ValidationMessageFor(model => model.MaxVMCount)
-        </div>
+        <ul>
+            <li>
+                @Html.LabelFor(model => model.MaxVMCount)
+                @Html.EditorFor(model => model.MaxVMCount)
+                @Html.ValidationMessageFor(model => model.MaxVMCount)
+            </li>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MinIP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MinIP)
-            @Html.ValidationMessageFor(model => model.MinIP)
-        </div>
-
-        <input type="submit" value="Save" />
+            <li>
+                @Html.LabelFor(model => model.MinIP)
+                @Html.EditorFor(model => model.MinIP)
+                @Html.ValidationMessageFor(model => model.MinIP)
+            </li>
+        </ul>
     </fieldset>
+    
+    <input type="submit" value="Save" />
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index", "VirtualMachine")
+    </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "VirtualMachine")
-</div>
