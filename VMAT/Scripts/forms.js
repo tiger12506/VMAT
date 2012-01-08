@@ -1,6 +1,9 @@
 ﻿//File: forms.js
 
 $(document).ready(function () {
+    // Update on load
+    updatePreviewPane();
+
     $("form input").change(updatePreviewPane);
     $("form select").change(updatePreviewPane);
 
@@ -15,15 +18,24 @@ $(document).ready(function () {
 function updatePreviewPane() {
     var projectNumber = $("#ProjectName").val();
     var machineSuffix = $("#MachineNameSuffix").val();
-    
+    var ip = $("#IP").val();
+
     $(".pProject").text("G" + projectNumber);
-    $(".pHostname").text("gapdev.com");
-    $(".pMachinename").text("gapdev" + projectNumber + machineSuffix);
-    $(".pIP").text("192.168.1.1");
+    $(".pHostname").text("vmat.rose-hulman.edu");
+
+    if (machineSuffix)
+        $(".pMachinename").text("gapdev" + projectNumber + machineSuffix);
+    else
+        $(".pMachinename").text("gapdev" + projectNumber + "yyyyy");
+
+    if (ip)
+        $(".pIP").text(ip);
+    else
+        $(".pIP").text("192.168.1.1");
     
     try {
-        var imageName = $("#BaseImageName option:selected").val();
-        $(".pImage").text(imageName);
+        var imageFile = $("#BaseImageFile option:selected").val();
+        $(".pImage").text(imageFile);
     } catch (e) {
         // Ignore if the field does not exist
     }
