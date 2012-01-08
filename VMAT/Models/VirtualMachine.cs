@@ -26,44 +26,21 @@ namespace VMAT.Models
     }
 
     public class VirtualMachine
-    {
-        public static IEnumerable<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => ConvertPathToDatasource(foo));
-        }
-
-        /* I think those fields cover everything we'll need to show, but that should be verified. 
-         * 
-         * Note about querying these fields: 
-         * We may want to cache everything we want to show about VMs, even if it can be queried:
-         * queries may be slow and some data can't be accessed if VM's off.
-         */
-
-        public VirtualMachine(IVirtualMachine vm)
-        {
-            this.VM = vm;
-            this.ImagePathName = VM.PathName;
-            //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
-        }
-
-        // TODO error handle, check if starts with getDatasource
-        public VirtualMachine(string imagePathName)
-            : this(VirtualMachineManager.GetVH().Open(imagePathName))
-        { }
-        
+    {      
         /// <summary>
         /// The current image file that the VM is running on. Will not be modifiable. Should probably follow ProjectName/gapdevppppnnnnn.vmx, 
         /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
         [Required(ErrorMessage = "Image Path Name is required")]
+        [DisplayName("Image Filepath")]
         public string ImagePathName { get; private set; }
 
         /// <summary>
         /// Stopped, Paused (in memory), Suspended (to disk), Running
         /// </summary>
         [ScaffoldColumn(false)]
+        [DisplayName("Status")]
         public VMStatus Status
         {
             get
@@ -102,33 +79,12 @@ namespace VMAT.Models
             }
         }
 
-        public void Reboot()
-        {
-            Status = VMStatus.Stopped;
-            System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
-            Status = VMStatus.Running;
-        }
-
-        //probably query, uncertain
-        public DateTime LastStopped { get; set; }
-        public DateTime LastStarted { get; set; }
-        public DateTime LastBackuped { get; set; }
-        public DateTime LastArchived { get; set; }
-        public DateTime Created { get; set; }
-
-        private void LoginTools(bool waitLong=false)
-        {
-            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
-            VM.WaitForToolsInGuest(waitLong?120:30); //todo refactor this out somewhere
-            VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
-        }
-        //query from running vm
-
         /// <summary>
         /// ie 137.112.147.145
         /// Note: caller must reboot after setting. 
         /// </summary>
         [StringLength(15)]
+        [DisplayName("IP Address")]
         public string IP
         {
             get
@@ -177,6 +133,7 @@ namespace VMAT.Models
         /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
         /// Note: caller must reboot after setting. 
         /// </summary>
+        [DisplayName("Hostname")]
         public string HostnameWithDomain
         {
             get
@@ -187,13 +144,14 @@ namespace VMAT.Models
                     LoginTools();
                     Shell guestShell = new Shell(this.VM.VM); //todo mock?
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
-                    return output.StdOut.Replace("\n","").Replace("\r","");
+                    return output.StdOut.Replace("\n", "").Replace("\r", "");
                 }
                 catch (TimeoutException)
                 {
                     return "name_timeout";
                 }
-                catch (Exception) {
+                catch (Exception)
+                {
                     return "name_error";
                 }
             }
@@ -225,7 +183,7 @@ namespace VMAT.Models
                             Next
                     ");
                 }
-                
+
                 //note: Host means Webserver, NOT VMware server
                 if (!VM.DirectoryExistsInGuest(@"C:\temp"))
                     VM.CreateDirectoryInGuest(@"C:\temp");
@@ -248,9 +206,10 @@ namespace VMAT.Models
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
         /// </summary>
+        [DisplayName("Machine Name")]
         public string MachineName
         {
-            get 
+            get
             {
                 int start = ImagePathName.LastIndexOf('/') + 1;
                 int length = ImagePathName.LastIndexOf('.') - start;
@@ -258,12 +217,13 @@ namespace VMAT.Models
                 return ImagePathName.Substring(start, length);
             }
         }
-        
+
         /// <summary>
         /// The base image file that the VM was originally copied from when first created. 
         /// Unknown naming conventions, likely contains OS version.
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
+        [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
         /// <summary>
@@ -272,17 +232,66 @@ namespace VMAT.Models
         /// </summary>
         [Required(ErrorMessage = "Project Number required")]
         [StringLength(4)]
+        [DisplayName("Project Name")]
         public string ProjectName { get; set; }
 
         /// <summary>
         /// Active, Idle, Archived (won't be able to query)
         /// </summary>
+        [DisplayName("Lifecycle")]
         public VMLifecycle Lifecycle { get; set; }
-        
+
         /// <summary>
         /// The VMwareTasks API object behind this VM instance.
         /// </summary>
         private IVirtualMachine VM { get; set; }
+
+        [DisplayName("Last Shutdown")]
+        public DateTime LastStopped { get; set; }
+
+        [DisplayName("Last Started")]
+        public DateTime LastStarted { get; set; }
+
+        [DisplayName("Last Backed Up")]
+        public DateTime LastBackuped { get; set; }
+
+        [DisplayName("Last Archived")]
+        public DateTime LastArchived { get; set; }
+
+        [DisplayName("Created")]
+        public DateTime Created { get; set; }
+
+        public VirtualMachine(IVirtualMachine vm)
+        {
+            this.VM = vm;
+            this.ImagePathName = VM.PathName;
+            //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
+        }
+
+        // TODO error handle, check if starts with getDatasource
+        public VirtualMachine(string imagePathName)
+            : this(VirtualMachineManager.GetVH().Open(imagePathName))
+        { }
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => ConvertPathToDatasource(foo));
+        }
+
+        public void Reboot()
+        {
+            Status = VMStatus.Stopped;
+            System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
+            Status = VMStatus.Running;
+        }
+
+        private void LoginTools(bool waitLong=false)
+        {
+            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
+            VM.WaitForToolsInGuest(waitLong?120:30); //todo refactor this out somewhere
+            VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
+        }
 
         //should probably move, ie to CachedVM
         private string GetCacheIP()

@@ -17,28 +17,33 @@ namespace VMAT.Models
         /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
-        [Required(ErrorMessage = "Base Image required")]
+        [Required(ErrorMessage = "Image Filepath required")]
+        [DisplayName("Image Filepath")]
         public string ImagePathName { get; set; }
 
         [Required(ErrorMessage = "Machine Name Suffix required")]
-        [StringLength(5, MinimumLength = 1, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [StringLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }
 
         /// <summary>
         /// ie 137.112.147.145
         /// </summary>
         [StringLength(15, ErrorMessage ="Invalid IP Address")]
+        [DisplayName("IP Address")]
         public string IP { get; set; }
 
         /// <summary>
         /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
         /// </summary>
+        [DisplayName("Hostname")]
         public string HostnameWithDomain { get; set; }
 
         /// <summary>
         /// The base image file that the VM was originally copied from when first created. Unknown naming conventions, likely contains OS version.
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
+        [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
         /// <summary>
@@ -46,6 +51,7 @@ namespace VMAT.Models
         /// </summary>
         [Required(ErrorMessage = "Project Name required")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits long")]
+        [DisplayName("Project Name")]
         public string ProjectName { get; set; }
 
 
