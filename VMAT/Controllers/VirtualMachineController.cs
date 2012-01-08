@@ -75,13 +75,13 @@ namespace VMAT.Controllers
 
         public ActionResult Edit(string img)
         {
-            string imageFile = HttpUtility.HtmlDecode(img);
+            string imageFile = HttpUtility.UrlDecode(img);
 
             try
             {
                 Models.VirtualMachine vm = new Models.VirtualMachine(imageFile);
-                ViewBag.Projects = new SelectList(manager.GetProjectInfo(),
-                    "Project", "ProjectName", vm.ProjectName);
+                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                    "ProjectName", "ProjectName");
 
                 return View(vm);
             }
