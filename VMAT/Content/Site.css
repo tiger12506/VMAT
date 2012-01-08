@@ -53,14 +53,14 @@ label {
 }
 
 input[type="text"], input[type="number"], input[type="password"], select {
-  border: 1px outset #141414;
+  border: 1px solid #141414;
   border-radius: 2px;
   width: 40%;
 }
 
   input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus, select:focus {
-    border: 1px solid Yellow;
-    box-shadow: 0 0 1px 1px Yellow;
+    border: 1px solid #F1D50D;
+    box-shadow: 0 0 1px 1px #F1D50D;
   }
   
 fieldset {
@@ -589,7 +589,7 @@ button[type="submit"].archive {
     }
     
     .machine-info .status button.transition {
-      background: Yellow;
+      background:#f1d50d;
       cursor: wait;
     }
 
