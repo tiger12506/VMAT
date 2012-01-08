@@ -87,7 +87,9 @@ namespace VMAT.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home", new { data = imageFile, error = e.Message });
+                /*return RedirectToAction("Error", "Home", 
+                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
+                return RedirectToAction("Error", "Home");
             }
         }
 

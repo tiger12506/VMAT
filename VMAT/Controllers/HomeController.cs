@@ -11,15 +11,22 @@ namespace VMAT.Controllers
     {
         //
         // GET: /
+
         public ActionResult Index()
         {
             return RedirectToAction("Index", "VirtualMachine");
         }
 
+        //
+        // GET: /Help
+
         public ActionResult Help()
         {
             return View();
         }
+
+        //
+        // GET: /About
 
         public ActionResult About()
         {
@@ -46,13 +53,18 @@ namespace VMAT.Controllers
         }
 
         //
-        // GET: /Error?data=lol&error=sucks
+        // POST: /Error
 
-        public ActionResult Error(object data, Exception error)
+        /*[HttpPost]
+        public ActionResult Error(Exception ex, string controller, string action)
         {
-            ViewBag.Data = data;
-            ViewBag.Error = error;
+            var error = new HandleErrorInfo(ex, controller, action);
 
+            return View(error);
+        }*/
+
+        public ActionResult Error()
+        {
             return View();
         }
     }
