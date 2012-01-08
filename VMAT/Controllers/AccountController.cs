@@ -8,7 +8,6 @@ using VMAT.Models;
 
 namespace VMAT.Controllers
 {
-
     [Authorize]
     public class AccountController : Controller
     {
