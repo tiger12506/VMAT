@@ -62,7 +62,12 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult Create(Models.PendingVirtualMachine vm)
         {
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(vm);
         }
 
         //
@@ -92,7 +97,12 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult Edit(Models.VirtualMachine vm)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(vm);
         }
 
         //
@@ -101,7 +111,9 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ArchiveProject(Models.Project proj)
         {
-            return View();
+            var projName = proj.ProjectName;
+
+            return Json(projName);
         }
 
         //
@@ -110,7 +122,9 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult DeleteProject(Models.Project proj)
         {
-            return View();
+            var projName = proj.ProjectName;
+
+            return Json(projName);
         }
     }
 }

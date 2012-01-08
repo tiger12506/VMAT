@@ -1,4 +1,4 @@
-﻿@model VMAT.Models.VirtualMachine
+﻿@model VMAT.Models.PendingVirtualMachine
 
 @{
     ViewBag.Title = "Create Virtual Machine";
@@ -15,11 +15,11 @@
         <legend>Virtual Machine</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.MachineName)
+            @Html.LabelFor(model => model.MachineNameSuffix, "Machine Name Suffix")
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.MachineName)
-            @Html.ValidationMessageFor(model => model.MachineName)
+            @Html.EditorFor(model => model.MachineNameSuffix)
+            @Html.ValidationMessageFor(model => model.MachineNameSuffix)
         </div>
 
         <div class="editor-label">

@@ -5,6 +5,8 @@ using System.Web;
 using System.IO;
 using Vestris.VMWareLib.Tools.Windows;
 using VMAT.Models.VMware;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VMAT.Models
 {
@@ -15,11 +17,17 @@ namespace VMAT.Models
         /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
+        [Required(ErrorMessage = "Base Image required")]
         public string ImagePathName { get; set; }
+
+        [Required(ErrorMessage = "Machine Name Suffix required")]
+        [StringLength(5, MinimumLength = 1, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        public string MachineNameSuffix { get; set; }
 
         /// <summary>
         /// ie 137.112.147.145
         /// </summary>
+        [StringLength(15, ErrorMessage ="Invalid IP Address")]
         public string IP { get; set; }
 
         /// <summary>
@@ -36,6 +44,8 @@ namespace VMAT.Models
         /// <summary>
         /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
         /// </summary>
+        [Required(ErrorMessage = "Project Name required")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits long")]
         public string ProjectName { get; set; }
 
 
