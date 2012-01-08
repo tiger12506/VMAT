@@ -21,16 +21,15 @@ namespace VMAT.Models
         [DisplayName("Image Filepath")]
         public string ImagePathName { get; set; }
 
-        [Required(ErrorMessage = "Machine Name Suffix required")]
-        [MinLength(1, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [MaxLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [Required(ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [StringLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
         [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }
 
         /// <summary>
         /// ie 137.112.147.145
         /// </summary>
-        [MaxLength(15, ErrorMessage ="Invalid IP Address")]
+        [StringLength(15, ErrorMessage ="Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
@@ -51,8 +50,7 @@ namespace VMAT.Models
         /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
         /// </summary>
         [Required(ErrorMessage = "Project Name required")]
-        [MinLength(4, ErrorMessage = "Project Name must be 4 digits")]
-        [MaxLength(4, ErrorMessage = "Project Name must be 4 digits")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Name")]
         public string ProjectName { get; set; }
 
