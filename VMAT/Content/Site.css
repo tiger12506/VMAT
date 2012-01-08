@@ -641,11 +641,15 @@ button[type="submit"].archive {
     background-color: White;
     border-bottom: solid 1px Black;
     cursor: move;
+    height: 40px;
   }
 
     #popup #popup-header h2 {
+      position: relative;
       margin-left: 10px;
-      display: inline-block;
+      float: left;
+      clear: left;
+      top: 5px;
     }
     
     #popup #popup-header button.cancel {
@@ -653,8 +657,7 @@ button[type="submit"].archive {
       clear: right;
       background: 0;
       border: 0;
-      margin: 0;
-      padding: 0;
+      margin-left: 25px;
     }
     
       #popup #popup-header button.cancel img {
@@ -662,6 +665,10 @@ button[type="submit"].archive {
         width: 30px;
       }
     
+#popup-content {
+  padding 5px;
+}
+
 #popup-content ul {
   width: 95%;
   margin-right: auto;
@@ -675,7 +682,7 @@ button[type="submit"].archive {
 }
 
   #popup-content ul li:first-child {
-    margin-top: 5%;
+    margin-top: 2%;
   }
   
   #popup-content button img {

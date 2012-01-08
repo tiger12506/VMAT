@@ -4,16 +4,16 @@
     ViewBag.Title = "Virtual Machine Management";
 }
 
-<script type="text/javascript" src="@Url.Content("/Scripts/popups.js")"></script>
-<script type="text/javascript" src="@Url.Content("/Scripts/vmManagement.js")"></script>
-<script type="text/javascript" src="@Url.Content("/Scripts/toggleMachineStatus.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/popups.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/vmManagement.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/toggleMachineStatus.js")"></script>
 
 <div class="management-header">
     <ul>
         <li>
             <a href="@Url.Action("Create")" class="link-button">
                 <span class="icon">
-                    <img src="@Url.Content("/Content/themes/images/icon_server-create.png")" alt="+" />
+                    <img src="@Url.Content("~/Content/themes/images/icon_server-create.png")" alt="+" />
                 </span>
                 Create
             </a>
@@ -21,7 +21,7 @@
         <li>
             <a href="@Url.Action("Host", "Configuration")" class="link-button">
                 <span class="icon">
-                    <img src="@Url.Content("/Content/themes/images/icon_server-admin.png")" alt="*" />
+                    <img src="@Url.Content("~/Content/themes/images/icon_server-admin.png")" alt="*" />
                 </span>
                 Admin
             </a>
@@ -40,7 +40,7 @@
                     <h3>@project.HostName</h3>
                     <button type="button" class="project-close">
                         <span class="icon">
-                            <img src="@Url.Content("/Content/themes/images/icon_project-complete.png")" alt="X" />
+                            <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
                         </span>
                         Close
                     </button>

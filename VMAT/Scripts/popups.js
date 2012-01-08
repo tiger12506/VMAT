@@ -6,7 +6,7 @@ var popupStatus = false;
 
 $(document).ready(function () {
     $("#popup-header").mousedown(function () {
-        $("#popup").draggable();
+        $("#popup").draggable({ cursor: 'move' });
     });
 
     $("#popup-header button.cancel").click(function () {
@@ -19,7 +19,9 @@ $(document).ready(function () {
     });
 
     $(".project-close").click(function () {
-        loadPopup("Close Project?", "#project-complete-form");
+        var $projectName = $(this).closest(".project").attr("id");
+
+        loadPopup("Close Project G" + $projectName + "?", "#project-complete-form");
     });
 });
 
@@ -59,59 +61,5 @@ function centerPopup() {
         "left": windowWidth / 2 - popupWidth / 2
     });
 }  
-
-// *****************************************************************
-
-
-// ***** The following is credited to http://qfox.nl/notes/115 *****
-
-jQuery.prototype.draggable = function () {
-    var 
-		$obj = this,
-		dragging = false,
-		startMouseX,
-		startMouseY,
-		startObjectX,
-		startObjectY;
-
-    ondragstart = function (e) {
-        dragging = true;
-        startMouseX = e.pageX;
-        startMouseY = e.pageY;
-        var pos = $obj.offset();
-        startObjectX = pos.left;
-        startObjectY = pos.top;
-    },
-		ondragging = move = function (e) {
-		    if (dragging) {
-		        $obj.css({
-		            left: startObjectX + (e.pageX - startMouseX) + 'px',
-		            top: startObjectY + (e.pageY - startMouseY) + 'px'
-		        });
-		    }
-		},
-		ondragstop = function () {
-		    dragging = false;
-		};
-
-    // hook events
-    this.mousedown(ondragstart);
-    $(document)
-	.mousemove(ondragging)
-	.mouseup(ondragstop);
-
-    // unhook events, function is attached to returned object...
-    $obj.undraggable = function () {
-        $obj.unbind('mousedown', ondragstart);
-        $(document)
-		.unbind('mousemove', ondragging)
-		.unbind('mouseup', ondragstop);
-        delete $obj.undraggable;
-        ondragstart = ondragstop = ondragging = null;
-        return $obj;
-    };
-
-    return $obj;
-};
 
 // *****************************************************************
