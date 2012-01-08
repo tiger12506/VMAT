@@ -199,9 +199,6 @@
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\popups.js" />
     <Content Include="Scripts\toggleMachineStatus.js" />
-    <Content Include="Scripts\validate.js" />
-    <Content Include="Scripts\validateCreateForm.js" />
-    <Content Include="Scripts\validateEditForm.js" />
     <Content Include="Scripts\vmManagement.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Release.config">

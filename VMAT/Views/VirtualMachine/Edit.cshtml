@@ -12,30 +12,25 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Virtual Machine</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(model => model.MachineName)
+                @Html.EditorFor(model => model.MachineName)
+                @Html.ValidationMessageFor(model => model.MachineName)
+            </li>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MachineName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MachineName)
-            @Html.ValidationMessageFor(model => model.MachineName)
-        </div>
+            <li>
+                @Html.LabelFor(model => model.ProjectName)
+                @Html.DropDownList("ProjectName", String.Empty)
+                @Html.ValidationMessageFor(model => model.ProjectName)
+            </li>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ProjectName, "Project")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("ProjectName", String.Empty)
-            @Html.ValidationMessageFor(model => model.ProjectName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IP)
-            @Html.ValidationMessageFor(model => model.IP)
-        </div>
+            <li>
+                @Html.LabelFor(model => model.IP)
+                @Html.EditorFor(model => model.IP)
+                @Html.ValidationMessageFor(model => model.IP)
+            </li>
+        </ol>
     </fieldset>
     
     <fieldset name="preview" id="preview">
