@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace VMAT.Models
 {
-    public class DataEntities : DbSet
+    public class DataEntities : DbContext
     {
         public DbSet<VirtualMachine> VirtualMachines { get; set; }
         public DbSet<PendingVirtualMachine> PendingVirtualMachines { get; set; }
