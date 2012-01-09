@@ -24,7 +24,7 @@ namespace VMAT.Tests
 
             //setup functions that SetIP should call
             mProc.Setup(proc => proc.getExitCode()).Returns(0);
-            mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //todo mock returned Process
+            mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //TODO: mock returned Process
             //var rVM = new VirtualMachine(mVM.Object);
 
             //act
@@ -46,7 +46,7 @@ namespace VMAT.Tests
 
             //setup functions that SetIP should call
             mProc.Setup(proc => proc.getExitCode()).Returns(-1);
-            mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //todo mock returned Process
+            mVM.Setup(foo => foo.RunProgramInGuest("notepad.exe")).Returns(mProc.Object); //TODO: mock returned Process
             //var rVM = new VirtualMachine(mVM.Object);
 
             //act, will throw exception

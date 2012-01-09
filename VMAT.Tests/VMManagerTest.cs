@@ -14,7 +14,7 @@ namespace VMAT.Tests
     [TestClass]
     public class VMManagerTest
     {
-        //TODO doesn't test right method
+        //TODO: doesn't test right method
         [TestMethod]
         public void TestCreateVM()
         {
