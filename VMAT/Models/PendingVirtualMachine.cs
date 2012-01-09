@@ -7,25 +7,12 @@ using Vestris.VMWareLib.Tools.Windows;
 using VMAT.Models.VMware;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace VMAT.Models
 {
-    public class PendingVirtualMachine
+    public class PendingVirtualMachine : VirtualMachine
     {
-        /// <summary>
-        /// The image file that the VM will be running from (will be created). Should probably follow ProjectName/gapdevppppnnnnn.vmx, 
-        /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
-        [Required(ErrorMessage = "Image Filepath required")]
-        [DisplayName("Image Filepath")]
-        public string ImagePathName { get; set; }
-
-        [Required(ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [StringLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [DisplayName("Machine Name Suffix")]
-        public string MachineNameSuffix { get; set; }
-
         /// <summary>
         /// ie 137.112.147.145
         /// </summary>
@@ -34,34 +21,13 @@ namespace VMAT.Models
         public string IP { get; set; }
 
         /// <summary>
-        /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
-        /// </summary>
-        [DisplayName("Hostname")]
-        public string HostnameWithDomain { get; set; }
-
-        /// <summary>
-        /// The base image file that the VM was originally copied from when first created. Unknown naming conventions, likely contains OS version.
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
-        [DisplayName("Base Image File")]
-        public string BaseImageName { get; set; }
-
-        /// <summary>
-        /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
-        /// </summary>
-        [Required(ErrorMessage = "Project Name required")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
-        [DisplayName("Project Name")]
-        public string ProjectName { get; set; }
-
-
-        /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns>New object representing VM</returns>
-        public VirtualMachine CreateVM()
+        public RunningVirtualMachine CreateVM()
         {
             var vmm = new VirtualMachineManager();
+
             if (vmm.GetRegisteredVMs().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
             if (!ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
@@ -77,7 +43,7 @@ namespace VMAT.Models
 
             VirtualMachineManager.GetVirtualHost().Register(ImagePathName);
 
-            var newVM = new VirtualMachine(ImagePathName);
+            var newVM = new RunningVirtualMachine(ImagePathName);
 
             try
             {

@@ -230,7 +230,7 @@
     <Content Include="Views\Configuration\Index.cshtml" />
     <Content Include="Views\Configuration\Host.cshtml" />
     <Content Include="Views\Shared\_Popup.cshtml" />
-    <Content Include="Views\VirtualMachine\_ProjectCompleteForm.cshtml" />
+    <Content Include="Views\VirtualMachine\_ProjectCloseForm.cshtml" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
