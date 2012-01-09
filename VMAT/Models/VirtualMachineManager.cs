@@ -66,12 +66,28 @@ namespace VMAT.Models
         {
             List<Project> projects = new List<Project>();
 
-            projects.Add(new Project("1234"));
-
             foreach (string imageName in GetRegisteredVMs())
             {
-                VirtualMachine vmInfo = new VirtualMachine(imageName);
-                projects[0].AddVirtualMachine(vmInfo);
+                VirtualMachine vm = new VirtualMachine(imageName);
+                string projectName = vm.ProjectName;
+                bool found = false;
+
+                foreach (Project proj in projects)
+                {
+                    if (proj.ProjectName == projectName)
+                    {
+                        proj.AddVirtualMachine(vm);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    var newProject = new Project(projectName, vm.HostnameWithDomain,
+                        new List<VirtualMachine> { vm });
+                    projects.Add(newProject);
+                }
             }
 
             return projects;
