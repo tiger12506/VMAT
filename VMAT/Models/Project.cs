@@ -13,8 +13,7 @@ namespace VMAT.Models
         /// Gets or sets the name of the project.
         /// </summary>
         [Required(ErrorMessage = "Project Name required")]
-        [MinLength(4, ErrorMessage = "Project Name must be 4 digits")]
-        [MaxLength(4, ErrorMessage = "Project Name must be 4 digits")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
         public string ProjectName { get; set; }
 
         /// <summary>
@@ -35,6 +34,13 @@ namespace VMAT.Models
             ProjectName = name;
             HostName = hostname;
             VirtualMachines = new List<VirtualMachine>();
+        }
+
+        public Project(string name, string hostname, List<VirtualMachine> vms)
+        {
+            ProjectName = name;
+            hostname = hostname;
+            VirtualMachines = vms;
         }
 
         public void AddVirtualMachine(VirtualMachine vm)
