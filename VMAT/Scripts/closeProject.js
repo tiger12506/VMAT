@@ -4,13 +4,14 @@
 var CloseProject = {};
 
 $(document).ready(function () {
-    $("button.archive").click(function () {
-        var project = $(this).closest("#project-complete-form").attr("project");
+    $(".project-close-form button.archive").click(function () {
+        alert("ok");
+        var project = $(this).closest(".project-close-form").attr("project");
         archiveProject(project);
     });
 
-    $("button.delete").click(function () {
-        var project = $(this).closest("#project-complete-form").attr("project");
+    $(".project-close-form button.delete").click(function () {
+        var project = $(this).closest(".project-close-form").attr("project");
         deleteProject(project);
     });
 });
@@ -22,8 +23,8 @@ function archiveProject(projectName) {
         url: "/VirtualMachine/ArchiveProject",
         data: "{'project': '" + projectName + "'}",
         dataType: "json",
-        success: function (data) { successCallback(data, button); },
-        error: function (error) { failureCallback(error, machineName, button); }
+        success: function (data) { CloseProject.successCallback(data, projectName); },
+        error: function (error) { CloseProject.failureCallback(error, projectName); }
     });
 }
 
@@ -37,13 +38,25 @@ function deleteProject(projectName) {
         success: function (data) { CloseProject.successCallback(data, projectName); },
         error: function (error) { CloseProject.failureCallback(error, projectName); }
     });
+
+    disablePopup();
 }
 
 CloseProject.successCallback = function (data, project) {
-    disablePopup();
+    var $projectContainer = $("#" + project + " .project-machines");
+
+    $.ajax({
+        url: "/VirtualMachine/_ClosingProject.cshtml",
+        type: 'GET',
+        dataType: 'html',
+        success: function (result) { $projectContainer.html(result); }
+    });
+
+    $projectContainer.children(".project-closing h4").text("Project G" + project + " will be " + data.Action + "d at " + data.Time.toString());
+    $projectContainer.children(".project-closing button").attr({ "action": data.Action, value: "Undo" });
+    
 }
 
 CloseProject.failureCallback = function (error, project) {
-    disablePopup();
     alert("Failed to close project " + project + ": " + error);
 }

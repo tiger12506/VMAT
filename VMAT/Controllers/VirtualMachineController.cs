@@ -65,8 +65,15 @@ namespace VMAT.Controllers
         {
             if (ModelState.IsValid)
             {
+                dataDB.PendingVirtualMachines.Add(vm);
+                dataDB.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                "ProjectName", "ProjectName");
+            ViewBag.BaseImageFile = new SelectList(Models.VirtualMachine.GetBaseImageFiles());
 
             return View(vm);
         }
@@ -105,29 +112,55 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(vm);
+            try
+            {
+                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                    "ProjectName", "ProjectName");
+
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                /*return RedirectToAction("Error", "Home", 
+                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         //
         // POST: /VirtualMachine/ArchiveProject
 
         [HttpPost]
-        public ActionResult ArchiveProject(Models.Project proj)
+        public ActionResult ArchiveProject(string project)
         {
-            var projName = proj.ProjectName;
+            /*var proj = GetProject(;
 
-            return Json(projName);
+            foreach (var vm in proj.VirtualMachines)
+            {
+                //dataDB.ArchivedVirtualMachines.Add(vm);
+            }*/
+
+            var results = new ClosingProjectViewModel {
+                Action = "archive",
+                Time = DateTime.Now
+            };
+
+            return Json(results);
         }
 
         //
         // POST: /VirtualMachine/DeleteProject
 
         [HttpPost]
-        public ActionResult DeleteProject(Models.Project proj)
+        public ActionResult DeleteProject(string project)
         {
-            var projName = proj.ProjectName;
+            //var proj = proj.ProjectName;
+            var results = new ClosingProjectViewModel {
+                Action = "delete",
+                Time = DateTime.Now
+            };
 
-            return Json(projName);
+            return Json(results);
         }
     }
 }
