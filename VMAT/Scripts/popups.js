@@ -28,9 +28,11 @@ $(document).ready(function () {
 // ****** The following borrows code from
 // http://yensdesign.com/2008/09/how-to-create-a-stunning-and-smooth-popup-using-jquery/
 
-function loadPopup(title, element) {
+function loadPopup(title, element, attributes) {
     if (!popupStatus) {
         $("#popup-header > h2").text(title);
+
+        //$(element).attr();
         $("#popup-content").html($(element).html());
 
         centerPopup();

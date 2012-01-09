@@ -1,5 +1,8 @@
 ﻿// File: toggleMachineStatus.js
 
+// Declare ToggleMachineStatus namespace
+var ToggleMachineStatus = {};
+
 $(document).ready(function () {
     $(".status > button").click(function () {
         var $imagePath = $(this).closest(".machine-info").attr("id");
@@ -18,12 +21,12 @@ function toggleMachineStatus(machineName, button) {
         url: "/VirtualMachine/ToggleStatus",
         data: "{'image': '" + machineName + "'}",
         dataType: "json",
-        success: function (data) { successCallback(data, button); },
-        error: function (error) { failureCallback(error, machineName, button); }
+        success: function (data) { ToggleMachineStatus.successCallback(data, button); },
+        error: function (error) { ToggleMachineStatus.failureCallback(error, machineName, button); }
     });
 }
 
-function successCallback(data, button) {
+ToggleMachineStatus.successCallback = function (data, button) {
     var status = ((String)(data.Status)).toLowerCase();
     var $machine = $(button).closest("machine-info");
 
@@ -34,7 +37,7 @@ function successCallback(data, button) {
     resetTransitionButton(button);
 }
 
-function failureCallback(error, machineName, button) {
+ToggleMachineStatus.failureCallback = function (error, machineName, button) {
     alert("Failed to change machine " + machineName + "'s status: " + error.Status);
     resetTransitionButton(button);
 }
