@@ -326,12 +326,12 @@ form {
     display: inline;
   }
 
-button[type="submit"].archive, button[type="submit"].delete {
+button.archive, button.delete {
   border-radius: 10px;
   font-size: 150%;
 }
 
-button[type="submit"].archive {
+button.archive {
   background: #9be89b; /* Old browsers */
   background: -moz-linear-gradient(top,  #9be89b 0%, #55ba34 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9be89b), color-stop(100%,#55ba34)); /* Chrome,Safari4+ */
@@ -342,7 +342,7 @@ button[type="submit"].archive {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9be89b', endColorstr='#55ba34',GradientType=0 ); /* IE6-9 */
 }
 
-  button[type="submit"].archive:hover {
+  button.archive:hover {
     background: #6dd160; /* Old browsers */
     background: -moz-linear-gradient(top,  #6dd160 0%, #27751d 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6dd160), color-stop(100%,#27751d)); /* Chrome,Safari4+ */
@@ -353,7 +353,7 @@ button[type="submit"].archive {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6dd160', endColorstr='#27751d',GradientType=0 ); /* IE6-9 */
   }
   
-  button[type="submit"].archive:active {
+  button.archive:active {
     background: #27751d; /* Old browsers */
     background: -moz-linear-gradient(top,  #27751d 1%, #6dd160 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#27751d), color-stop(100%,#6dd160)); /* Chrome,Safari4+ */
@@ -473,7 +473,7 @@ button[type="submit"].archive {
     height: 45px;
   }
 
-  .project-header .project-close, button[type="submit"].delete {
+  .project-header .project-close, button.delete {
     background: #db7676; /* Old browsers */
     background: -moz-linear-gradient(top, #db7676 0%, #a52727 99%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#db7676), color-stop(99%,#a52727)); /* Chrome,Safari4+ */
@@ -484,7 +484,7 @@ button[type="submit"].archive {
     background: linear-gradient(top, #db7676 0%,#a52727 99%); /* W3C */
   }
 
-    .project-header .project-close:hover, button[type="submit"].delete:hover {
+    .project-header .project-close:hover, button.delete:hover {
       background: #aa6b6b; /* Old browsers */
       background: -moz-linear-gradient(top, #aa6b6b 1%, #823131 99%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#aa6b6b), color-stop(99%,#823131)); /* Chrome,Safari4+ */
@@ -495,7 +495,7 @@ button[type="submit"].archive {
       background: linear-gradient(top, #aa6b6b 1%,#823131 99%); /* W3C */
     }
 
-    .project-header .project-close:active, button[type="submit"].delete:active {
+    .project-header .project-close:active, button.delete:active {
       background: #823131; /* Old browsers */
       background: -moz-linear-gradient(top, #823131 0%, #aa6b6b 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#823131), color-stop(100%,#aa6b6b)); /* Chrome,Safari4+ */
