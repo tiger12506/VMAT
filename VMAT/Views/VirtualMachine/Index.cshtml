@@ -7,6 +7,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/popups.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/vmManagement.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/toggleMachineStatus.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/closeProject.js")"></script>
 
 <div class="management-header">
     <ul>
@@ -114,8 +115,10 @@
 </div>
 
 
+@*Html.Partial("_ClosingProject")*@
+
 <!-- +++++++++++++++ Popup DIVs +++++++++++++++++ -->
 
 @Html.Partial("_Popup")
 
-@Html.Partial("_ProjectCompleteForm")
+@Html.Partial("_ProjectCloseForm")

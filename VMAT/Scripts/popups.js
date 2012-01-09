@@ -21,7 +21,7 @@ $(document).ready(function () {
     $(".project-close").click(function () {
         var $projectName = $(this).closest(".project").attr("id");
 
-        loadPopup("Close Project G" + $projectName + "?", "#project-complete-form");
+        loadPopup("Close Project G" + $projectName + "?", "#project-close-form");
     });
 });
 

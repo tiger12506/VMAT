@@ -38,6 +38,7 @@ namespace VMAT.Models.VMware
                 foreach (VMWareVirtualMachine v in vh.RegisteredVirtualMachines)
                 {
                     ls.Add(new VirtualMachine(v));
+                    // TODO: Exception handling
                 }
                 return ls.AsEnumerable();
             }
@@ -52,6 +53,7 @@ namespace VMAT.Models.VMware
                 foreach (VMWareVirtualMachine v in vh.RunningVirtualMachines)
                 {
                     ls.Add(new VirtualMachine(v));
+                    // TODO: Exception handling
                 }
                 return ls.AsEnumerable();
             }

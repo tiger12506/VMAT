@@ -75,25 +75,24 @@ namespace VMAT.Models
             // Allot VMware time to copy the file
             System.Threading.Thread.Sleep(8 * 1000);
 
-            VirtualMachineManager.GetVH().Register(ImagePathName);
+            VirtualMachineManager.GetVirtualHost().Register(ImagePathName);
 
             var newVM = new VirtualMachine(ImagePathName);
 
-            newVM.PowerOn();
-
-            // Make triple-double-dog sure that the VM is online and ready.
-            // Allow VM time to power on
-            System.Threading.Thread.Sleep(180 * 1000);
-            newVM.Reboot();
-            // Allow VM time to power on
-            System.Threading.Thread.Sleep(180 * 1000);
-
             try
             {
+                // Make triple-double-dog sure that the VM is online and ready.
+                // Allow VM time to power on
+                newVM.PowerOn();
+                System.Threading.Thread.Sleep(180 * 1000);
 
+                // Allow VM time to reboot
+                newVM.Reboot();
+                System.Threading.Thread.Sleep(250 * 1000);
             }
-            catch (TimeoutException)
+            catch (TimeoutException e)
             {
+                // TODO: Handle time-out
             }
 
             newVM.IP = IP;

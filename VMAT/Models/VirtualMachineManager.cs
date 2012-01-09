@@ -17,7 +17,7 @@ namespace VMAT.Models
         /// </summary>
         private static IVirtualHost vh;
 
-        public static IVirtualHost GetVH()
+        public static IVirtualHost GetVirtualHost()
         {
             if (vh == null)
                 vh = new VirtualHost();
@@ -29,12 +29,12 @@ namespace VMAT.Models
         public VirtualMachineManager(IVirtualHost vh)
         {
             VirtualMachineManager.vh = vh;
-            GetVH();
+            GetVirtualHost();
         }
 
         public VirtualMachineManager()
         {
-            GetVH();
+            GetVirtualHost();
         }
 
         public IVirtualMachine OpenVM(string imagePathName)

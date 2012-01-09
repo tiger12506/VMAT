@@ -93,7 +93,7 @@ namespace VMAT.Models
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
                 LoginTools(true);
-                Shell guestShell = new Shell(VM.VM); //todo mock?
+                Shell guestShell = new Shell(VM.VM); //TODO: mock?
                 string cmd = "netsh interface ip set address " + AppConfiguration.GetNetworkInterfaceName() + " static " + value + " 255.255.255.0";
                 output = guestShell.RunCommandInGuest(cmd);
 
@@ -125,7 +125,7 @@ namespace VMAT.Models
                 try
                 {
                     LoginTools();
-                    Shell guestShell = new Shell(this.VM.VM); //todo mock?
+                    Shell guestShell = new Shell(this.VM.VM); //TODO: mock?
                     Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
                     return output.StdOut.Replace("\n", "").Replace("\r", "");
                 }
@@ -173,7 +173,7 @@ namespace VMAT.Models
                 if (!VM.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
                     VM.CopyFileFromHostToGuest(renameScriptHost, @"C:\temp\renamecomp.vbs");
 
-                Shell guestShell = new Shell(this.VM.VM); //todo mock?
+                Shell guestShell = new Shell(this.VM.VM); //TODO: mock?
                 output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + value);
                 //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVMPath()+@"\renamecomp.vbs " + newName);
 
@@ -266,9 +266,9 @@ namespace VMAT.Models
             //this.MachineName = ImagePathName.Substring((ImagePathName.LastIndexOf('/') + 1));
         }
 
-        // TODO error handle, check if starts with getDatasource
+        // TODO: error handle, check if starts with getDatasource
         public VirtualMachine(string imagePathName)
-            : this(VirtualMachineManager.GetVH().Open(imagePathName))
+            : this(VirtualMachineManager.GetVirtualHost().Open(imagePathName))
         { }
 
         public static IEnumerable<string> GetBaseImageFiles()
@@ -356,7 +356,7 @@ namespace VMAT.Models
         private void LoginTools(bool waitLong=false)
         {
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
-            VM.WaitForToolsInGuest(waitLong?120:30); //todo refactor this out somewhere
+            VM.WaitForToolsInGuest(waitLong?120:30); //TODO: refactor this out somewhere
             VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
         }
 

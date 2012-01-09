@@ -60,7 +60,7 @@ namespace VMAT.Models
 
             try
             {
-                VirtualMachineManager.GetVH();
+                VirtualMachineManager.GetVirtualHost();
             }
             catch (Exception e)
             {
