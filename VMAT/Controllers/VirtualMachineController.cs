@@ -11,6 +11,7 @@ namespace VMAT.Controllers
     public class VirtualMachineController : Controller
     {
         VirtualMachineManager manager = new VirtualMachineManager();
+        DataEntities dataDB = new DataEntities();
 
         //
         // GET: /VirtualMachine/
@@ -31,9 +32,9 @@ namespace VMAT.Controllers
             var vm = new VirtualMachine(image);
 
             if (vm.Status == VMStatus.Running)
-                vm.Status = VMStatus.Stopped;
+                vm.PowerOff();
             else if (vm.Status == VMStatus.Stopped)
-                vm.Status = VMStatus.Running;
+                vm.PowerOn();
 
             var results = new ToggleStatusViewModel {
                 Status = vm.Status.ToString().ToLower(),

@@ -15,7 +15,9 @@ namespace VMAT.Models
         Stopped,
         Paused, // Still in memory, like sleep
         Suspended, // Still in disk, like hibernate. May not be supported
-        Running
+        Running,
+        PoweringOn,
+        PoweringOff
     }
 
     public enum VMLifecycle
@@ -49,34 +51,12 @@ namespace VMAT.Models
                 else if (VM.IsRunning) return VMStatus.Running;
                 else if (VM.IsSuspended) return VMStatus.Suspended;
                 else if (VM.IsRecording || VM.IsReplaying) return VMStatus.Running;
+                else if (VM.PowerState == 0x0001) return VMStatus.PoweringOff;
+                else if (VM.PowerState == 0x0004) return VMStatus.PoweringOn;
                 else return VMStatus.Stopped;
             }
 
-            set
-            {
-                if (value == Status) return;
-                switch (value)
-                {
-                    case VMStatus.Running:
-                        if (Status == VMStatus.Paused) VM.Unpause();
-                        else if (Status == VMStatus.Stopped) VM.PowerOn();
-                        else throw new InvalidOperationException("Cannot set VM to run, invalid state " + Status);
-                        break;
-                    case VMStatus.Stopped:
-                        try
-                        {
-                            VM.PowerOff(0x0004, 120); //VIX_VMPOWEROP_FROM_GUEST from vix.h
-                        }
-                        catch (Exception)
-                        {
-                            VM.PowerOff();
-                        }
-                        break;
-                    case VMStatus.Paused:
-                        VM.Pause();
-                        break;
-                }
-            }
+            private set;
         }
 
         /// <summary>
@@ -94,7 +74,7 @@ namespace VMAT.Models
                     if (!this.VM.IsRunning) return "offline";
                     LoginTools();
                     var ret = this.VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
-                    Persistence.WriteVMIP(ImagePathName, ret);
+                    //Persistence.WriteVMIP(ImagePathName, ret);
                     return ret;
                 }
                 catch (Exception e)
@@ -278,6 +258,61 @@ namespace VMAT.Models
         {
             List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
             return filePaths.Select(foo => ConvertPathToDatasource(foo));
+        }
+
+        public void PowerOn()
+        {
+            if (!(Status == VMStatus.Running || Status == VMStatus.PoweringOn))
+            {
+                if (Status == VMStatus.Paused)
+                {
+                    Unpause();
+                }
+                else if (Status == VMStatus.Stopped)
+                {
+                    Status = VMStatus.PoweringOn;
+                    VM.PowerOn();
+                    Status = VMStatus.Running;
+                }
+                else throw new InvalidOperationException("Cannot set VM to run, invalid state " + Status);
+            }
+        }
+
+        public void PowerOff()
+        {
+            if (!(Status == VMStatus.Stopped || Status == VMStatus.PoweringOff))
+            {
+                try
+                {
+                    Status = VMStatus.PoweringOff;
+                    VM.PowerOff(0x0004, 120); //VIX_VMPOWEROP_FROM_GUEST from vix.h
+                    Status = VMStatus.Stopped;
+                }
+                catch (Exception)
+                {
+                    Status = VMStatus.PoweringOff;
+                    VM.PowerOff();
+                    Status = VMStatus.Stopped;
+                }
+            }
+        }
+
+        public void Pause()
+        {
+            if (Status == VMStatus.Running)
+            {
+                VM.Pause();
+                Status = VMStatus.Paused;
+            }
+        }
+
+        public void Unpause()
+        {
+            if (Status == VMStatus.Paused)
+            {
+                VM.Unpause();
+                Status = VMStatus.Running;
+            }
         }
 
         public void Reboot()
