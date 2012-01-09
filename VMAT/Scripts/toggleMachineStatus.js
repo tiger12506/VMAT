@@ -24,8 +24,13 @@ function toggleMachineStatus(machineName, button) {
 }
 
 function successCallback(data, button) {
-    var status = ((String) (data.Status)).toLowerCase();
+    var status = ((String)(data.Status)).toLowerCase();
+    var $machine = $(button).closest("machine-info");
+
     $(button).attr("status", status);
+    $machine.children(".tStopped").text(data.LastShutdownTime);
+    $machine.children(".tStarted").text(data.LastStartTime);
+    setStatusTooltips(button);
     resetTransitionButton(button);
 }
 
@@ -38,4 +43,19 @@ function resetTransitionButton(button) {
     $(button).removeClass("transition");
     $(button).html("");
     $(button).removeAttr("disabled");
+}
+
+function setStatusTooltips(button) {
+    $(button).attr("title", function () {
+        status = $(this).attr("status");
+
+        if (status === "running")
+            return "Power Off";
+        else if (status === "stopped")
+            return "Power On";
+        else if (status === "poweringon")
+            return "Powering On";
+        else if (status === "poweringoff")
+            return "Powering Off";
+    });
 }
