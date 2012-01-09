@@ -6,7 +6,7 @@ using VMAT.Models;
 
 namespace VMAT.ViewModels
 {
-    public class ProjectList
+    public class ProjectListViewModel
     {
         /// <summary>
         /// Pull all of the information for each virtual machine. Parse the machine
