@@ -56,7 +56,10 @@ namespace VMAT.Models
                 else return VMStatus.Stopped;
             }
 
-            private set;
+            private set
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -214,7 +217,21 @@ namespace VMAT.Models
         [Required(ErrorMessage = "Project Number required")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Name")]
-        public string ProjectName { get; set; }
+        public string ProjectName 
+        {
+            get
+            {
+                int start = ImagePathName.LastIndexOf("/gapdev") + "gapdev".Length + 1;
+                int length = 4;
+
+                return ImagePathName.Substring(start, length);
+            }
+
+            set
+            {
+                return;
+            }
+        }
 
         /// <summary>
         /// Active, Idle, Archived (won't be able to query)
@@ -260,6 +277,10 @@ namespace VMAT.Models
             return filePaths.Select(foo => ConvertPathToDatasource(foo));
         }
 
+        /// <summary>
+        /// If the machine is powered off, power it on. If the machine is sleeping, unsleep it.
+        /// Otherwise, do nothing.
+        /// </summary>
         public void PowerOn()
         {
             if (!(Status == VMStatus.Running || Status == VMStatus.PoweringOn))
@@ -278,6 +299,10 @@ namespace VMAT.Models
             }
         }
 
+        /// <summary>
+        /// If the machine is powered on or sleeping, power it off.
+        /// Otherwise, do nothing.
+        /// </summary>
         public void PowerOff()
         {
             if (!(Status == VMStatus.Stopped || Status == VMStatus.PoweringOff))
@@ -297,6 +322,9 @@ namespace VMAT.Models
             }
         }
 
+        /// <summary>
+        /// Put the machine in a sleeping state.
+        /// </summary>
         public void Pause()
         {
             if (Status == VMStatus.Running)
@@ -306,6 +334,9 @@ namespace VMAT.Models
             }
         }
 
+        /// <summary>
+        /// Unsleep the machine.
+        /// </summary>
         public void Unpause()
         {
             if (Status == VMStatus.Paused)

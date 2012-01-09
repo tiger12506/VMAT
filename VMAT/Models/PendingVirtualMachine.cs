@@ -79,7 +79,7 @@ namespace VMAT.Models
 
             var newVM = new VirtualMachine(ImagePathName);
 
-            newVM.Status = VMStatus.Running;
+            newVM.PowerOn();
 
             // Make triple-double-dog sure that the VM is online and ready.
             // Allow VM time to power on
