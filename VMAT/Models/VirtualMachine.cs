@@ -36,7 +36,7 @@ namespace VMAT.Models
         /// </summary>
         [Required(ErrorMessage = "Image Path Name is required")]
         [DisplayName("Image Filepath")]
-        public string ImagePathName { get; private set; }
+        public string ImagePathName { get; protected set; }
 
         /// <summary>
         /// The base image file that the VM was originally copied from when first created. 
@@ -51,7 +51,7 @@ namespace VMAT.Models
         /// Note: caller must reboot after setting. 
         /// </summary>
         [DisplayName("Hostname")]
-        public string HostnameWithDomain { get; set; }
+        public string Hostname { get; set; }
 
         public string GetMachineName()
         {

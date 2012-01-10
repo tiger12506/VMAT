@@ -12,6 +12,8 @@ namespace VMAT.Models
 {
     public class VirtualMachineManager
     {
+        DataEntities dataDB = new DataEntities();
+
          /// <summary>
         /// 
         /// </summary>
@@ -68,8 +70,8 @@ namespace VMAT.Models
 
             foreach (string imageName in GetRegisteredVMs())
             {
-                VirtualMachine vm = new VirtualMachine(imageName);
-                string projectName = vm.ProjectName;
+                VirtualMachine vm = new RunningVirtualMachine(imageName);
+                string projectName = vm.GetProjectName();
                 bool found = false;
 
                 foreach (Project proj in projects)
@@ -84,7 +86,7 @@ namespace VMAT.Models
 
                 if (!found)
                 {
-                    var newProject = new Project(projectName, vm.HostnameWithDomain,
+                    var newProject = new Project(projectName, vm.Hostname,
                         new List<VirtualMachine> { vm });
                     projects.Add(newProject);
                 }
@@ -117,12 +119,5 @@ namespace VMAT.Models
 
             return -1;
         }
-
-        /* also need setting config options, which may require reading XML (since backend will have no persistence)
-            IP address allowable range
-            Set maximum simultaneous running server count
-            Set VM creation, backup, and archive batch process times
-            Set up list of base images & locations (optional, can just use folder names)
-         */
     }
 }

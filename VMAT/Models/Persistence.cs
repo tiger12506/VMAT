@@ -180,13 +180,13 @@ namespace VMAT.Models
 
             foreach (string imageName in manager.GetRunningVMs())
             {
-                VirtualMachine vmInfo = new VirtualMachine(imageName);
+                var vm = new RunningVirtualMachine(imageName);
                 DataRow row = data.NewRow(); ;
 
                 // Add more items as needed
-                row["Name"] = vmInfo.MachineName;
-                row["IP"] = vmInfo.IP;
-                row["Hostname"] = vmInfo.HostnameWithDomain;
+                row["Name"] = vm.GetMachineName();
+                row["IP"] = vm.IP;
+                row["Hostname"] = vm.Hostname;
             }
 
             try

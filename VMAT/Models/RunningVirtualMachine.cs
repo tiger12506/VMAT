@@ -30,6 +30,11 @@ namespace VMAT.Models
                 else if (VM.PowerState == 0x0004) return VMStatus.PoweringOn;
                 else return VMStatus.Stopped;
             }
+
+            private set
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace VMAT.Models
         }
 
         [DisplayName("Hostname")]
-        public string HostnameWithDomain
+        new public string Hostname
         {
             get
             {
@@ -180,18 +185,13 @@ namespace VMAT.Models
         public RunningVirtualMachine(IVirtualMachine vm) : base()
         {
             VM = vm;
+            ImagePathName = vm.PathName;
         }
 
         // TODO: error handle, check if starts with getDatasource
         public RunningVirtualMachine(string imagePathName)
             : this(VirtualMachineManager.GetVirtualHost().Open(imagePathName))
         { }
-
-        public static IEnumerable<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => ConvertPathToDatasource(foo));
-        }
 
         /// <summary>
         /// If the machine is powered off, power it on. If the machine is sleeping, unsleep it.
@@ -279,7 +279,7 @@ namespace VMAT.Models
         //should probably move, ie to CachedVM
         private string GetCacheIP()
         {
-            string ipAddress = Persistence.GetIP(MachineName);
+            string ipAddress = Persistence.GetIP(GetMachineName());
 
             return ipAddress;
         }

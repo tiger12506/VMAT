@@ -32,7 +32,7 @@ namespace VMAT.Models
                 throw new InvalidDataException("Specified VM path already exists");
             if (!ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
-            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
+            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || Hostname.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
 
             //this all really needs to be async, report status, and handle errors in individual steps better
@@ -62,9 +62,8 @@ namespace VMAT.Models
             }
 
             newVM.IP = IP;
-            newVM.HostnameWithDomain = HostnameWithDomain;
+            newVM.Hostname = Hostname;
             newVM.BaseImageName = BaseImageName;
-            newVM.ProjectName = ProjectName;
             newVM.Created = System.DateTime.Now;
 
             newVM.Reboot();

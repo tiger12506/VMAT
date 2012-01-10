@@ -38,7 +38,7 @@
             <div class="project" id="@project.ProjectName">
                 <div class="project-header">
                     <h2>G<span>@project.ProjectName</span></h2>
-                    <h3>@project.HostName</h3>
+                    <h3>@project.Hostname</h3>
                     <button type="button" class="project-close">
                         <span class="icon">
                             <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
@@ -54,7 +54,7 @@
                         <li>
                             <div class="machine-info" id="@vm.ImagePathName">
                                 <div class="status">
-                                    <button type="button" status="@vm.Status.ToString().ToLower()" />
+                                    <button type="button" status="@((VMAT.Models.RunningVirtualMachine)vm).Status.ToString().ToLower()" />
                                 </div>
                                 <table>
                                     <tr>
@@ -70,10 +70,10 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="tMachinename">@vm.MachineName</td>
-                                        <td class="tIP">@vm.IP</td>
-                                        <td class="tCreated">@vm.Created</td>
-                                        <td class="tStopped">@vm.LastStopped</td>
+                                        <td class="tMachinename">@vm.GetMachineName()</td>
+                                        <td class="tIP">@((VMAT.Models.RunningVirtualMachine)vm).IP</td>
+                                        <td class="tCreated">@((VMAT.Models.RunningVirtualMachine)vm).Created</td>
+                                        <td class="tStopped">@((VMAT.Models.RunningVirtualMachine)vm).LastStopped</td>
                                         <td class="tControls">
                                             <button type="button" class="toggle-details">
                                                 Show More
@@ -94,9 +94,9 @@
                                         <tr>
                                             <td class="tStatus"><!-- Empty --></td>
                                             <td class="tImagefile">@vm.BaseImageName</td>
-                                            <td class="tStarted">@vm.LastStarted</td>
-                                            <td class="tBackuped">@vm.LastBackuped</td>
-                                            <td class="tArchived">@vm.LastArchived</td>
+                                            <td class="tStarted">@((VMAT.Models.RunningVirtualMachine)vm).LastStarted</td>
+                                            <td class="tBackuped">@((VMAT.Models.RunningVirtualMachine)vm).LastBackuped</td>
+                                            <td class="tArchived">@((VMAT.Models.RunningVirtualMachine)vm).LastArchived</td>
                                             <td class="tEmpty">
                                                 <!-- No Data -->
                                             </td>

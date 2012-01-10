@@ -29,7 +29,7 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
-            var vm = new VirtualMachine(image);
+            var vm = new RunningVirtualMachine(image);
 
             if (vm.Status == VMStatus.Running)
                 vm.PowerOff();
@@ -87,7 +87,7 @@ namespace VMAT.Controllers
 
             try
             {
-                Models.VirtualMachine vm = new Models.VirtualMachine(imageFile);
+                Models.VirtualMachine vm = new Models.RunningVirtualMachine(imageFile);
                 ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                     "ProjectName", "ProjectName");
 
