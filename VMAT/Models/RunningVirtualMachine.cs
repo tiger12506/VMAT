@@ -49,13 +49,15 @@ namespace VMAT.Models
             {
                 try
                 {
+                    // TODO: Return IP from database if powered off
                     if (!this.VM.IsRunning) return "offline";
                     LoginTools();
                     var ret = this.VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
                     return ret;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
+                    // TODO: Handle error
                     return "IP error";
                 }
             }
@@ -155,12 +157,6 @@ namespace VMAT.Models
                     throw new InvalidOperationException(output.StdOut);
             }
         }
-
-        /// <summary>
-        /// Active, Idle, Archived (won't be able to query)
-        /// </summary>
-        [DisplayName("Lifecycle")]
-        public VMLifecycle Lifecycle { get; set; }
 
         /// <summary>
         /// The VMwareTasks API object behind this VM instance.
@@ -282,6 +278,11 @@ namespace VMAT.Models
             string ipAddress = Persistence.GetIP(GetMachineName());
 
             return ipAddress;
+        }
+
+        public void RefreshFromVMware()
+        {
+            //TODO: Implement
         }
     }
 }

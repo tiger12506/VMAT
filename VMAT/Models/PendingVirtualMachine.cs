@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.IO;
-using Vestris.VMWareLib.Tools.Windows;
-using VMAT.Models.VMware;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.Web;
+using Vestris.VMWareLib.Tools.Windows;
+using VMAT.Models.VMware;
+using VMAT.ViewModels;
 
 namespace VMAT.Models
 {
@@ -19,6 +20,14 @@ namespace VMAT.Models
         [StringLength(15, ErrorMessage ="Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
+
+        public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
+        {
+            // TODO: Fix to properly represent data
+            ImagePathName = "path.vmx";
+            BaseImageName = vmForm.BaseImageFile;
+            IP = vmForm.IP1;
+        }
 
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
@@ -56,7 +65,7 @@ namespace VMAT.Models
                 newVM.Reboot();
                 System.Threading.Thread.Sleep(250 * 1000);
             }
-            catch (TimeoutException e)
+            catch (TimeoutException)
             {
                 // TODO: Handle time-out
             }

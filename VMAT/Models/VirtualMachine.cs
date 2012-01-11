@@ -53,6 +53,12 @@ namespace VMAT.Models
         [DisplayName("Hostname")]
         public string Hostname { get; set; }
 
+        /// <summary>
+        /// Active, Idle, Archived (won't be able to query)
+        /// </summary>
+        [DisplayName("Lifecycle")]
+        public VMLifecycle Lifecycle { get; set; }
+
         public string GetMachineName()
         {
             string ipnClean = ImagePathName.Replace('\\', '/');

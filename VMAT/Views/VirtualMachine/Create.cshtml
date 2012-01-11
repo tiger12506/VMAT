@@ -1,4 +1,4 @@
-﻿@model VMAT.Models.PendingVirtualMachine
+﻿@model VMAT.ViewModels.VirtualMachineFormViewModel
 
 @{
     ViewBag.Title = "Create Virtual Machine";
@@ -26,15 +26,15 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.BaseImageName)
+                @Html.LabelFor(model => model.BaseImageFile)
                 @Html.DropDownList("BaseImageFile")
-                @Html.ValidationMessageFor(model => model.BaseImageName)
+                @Html.ValidationMessageFor(model => model.BaseImageFile)
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP)
-                @Html.EditorFor(model => model.IP)
-                @Html.ValidationMessageFor(model => model.IP)
+                @Html.LabelFor(model => model.IP1)
+                @Html.EditorFor(model => model.IP1)
+                @Html.ValidationMessageFor(model => model.IP1)
             </li>
         </ol>
     </fieldset>

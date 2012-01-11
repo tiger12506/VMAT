@@ -33,5 +33,14 @@ namespace VMAT.ViewModels
         public string IP3 { get; set; }
         public string IP4 { get; set; }
         public VMLifecycle Lifecycle { get; set; }
+
+        public VirtualMachineFormViewModel(Models.VirtualMachine vm)
+        {
+            ProjectName = vm.GetProjectName();
+            MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
+            BaseImageFile = vm.BaseImageName;
+            // TODO: Handle IP Address on form
+            Lifecycle = vm.Lifecycle;
+        }
     }
 }

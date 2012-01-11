@@ -1,4 +1,4 @@
-﻿@model VMAT.Models.VirtualMachine
+﻿@model VMAT.ViewModels.VirtualMachineFormViewModel
 
 @{
     ViewBag.Title = "Edit Machine";
@@ -15,9 +15,9 @@
         <legend>Virtual Machine</legend>
         <ol>
             <li>
-                @Html.LabelFor(model => model.MachineName)
-                @Html.EditorFor(model => model.MachineName)
-                @Html.ValidationMessageFor(model => model.MachineName)
+                @Html.LabelFor(model => model.MachineNameSuffix)
+                @Html.EditorFor(model => model.MachineNameSuffix)
+                @Html.ValidationMessageFor(model => model.MachineNameSuffix)
             </li>
 
             <li>
@@ -27,9 +27,13 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP)
-                @Html.EditorFor(model => model.IP)
-                @Html.ValidationMessageFor(model => model.IP)
+                @Html.LabelFor(model => model.IP1)
+                @Html.EditorFor(model => model.IP1)
+                @Html.ValidationMessageFor(model => model.IP1)
+            </li>
+
+            <li>
+                @* TODO: Add radio buttons for Lifecycle *@
             </li>
         </ol>
     </fieldset>

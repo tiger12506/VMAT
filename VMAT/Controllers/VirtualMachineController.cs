@@ -52,7 +52,7 @@ namespace VMAT.Controllers
         {
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(Models.VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachine.GetBaseImageFiles());
 
             return View();
         }
@@ -61,10 +61,11 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Create
 
         [HttpPost]
-        public ActionResult Create(Models.PendingVirtualMachine vm)
+        public ActionResult Create(VirtualMachineFormViewModel vmForm)
         {
             if (ModelState.IsValid)
             {
+                var vm = new PendingVirtualMachine(vmForm);
                 dataDB.PendingVirtualMachines.Add(vm);
                 dataDB.SaveChanges();
 
@@ -73,9 +74,9 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(Models.VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachine.GetBaseImageFiles());
 
-            return View(vm);
+            return View(vmForm);
         }
 
         //
@@ -87,14 +88,18 @@ namespace VMAT.Controllers
 
             try
             {
-                Models.VirtualMachine vm = new Models.RunningVirtualMachine(imageFile);
+                // TODO: Handle all VM types
+                VirtualMachine vm = new RunningVirtualMachine(imageFile);
+                var form = new VirtualMachineFormViewModel(vm);
+
                 ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                     "ProjectName", "ProjectName");
 
-                return View(vm);
+                return View(form);
             }
-            catch (Exception e)
+            catch (Exception)
             {
+                // TODO: Consider sending error information to Error page
                 /*return RedirectToAction("Error", "Home", 
                     new { ex = e, controller = this.ToString(), action = "Edit" });*/
                 return RedirectToAction("Error", "Home");
@@ -105,7 +110,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Edit
 
         [HttpPost]
-        public ActionResult Edit(Models.VirtualMachine vm)
+        public ActionResult Edit(VirtualMachine vm)
         {
             if (ModelState.IsValid)
             {
@@ -119,8 +124,9 @@ namespace VMAT.Controllers
 
                 return View(vm);
             }
-            catch (Exception e)
+            catch (Exception)
             {
+                // TODO: Consider sending error information to Error page
                 /*return RedirectToAction("Error", "Home", 
                     new { ex = e, controller = this.ToString(), action = "Edit" });*/
                 return RedirectToAction("Error", "Home");
