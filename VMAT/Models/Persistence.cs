@@ -178,7 +178,7 @@ namespace VMAT.Models
             VirtualMachineManager manager = new VirtualMachineManager();
             DataTable data = new DataTable();
 
-            foreach (string imageName in manager.GetRunningVMs())
+            foreach (string imageName in manager.GetRunningVMImagePaths())
             {
                 var vm = new RunningVirtualMachine(imageName);
                 DataRow row = data.NewRow(); ;

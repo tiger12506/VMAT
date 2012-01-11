@@ -42,7 +42,7 @@ namespace VMAT.Models.VMware
                         ls.Add(new VirtualMachine(v));
                     }
                 }
-                catch (NotSupportedException e)
+                catch (NotSupportedException)
                 {
                     // TODO: Exception handling; Mock VMware for development purposes
                 }
@@ -64,7 +64,7 @@ namespace VMAT.Models.VMware
                         ls.Add(new VirtualMachine(v));
                     }
                 }
-                catch (NotSupportedException e)
+                catch (NotSupportedException)
                 {
                     // TODO: Exception handling; Mock VMware for development purposes
                 }
