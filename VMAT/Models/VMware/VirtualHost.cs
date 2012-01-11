@@ -161,4 +161,3 @@ namespace VMAT.Models.VMware
         }
     }
 }
-
