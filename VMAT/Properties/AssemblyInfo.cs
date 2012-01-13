@@ -6,9 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("VMAT")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(@"A simple application for quick and easy management of 
+                                virtual machines in VMware.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rose-Hulman Institute of Technology")]
 [assembly: AssemblyProduct("VMAT")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
