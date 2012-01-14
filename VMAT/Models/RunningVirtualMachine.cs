@@ -182,12 +182,40 @@ namespace VMAT.Models
         {
             VM = vm;
             ImagePathName = vm.PathName;
+            Created = DateTime.Now;
         }
 
         // TODO: error handle, check if starts with getDatasource
         public RunningVirtualMachine(string imagePathName)
             : this(VirtualMachineManager.GetVirtualHost().Open(imagePathName))
         { }
+
+        public RunningVirtualMachine(PendingVirtualMachine vm)
+            : this(vm.ImagePathName)
+        {
+            IP = vm.IP;
+            Hostname = vm.Hostname;
+            BaseImageName = vm.BaseImageName;
+            Created = DateTime.Now;
+
+            try
+            {
+                // Make triple-double-dog sure that the VM is online and ready.
+                // Allow VM time to power on
+                PowerOn();
+                System.Threading.Thread.Sleep(180 * 1000);
+
+                // Allow VM time to reboot
+                Reboot();
+                System.Threading.Thread.Sleep(250 * 1000);
+            }
+            catch (TimeoutException)
+            {
+                // TODO: Handle time-out
+            }
+
+            Reboot();
+        }
 
         /// <summary>
         /// If the machine is powered off, power it on. If the machine is sleeping, unsleep it.
@@ -206,6 +234,7 @@ namespace VMAT.Models
                     Status = VMStatus.PoweringOn;
                     VM.PowerOn();
                     Status = VMStatus.Running;
+                    LastStarted = DateTime.Now;
                 }
                 else throw new InvalidOperationException("Cannot set VM to run, invalid state " + Status);
             }
@@ -230,6 +259,10 @@ namespace VMAT.Models
                     Status = VMStatus.PoweringOff;
                     VM.PowerOff();
                     Status = VMStatus.Stopped;
+                }
+                finally
+                {
+                    LastStopped = DateTime.Now;
                 }
             }
         }
@@ -282,7 +315,8 @@ namespace VMAT.Models
 
         public void RefreshFromVMware()
         {
-            //TODO: Implement
+            IP = IP;
+            Status = Status;
         }
     }
 }

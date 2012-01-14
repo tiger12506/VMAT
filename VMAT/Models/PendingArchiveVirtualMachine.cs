@@ -5,8 +5,13 @@ using System.Web;
 
 namespace VMAT.Models
 {
-    public class PendingArchiveVirtualMachine : ArchivedVirtualMachine
+    public class PendingArchiveVirtualMachine : RunningVirtualMachine
     {
-        // Currently no different than Archived VM
+        // Currently no different than Running VM
+
+        public PendingArchiveVirtualMachine(RunningVirtualMachine vm) : base(vm.ImagePathName)
+        {
+            
+        }
     }
 }

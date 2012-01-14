@@ -21,7 +21,7 @@ namespace VMAT.ViewModels
 
             projects.Add(new Project("1234"));
 
-            foreach (string imageName in manager.GetRegisteredVMs())
+            foreach (string imageName in manager.GetRegisteredVMImagePaths())
             {
                 VirtualMachine vm = new RunningVirtualMachine(imageName);
                 projects[0].AddVirtualMachine(vm);

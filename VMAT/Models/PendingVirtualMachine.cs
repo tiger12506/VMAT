@@ -21,6 +21,11 @@ namespace VMAT.Models
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
+        public PendingVirtualMachine()
+        {
+            // TODO: Implement
+        }
+
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
             // TODO: Fix to properly represent data
@@ -37,7 +42,7 @@ namespace VMAT.Models
         {
             var vmm = new VirtualMachineManager();
 
-            if (vmm.GetRegisteredVMs().Contains(ImagePathName))
+            if (vmm.GetRegisteredVMImagePaths().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
             if (!ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
@@ -53,29 +58,6 @@ namespace VMAT.Models
             VirtualMachineManager.GetVirtualHost().Register(ImagePathName);
 
             var newVM = new RunningVirtualMachine(ImagePathName);
-
-            try
-            {
-                // Make triple-double-dog sure that the VM is online and ready.
-                // Allow VM time to power on
-                newVM.PowerOn();
-                System.Threading.Thread.Sleep(180 * 1000);
-
-                // Allow VM time to reboot
-                newVM.Reboot();
-                System.Threading.Thread.Sleep(250 * 1000);
-            }
-            catch (TimeoutException)
-            {
-                // TODO: Handle time-out
-            }
-
-            newVM.IP = IP;
-            newVM.Hostname = Hostname;
-            newVM.BaseImageName = BaseImageName;
-            newVM.Created = System.DateTime.Now;
-
-            newVM.Reboot();
 
             return newVM;
 

@@ -23,8 +23,7 @@ namespace VMAT.Models
     public enum VMLifecycle
     {
         Active,
-        Idle, // Do not auto-start
-        Archived // VM files compressed & stored elsewhere
+        Idle // Do not auto-start
     }
 
     public abstract class VirtualMachine
@@ -54,7 +53,7 @@ namespace VMAT.Models
         public string Hostname { get; set; }
 
         /// <summary>
-        /// Active, Idle, Archived (won't be able to query)
+        /// Active, Idle (won't be able to query)
         /// </summary>
         [DisplayName("Lifecycle")]
         public VMLifecycle Lifecycle { get; set; }

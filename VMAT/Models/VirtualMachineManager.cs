@@ -44,18 +44,59 @@ namespace VMAT.Models
             return vh.Open(imagePathName);
         }
 
-        public IEnumerable<string> GetRunningVMs()
+        public IEnumerable<string> GetRunningVMImagePaths()
         {
-            var ret = vh.RunningVirtualMachines.Select(v => v.PathName);
+            var imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
 
-            return ret;
+            return imagePathNames;
         }
 
-        public IEnumerable<string> GetRegisteredVMs()
+        public IEnumerable<RunningVirtualMachine> GetRunningVMs()
+        {
+            IEnumerable<String> imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
+            var vmList = new List<RunningVirtualMachine>();
+
+            foreach (var path in imagePathNames)
+            {
+                RunningVirtualMachine vm;
+
+                try
+                {
+                    vm = dataDB.RunningVirtualMachines.Include("ImagePathName").
+                        Single(d => d.ImagePathName == path);
+                    vm.RefreshFromVMware();
+                    dataDB.Entry(vm).State = EntityState.Modified;
+                    dataDB.SaveChanges();
+                }
+                catch (ArgumentNullException)
+                {
+                    vm = new RunningVirtualMachine(path);
+                    dataDB.RunningVirtualMachines.Add(vm);
+                }
+                catch (InvalidOperationException e)
+                {
+                    // TODO: Error checking
+                    throw e;
+                }
+                    
+                vmList.Add(vm);
+            }
+
+            return vmList;
+        }
+
+        public IEnumerable<string> GetRegisteredVMImagePaths()
         {
             var ret = vh.RegisteredVirtualMachines.Select(v => v.PathName);
 
             return ret;
+        }
+
+        public IEnumerable<VirtualMachine> GetRegisteredVMs()
+        {
+            var vmList = new List<VirtualMachine>();
+
+            return vmList;
         }
 
         /// <summary>
@@ -64,13 +105,43 @@ namespace VMAT.Models
         /// machines into their respective projects.
         /// </summary>
         /// <returns>A list of project items and information</returns>
-        public List<Project> GetProjectInfo()
+        public IEnumerable<Project> GetProjectInfo()
         {
-            List<Project> projects = new List<Project>();
+            var projects = new List<Project>();
 
-            foreach (string imageName in GetRegisteredVMs())
+            foreach (string imageName in GetRegisteredVMImagePaths())
             {
                 VirtualMachine vm = new RunningVirtualMachine(imageName);
+                string projectName = vm.GetProjectName();
+                bool found = false;
+
+                foreach (Project proj in projects)
+                {
+                    if (proj.ProjectName == projectName)
+                    {
+                        proj.AddVirtualMachine(vm);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    var newProject = new Project(projectName, vm.Hostname,
+                        new List<VirtualMachine> { vm });
+                    projects.Add(newProject);
+                }
+            }
+
+            return projects;
+        }
+
+        public IEnumerable<Project> GetProjects()
+        {
+            var projects = new List<Project>();
+
+            foreach (var vm in GetRegisteredVMs())
+            {
                 string projectName = vm.GetProjectName();
                 bool found = false;
 
@@ -118,6 +189,11 @@ namespace VMAT.Models
             }
 
             return -1;
+        }
+
+        public void RefreshFromVMware()
+        {
+
         }
     }
 }

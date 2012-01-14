@@ -18,7 +18,7 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            List<Project> projects = manager.GetProjectInfo();
+            List<Project> projects = manager.GetProjects();
 
             return View(projects);
         }
@@ -29,7 +29,9 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
-            var vm = new RunningVirtualMachine(image);
+            //var vm = new RunningVirtualMachine(image);
+            RunningVirtualMachine vm = dataDB.RunningVirtualMachines.Include("ImagePathName").
+                Single(d => d.ImagePathName == image);
 
             if (vm.Status == VMStatus.Running)
                 vm.PowerOff();
@@ -131,6 +133,26 @@ namespace VMAT.Controllers
                     new { ex = e, controller = this.ToString(), action = "Edit" });*/
                 return RedirectToAction("Error", "Home");
             }
+        }
+
+        //
+        // POST: /VirtualMachine/ArchiveMachine
+
+        [HttpPost]
+        public ActionResult ArchiveMachine(RunningVirtualMachine vm)
+        {
+            try
+            {
+                dataDB.PendingArchiveVirtualMachines.Add(
+                    new PendingArchiveVirtualMachine(vm));
+                dataDB.RunningVirtualMachines.Remove(vm);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            return RedirectToAction("Index");
         }
 
         //
