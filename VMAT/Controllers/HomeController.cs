@@ -7,6 +7,7 @@ using VMAT.Models;
 
 namespace VMAT.Controllers
 {
+    [HandleError]
     public class HomeController : Controller
     {
         //
@@ -63,9 +64,9 @@ namespace VMAT.Controllers
             return View(error);
         }*/
 
-        public ActionResult Error()
+        /*public ActionResult Error()
         {
             return View();
-        }
+        }*/
     }
 }

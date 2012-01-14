@@ -75,6 +75,10 @@ legend {
   padding: 2px 4px 8px 4px;
 }
 
+.padded {
+  padding: 18px;
+}
+
 
 /* HEADINGS
 ----------------------------------------------------------*/
@@ -230,7 +234,6 @@ a.link-button {
 
   #page #content {
     min-height: 350px;
-    border-bottom: 2px solid #4F4F4F;
     background-color: #eeeeee;
     margin-top: 0;
     border-top: 0;
@@ -249,6 +252,7 @@ a.link-button {
   }
 
 #footer {
+  border-top: 2px solid #4F4F4F;
   text-align: center;
 }
 
@@ -270,16 +274,12 @@ a.link-button {
 /* PAGE-SPECIFIC ELEMENTS
 ----------------------------------------------------------*/
 
-div.about {
-  padding: 2%;
-}
-
-ul.created-by li {
+.created-by li {
   float: left;
   margin-right: 10%;
 }
 
-  ul.created-by li ul li {
+  .created-by li ul li {
     float: none;
   }
 
@@ -748,3 +748,19 @@ tr .tControls, tr .tEmpty {
 tr .tStatus {
   width: 65px;
 }
+
+
+/* ERROR PAGE
+----------------------------------------------------------*/
+
+ol.error li {
+  margin-top: 10px;
+}
+
+  ol.error li:first-child {
+    margin: 0;
+  }
+
+  ol.error li #stack-trace{
+    color: #BC1010;
+  }
