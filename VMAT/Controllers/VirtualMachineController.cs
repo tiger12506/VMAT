@@ -8,6 +8,7 @@ using VMAT.ViewModels;
 
 namespace VMAT.Controllers
 {
+    [HandleError]
     public class VirtualMachineController : Controller
     {
         VirtualMachineManager manager = new VirtualMachineManager();
@@ -81,24 +82,16 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
+        [HandleError]
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
 
-            try
-            {
-                Models.VirtualMachine vm = new Models.VirtualMachine(imageFile);
-                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
-                    "ProjectName", "ProjectName");
+            Models.VirtualMachine vm = new Models.VirtualMachine(imageFile);
+            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                "ProjectName", "ProjectName");
 
-                return View(vm);
-            }
-            catch (Exception e)
-            {
-                /*return RedirectToAction("Error", "Home", 
-                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
-                return RedirectToAction("Error", "Home");
-            }
+            return View(vm);
         }
 
         //
@@ -112,19 +105,10 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            try
-            {
-                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
-                    "ProjectName", "ProjectName");
+            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                "ProjectName", "ProjectName");
 
-                return View(vm);
-            }
-            catch (Exception e)
-            {
-                /*return RedirectToAction("Error", "Home", 
-                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
-                return RedirectToAction("Error", "Home");
-            }
+            return View(vm);
         }
 
         //

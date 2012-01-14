@@ -52,21 +52,5 @@ namespace VMAT.Controllers
 
             return View(companies);
         }
-
-        //
-        // POST: /Error
-
-        /*[HttpPost]
-        public ActionResult Error(Exception ex, string controller, string action)
-        {
-            var error = new HandleErrorInfo(ex, controller, action);
-
-            return View(error);
-        }*/
-
-        /*public ActionResult Error()
-        {
-            return View();
-        }*/
     }
 }
