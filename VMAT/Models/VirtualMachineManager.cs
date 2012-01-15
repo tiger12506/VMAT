@@ -62,7 +62,7 @@ namespace VMAT.Models
 
                 try
                 {
-                    vm = dataDB.RunningVirtualMachines.Include("ImagePathName").
+                    vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
                         Single(d => d.ImagePathName == path);
                     vm.RefreshFromVMware();
                     dataDB.Entry(vm).State = EntityState.Modified;
@@ -71,7 +71,7 @@ namespace VMAT.Models
                 catch (ArgumentNullException)
                 {
                     vm = new RunningVirtualMachine(path);
-                    dataDB.RunningVirtualMachines.Add(vm);
+                    dataDB.VirtualMachines.Add(vm);
                 }
                 catch (InvalidOperationException e)
                 {
@@ -103,7 +103,8 @@ namespace VMAT.Models
 
                 try
                 {
-                    vm = dataDB.RunningVirtualMachines.Single(d => d.ImagePathName == path);
+                    vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
+                        Single(d => d.ImagePathName == path);
                     //vm.RefreshFromVMware();
                     dataDB.Entry(vm).State = EntityState.Modified;
                     dataDB.SaveChanges();
@@ -111,7 +112,7 @@ namespace VMAT.Models
                 catch (ArgumentNullException)
                 {
                     vm = new RunningVirtualMachine(path);
-                    dataDB.RunningVirtualMachines.Add(vm);
+                    dataDB.VirtualMachines.Add(vm);
                     dataDB.SaveChanges();
                 }
                 /*catch (InvalidOperationException e)

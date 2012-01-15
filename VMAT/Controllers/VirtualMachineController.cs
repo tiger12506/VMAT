@@ -31,7 +31,7 @@ namespace VMAT.Controllers
         public ActionResult ToggleStatus(string image)
         {
             //var vm = new RunningVirtualMachine(image);
-            RunningVirtualMachine vm = dataDB.RunningVirtualMachines.Include("ImagePathName").
+            RunningVirtualMachine vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
                 Single(d => d.ImagePathName == image);
 
             if (vm.Status == VMStatus.Running)
@@ -69,7 +69,7 @@ namespace VMAT.Controllers
             if (ModelState.IsValid)
             {
                 var vm = new PendingVirtualMachine(vmForm);
-                dataDB.PendingVirtualMachines.Add(vm);
+                dataDB.VirtualMachines.Add(vm);
                 dataDB.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -125,9 +125,8 @@ namespace VMAT.Controllers
         {
             try
             {
-                dataDB.PendingArchiveVirtualMachines.Add(
-                    new PendingArchiveVirtualMachine(vm));
-                dataDB.RunningVirtualMachines.Remove(vm);
+                dataDB.VirtualMachines.Add(new PendingArchiveVirtualMachine(vm));
+                dataDB.VirtualMachines.Remove(vm);
             }
             catch (Exception)
             {
