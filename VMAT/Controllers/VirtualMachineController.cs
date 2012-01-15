@@ -8,6 +8,7 @@ using VMAT.ViewModels;
 
 namespace VMAT.Controllers
 {
+    [HandleError]
     public class VirtualMachineController : Controller
     {
         VirtualMachineManager manager = new VirtualMachineManager();
@@ -18,7 +19,7 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            List<Project> projects = manager.GetProjects();
+            IEnumerable<Project> projects = manager.GetProjects();
 
             return View(projects);
         }
@@ -84,28 +85,19 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
+        [HandleError]
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
 
-            try
-            {
-                // TODO: Handle all VM types
-                VirtualMachine vm = new RunningVirtualMachine(imageFile);
-                var form = new VirtualMachineFormViewModel(vm);
+            // TODO: Handle all VM types
+            VirtualMachine vm = new RunningVirtualMachine(imageFile);
+            var form = new VirtualMachineFormViewModel(vm);
 
-                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
-                    "ProjectName", "ProjectName");
+            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                "ProjectName", "ProjectName");
 
-                return View(form);
-            }
-            catch (Exception)
-            {
-                // TODO: Consider sending error information to Error page
-                /*return RedirectToAction("Error", "Home", 
-                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
-                return RedirectToAction("Error", "Home");
-            }
+            return View(form);
         }
 
         //
@@ -119,20 +111,10 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            try
-            {
-                ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
-                    "ProjectName", "ProjectName");
+            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+                "ProjectName", "ProjectName");
 
-                return View(vm);
-            }
-            catch (Exception)
-            {
-                // TODO: Consider sending error information to Error page
-                /*return RedirectToAction("Error", "Home", 
-                    new { ex = e, controller = this.ToString(), action = "Edit" });*/
-                return RedirectToAction("Error", "Home");
-            }
+            return View(vm);
         }
 
         //

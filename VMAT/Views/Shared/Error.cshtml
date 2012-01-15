@@ -4,6 +4,17 @@
     ViewBag.Title = "Error";
 }
 
-<h2 class="error">An error occurred while processing your request.</h2>
-@*<h3 class="error">@Model.Exception</h3>
-<p>@Model.ControllerName / @Model.ActionName</p>*@
+<ol class="error padded">
+    <li>
+        <h2>Action</h2>
+        <p>@Model.ControllerName<span>/</span>@Model.ActionName</p>
+    </li>
+    <li>
+        <h2>Message</h2>
+        <p>@Model.Exception.GetType().Name<span>: </span>@Model.Exception.Message</p>
+    </li>
+    <li>
+        <h2>Stack Trace</h2>
+        <p id="stack-trace">@Model.Exception.StackTrace</p>
+    </li>
+</ol>
