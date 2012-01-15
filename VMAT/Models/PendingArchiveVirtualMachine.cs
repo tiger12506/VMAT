@@ -9,6 +9,12 @@ namespace VMAT.Models
     {
         // Currently no different than Running VM
 
+        public PendingArchiveVirtualMachine()
+            : base()
+        {
+
+        }
+
         public PendingArchiveVirtualMachine(RunningVirtualMachine vm) : base(vm.ImagePathName)
         {
             

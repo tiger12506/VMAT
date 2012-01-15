@@ -151,6 +151,7 @@
     <Content Include="7za.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\VMAT.sdf" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -224,8 +225,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="packages.config" />
-    <None Include="App_Data\Host.xls" />
-    <None Include="App_Data\VirtualMachines.xls" />
     <None Include="readme.txt" />
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />

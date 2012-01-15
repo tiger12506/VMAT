@@ -94,7 +94,37 @@ namespace VMAT.Models
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()
         {
+            var imagePathNames = vh.RegisteredVirtualMachines.Select(v => v.PathName);
             var vmList = new List<VirtualMachine>();
+
+            foreach (var path in imagePathNames)
+            {
+                RunningVirtualMachine vm;
+
+                try
+                {
+                    vm = dataDB.RunningVirtualMachines.Single(d => d.ImagePathName == path);
+                    //vm.RefreshFromVMware();
+                    dataDB.Entry(vm).State = EntityState.Modified;
+                    dataDB.SaveChanges();
+                }
+                catch (ArgumentNullException)
+                {
+                    vm = new RunningVirtualMachine(path);
+                    dataDB.RunningVirtualMachines.Add(vm);
+                    dataDB.SaveChanges();
+                }
+                /*catch (InvalidOperationException e)
+                {
+                    // TODO: Error checking
+                    throw e;
+                    vm = new RunningVirtualMachine(path);
+                    dataDB.RunningVirtualMachines.Add(vm);
+                    dataDB.SaveChanges();
+                }*/
+
+                vmList.Add(vm);
+            }
 
             return vmList;
         }

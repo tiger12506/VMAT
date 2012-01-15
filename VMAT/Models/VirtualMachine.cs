@@ -33,6 +33,7 @@ namespace VMAT.Models
         /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
         /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
         /// </summary>
+        [Key]
         [Required(ErrorMessage = "Image Path Name is required")]
         [DisplayName("Image Filepath")]
         public string ImagePathName { get; protected set; }

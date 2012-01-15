@@ -68,22 +68,29 @@ namespace VMAT.Models
                     throw new InvalidDataException("IP too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
-                LoginTools(true);
-                Shell guestShell = new Shell(VM.VM); //TODO: mock?
-                string cmd = "netsh interface ip set address " + AppConfiguration.GetNetworkInterfaceName() + " static " + value + " 255.255.255.0";
-                output = guestShell.RunCommandInGuest(cmd);
+                try
+                {
+                    LoginTools(true);
+                    Shell guestShell = new Shell(VM.VM); // TODO: mock?
+                    string cmd = "netsh interface ip set address " + AppConfiguration.GetNetworkInterfaceName() + " static " + value + " 255.255.255.0";
+                    output = guestShell.RunCommandInGuest(cmd);
 
-                if (output.StdOut.Length < 12) //depending on OS, should print "Ok.\n\n" or not print any output if success
-                {
-                    return;
+                    if (output.StdOut.Length < 12) // Depending on OS, should print "Ok.\n\n" or not print any output if success
+                    {
+                        return;
+                    }
+                    else if (output.StdOut.Contains("failed"))
+                    {
+                        throw new InvalidOperationException(cmd + "\n" + output.StdOut);
+                    }
+                    else
+                    {
+                        throw new InvalidProgramException(cmd + "\n" + output.StdOut);
+                    }
                 }
-                else if (output.StdOut.Contains("failed"))
+                catch (Exception)
                 {
-                    throw new InvalidOperationException(cmd + "\n" + output.StdOut);
-                }
-                else
-                {
-                    throw new InvalidProgramException(cmd + "\n" + output.StdOut);
+                    value = "offline";
                 }
             }
         }
@@ -117,15 +124,17 @@ namespace VMAT.Models
                     throw new ArgumentException("Hostname too short");
                 Shell.ShellOutput output = new Shell.ShellOutput();
 
-                LoginTools(true);
-                var renameScriptHost = AppConfiguration.GetWebserverTmpPath() + "renamecomp.vbs";
-                if (!File.Exists(renameScriptHost))
+                try
                 {
-                    if (!Directory.Exists(AppConfiguration.GetWebserverTmpPath()))
-                        Directory.CreateDirectory(AppConfiguration.GetWebserverTmpPath());
-                    //if (!File.Exists(renameScriptHost))
-                    //File.Create(renameScriptHost);
-                    File.WriteAllText(renameScriptHost, @"Set objWMIService = GetObject(""Winmgmts:root\cimv2"")
+                    LoginTools(true);
+                    var renameScriptHost = AppConfiguration.GetWebserverTmpPath() + "renamecomp.vbs";
+                    if (!File.Exists(renameScriptHost))
+                    {
+                        if (!Directory.Exists(AppConfiguration.GetWebserverTmpPath()))
+                            Directory.CreateDirectory(AppConfiguration.GetWebserverTmpPath());
+                        //if (!File.Exists(renameScriptHost))
+                        //File.Create(renameScriptHost);
+                        File.WriteAllText(renameScriptHost, @"Set objWMIService = GetObject(""Winmgmts:root\cimv2"")
                             For Each objComputer in _
                                 objWMIService.InstancesOf(""Win32_ComputerSystem"")
                                 Name = WScript.Arguments.Item(0)
@@ -137,24 +146,29 @@ namespace VMAT.Models
                                     End If
                             Next
                     ");
+                    }
+
+                    //note: Host means Webserver, NOT VMware server
+                    if (!VM.DirectoryExistsInGuest(@"C:\temp"))
+                        VM.CreateDirectoryInGuest(@"C:\temp");
+                    if (!VM.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
+                        VM.CopyFileFromHostToGuest(renameScriptHost, @"C:\temp\renamecomp.vbs");
+
+                    Shell guestShell = new Shell(this.VM.VM); //TODO: mock?
+                    output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + value);
+                    //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVMPath()+@"\renamecomp.vbs " + newName);
+
+                    if (output.StdOut.Contains("rename-succ"))
+                        return;
+                    else if (output.StdOut.Contains("rename-fail"))
+                        throw new InvalidOperationException(output.StdOut);
+                    else
+                        throw new InvalidOperationException(output.StdOut);
                 }
-
-                //note: Host means Webserver, NOT VMware server
-                if (!VM.DirectoryExistsInGuest(@"C:\temp"))
-                    VM.CreateDirectoryInGuest(@"C:\temp");
-                if (!VM.FileExistsInGuest(@"C:\temp\renamecomp.vbs"))
-                    VM.CopyFileFromHostToGuest(renameScriptHost, @"C:\temp\renamecomp.vbs");
-
-                Shell guestShell = new Shell(this.VM.VM); //TODO: mock?
-                output = guestShell.RunCommandInGuest(@"cscript c:\temp\renamecomp.vbs " + value);
-                //output = guestShell.RunCommandInGuest(@"cscript "+Config.getWebserverVMPath()+@"\renamecomp.vbs " + newName);
-
-                if (output.StdOut.Contains("rename-succ"))
-                    return;
-                else if (output.StdOut.Contains("rename-fail"))
-                    throw new InvalidOperationException(output.StdOut);
-                else
-                    throw new InvalidOperationException(output.StdOut);
+                catch (Exception)
+                {
+                    value = "offline";
+                }
             }
         }
 
@@ -178,17 +192,27 @@ namespace VMAT.Models
         [DisplayName("Created")]
         public DateTime Created { get; set; }
 
-        public RunningVirtualMachine(IVirtualMachine vm) : base()
+        public RunningVirtualMachine()
         {
-            VM = vm;
-            ImagePathName = vm.PathName;
+            VirtualMachineManager.GetVirtualHost().Open(ImagePathName);
             Created = DateTime.Now;
+            LastStopped = DateTime.Now;
+            LastStarted = DateTime.Now;
+            LastBackuped = DateTime.Now;
+            LastArchived = DateTime.Now;
+        }
+
+        public RunningVirtualMachine(IVirtualMachine vm) : this()
+        {
+            //VM = vm;
+            ImagePathName = vm.PathName;
         }
 
         // TODO: error handle, check if starts with getDatasource
-        public RunningVirtualMachine(string imagePathName)
-            : this(VirtualMachineManager.GetVirtualHost().Open(imagePathName))
-        { }
+        public RunningVirtualMachine(string imagePathName) : this()
+        {
+            ImagePathName = imagePathName;
+        }
 
         public RunningVirtualMachine(PendingVirtualMachine vm)
             : this(vm.ImagePathName)
@@ -300,6 +324,7 @@ namespace VMAT.Models
 
         private void LoginTools(bool waitLong=false)
         {
+            // TODO: Handle in case powered off better
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(waitLong?120:30); //TODO: refactor this out somewhere
             VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());

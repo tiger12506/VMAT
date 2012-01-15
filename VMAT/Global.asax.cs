@@ -26,14 +26,10 @@ namespace VMAT
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
         {
-            //System.Data.Entity.Database.SetInitializer(
-                //new MvcMusicStore.Models.SampleData());
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

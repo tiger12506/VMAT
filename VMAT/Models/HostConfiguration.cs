@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace VMAT.Models
 {
@@ -13,10 +14,10 @@ namespace VMAT.Models
         [DisplayName("Maximum VM Count")]
         public int MaxVMCount { get; set; }
 
-        [DisplayName("Min IP Address")]
+        [DisplayName("Minimum IP Address")]
         public string MinIP { get; set; }
 
-        [DisplayName("Max IP Address")]
+        [DisplayName("Maximum IP Address")]
         public string MaxIP { get; set; }
 
         [DisplayName("Create VM Time")]
