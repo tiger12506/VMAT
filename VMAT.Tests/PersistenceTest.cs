@@ -20,7 +20,7 @@ namespace VMAT.Tests
         private string testHostPath;
         private string testVMPath;
 
-        public PersistenceTest()
+        /*public PersistenceTest()
         {
             AppConfiguration.SetWebConfigurationFile(
                 WebConfigurationManager.OpenWebConfiguration(Properties.Settings.Default["WebConfigFilePath"].ToString()).AppSettings);
@@ -104,6 +104,6 @@ namespace VMAT.Tests
         {
             int nextIP = Persistence.GetNextAvailableIP();
             Assert.AreEqual(3, nextIP);
-        }
+        }*/
     }
 }
