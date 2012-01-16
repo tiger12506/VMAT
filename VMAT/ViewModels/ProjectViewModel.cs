@@ -9,9 +9,9 @@ namespace VMAT.ViewModels
     {
         public string ProjectName { get; set; }
         public string Hostname { get; set; }
-        public IEnumerable<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }
-        public IEnumerable<PendingVirtualMachineViewModel> PendingVMs { get; set; }
-        public IEnumerable<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
-        public IEnumerable<ArchiveVirtualMachineViewModel> ArchivedVMs { get; set; }
+        public List<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }
+        public List<PendingVirtualMachineViewModel> PendingVMs { get; set; }
+        public List<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
+        public List<ArchiveVirtualMachineViewModel> ArchivedVMs { get; set; }
     }
 }

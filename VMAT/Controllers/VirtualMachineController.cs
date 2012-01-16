@@ -19,9 +19,43 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Project> projects = manager.GetProjects();
+            IEnumerable<Project> projectList = manager.GetProjects();
+            var projectViewList = new List<ProjectViewModel>();
 
-            return View(projects);
+            foreach (var project in projectList)
+            {
+                ProjectViewModel projectView = new ProjectViewModel();
+
+                projectView.ProjectName = project.ProjectName;
+                projectView.Hostname = project.Hostname;
+
+                foreach (var vm in project.VirtualMachines)
+                {
+                    if (vm.GetType() == typeof(RegisteredVirtualMachine))
+                    {
+                        var vmView = new RegisteredVirtualMachineViewModel();
+
+                        vmView.MachineName = vm.GetMachineName();
+                        vmView.IP = ((RegisteredVirtualMachine)vm).IP;
+
+                        projectView.RegisteredVMs.Add(vmView);
+                    }
+                    else if (vm.GetType() == typeof(PendingVirtualMachine))
+                    {
+
+                    }
+                    else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
+                    {
+
+                    }
+                    else if (vm.GetType() == typeof(ArchivedVirtualMachine))
+                    {
+
+                    }
+                }
+            }
+
+            return View(projectViewList);
         }
 
         //
