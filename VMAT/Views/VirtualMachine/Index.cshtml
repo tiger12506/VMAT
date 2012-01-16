@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VMAT.Models.Project>
+﻿@model IEnumerable<VMAT.ViewModels.ProjectViewModel>
 
 @{
     ViewBag.Title = "Virtual Machine Management";
@@ -49,12 +49,12 @@
 
                 <div class="project-machines">
                     <ul class="machine-list">
-                    @foreach (var vm in project.VirtualMachines)
+                    @foreach (var vm in project.RegisteredVMs)
                     {
                         <li>
                             <div class="machine-info" id="@vm.ImagePathName">
                                 <div class="status">
-                                    <button type="button" status="running" />
+                                    <button type="button" status="vm.Status" />
                                 </div>
                                 <table>
                                     <tr>
@@ -70,10 +70,10 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="tMachinename">@vm.GetMachineName()</td>
-                                        <td class="tIP">@((VMAT.Models.RegisteredVirtualMachine)vm).IP</td>
-                                        <td class="tCreated">@((VMAT.Models.RegisteredVirtualMachine)vm).Created</td>
-                                        <td class="tStopped">@((VMAT.Models.RegisteredVirtualMachine)vm).LastStopped</td>
+                                        <td class="tMachinename">@vm.MachineName</td>
+                                        <td class="tIP">@vm.IP</td>
+                                        <td class="tCreated">@vm.CreatedTime</td>
+                                        <td class="tStopped">@vm.LastStopped</td>
                                         <td class="tControls">
                                             <button type="button" class="toggle-details">
                                                 Show More
@@ -94,9 +94,9 @@
                                         <tr>
                                             <td class="tStatus"><!-- Empty --></td>
                                             <td class="tImagefile">@vm.BaseImageName</td>
-                                            <td class="tStarted">@((VMAT.Models.RegisteredVirtualMachine)vm).LastStarted</td>
-                                            <td class="tBackuped">@((VMAT.Models.RegisteredVirtualMachine)vm).LastBackuped</td>
-                                            <td class="tArchived">@((VMAT.Models.RegisteredVirtualMachine)vm).LastArchived</td>
+                                            <td class="tStarted">@vm.LastStarted</td>
+                                            <td class="tBackuped">@vm.LastBackuped</td>
+                                            <td class="tArchived">@vm.LastArchived</td>
                                             <td class="tEmpty">
                                                 <!-- No Data -->
                                             </td>

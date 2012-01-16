@@ -31,11 +31,11 @@ namespace VMAT.Models
         public DateTime LastArchived { get; set; }
 
         [DisplayName("Created")]
-        public DateTime Created { get; set; }
+        public DateTime CreatedTime { get; set; }
 
         public RegisteredVirtualMachine()
         {
-            Created = DateTime.Now;
+            CreatedTime = DateTime.Now;
             LastStopped = DateTime.Now;
             LastStarted = DateTime.Now;
             LastBackuped = DateTime.Now;
@@ -58,7 +58,7 @@ namespace VMAT.Models
             IP = vm.IP;
             Hostname = vm.Hostname;
             BaseImageName = vm.BaseImageName;
-            Created = DateTime.Now;
+            CreatedTime = DateTime.Now;
 
             try
             {
