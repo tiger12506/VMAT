@@ -52,7 +52,7 @@ namespace VMAT.Tests
             mVM.Setup(vm => vm.WaitForToolsInGuest());
             mVM.Setup(vm => vm.LoginInGuest("Administrator", "password"));
 
-            int nextIP = VirtualMachineManager.GetNextAvailableIP();
+            int nextIP = man.GetNextAvailableIP();
             //Assert.AreEqual(3, nextIP);
             Assert.Inconclusive("Method moved to Persistence.cs");
         }

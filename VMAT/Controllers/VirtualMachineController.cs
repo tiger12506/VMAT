@@ -30,17 +30,22 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
-            //var vm = new RunningVirtualMachine(image);
-            RunningVirtualMachine vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
-                Single(d => d.ImagePathName == image);
+            RegisteredVirtualMachine vm = dataDB.VirtualMachines.
+                OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
 
-            if (vm.Status == VMStatus.Running)
-                vm.PowerOff();
-            else if (vm.Status == VMStatus.Stopped)
-                vm.PowerOn();
+            RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
+            VMStatus status = RegisteredVirtualMachineService.GetStatus();
+
+            if (status == VMStatus.Running)
+                RegisteredVirtualMachineService.PowerOff();
+            else if (status == VMStatus.Stopped)
+                RegisteredVirtualMachineService.PowerOn();
+
+            dataDB.SaveChanges();
+            status = RegisteredVirtualMachineService.GetStatus();
 
             var results = new ToggleStatusViewModel {
-                Status = vm.Status.ToString().ToLower(),
+                Status = status.ToString().ToLower(),
                 LastStartTime = vm.LastStarted,
                 LastShutdownTime = vm.LastStopped
             };
@@ -55,7 +60,7 @@ namespace VMAT.Controllers
         {
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
 
             return View();
         }
@@ -77,7 +82,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
 
             return View(vmForm);
         }
@@ -91,7 +96,7 @@ namespace VMAT.Controllers
             string imageFile = HttpUtility.UrlDecode(img);
 
             // TODO: Handle all VM types
-            VirtualMachine vm = new RunningVirtualMachine(imageFile);
+            VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
             var form = new VirtualMachineFormViewModel(vm);
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
@@ -121,7 +126,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/ArchiveMachine
 
         [HttpPost]
-        public ActionResult ArchiveMachine(RunningVirtualMachine vm)
+        public ActionResult ArchiveMachine(RegisteredVirtualMachine vm)
         {
             try
             {

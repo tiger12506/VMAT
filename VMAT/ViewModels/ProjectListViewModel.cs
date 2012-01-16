@@ -23,7 +23,7 @@ namespace VMAT.ViewModels
 
             foreach (string imageName in manager.GetRegisteredVMImagePaths())
             {
-                VirtualMachine vm = new RunningVirtualMachine(imageName);
+                VirtualMachine vm = new RegisteredVirtualMachine(imageName);
                 projects[0].AddVirtualMachine(vm);
             }
 

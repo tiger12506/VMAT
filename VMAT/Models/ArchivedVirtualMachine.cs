@@ -27,7 +27,11 @@ namespace VMAT.Models
 
         public ArchivedVirtualMachine()
         {
-
+            LastArchived = DateTime.Now;
+            LastBackuped = DateTime.Now;
+            LastStarted = DateTime.Now;
+            LastStopped = DateTime.Now;
+            Created = DateTime.Now;
         }
 
         public void ArchiveFile(string sourceName, string outName)

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace VMAT.Models
 {
-    public class PendingArchiveVirtualMachine : RunningVirtualMachine
+    public class PendingArchiveVirtualMachine : RegisteredVirtualMachine
     {
         // Currently no different than Running VM
 
@@ -15,7 +15,7 @@ namespace VMAT.Models
 
         }
 
-        public PendingArchiveVirtualMachine(RunningVirtualMachine vm) : base(vm.ImagePathName)
+        public PendingArchiveVirtualMachine(RegisteredVirtualMachine vm) : base(vm.ImagePathName)
         {
             
         }

@@ -180,7 +180,7 @@ namespace VMAT.Models
 
             foreach (string imageName in manager.GetRunningVMImagePaths())
             {
-                var vm = new RunningVirtualMachine(imageName);
+                var vm = new RegisteredVirtualMachine(imageName);
                 DataRow row = data.NewRow(); ;
 
                 // Add more items as needed

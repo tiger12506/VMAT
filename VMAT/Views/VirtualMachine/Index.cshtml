@@ -54,7 +54,7 @@
                         <li>
                             <div class="machine-info" id="@vm.ImagePathName">
                                 <div class="status">
-                                    <button type="button" status="@((VMAT.Models.RunningVirtualMachine)vm).Status.ToString().ToLower()" />
+                                    <button type="button" status="running" />
                                 </div>
                                 <table>
                                     <tr>
@@ -71,9 +71,9 @@
                                     </tr>
                                     <tr>
                                         <td class="tMachinename">@vm.GetMachineName()</td>
-                                        <td class="tIP">@((VMAT.Models.RunningVirtualMachine)vm).IP</td>
-                                        <td class="tCreated">@((VMAT.Models.RunningVirtualMachine)vm).Created</td>
-                                        <td class="tStopped">@((VMAT.Models.RunningVirtualMachine)vm).LastStopped</td>
+                                        <td class="tIP">@((VMAT.Models.RegisteredVirtualMachine)vm).IP</td>
+                                        <td class="tCreated">@((VMAT.Models.RegisteredVirtualMachine)vm).Created</td>
+                                        <td class="tStopped">@((VMAT.Models.RegisteredVirtualMachine)vm).LastStopped</td>
                                         <td class="tControls">
                                             <button type="button" class="toggle-details">
                                                 Show More
@@ -94,9 +94,9 @@
                                         <tr>
                                             <td class="tStatus"><!-- Empty --></td>
                                             <td class="tImagefile">@vm.BaseImageName</td>
-                                            <td class="tStarted">@((VMAT.Models.RunningVirtualMachine)vm).LastStarted</td>
-                                            <td class="tBackuped">@((VMAT.Models.RunningVirtualMachine)vm).LastBackuped</td>
-                                            <td class="tArchived">@((VMAT.Models.RunningVirtualMachine)vm).LastArchived</td>
+                                            <td class="tStarted">@((VMAT.Models.RegisteredVirtualMachine)vm).LastStarted</td>
+                                            <td class="tBackuped">@((VMAT.Models.RegisteredVirtualMachine)vm).LastBackuped</td>
+                                            <td class="tArchived">@((VMAT.Models.RegisteredVirtualMachine)vm).LastArchived</td>
                                             <td class="tEmpty">
                                                 <!-- No Data -->
                                             </td>

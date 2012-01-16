@@ -27,35 +27,18 @@ namespace VMAT.Models
     }
 
     public abstract class VirtualMachine
-    {      
-        /// <summary>
-        /// The current image file that the VM is running on. Will not be modifiable. Should probably follow ProjectName/gapdevppppnnnnn.vmx, 
-        /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
+    {
         [Key]
         [Required(ErrorMessage = "Image Path Name is required")]
         [DisplayName("Image Filepath")]
         public string ImagePathName { get; protected set; }
 
-        /// <summary>
-        /// The base image file that the VM was originally copied from when first created. 
-        /// Unknown naming conventions, likely contains OS version.
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
         [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
-        /// <summary>
-        /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
-        /// Note: caller must reboot after setting. 
-        /// </summary>
         [DisplayName("Hostname")]
         public string Hostname { get; set; }
 
-        /// <summary>
-        /// Active, Idle (won't be able to query)
-        /// </summary>
         [DisplayName("Lifecycle")]
         public VMLifecycle Lifecycle { get; set; }
 
@@ -94,32 +77,6 @@ namespace VMAT.Models
             int length = 4;
 
             return imagePathName.Substring(start, length);
-        }
-
-        public static IEnumerable<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => ConvertPathToDatasource(foo));
-        }
-
-        /// <summary>
-        /// Converts datasource-style path to physical network path
-        /// </summary>
-        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
-        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
-        public static string ConvertPathToPhysical(string PathName)
-        {
-            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
-        }
-
-        /// <summary>
-        /// Converts physical network path to datasource-style path
-        /// </summary>
-        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
-        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
-        public static string ConvertPathToDatasource(string PathName)
-        {
-            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
         }
     }
 }

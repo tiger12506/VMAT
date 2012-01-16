@@ -14,9 +14,6 @@ namespace VMAT.Models
 {
     public class PendingVirtualMachine : VirtualMachine
     {
-        /// <summary>
-        /// ie 137.112.147.145
-        /// </summary>
         [StringLength(15, ErrorMessage ="Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
@@ -38,7 +35,7 @@ namespace VMAT.Models
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns>New object representing VM</returns>
-        public RunningVirtualMachine CreateVM()
+        public RegisteredVirtualMachine CreateVM()
         {
             var vmm = new VirtualMachineManager();
 
@@ -57,7 +54,7 @@ namespace VMAT.Models
 
             VirtualMachineManager.GetVirtualHost().Register(ImagePathName);
 
-            var newVM = new RunningVirtualMachine(ImagePathName);
+            var newVM = new RegisteredVirtualMachine(ImagePathName);
 
             return newVM;
 
@@ -76,10 +73,10 @@ namespace VMAT.Models
 
         private void CopyVMFiles()
         {
-            string sourceVMX = VirtualMachine.ConvertPathToPhysical(BaseImageName);
+            string sourceVMX = VirtualMachineManager.ConvertPathToPhysical(BaseImageName);
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
             string sourcePath = Path.GetDirectoryName(sourceVMX);
-            string destVMX = VirtualMachine.ConvertPathToPhysical(ImagePathName);
+            string destVMX = VirtualMachineManager.ConvertPathToPhysical(ImagePathName);
             string destName = Path.GetFileNameWithoutExtension(destVMX);
             string destPath = Path.GetDirectoryName(destVMX);
 

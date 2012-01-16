@@ -14,9 +14,6 @@ namespace VMAT.Models
     {
         DataEntities dataDB = new DataEntities();
 
-         /// <summary>
-        /// 
-        /// </summary>
         private static IVirtualHost vh;
 
         public static IVirtualHost GetVirtualHost()
@@ -51,26 +48,26 @@ namespace VMAT.Models
             return imagePathNames;
         }
 
-        public IEnumerable<RunningVirtualMachine> GetRunningVMs()
+        public IEnumerable<RegisteredVirtualMachine> GetRunningVMs()
         {
             IEnumerable<String> imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
-            var vmList = new List<RunningVirtualMachine>();
+            var vmList = new List<RegisteredVirtualMachine>();
 
             foreach (var path in imagePathNames)
             {
-                RunningVirtualMachine vm;
+                RegisteredVirtualMachine vm;
 
                 try
                 {
-                    vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
+                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
                         Single(d => d.ImagePathName == path);
-                    vm.RefreshFromVMware();
+                    //vm.RefreshFromVMware();
                     dataDB.Entry(vm).State = EntityState.Modified;
                     dataDB.SaveChanges();
                 }
                 catch (ArgumentNullException)
                 {
-                    vm = new RunningVirtualMachine(path);
+                    vm = new RegisteredVirtualMachine(path);
                     dataDB.VirtualMachines.Add(vm);
                 }
                 catch (InvalidOperationException e)
@@ -99,31 +96,33 @@ namespace VMAT.Models
 
             foreach (var path in imagePathNames)
             {
-                RunningVirtualMachine vm;
+                RegisteredVirtualMachine vm;
 
                 try
                 {
-                    vm = dataDB.VirtualMachines.OfType<RunningVirtualMachine>().
+                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
                         Single(d => d.ImagePathName == path);
-                    //vm.RefreshFromVMware();
-                    dataDB.Entry(vm).State = EntityState.Modified;
-                    dataDB.SaveChanges();
                 }
                 catch (ArgumentNullException)
                 {
-                    vm = new RunningVirtualMachine(path);
+                    vm = new RegisteredVirtualMachine(path);
                     dataDB.VirtualMachines.Add(vm);
-                    dataDB.SaveChanges();
                 }
-                /*catch (InvalidOperationException e)
+                catch (InvalidOperationException)
                 {
-                    // TODO: Error checking
-                    throw e;
-                    vm = new RunningVirtualMachine(path);
-                    dataDB.RunningVirtualMachines.Add(vm);
-                    dataDB.SaveChanges();
-                }*/
+                    vm = new RegisteredVirtualMachine(path);
+                    dataDB.VirtualMachines.Add(vm);
+                }
 
+                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(path);
+
+                if (RegisteredVirtualMachineService.GetStatus() == VMStatus.Running)
+                {
+                    vm.Hostname = RegisteredVirtualMachineService.GetHostname();
+                    vm.IP = RegisteredVirtualMachineService.GetIP();
+                }
+
+                dataDB.SaveChanges();
                 vmList.Add(vm);
             }
 
@@ -142,7 +141,7 @@ namespace VMAT.Models
 
             foreach (string imageName in GetRegisteredVMImagePaths())
             {
-                VirtualMachine vm = new RunningVirtualMachine(imageName);
+                VirtualMachine vm = new RegisteredVirtualMachine(imageName);
                 string projectName = vm.GetProjectName();
                 bool found = false;
 
@@ -201,14 +200,15 @@ namespace VMAT.Models
         ///  Find the lowest available IP address.
         /// </summary>
         /// <returns>The last octet of the lowest available IP address.</returns>
-        public static int GetNextAvailableIP()
+        public int GetNextAvailableIP()
         {
-            DataTable virtualMachineInfo = Persistence.GetVirtualMachineData();
+            // TODO: Implement
+            List<string> ipAddresses = new List<string>();// = dataDB.VirtualMachines.OfType<!ArchivedVirtualMachine>();
             bool[] usedIP = new bool[256];
 
-            foreach (DataRow currentRow in virtualMachineInfo.Rows)
+            foreach (var ip in ipAddresses)
             {
-                string longIP = currentRow.Field<string>("IP");
+                string longIP = ip;
                 int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
                 usedIP[ipTail] = true;
             }
@@ -225,6 +225,32 @@ namespace VMAT.Models
         public void RefreshFromVMware()
         {
 
+        }
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => ConvertPathToDatasource(foo));
+        }
+
+        /// <summary>
+        /// Converts datasource-style path to physical network path
+        /// </summary>
+        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
+        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
+        public static string ConvertPathToPhysical(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
+        }
+
+        /// <summary>
+        /// Converts physical network path to datasource-style path
+        /// </summary>
+        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
+        public static string ConvertPathToDatasource(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
         }
     }
 }
