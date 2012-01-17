@@ -7,10 +7,6 @@ namespace VMAT.Models
 {
     public class RegisteredVirtualMachine : VirtualMachine
     {
-        [ScaffoldColumn(false)]
-        [DisplayName("Status")]
-        public VMStatus Status { get; set; }
-
         [StringLength(15, ErrorMessage = "Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
