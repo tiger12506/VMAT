@@ -35,8 +35,18 @@ namespace VMAT.Controllers
                     {
                         var vmView = new RegisteredVirtualMachineViewModel();
 
+                        RegisteredVirtualMachineService.SetRegisteredVirtualMachine(vm.ImagePathName);
+
+                        vmView.ImagePathName = vm.ImagePathName;
+                        vmView.Status = RegisteredVirtualMachineService.GetStatus().ToString().ToLower();
                         vmView.MachineName = vm.GetMachineName();
                         vmView.IP = ((RegisteredVirtualMachine)vm).IP;
+                        vmView.CreatedTime = ((RegisteredVirtualMachine)vm).CreatedTime.ToString();
+                        vmView.LastStopped = ((RegisteredVirtualMachine)vm).LastStopped.ToString();
+                        vmView.LastStarted = ((RegisteredVirtualMachine)vm).LastStarted.ToString();
+                        vmView.LastArchived = ((RegisteredVirtualMachine)vm).LastArchived.ToString();
+                        vmView.LastBackuped = ((RegisteredVirtualMachine)vm).LastBackuped.ToString();
+                        vmView.BaseImageName = vm.BaseImageName;
 
                         projectView.RegisteredVMs.Add(vmView);
                     }
@@ -53,6 +63,8 @@ namespace VMAT.Controllers
 
                     }
                 }
+
+                projectViewList.Add(projectView);
             }
 
             return View(projectViewList);

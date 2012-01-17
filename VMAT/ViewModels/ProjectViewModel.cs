@@ -13,5 +13,13 @@ namespace VMAT.ViewModels
         public List<PendingVirtualMachineViewModel> PendingVMs { get; set; }
         public List<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
         public List<ArchiveVirtualMachineViewModel> ArchivedVMs { get; set; }
+
+        public ProjectViewModel()
+        {
+            RegisteredVMs = new List<RegisteredVirtualMachineViewModel>();
+            PendingVMs = new List<PendingVirtualMachineViewModel>();
+            PendingArchiveVMs = new List<PendingArchiveVirtualMachineViewModel>();
+            ArchivedVMs = new List<ArchiveVirtualMachineViewModel>();
+        }
     }
 }
