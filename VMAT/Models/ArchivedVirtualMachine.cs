@@ -3,14 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VMAT.Models
 {
-    public class ArchivedVirtualMachine
+    public class ArchivedVirtualMachine : VirtualMachine
     {
+        [DisplayName("Last Shutdown")]
+        public DateTime LastStopped { get; set; }
+
+        [DisplayName("Last Started")]
+        public DateTime LastStarted { get; set; }
+
+        [DisplayName("Last Backed Up")]
+        public DateTime LastBackuped { get; set; }
+
+        [DisplayName("Last Archived")]
+        public DateTime LastArchived { get; set; }
+
+        [DisplayName("Created")]
+        public DateTime Created { get; set; }
+
         public ArchivedVirtualMachine()
         {
-
+            LastArchived = DateTime.Now;
+            LastBackuped = DateTime.Now;
+            LastStarted = DateTime.Now;
+            LastStopped = DateTime.Now;
+            Created = DateTime.Now;
         }
 
         public void ArchiveFile(string sourceName, string outName)

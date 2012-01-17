@@ -1,72 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.IO;
-using Vestris.VMWareLib.Tools.Windows;
-using VMAT.Models.VMware;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using Vestris.VMWareLib.Tools.Windows;
+using VMAT.Models.VMware;
+using VMAT.ViewModels;
 
 namespace VMAT.Models
 {
-    public class PendingVirtualMachine
+    public class PendingVirtualMachine : VirtualMachine
     {
-        /// <summary>
-        /// The image file that the VM will be running from (will be created). Should probably follow ProjectName/gapdevppppnnnnn.vmx, 
-        /// but existing ones may not. p is project number, n is engineer-selected name (1-5 char).
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
-        [Required(ErrorMessage = "Image Filepath required")]
-        [DisplayName("Image Filepath")]
-        public string ImagePathName { get; set; }
-
-        [Required(ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [StringLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [DisplayName("Machine Name Suffix")]
-        public string MachineNameSuffix { get; set; }
-
-        /// <summary>
-        /// ie 137.112.147.145
-        /// </summary>
         [StringLength(15, ErrorMessage ="Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
-        /// <summary>
-        /// Fully Qualified Domain Name, not all machines will be on domain. Will likely follow gapdevppppnnnnn. p is project number, n is engineer-selected name (1-5 char)
-        /// </summary>
-        [DisplayName("Hostname")]
-        public string HostnameWithDomain { get; set; }
+        public PendingVirtualMachine()
+        {
+            // TODO: Implement
+        }
 
-        /// <summary>
-        /// The base image file that the VM was originally copied from when first created. Unknown naming conventions, likely contains OS version.
-        /// Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"
-        /// </summary>
-        [DisplayName("Base Image File")]
-        public string BaseImageName { get; set; }
-
-        /// <summary>
-        /// String to identify project. 4 sections: "G"+Project Number (4-digit), Company, Site, tiny description. Project Identifier is latter 3 items.
-        /// </summary>
-        [Required(ErrorMessage = "Project Name required")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
-        [DisplayName("Project Name")]
-        public string ProjectName { get; set; }
-
+        public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
+        {
+            // TODO: Fix to properly represent data
+            ImagePathName = "path.vmx";
+            BaseImageName = vmForm.BaseImageFile;
+            IP = vmForm.IP1;
+        }
 
         /// <summary>
         /// Create VM using this object's info. Assume that IP is not already taken.
         /// </summary>
         /// <returns>New object representing VM</returns>
-        public VirtualMachine CreateVM()
+        public RegisteredVirtualMachine CreateVM()
         {
             var vmm = new VirtualMachineManager();
-            if (vmm.GetRegisteredVMs().Contains(ImagePathName))
+
+            if (vmm.GetRegisteredVMImagePaths().Contains(ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
             if (!ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
-            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
+            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || Hostname.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
 
             //this all really needs to be async, report status, and handle errors in individual steps better
@@ -77,31 +54,7 @@ namespace VMAT.Models
 
             VirtualMachineManager.GetVirtualHost().Register(ImagePathName);
 
-            var newVM = new VirtualMachine(ImagePathName);
-
-            try
-            {
-                // Make triple-double-dog sure that the VM is online and ready.
-                // Allow VM time to power on
-                newVM.PowerOn();
-                System.Threading.Thread.Sleep(180 * 1000);
-
-                // Allow VM time to reboot
-                newVM.Reboot();
-                System.Threading.Thread.Sleep(250 * 1000);
-            }
-            catch (TimeoutException e)
-            {
-                // TODO: Handle time-out
-            }
-
-            newVM.IP = IP;
-            newVM.HostnameWithDomain = HostnameWithDomain;
-            newVM.BaseImageName = BaseImageName;
-            newVM.ProjectName = ProjectName;
-            newVM.Created = System.DateTime.Now;
-
-            newVM.Reboot();
+            var newVM = new RegisteredVirtualMachine(ImagePathName);
 
             return newVM;
 
@@ -120,10 +73,10 @@ namespace VMAT.Models
 
         private void CopyVMFiles()
         {
-            string sourceVMX = VirtualMachine.ConvertPathToPhysical(BaseImageName);
+            string sourceVMX = VirtualMachineManager.ConvertPathToPhysical(BaseImageName);
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
             string sourcePath = Path.GetDirectoryName(sourceVMX);
-            string destVMX = VirtualMachine.ConvertPathToPhysical(ImagePathName);
+            string destVMX = VirtualMachineManager.ConvertPathToPhysical(ImagePathName);
             string destName = Path.GetFileNameWithoutExtension(destVMX);
             string destPath = Path.GetDirectoryName(destVMX);
 

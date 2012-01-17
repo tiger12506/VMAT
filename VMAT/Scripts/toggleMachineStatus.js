@@ -31,8 +31,8 @@ ToggleMachineStatus.successCallback = function (data, button) {
     var $machine = $(button).closest("machine-info");
 
     $(button).attr("status", status);
-    $machine.children(".tStopped").text(data.LastShutdownTime);
-    $machine.children(".tStarted").text(data.LastStartTime);
+    $machine.children(".tStopped").text(data.LastShutdownTime.toString());
+    $machine.children(".tStarted").text(data.LastStartTime.toString());
     setStatusTooltips(button);
     resetTransitionButton(button);
 }

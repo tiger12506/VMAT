@@ -1,3 +1,4 @@
 bin/
 obj/
 Web.Debug.config
+App_Data/

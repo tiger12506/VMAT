@@ -19,9 +19,55 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            List<Project> projects = manager.GetProjectInfo();
+            IEnumerable<Project> projectList = manager.GetProjects();
+            var projectViewList = new List<ProjectViewModel>();
 
-            return View(projects);
+            foreach (var project in projectList)
+            {
+                ProjectViewModel projectView = new ProjectViewModel();
+
+                projectView.ProjectName = project.ProjectName;
+                projectView.Hostname = project.Hostname;
+
+                foreach (var vm in project.VirtualMachines)
+                {
+                    if (vm.GetType() == typeof(RegisteredVirtualMachine))
+                    {
+                        var vmView = new RegisteredVirtualMachineViewModel();
+
+                        RegisteredVirtualMachineService.SetRegisteredVirtualMachine(vm.ImagePathName);
+
+                        vmView.ImagePathName = vm.ImagePathName;
+                        vmView.Status = RegisteredVirtualMachineService.GetStatus().ToString().ToLower();
+                        vmView.MachineName = vm.GetMachineName();
+                        vmView.IP = ((RegisteredVirtualMachine)vm).IP;
+                        vmView.CreatedTime = ((RegisteredVirtualMachine)vm).CreatedTime.ToString();
+                        vmView.LastStopped = ((RegisteredVirtualMachine)vm).LastStopped.ToString();
+                        vmView.LastStarted = ((RegisteredVirtualMachine)vm).LastStarted.ToString();
+                        vmView.LastArchived = ((RegisteredVirtualMachine)vm).LastArchived.ToString();
+                        vmView.LastBackuped = ((RegisteredVirtualMachine)vm).LastBackuped.ToString();
+                        vmView.BaseImageName = vm.BaseImageName;
+
+                        projectView.RegisteredVMs.Add(vmView);
+                    }
+                    else if (vm.GetType() == typeof(PendingVirtualMachine))
+                    {
+
+                    }
+                    else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
+                    {
+
+                    }
+                    else if (vm.GetType() == typeof(ArchivedVirtualMachine))
+                    {
+
+                    }
+                }
+
+                projectViewList.Add(projectView);
+            }
+
+            return View(projectViewList);
         }
 
         //
@@ -30,15 +76,22 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
-            var vm = new VirtualMachine(image);
+            RegisteredVirtualMachine vm = dataDB.VirtualMachines.
+                OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
 
-            if (vm.Status == VMStatus.Running)
-                vm.PowerOff();
-            else if (vm.Status == VMStatus.Stopped)
-                vm.PowerOn();
+            RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
+            VMStatus status = RegisteredVirtualMachineService.GetStatus();
+
+            if (status == VMStatus.Running)
+                RegisteredVirtualMachineService.PowerOff();
+            else if (status == VMStatus.Stopped)
+                RegisteredVirtualMachineService.PowerOn();
+
+            dataDB.SaveChanges();
+            status = RegisteredVirtualMachineService.GetStatus();
 
             var results = new ToggleStatusViewModel {
-                Status = vm.Status.ToString().ToLower(),
+                Status = status.ToString().ToLower(),
                 LastStartTime = vm.LastStarted,
                 LastShutdownTime = vm.LastStopped
             };
@@ -53,7 +106,7 @@ namespace VMAT.Controllers
         {
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(Models.VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
 
             return View();
         }
@@ -62,11 +115,12 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Create
 
         [HttpPost]
-        public ActionResult Create(Models.PendingVirtualMachine vm)
+        public ActionResult Create(VirtualMachineFormViewModel vmForm)
         {
             if (ModelState.IsValid)
             {
-                dataDB.PendingVirtualMachines.Add(vm);
+                var vm = new PendingVirtualMachine(vmForm);
+                dataDB.VirtualMachines.Add(vm);
                 dataDB.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -74,9 +128,9 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(Models.VirtualMachine.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
 
-            return View(vm);
+            return View(vmForm);
         }
 
         //
@@ -87,18 +141,21 @@ namespace VMAT.Controllers
         {
             string imageFile = HttpUtility.UrlDecode(img);
 
-            Models.VirtualMachine vm = new Models.VirtualMachine(imageFile);
+            // TODO: Handle all VM types
+            VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
+            var form = new VirtualMachineFormViewModel(vm);
+
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
 
-            return View(vm);
+            return View(form);
         }
 
         //
         // POST: /VirtualMachine/Edit
 
         [HttpPost]
-        public ActionResult Edit(Models.VirtualMachine vm)
+        public ActionResult Edit(VirtualMachine vm)
         {
             if (ModelState.IsValid)
             {
@@ -109,6 +166,25 @@ namespace VMAT.Controllers
                 "ProjectName", "ProjectName");
 
             return View(vm);
+        }
+
+        //
+        // POST: /VirtualMachine/ArchiveMachine
+
+        [HttpPost]
+        public ActionResult ArchiveMachine(RegisteredVirtualMachine vm)
+        {
+            try
+            {
+                dataDB.VirtualMachines.Add(new PendingArchiveVirtualMachine(vm));
+                dataDB.VirtualMachines.Remove(vm);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            return RedirectToAction("Index");
         }
 
         //
