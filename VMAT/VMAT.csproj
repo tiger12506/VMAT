@@ -142,8 +142,12 @@
     <Compile Include="Models\VMware\VirtualHost.cs" />
     <Compile Include="Models\VMware\VirtualMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ArchiveVirtualMachineViewModel.cs" />
     <Compile Include="ViewModels\ClosingProjectViewModel.cs" />
-    <Compile Include="ViewModels\ProjectListViewModel.cs" />
+    <Compile Include="ViewModels\PendingArchiveVirtualMachineViewModel.cs" />
+    <Compile Include="ViewModels\PendingVirtualMachineViewModel.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="ViewModels\RegisteredVirtualMachineViewModel.cs" />
     <Compile Include="ViewModels\ToggleStatusViewModel.cs" />
     <Compile Include="ViewModels\VirtualMachineFormViewModel.cs" />
   </ItemGroup>
