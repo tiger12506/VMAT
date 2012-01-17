@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using VMAT.Models.VMware;
-using Vestris.VMWareLib.Tools.Windows;
 using System.IO;
+using System.Linq;
+using Vestris.VMWareLib.Tools.Windows;
+using VMAT.Models.VMware;
 
 namespace VMAT.Models
 {
