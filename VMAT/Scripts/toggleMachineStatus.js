@@ -28,11 +28,17 @@ function toggleMachineStatus(machineName, button) {
 
 ToggleMachineStatus.successCallback = function (data, button) {
     var status = ((String)(data.Status)).toLowerCase();
-    var $machine = $(button).closest("machine-info");
+    var $machine = $(button).closest(".machine-info");
+
+    var milli = data.LastShutdownTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+    var stopped = new Date(parseInt(milli));
+    
+    milli = data.LastStartTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+    var started = new Date(parseInt(milli));
 
     $(button).attr("status", status);
-    $machine.children(".tStopped").text(data.LastShutdownTime.toString());
-    $machine.children(".tStarted").text(data.LastStartTime.toString());
+    $machine.find(".tStopped").text(dateFormat(stopped, "m/dd/yyyy HH:MM:ss"));
+    $machine.find(".tStarted").text(dateFormat(started, "m/dd/yyyy HH:MM:ss"));
     setStatusTooltips(button);
     resetTransitionButton(button);
 }

@@ -196,6 +196,7 @@
     <Content Include="Content\themes\images\logo_windows-server-2008.png" />
     <Content Include="Scripts\AjaxLogin.js" />
     <Content Include="Scripts\closeProject.js" />
+    <Content Include="Scripts\date.format.js" />
     <Content Include="Scripts\forms.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

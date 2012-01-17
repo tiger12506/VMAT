@@ -79,21 +79,23 @@ namespace VMAT.Controllers
             RegisteredVirtualMachine vm = dataDB.VirtualMachines.
                 OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
 
+            DateTime started = vm.LastStarted;
+            DateTime stopped = vm.LastStopped;
+
             RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
             VMStatus status = RegisteredVirtualMachineService.GetStatus();
 
             if (status == VMStatus.Running)
-                RegisteredVirtualMachineService.PowerOff();
+                stopped = RegisteredVirtualMachineService.PowerOff();
             else if (status == VMStatus.Stopped)
-                RegisteredVirtualMachineService.PowerOn();
+                started = RegisteredVirtualMachineService.PowerOn();
 
-            dataDB.SaveChanges();
             status = RegisteredVirtualMachineService.GetStatus();
 
             var results = new ToggleStatusViewModel {
                 Status = status.ToString().ToLower(),
-                LastStartTime = vm.LastStarted,
-                LastShutdownTime = vm.LastStopped
+                LastStartTime = started,
+                LastShutdownTime = stopped
             };
 
             return Json(results);

@@ -149,18 +149,22 @@ namespace VMAT.Models
         /// <summary>
         /// If the machine is powered off, power it on. Otherwise, do nothing.
         /// </summary>
-        public static void PowerOn()
+        /// <returns>The time of startup</returns>
+        public static DateTime PowerOn()
         {
             VM.PowerOn();
             virtualMachine.LastStarted = DateTime.Now;
             dataDB.SaveChanges();
+
+            return virtualMachine.LastStarted;
         }
 
         /// <summary>
         /// If the machine is powered on or sleeping, power it off.
         /// Otherwise, do nothing.
         /// </summary>
-        public static void PowerOff()
+        /// <returns>The time of shutdown</returns>
+        public static DateTime PowerOff()
         {
             try
             {
@@ -175,6 +179,8 @@ namespace VMAT.Models
                 virtualMachine.LastStopped = DateTime.Now;
                 dataDB.SaveChanges();
             }
+
+            return virtualMachine.LastStopped;
         }
 
         /// <summary>
