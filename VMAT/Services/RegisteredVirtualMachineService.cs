@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using Vestris.VMWareLib.Tools.Windows;
 using VMAT.Models.VMware;
+using VMAT.Models;
 
-namespace VMAT.Models
+namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {

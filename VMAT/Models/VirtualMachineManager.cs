@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using VMAT.Models.VMware;
+using VMAT.Services;
 
 namespace VMAT.Models
 {

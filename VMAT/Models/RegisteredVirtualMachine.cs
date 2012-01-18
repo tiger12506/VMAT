@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VMAT.Models.VMware;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
