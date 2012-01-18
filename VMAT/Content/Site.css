@@ -275,14 +275,29 @@ a.link-button {
 /* PAGE-SPECIFIC ELEMENTS
 ----------------------------------------------------------*/
 
-.created-by li {
-  float: left;
-  margin-right: 10%;
+#about-created-by {
+  margin-bottom: 20px;
 }
 
-  .created-by li ul li {
-    float: none;
+.created-by {
+  margin-left: 30px;
+}
+
+  .created-by li {
+    display: inline-block;
+    margin-right: 140px;
+    vertical-align: top;
   }
+
+    .created-by li ul li {
+      display: block;
+    }
+    
+.org-logo {
+  max-height: 200px;
+  max-width: 400px;
+  display: block;
+}
 
 
 /* FORM ELEMENTS

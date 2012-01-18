@@ -5,12 +5,12 @@
 }
 
 <div class="padded">
-    <h2>Created By</h2>
+    <h2 id="about-created-by">Created By</h2>
     <ol class="created-by">
         @foreach (var org in Model)
         {
             <li>
-                <h3>@org.Name</h3>
+                <img src='@Url.Content("~/Content/themes/images/" + org.LogoFile)' alt="@org.Name" class="org-logo" />
                 <ul>
                     @foreach (var author in org.Authors)
                     {
