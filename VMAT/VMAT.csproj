@@ -252,6 +252,10 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\VirtualMachine\_ArchivedVirtualMachine.cshtml" />
+    <Content Include="Views\VirtualMachine\_PendingArchiveVirtualMachine.cshtml" />
+    <Content Include="Views\VirtualMachine\_RegisteredVirtualMachine.cshtml" />
+    <Content Include="Views\VirtualMachine\_PendingVirtualMachine.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
