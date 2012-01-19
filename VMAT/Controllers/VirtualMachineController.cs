@@ -172,6 +172,16 @@ namespace VMAT.Controllers
         }
 
         //
+        // GET: /VirtualMachine/GetNextIP
+
+        public ActionResult GetNextIP()
+        {
+            int nextIP = manager.GetNextAvailableIP();
+
+            return Json(nextIP);
+        }
+
+        //
         // POST: /VirtualMachine/ArchiveMachine
 
         [HttpPost]
