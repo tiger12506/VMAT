@@ -238,6 +238,8 @@ a.link-button {
     background-color: #eeeeee;
     margin-top: 0;
     border-top: 0;
+    /* Fill entire content area */
+    padding-bottom: 1px;
   }
 
 #logo {
