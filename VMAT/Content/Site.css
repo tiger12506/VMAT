@@ -305,8 +305,8 @@ a.link-button {
 
 form {
   width: 90%;
-  margin: 0 auto 10px auto;
-  padding-top: 15px;
+  margin: 0 auto 0 auto;
+  padding: 15px 0 10px 0;
 }
 
   form li {
@@ -384,6 +384,10 @@ button.archive {
   color: Red;
   font-weight: bold;
   margin-left: 10px;
+}
+
+#IP1, #IP2, #IP3, #IP4 {
+  width: 8%;
 }
 
 
@@ -607,6 +611,7 @@ button.archive {
     .machine-info .status button.transition {
       background:#f1d50d;
       cursor: wait;
+      /*filter: alpha(opacity=80);*/
     }
 
   .machine-info > table {

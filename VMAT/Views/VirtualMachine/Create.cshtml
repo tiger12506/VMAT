@@ -32,8 +32,17 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP1)
-                @Html.EditorFor(model => model.IP1)
+                @Html.LabelFor(model => model.Lifecycle)
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active, 
+                    new { @checked = true }) Auto <br />
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Idle) Manual <br />
+            </li>
+            <li>
+                @Html.LabelFor(model => model.IP1, "IP Address")
+                @Html.EditorFor(model => model.IP1) .
+                @Html.EditorFor(model => model.IP2) .
+                @Html.EditorFor(model => model.IP3) .
+                @Html.EditorFor(model => model.IP4)
                 @Html.ValidationMessageFor(model => model.IP1)
             </li>
         </ol>

@@ -158,7 +158,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Edit
 
         [HttpPost]
-        public ActionResult Edit(VirtualMachine vm)
+        public ActionResult Edit(VirtualMachineFormViewModel vm)
         {
             if (ModelState.IsValid)
             {
