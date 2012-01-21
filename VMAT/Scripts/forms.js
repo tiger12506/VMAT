@@ -61,7 +61,7 @@ function getNextAvailableIP() {
 }
 
 GetNextAvailableIP.successCallback = function (data) {
-    $(".pIP").text(data.nextIP);
+    $(".pIP").text(data);
 }
 
 GetNextAvailableIP.failureCallback = function (error) {

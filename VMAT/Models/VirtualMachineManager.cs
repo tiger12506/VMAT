@@ -200,15 +200,27 @@ namespace VMAT.Models
         /// <returns>The last octet of the lowest available IP address.</returns>
         public int GetNextAvailableIP()
         {
-            List<string> ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP) as List<string>;
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
+            List<string> ipList = new List<string>();
+            ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
+            // TODO: Actually check these errors
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
             bool[] usedIP = new bool[256];
 
             foreach (var ip in ipList)
             {
                 string longIP = ip;
-                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
                 usedIP[ipTail] = true;
             }
 
