@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace VMAT.Models
 {
@@ -34,7 +30,17 @@ namespace VMAT.Models
             Created = DateTime.Now;
         }
 
-        public void ArchiveFile(string sourceName, string outName)
+        public ArchivedVirtualMachine(RegisteredVirtualMachine vm)
+        {
+            BaseImageName = vm.BaseImageName;
+            LastArchived = vm.LastArchived;
+            LastBackuped = vm.LastBackuped;
+            LastStarted = vm.LastStarted;
+            LastStopped = vm.LastStopped;
+            Created = vm.CreatedTime;
+        }
+
+        public static void ArchiveFile(string sourceName, string outName)
         {
             // 1
             // Initialize process information.
@@ -54,22 +60,22 @@ namespace VMAT.Models
             // 3.
             // Start process and wait for it to exit
             //
-            //System.Diagnostics.Process x = System.Diagnostics.Process.Start(p);
-            //x.WaitForExit();
+            System.Diagnostics.Process x = System.Diagnostics.Process.Start(p);
+            x.WaitForExit();
 
 
             //this way, a command window pops up momentarily
-            //var bob = System.IO.Directory.GetCurrentDirectory();  
-            //System.Diagnostics.Process l = new System.Diagnostics.Process();
-            //l.StartInfo.FileName = "7za.exe";
-            //l.StartInfo.Arguments = "a -t7z C:\\Users\\sylvaiam\\VMAT\\VMat\\" + outName + "2 " + sourceName;
-            //l.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            //l.EnableRaisingEvents = true;
-            //l.StartInfo.UseShellExecute = false;
-            //l.StartInfo.RedirectStandardOutput = true;
-            //l.Start(); // This is were it throuws the exception because it can't find the file.
+            var bob = System.IO.Directory.GetCurrentDirectory();  
+            System.Diagnostics.Process l = new System.Diagnostics.Process();
+            l.StartInfo.FileName = "7za.exe";
+            l.StartInfo.Arguments = "a -t7z " + AppConfiguration.GetHostVmPath() + outName + "2 " + sourceName;
+            l.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            l.EnableRaisingEvents = true;
+            l.StartInfo.UseShellExecute = false;
+            l.StartInfo.RedirectStandardOutput = true;
+            l.Start(); // This is were it throuws the exception because it can't find the file.
             //// Do stuff to verify zip archive is not corrupt
-            //l.WaitForExit();
+            l.WaitForExit();
         }
     }
 }
