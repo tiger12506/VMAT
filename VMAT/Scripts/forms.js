@@ -1,5 +1,8 @@
 ﻿//File: forms.js
 
+// Declare GetNextAvailableIP namespace
+var GetNextAvailableIP = {};
+
 $(document).ready(function () {
     // Update on load
     updatePreviewPane();
@@ -35,7 +38,7 @@ function updatePreviewPane() {
     if (ip && ip.length <= 15)
         $(".pIP").text(ip);
     else
-        $(".pIP").text("192.168.1.1");
+        getNextAvailableIP();
     
     try {
         var imageFile = $("#BaseImageFile option:selected").val();
@@ -44,3 +47,23 @@ function updatePreviewPane() {
         // Ignore if the field does not exist
     }
 };
+
+function getNextAvailableIP() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/VirtualMachine/GetNextIP",
+        data: "{ }",
+        dataType: "json",
+        success: function (data) { GetNextAvailableIP.successCallback(data); },
+        error: function (error) { GetNextAvailableIP.failureCallback(error); }
+    });
+}
+
+GetNextAvailableIP.successCallback = function (data) {
+    $(".pIP").text(data.nextIP);
+}
+
+GetNextAvailableIP.failureCallback = function (error) {
+    alert("Failed to get next available IP address");
+}

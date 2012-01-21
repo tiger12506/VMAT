@@ -107,9 +107,11 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
+            int nextIP = manager.GetNextAvailableIP();
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
+            ViewBag.IP = nextIP;
 
             return View();
         }
@@ -139,10 +141,10 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
-        [HandleError]
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
+            int nextIP = manager.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
@@ -150,6 +152,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
+            ViewBag.IP = nextIP;
 
             return View(form);
         }
@@ -172,8 +175,9 @@ namespace VMAT.Controllers
         }
 
         //
-        // GET: /VirtualMachine/GetNextIP
+        // POST: /VirtualMachine/GetNextIP
 
+        [HttpPost]
         public ActionResult GetNextIP()
         {
             int nextIP = manager.GetNextAvailableIP();
