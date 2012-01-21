@@ -28,10 +28,9 @@ namespace VMAT.ViewModels
         public string MachineNameSuffix { get; set; }
 
         public string BaseImageFile { get; set; }
-        public string IP1 { get; set; }
-        public string IP2 { get; set; }
-        public string IP3 { get; set; }
-        public string IP4 { get; set; }
+
+        [DisplayName("IP Address")]
+        public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
@@ -39,7 +38,7 @@ namespace VMAT.ViewModels
             ProjectName = vm.GetProjectName();
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
-            string[] ip = ((RegisteredVirtualMachine)vm).IP.Split('.');
+            IP = ((RegisteredVirtualMachine)vm).IP;
             Lifecycle = vm.Lifecycle;
         }
     }

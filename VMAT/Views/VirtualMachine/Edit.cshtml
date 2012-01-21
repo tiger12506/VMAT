@@ -26,12 +26,9 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP1, "IP Address")
-                @Html.EditorFor(model => model.IP1) .
-                @Html.EditorFor(model => model.IP2) .
-                @Html.EditorFor(model => model.IP3) .
-                @Html.EditorFor(model => model.IP4)
-                @Html.ValidationMessageFor(model => model.IP1)
+                @Html.LabelFor(model => model.IP)
+                @Html.EditorFor(model => model.IP)
+                @Html.ValidationMessageFor(model => model.IP)
             </li>
 
             <li>
