@@ -39,7 +39,7 @@ namespace VMAT.ViewModels
             ProjectName = vm.GetProjectName();
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
-            // TODO: Handle IP Address on form
+            string[] ip = ((RegisteredVirtualMachine)vm).IP.Split('.');
             Lifecycle = vm.Lifecycle;
         }
     }

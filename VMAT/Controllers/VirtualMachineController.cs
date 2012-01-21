@@ -158,7 +158,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Edit
 
         [HttpPost]
-        public ActionResult Edit(VirtualMachine vm)
+        public ActionResult Edit(VirtualMachineFormViewModel vm)
         {
             if (ModelState.IsValid)
             {
@@ -169,6 +169,16 @@ namespace VMAT.Controllers
                 "ProjectName", "ProjectName");
 
             return View(vm);
+        }
+
+        //
+        // GET: /VirtualMachine/GetNextIP
+
+        public ActionResult GetNextIP()
+        {
+            int nextIP = manager.GetNextAvailableIP();
+
+            return Json(nextIP);
         }
 
         //

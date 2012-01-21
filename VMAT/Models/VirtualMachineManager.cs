@@ -200,11 +200,12 @@ namespace VMAT.Models
         /// <returns>The last octet of the lowest available IP address.</returns>
         public int GetNextAvailableIP()
         {
-            // TODO: Implement
-            List<string> ipAddresses = new List<string>();// = dataDB.VirtualMachines.OfType<!ArchivedVirtualMachine>();
+            List<string> ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP) as List<string>;
+            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
+            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
             bool[] usedIP = new bool[256];
 
-            foreach (var ip in ipAddresses)
+            foreach (var ip in ipList)
             {
                 string longIP = ip;
                 int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
@@ -218,11 +219,6 @@ namespace VMAT.Models
             }
 
             return -1;
-        }
-
-        public void RefreshFromVMware()
-        {
-
         }
 
         public static IEnumerable<string> GetBaseImageFiles()
