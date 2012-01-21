@@ -28,7 +28,7 @@ namespace VMAT.Models
             // TODO: Fix to properly represent data
             ImagePathName = "path.vmx";
             BaseImageName = vmForm.BaseImageFile;
-            IP = vmForm.IP1;
+            IP = vmForm.IP;
         }
 
         /// <summary>
