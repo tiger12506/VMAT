@@ -33,43 +33,37 @@ namespace VMAT.Controllers
 
             foreach (var project in projectList)
             {
-                ProjectViewModel projectView = new ProjectViewModel();
-
-                projectView.ProjectName = project.ProjectName;
-                projectView.Hostname = project.Hostname;
-
+                ProjectViewModel projectView = new ProjectViewModel(project);
+                
                 foreach (var vm in project.VirtualMachines)
                 {
                     if (vm.GetType() == typeof(RegisteredVirtualMachine))
                     {
-                        var vmView = new RegisteredVirtualMachineViewModel();
+                        var vmView = new RegisteredVirtualMachineViewModel(
+                            vm as RegisteredVirtualMachine);
 
-                        RegisteredVirtualMachineService.SetRegisteredVirtualMachine(vm.ImagePathName);
-
-                        vmView.ImagePathName = vm.ImagePathName;
-                        vmView.Status = RegisteredVirtualMachineService.GetStatus().ToString().ToLower();
-                        vmView.MachineName = vm.GetMachineName();
-                        vmView.IP = ((RegisteredVirtualMachine)vm).IP;
-                        vmView.CreatedTime = ((RegisteredVirtualMachine)vm).CreatedTime.ToString();
-                        vmView.LastStopped = ((RegisteredVirtualMachine)vm).LastStopped.ToString();
-                        vmView.LastStarted = ((RegisteredVirtualMachine)vm).LastStarted.ToString();
-                        vmView.LastArchived = ((RegisteredVirtualMachine)vm).LastArchived.ToString();
-                        vmView.LastBackuped = ((RegisteredVirtualMachine)vm).LastBackuped.ToString();
-                        vmView.BaseImageName = vm.BaseImageName;
-
-                        projectView.RegisteredVMs.Add(vmView);
+                        projectView.AddRegisteredVirtualMachineViewModel(vmView);
                     }
                     else if (vm.GetType() == typeof(PendingVirtualMachine))
                     {
+                        var vmView = new PendingVirtualMachineViewModel(
+                            vm as PendingVirtualMachine);
 
+                        projectView.AddPendingVirtualMachineViewModel(vmView);
                     }
                     else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
                     {
+                        var vmView = new PendingArchiveVirtualMachineViewModel(
+                            vm as PendingArchiveVirtualMachine);
 
+                        projectView.AddPendingArchiveVirtualMachineViewModel(vmView);
                     }
                     else if (vm.GetType() == typeof(ArchivedVirtualMachine))
                     {
+                        var vmView = new ArchivedVirtualMachineViewModel(
+                            vm as ArchivedVirtualMachine);
 
+                        projectView.AddArchivedVirtualMachineViewModel(vmView);
                     }
                 }
 

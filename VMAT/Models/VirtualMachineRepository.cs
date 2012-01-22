@@ -7,7 +7,7 @@ using VMAT.Services;
 
 namespace VMAT.Models
 {
-    public class VirtualMachineRepository// : IVirtualMachineRepository
+    public class VirtualMachineRepository : IVirtualMachineRepository
     {
         private DataEntities dataDB = new DataEntities();
 
@@ -48,64 +48,73 @@ namespace VMAT.Models
 
         public IEnumerable<VirtualMachine> GetVirtualMachines()
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
         }
 
         public VirtualMachine GetVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath);
         }
 
         public void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as RegisteredVirtualMachine;
         }
 
         public void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as ArchivedVirtualMachine;
         }
 
         public void CreatePendingVirtualMachine(PendingVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public PendingVirtualMachine GetPendingVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
-        }
-
-
-        Project IVirtualMachineRepository.GetProjects()
-        {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath) 
+                as PendingVirtualMachine;
         }
 
         public int GetNextAvailbaleIP()
         {
-            List<string> ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                Select(v => v.IP) as List<string>;
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().
-                Select(v => v.IP) as List<string>);
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
-                Select(v => v.IP) as List<string>);
+            List<string> ipList = new List<string>();
+            ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
+            // TODO: Actually check these errors
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
             bool[] usedIP = new bool[256];
 
             foreach (var ip in ipList)
             {
                 string longIP = ip;
-                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
                 usedIP[ipTail] = true;
             }
 
@@ -118,7 +127,7 @@ namespace VMAT.Models
             return -1;
         }
 
-        public void ToggleStatus(string image)
+        public void ToggleVMStatus(string image)
         {
             RegisteredVirtualMachine vm = dataDB.VirtualMachines.
                 OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
@@ -135,15 +144,6 @@ namespace VMAT.Models
                 started = RegisteredVirtualMachineService.PowerOn();
 
             status = RegisteredVirtualMachineService.GetStatus();
-
-            var results = new ToggleStatusViewModel
-            {
-                Status = status.ToString().ToLower(),
-                LastStartTime = started,
-                LastShutdownTime = stopped
-            };
-
-            return Json(results);
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()

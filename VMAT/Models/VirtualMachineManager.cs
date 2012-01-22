@@ -39,47 +39,6 @@ namespace VMAT.Models
             return vh.Open(imagePathName);
         }
 
-        public IEnumerable<string> GetRunningVMImagePaths()
-        {
-            var imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
-
-            return imagePathNames;
-        }
-
-        public IEnumerable<RegisteredVirtualMachine> GetRunningVMs()
-        {
-            IEnumerable<String> imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
-            var vmList = new List<RegisteredVirtualMachine>();
-
-            foreach (var path in imagePathNames)
-            {
-                RegisteredVirtualMachine vm;
-
-                try
-                {
-                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                        Single(d => d.ImagePathName == path);
-                    //vm.RefreshFromVMware();
-                    dataDB.Entry(vm).State = EntityState.Modified;
-                    dataDB.SaveChanges();
-                }
-                catch (ArgumentNullException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-                catch (InvalidOperationException e)
-                {
-                    // TODO: Error checking
-                    throw e;
-                }
-                    
-                vmList.Add(vm);
-            }
-
-            return vmList;
-        }
-
         public IEnumerable<string> GetRegisteredVMImagePaths()
         {
             var ret = vh.RegisteredVirtualMachines.Select(v => v.PathName);
