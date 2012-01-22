@@ -10,14 +10,14 @@ namespace VMAT.ViewModels
         public IEnumerable<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }
         public IEnumerable<PendingVirtualMachineViewModel> PendingVMs { get; set; }
         public IEnumerable<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
-        public IEnumerable<ArchivedVirtualMachineViewModel> ArchivedVMs { get; set; }
+        public IEnumerable<ArchiveVirtualMachineViewModel> ArchivedVMs { get; set; }
 
         public ProjectViewModel()
         {
             RegisteredVMs = new List<RegisteredVirtualMachineViewModel>();
             PendingVMs = new List<PendingVirtualMachineViewModel>();
             PendingArchiveVMs = new List<PendingArchiveVirtualMachineViewModel>();
-            ArchivedVMs = new List<ArchivedVirtualMachineViewModel>();
+            ArchivedVMs = new List<ArchiveVirtualMachineViewModel>();
         }
 
         public ProjectViewModel(Project project) : this()
@@ -50,7 +50,7 @@ namespace VMAT.ViewModels
                 }
                 else if (vm.GetType() == typeof(ArchivedVirtualMachine))
                 {
-                    var vmView = new ArchivedVirtualMachineViewModel(
+                    var vmView = new ArchiveVirtualMachineViewModel(
                         vm as ArchivedVirtualMachine);
 
                     AddArchivedVirtualMachineViewModel(vmView);
@@ -73,9 +73,9 @@ namespace VMAT.ViewModels
             (PendingArchiveVMs as List<PendingArchiveVirtualMachineViewModel>).Add(vm);
         }
 
-        public void AddArchivedVirtualMachineViewModel(ArchivedVirtualMachineViewModel vm)
+        public void AddArchivedVirtualMachineViewModel(ArchiveVirtualMachineViewModel vm)
         {
-            (ArchivedVMs as List<ArchivedVirtualMachineViewModel>).Add(vm);
+            (ArchivedVMs as List<ArchiveVirtualMachineViewModel>).Add(vm);
         }
     }
 }

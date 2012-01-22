@@ -2,14 +2,14 @@
 
 namespace VMAT.ViewModels
 {
-    public class ArchivedVirtualMachineViewModel
+    public class ArchiveVirtualMachineViewModel
     {
         public string MachineName { get; set; }
         public string ArchiveTime { get; set; }
 
-        public ArchivedVirtualMachineViewModel() { }
+        public ArchiveVirtualMachineViewModel() { }
 
-        public ArchivedVirtualMachineViewModel(ArchivedVirtualMachine vm)
+        public ArchiveVirtualMachineViewModel(ArchivedVirtualMachine vm)
         {
             MachineName = vm.GetMachineName();
             ArchiveTime = vm.LastArchived.ToString();
