@@ -4,15 +4,15 @@ namespace VMAT.Models
 {
     public interface IVirtualMachineRepository
     {
-        public void CreateProject(Project proj);
-        public Project GetProjects();
-        public IEnumerable<VirtualMachine> GetVirtualMachines();
-        public VirtualMachine GetVirtualMachine(string imagePath);
-        public void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
-        public RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
-        public void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
-        public ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
-        public void CreatePendingVirtualMachine(PendingVirtualMachine vm);
-        public PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
+        void CreateProject(Project proj);
+        Project GetProjects();
+        IEnumerable<VirtualMachine> GetVirtualMachines();
+        VirtualMachine GetVirtualMachine(string imagePath);
+        void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
+        RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
+        void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
+        ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
+        void CreatePendingVirtualMachine(PendingVirtualMachine vm);
+        PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
     }
 }
