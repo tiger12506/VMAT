@@ -19,7 +19,8 @@ namespace VMAT.Models
             if (vh == null)
                 vh = new VirtualHost();
             if (!vh.IsConnected)
-                vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+                vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), 
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
             return vh;
         }
 

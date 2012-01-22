@@ -10,18 +10,6 @@ namespace VMAT.Models
     public class VirtualMachineRepository : IVirtualMachineRepository
     {
         private DataEntities dataDB = new DataEntities();
-        private IVirtualHost virtualHost;
-
-        public VirtualMachineRepository() : this(new VirtualHost()) { }
-
-        public VirtualMachineRepository(IVirtualHost vh)
-        {
-            virtualHost = vh;
-
-            if (!virtualHost.IsConnected)
-                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
-                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
-        }
 
         public void CreateProject(Project proj)
         {
@@ -151,28 +139,31 @@ namespace VMAT.Models
             return -1;
         }
 
-        public void ToggleVMStatus(string image)
+        public VMStatus ToggleVMStatus(string image)
         {
             RegisteredVirtualMachine vm = dataDB.VirtualMachines.
                 OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
-
-            DateTime started = vm.LastStarted;
-            DateTime stopped = vm.LastStopped;
-
             var service = new RegisteredVirtualMachineService(image);
-            VMStatus status = service.GetStatus();
 
-            if (status == VMStatus.Running)
-                stopped = service.PowerOff();
-            else if (status == VMStatus.Stopped)
-                started = service.PowerOn();
+            if (service.IsRunning())
+            {
+                service.PowerOff();
+                vm.LastStopped = DateTime.Now;
+            }
+            else
+            {
+                service.PowerOn();
+                vm.LastStarted = DateTime.Now;
+            }
 
-            status = service.GetStatus();
+            return service.GetStatus();
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()
         {
             var vh = new VirtualHost();
+            vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
             var imagePathNames = vh.RegisteredVirtualMachines.Select(v => v.PathName);
             var vmList = new List<VirtualMachine>();
 
@@ -209,6 +200,22 @@ namespace VMAT.Models
             }
 
             return vmList;
+        }
+
+        public DateTime PowerOn(RegisteredVirtualMachine vm)
+        {
+            vm.LastStarted = DateTime.Now;
+            dataDB.SaveChanges();
+
+            return vm.LastStarted;
+        }
+
+        public DateTime PowerOff(RegisteredVirtualMachine vm)
+        {
+            vm.LastStopped = DateTime.Now;
+            dataDB.SaveChanges();
+
+            return vm.LastStopped;
         }
 
         public static IEnumerable<string> GetBaseImageFiles()

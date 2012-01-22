@@ -9,24 +9,23 @@ namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {
-        private DataEntities dataDB = new DataEntities();
+        private VirtualMachineRepository vmRepo;
         private IVirtualMachine VM;
-        private RegisteredVirtualMachine virtualMachine;
+        private static IVirtualHost virtualHost;
 
         public RegisteredVirtualMachineService(string imagePathName)
         {
-            VM = VirtualMachineManager.GetVirtualHost().Open(imagePathName);
+            if (virtualHost == null)
+                virtualHost = new VirtualHost();
+            if (!virtualHost.IsConnected)
+                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
 
-            try
-            {
-                virtualMachine = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                    Single(v => v.ImagePathName == imagePathName);
-            }
-            catch (InvalidOperationException)
-            {
-                virtualMachine = new RegisteredVirtualMachine(imagePathName);
-            }
+            vmRepo = new VirtualMachineRepository();
+            VM = virtualHost.Open(imagePathName);
         }
+
+        public RegisteredVirtualMachineService(RegisteredVirtualMachine vm) : this(vm.ImagePathName) { }
 
         public VMStatus GetStatus()
         {
@@ -39,15 +38,15 @@ namespace VMAT.Services
             else return VMStatus.Stopped;
         }
 
+        public bool IsRunning()
+        {
+            return VM.IsRunning;
+        }
+
         public string GetIP()
         {
-            if (!VM.IsRunning)
-                return virtualMachine.IP;
-            else
-            {
-                LoginTools();
-                return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
-            }
+            LoginTools();
+            return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
         }
 
         public void SetIP(string value)
@@ -79,25 +78,20 @@ namespace VMAT.Services
 
         public string GetHostname()
         {
-            if (!VM.IsRunning)
-                return virtualMachine.Hostname;
-            else
+            try
             {
-                try
-                {
-                    LoginTools();
-                    Shell guestShell = new Shell(VM.VM); //TODO: mock?
-                    Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
-                    return output.StdOut.Replace("\n", "").Replace("\r", "");
-                }
-                catch (TimeoutException)
-                {
-                    return "hostname_timeout";
-                }
-                catch (Exception)
-                {
-                    return "hostname_error";
-                }
+                LoginTools();
+                Shell guestShell = new Shell(VM.VM); //TODO: mock?
+                Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
+                return output.StdOut.Replace("\n", "").Replace("\r", "");
+            }
+            catch (TimeoutException)
+            {
+                return "hostname_timeout";
+            }
+            catch (Exception)
+            {
+                return "hostname_error";
             }
         }
 
@@ -151,13 +145,9 @@ namespace VMAT.Services
         /// If the machine is powered off, power it on. Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of startup</returns>
-        public DateTime PowerOn()
+        public void PowerOn()
         {
             VM.PowerOn();
-            virtualMachine.LastStarted = DateTime.Now;
-            dataDB.SaveChanges();
-
-            return virtualMachine.LastStarted;
         }
 
         /// <summary>
@@ -165,7 +155,7 @@ namespace VMAT.Services
         /// Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of shutdown</returns>
-        public DateTime PowerOff()
+        public void PowerOff()
         {
             try
             {
@@ -175,13 +165,6 @@ namespace VMAT.Services
             {
                 VM.PowerOff();
             }
-            finally
-            {
-                virtualMachine.LastStopped = DateTime.Now;
-                dataDB.SaveChanges();
-            }
-
-            return virtualMachine.LastStopped;
         }
 
         /// <summary>

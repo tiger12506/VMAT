@@ -17,6 +17,6 @@ namespace VMAT.Models
         void CreatePendingVirtualMachine(PendingVirtualMachine vm);
         PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
         int GetNextAvailableIP();
-        void ToggleVMStatus(string imagePath);
+        VMStatus ToggleVMStatus(string imagePath);
     }
 }
