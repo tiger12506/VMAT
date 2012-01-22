@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
 using VMAT.Models.VMware;
 using VMAT.Services;
 
@@ -10,6 +10,7 @@ namespace VMAT.Models
     public class VirtualMachineRepository : IVirtualMachineRepository
     {
         private DataEntities dataDB = new DataEntities();
+        private IVirtualHost virtualHost;
 
         public void CreateProject(Project proj)
         {
@@ -68,6 +69,18 @@ namespace VMAT.Models
                 as RegisteredVirtualMachine;
         }
 
+        public void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm)
+        {
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
+        }
+
+        public PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath)
+        {
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as PendingArchiveVirtualMachine;
+        }
+
         public void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm)
         {
             dataDB.VirtualMachines.Add(vm);
@@ -92,7 +105,7 @@ namespace VMAT.Models
                 as PendingVirtualMachine;
         }
 
-        public int GetNextAvailbaleIP()
+        public int GetNextAvailableIP()
         {
             List<string> ipList = new List<string>();
             ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
@@ -185,6 +198,57 @@ namespace VMAT.Models
             }
 
             return vmList;
+        }
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => ConvertPathToDatasource(foo));
+        }
+
+        /// <summary>
+        /// Converts datasource-style path to physical network path
+        /// </summary>
+        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
+        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
+        public static string ConvertPathToPhysical(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
+        }
+
+        /// <summary>
+        /// Converts physical network path to datasource-style path
+        /// </summary>
+        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
+        public static string ConvertPathToDatasource(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
+        }
+
+        public IVirtualHost GetVirtualHost()
+        {
+            if (virtualHost == null)
+                virtualHost = new VirtualHost();
+            if (!virtualHost.IsConnected)
+                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+            return virtualHost;
+        }
+
+        public VirtualMachineRepository(IVirtualHost vh)
+        {
+            virtualHost = vh;
+            GetVirtualHost();
+        }
+
+        public VirtualMachineRepository()
+        {
+            GetVirtualHost();
+        }
+
+        public IVirtualMachine OpenVM(string imagePathName)
+        {
+            return virtualHost.Open(imagePathName);
         }
     }
 }

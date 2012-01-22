@@ -10,11 +10,13 @@ namespace VMAT.Models
         VirtualMachine GetVirtualMachine(string imagePath);
         void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
         RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
+        void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine);
+        PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
         void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
         ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
         void CreatePendingVirtualMachine(PendingVirtualMachine vm);
         PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
-        int GetNextAvailbaleIP();
+        int GetNextAvailableIP();
         void ToggleVMStatus(string imagePath);
     }
 }

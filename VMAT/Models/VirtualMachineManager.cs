@@ -86,43 +86,6 @@ namespace VMAT.Models
             return vmList;
         }
 
-        /// <summary>
-        /// Pull all of the information for each virtual machine. Parse the machine
-        /// and project name and fill in any other derived information. Group the
-        /// machines into their respective projects.
-        /// </summary>
-        /// <returns>A list of project items and information</returns>
-        public IEnumerable<Project> GetProjectInfo()
-        {
-            var projects = new List<Project>();
-
-            foreach (string imageName in GetRegisteredVMImagePaths())
-            {
-                VirtualMachine vm = new RegisteredVirtualMachine(imageName);
-                string projectName = vm.GetProjectName();
-                bool found = false;
-
-                foreach (Project proj in projects)
-                {
-                    if (proj.ProjectName == projectName)
-                    {
-                        proj.AddVirtualMachine(vm);
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    var newProject = new Project(projectName, vm.Hostname,
-                        new List<VirtualMachine> { vm });
-                    projects.Add(newProject);
-                }
-            }
-
-            return projects;
-        }
-
         public IEnumerable<Project> GetProjects()
         {
             var projects = new List<Project>();

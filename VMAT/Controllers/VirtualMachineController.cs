@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VMAT.Models;
-using VMAT.ViewModels;
 using VMAT.Services;
+using VMAT.ViewModels;
 
 namespace VMAT.Controllers
 {
     [HandleError]
     public class VirtualMachineController : Controller
     {
-        VirtualMachineManager manager = new VirtualMachineManager();
         IVirtualMachineRepository vmRepo;
-        DataEntities dataDB = new DataEntities();
 
         public VirtualMachineController() : this(new VirtualMachineRepository()) { }
 
@@ -79,8 +76,7 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
-            RegisteredVirtualMachine vm = dataDB.VirtualMachines.
-                OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
+            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
 
             DateTime started = vm.LastStarted;
             DateTime stopped = vm.LastStopped;
@@ -109,8 +105,8 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
-            int nextIP = manager.GetNextAvailableIP();
-            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+            int nextIP = vmRepo.GetNextAvailableIP();
+            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
             ViewBag.IP = nextIP;
@@ -127,13 +123,12 @@ namespace VMAT.Controllers
             if (ModelState.IsValid)
             {
                 var vm = new PendingVirtualMachine(vmForm);
-                dataDB.VirtualMachines.Add(vm);
-                dataDB.SaveChanges();
+                vmRepo.CreatePendingVirtualMachine(vm);
 
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
 
@@ -146,13 +141,13 @@ namespace VMAT.Controllers
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
-            int nextIP = manager.GetNextAvailableIP();
+            int nextIP = vmRepo.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
             var form = new VirtualMachineFormViewModel(vm);
 
-            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.IP = nextIP;
 
@@ -170,7 +165,7 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
+            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
 
             return View(vm);
@@ -182,7 +177,7 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult GetNextIP()
         {
-            int nextIP = manager.GetNextAvailableIP();
+            int nextIP = vmRepo.GetNextAvailableIP();
 
             return Json(nextIP);
         }
@@ -195,12 +190,11 @@ namespace VMAT.Controllers
         {
             try
             {
-                dataDB.VirtualMachines.Add(new PendingArchiveVirtualMachine(vm));
-                dataDB.VirtualMachines.Remove(vm);
+                vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
             }
             catch (Exception)
             {
-
+                // TODO: Handle exception
             }
             
             return RedirectToAction("Index");
