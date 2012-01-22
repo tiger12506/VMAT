@@ -65,5 +65,6 @@ GetNextAvailableIP.successCallback = function (data) {
 }
 
 GetNextAvailableIP.failureCallback = function (error) {
-    alert("Failed to get next available IP address");
+    alert("Failed to get next available IP address: " + error.status + " - " + 
+        JSON.parse(error.responseText));
 }
