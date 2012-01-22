@@ -30,41 +30,7 @@ namespace VMAT.Controllers
 
             foreach (var project in projectList)
             {
-                ProjectViewModel projectView = new ProjectViewModel(project);
-                
-                foreach (var vm in project.VirtualMachines)
-                {
-                    if (vm.GetType() == typeof(RegisteredVirtualMachine))
-                    {
-                        var vmView = new RegisteredVirtualMachineViewModel(
-                            vm as RegisteredVirtualMachine);
-
-                        projectView.AddRegisteredVirtualMachineViewModel(vmView);
-                    }
-                    else if (vm.GetType() == typeof(PendingVirtualMachine))
-                    {
-                        var vmView = new PendingVirtualMachineViewModel(
-                            vm as PendingVirtualMachine);
-
-                        projectView.AddPendingVirtualMachineViewModel(vmView);
-                    }
-                    else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
-                    {
-                        var vmView = new PendingArchiveVirtualMachineViewModel(
-                            vm as PendingArchiveVirtualMachine);
-
-                        projectView.AddPendingArchiveVirtualMachineViewModel(vmView);
-                    }
-                    else if (vm.GetType() == typeof(ArchivedVirtualMachine))
-                    {
-                        var vmView = new ArchivedVirtualMachineViewModel(
-                            vm as ArchivedVirtualMachine);
-
-                        projectView.AddArchivedVirtualMachineViewModel(vmView);
-                    }
-                }
-
-                projectViewList.Add(projectView);
+                projectViewList.Add(new ProjectViewModel(project));
             }
 
             return View(projectViewList);
@@ -76,25 +42,13 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ToggleStatus(string image)
         {
+            VMStatus status = vmRepo.ToggleVMStatus(image);
             RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
-
-            DateTime started = vm.LastStarted;
-            DateTime stopped = vm.LastStopped;
-
-            var service = new RegisteredVirtualMachineService(image);
-            VMStatus status = service.GetStatus();
-
-            if (status == VMStatus.Running)
-                stopped = service.PowerOff();
-            else if (status == VMStatus.Stopped)
-                started = service.PowerOn();
-
-            status = service.GetStatus();
 
             var results = new ToggleStatusViewModel {
                 Status = status.ToString().ToLower(),
-                LastStartTime = started,
-                LastShutdownTime = stopped
+                LastStartTime = vm.LastStarted,
+                LastShutdownTime = vm.LastStopped
             };
 
             return Json(results);
@@ -108,7 +62,7 @@ namespace VMAT.Controllers
             int nextIP = vmRepo.GetNextAvailableIP();
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
             ViewBag.IP = nextIP;
 
             return View();
@@ -130,7 +84,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
 
             return View(vmForm);
         }

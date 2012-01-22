@@ -24,6 +24,38 @@ namespace VMAT.ViewModels
         {
             ProjectName = project.ProjectName;
             Hostname = project.Hostname;
+
+            foreach (var vm in project.VirtualMachines)
+            {
+                if (vm.GetType() == typeof(RegisteredVirtualMachine))
+                {
+                    var vmView = new RegisteredVirtualMachineViewModel(
+                        vm as RegisteredVirtualMachine);
+
+                    AddRegisteredVirtualMachineViewModel(vmView);
+                }
+                else if (vm.GetType() == typeof(PendingVirtualMachine))
+                {
+                    var vmView = new PendingVirtualMachineViewModel(
+                        vm as PendingVirtualMachine);
+
+                    AddPendingVirtualMachineViewModel(vmView);
+                }
+                else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
+                {
+                    var vmView = new PendingArchiveVirtualMachineViewModel(
+                        vm as PendingArchiveVirtualMachine);
+
+                    AddPendingArchiveVirtualMachineViewModel(vmView);
+                }
+                else if (vm.GetType() == typeof(ArchivedVirtualMachine))
+                {
+                    var vmView = new ArchivedVirtualMachineViewModel(
+                        vm as ArchivedVirtualMachine);
+
+                    AddArchivedVirtualMachineViewModel(vmView);
+                }
+            }
         }
 
         public void AddRegisteredVirtualMachineViewModel(RegisteredVirtualMachineViewModel vm)
