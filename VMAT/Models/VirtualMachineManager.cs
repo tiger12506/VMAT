@@ -71,12 +71,12 @@ namespace VMAT.Models
                     dataDB.VirtualMachines.Add(vm);
                 }
 
-                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(path);
+                var service = new RegisteredVirtualMachineService(path);
 
-                if (RegisteredVirtualMachineService.GetStatus() == VMStatus.Running)
+                if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = RegisteredVirtualMachineService.GetHostname();
-                    vm.IP = RegisteredVirtualMachineService.GetIP();
+                    vm.Hostname = service.GetHostname();
+                    vm.IP = service.GetIP();
                 }
 
                 dataDB.SaveChanges();

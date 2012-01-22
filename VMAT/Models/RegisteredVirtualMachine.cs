@@ -59,14 +59,14 @@ namespace VMAT.Models
 
             try
             {
-                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(ImagePathName);
+                var service = new RegisteredVirtualMachineService(ImagePathName);
                 // Make triple-double-dog sure that the VM is online and ready.
                 // Allow VM time to power on
-                RegisteredVirtualMachineService.PowerOn();
+                service.PowerOn();
                 System.Threading.Thread.Sleep(180 * 1000);
 
                 // Allow VM time to reboot
-                RegisteredVirtualMachineService.Reboot();
+                service.Reboot();
                 System.Threading.Thread.Sleep(250 * 1000);
             }
             catch (TimeoutException)

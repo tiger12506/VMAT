@@ -12,6 +12,17 @@ namespace VMAT.Models
         private DataEntities dataDB = new DataEntities();
         private IVirtualHost virtualHost;
 
+        public VirtualMachineRepository() : this(new VirtualHost()) { }
+
+        public VirtualMachineRepository(IVirtualHost vh)
+        {
+            virtualHost = vh;
+
+            if (!virtualHost.IsConnected)
+                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+        }
+
         public void CreateProject(Project proj)
         {
             throw new NotImplementedException();
@@ -148,15 +159,15 @@ namespace VMAT.Models
             DateTime started = vm.LastStarted;
             DateTime stopped = vm.LastStopped;
 
-            RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
-            VMStatus status = RegisteredVirtualMachineService.GetStatus();
+            var service = new RegisteredVirtualMachineService(image);
+            VMStatus status = service.GetStatus();
 
             if (status == VMStatus.Running)
-                stopped = RegisteredVirtualMachineService.PowerOff();
+                stopped = service.PowerOff();
             else if (status == VMStatus.Stopped)
-                started = RegisteredVirtualMachineService.PowerOn();
+                started = service.PowerOn();
 
-            status = RegisteredVirtualMachineService.GetStatus();
+            status = service.GetStatus();
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()
@@ -185,12 +196,12 @@ namespace VMAT.Models
                     dataDB.VirtualMachines.Add(vm);
                 }
 
-                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(path);
+                var service = new RegisteredVirtualMachineService(path);
 
-                if (RegisteredVirtualMachineService.GetStatus() == VMStatus.Running)
+                if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = RegisteredVirtualMachineService.GetHostname();
-                    vm.IP = RegisteredVirtualMachineService.GetIP();
+                    vm.Hostname = service.GetHostname();
+                    vm.IP = service.GetIP();
                 }
 
                 dataDB.SaveChanges();
@@ -224,31 +235,6 @@ namespace VMAT.Models
         public static string ConvertPathToDatasource(string PathName)
         {
             return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
-        }
-
-        public IVirtualHost GetVirtualHost()
-        {
-            if (virtualHost == null)
-                virtualHost = new VirtualHost();
-            if (!virtualHost.IsConnected)
-                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
-            return virtualHost;
-        }
-
-        public VirtualMachineRepository(IVirtualHost vh)
-        {
-            virtualHost = vh;
-            GetVirtualHost();
-        }
-
-        public VirtualMachineRepository()
-        {
-            GetVirtualHost();
-        }
-
-        public IVirtualMachine OpenVM(string imagePathName)
-        {
-            return virtualHost.Open(imagePathName);
         }
     }
 }

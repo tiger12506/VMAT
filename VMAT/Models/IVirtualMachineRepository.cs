@@ -10,7 +10,7 @@ namespace VMAT.Models
         VirtualMachine GetVirtualMachine(string imagePath);
         void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
         RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
-        void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine);
+        void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);
         PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
         void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
         ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);

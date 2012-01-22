@@ -81,15 +81,15 @@ namespace VMAT.Controllers
             DateTime started = vm.LastStarted;
             DateTime stopped = vm.LastStopped;
 
-            RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
-            VMStatus status = RegisteredVirtualMachineService.GetStatus();
+            var service = new RegisteredVirtualMachineService(image);
+            VMStatus status = service.GetStatus();
 
             if (status == VMStatus.Running)
-                stopped = RegisteredVirtualMachineService.PowerOff();
+                stopped = service.PowerOff();
             else if (status == VMStatus.Stopped)
-                started = RegisteredVirtualMachineService.PowerOn();
+                started = service.PowerOn();
 
-            status = RegisteredVirtualMachineService.GetStatus();
+            status = service.GetStatus();
 
             var results = new ToggleStatusViewModel {
                 Status = status.ToString().ToLower(),

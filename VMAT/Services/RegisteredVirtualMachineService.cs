@@ -9,11 +9,11 @@ namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {
-        private static DataEntities dataDB = new DataEntities();
-        private static IVirtualMachine VM;
-        private static RegisteredVirtualMachine virtualMachine;
+        private DataEntities dataDB = new DataEntities();
+        private IVirtualMachine VM;
+        private RegisteredVirtualMachine virtualMachine;
 
-        public static void SetRegisteredVirtualMachine(string imagePathName)
+        public RegisteredVirtualMachineService(string imagePathName)
         {
             VM = VirtualMachineManager.GetVirtualHost().Open(imagePathName);
 
@@ -28,7 +28,7 @@ namespace VMAT.Services
             }
         }
 
-        public static VMStatus GetStatus()
+        public VMStatus GetStatus()
         {
             if (VM.IsPaused) return VMStatus.Paused;
             else if (VM.IsRunning) return VMStatus.Running;
@@ -39,7 +39,7 @@ namespace VMAT.Services
             else return VMStatus.Stopped;
         }
 
-        public static string GetIP()
+        public string GetIP()
         {
             if (!VM.IsRunning)
                 return virtualMachine.IP;
@@ -50,7 +50,7 @@ namespace VMAT.Services
             }
         }
 
-        public static void SetIP(string value)
+        public void SetIP(string value)
         {
             if (value.Length < 7)
                 throw new InvalidDataException("IP too short");
@@ -77,7 +77,7 @@ namespace VMAT.Services
             }
         }
 
-        public static string GetHostname()
+        public string GetHostname()
         {
             if (!VM.IsRunning)
                 return virtualMachine.Hostname;
@@ -101,7 +101,7 @@ namespace VMAT.Services
             }
         }
 
-        public static void SetHostname(string hostname)
+        public void SetHostname(string hostname)
         {
             if (hostname.Length < 3)
                 throw new ArgumentException("Hostname too short");
@@ -151,7 +151,7 @@ namespace VMAT.Services
         /// If the machine is powered off, power it on. Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of startup</returns>
-        public static DateTime PowerOn()
+        public DateTime PowerOn()
         {
             VM.PowerOn();
             virtualMachine.LastStarted = DateTime.Now;
@@ -165,7 +165,7 @@ namespace VMAT.Services
         /// Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of shutdown</returns>
-        public static DateTime PowerOff()
+        public DateTime PowerOff()
         {
             try
             {
@@ -187,7 +187,7 @@ namespace VMAT.Services
         /// <summary>
         /// Put the machine in a sleeping state.
         /// </summary>
-        public static void Pause()
+        public void Pause()
         {
             VM.Pause();
         }
@@ -195,19 +195,19 @@ namespace VMAT.Services
         /// <summary>
         /// Unsleep the machine.
         /// </summary>
-        public static void Unpause()
+        public void Unpause()
         {
             VM.Unpause();
         }
 
-        public static void Reboot()
+        public void Reboot()
         {
             PowerOff();
             System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
             PowerOn();
         }
 
-        private static void LoginTools(bool waitLong = false)
+        private void LoginTools(bool waitLong = false)
         {
             // TODO: Handle in case powered off better
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
