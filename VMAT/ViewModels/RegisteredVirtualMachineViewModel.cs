@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using VMAT.Models;
+﻿using VMAT.Models;
+using VMAT.Services;
 
 namespace VMAT.ViewModels
 {
@@ -18,5 +15,24 @@ namespace VMAT.ViewModels
         public string LastStopped { get; set; }
         public string LastBackuped { get; set; }
         public string LastArchived { get; set; }
+
+        public RegisteredVirtualMachineViewModel() { }
+
+        public RegisteredVirtualMachineViewModel(RegisteredVirtualMachine vm)
+        {
+            RegisteredVirtualMachineService.
+                SetRegisteredVirtualMachine(vm.ImagePathName);
+
+            ImagePathName = vm.ImagePathName;
+            BaseImageName = vm.BaseImageName;
+            Status = RegisteredVirtualMachineService.GetStatus().ToString().ToLower();
+            MachineName = vm.GetMachineName();
+            IP = vm.IP;
+            CreatedTime = vm.CreatedTime.ToString();
+            LastStopped = vm.LastStopped.ToString();
+            LastStarted = vm.LastStarted.ToString();
+            LastArchived = vm.LastArchived.ToString();
+            LastBackuped = vm.LastBackuped.ToString();
+        }
     }
 }
