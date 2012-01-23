@@ -25,8 +25,13 @@ namespace VMAT.Services
 
         public static void SetVirtualHost()
         {
+            SetVirtualHost(new VirtualHost());
+        }
+
+        public static void SetVirtualHost(IVirtualHost vh)
+        {
             if (virtualHost == null)
-                virtualHost = new VirtualHost();
+                virtualHost = vh;
             if (!virtualHost.IsConnected)
                 virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
                     AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());

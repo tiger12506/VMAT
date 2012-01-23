@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -18,5 +19,7 @@ namespace VMAT.Models
         PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
         int GetNextAvailableIP();
         VMStatus ToggleVMStatus(string imagePath);
+        void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
+        void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
     }
 }
