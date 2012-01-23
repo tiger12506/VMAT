@@ -73,6 +73,12 @@ namespace VMAT.Models
             {
                 // TODO: Handle time-out
             }
+
+            RegisteredVirtualMachineService.SetHostname(Hostname);
+            RegisteredVirtualMachineService.SetIP(IP);
+            RegisteredVirtualMachineService.Reboot();
+
+
         }
     }
 }
