@@ -146,25 +146,16 @@ namespace VMAT.Models
             var service = new RegisteredVirtualMachineService(image);
 
             if (service.IsRunning())
-            {
-                service.PowerOff();
-                vm.LastStopped = DateTime.Now;
-            }
+                PowerOff(vm, service);
             else
-            {
-                service.PowerOn();
-                vm.LastStarted = DateTime.Now;
-            }
+                PowerOn(vm, service);
 
             return service.GetStatus();
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()
         {
-            var vh = new VirtualHost();
-            vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
-                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
-            var imagePathNames = vh.RegisteredVirtualMachines.Select(v => v.PathName);
+            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
             var vmList = new List<VirtualMachine>();
 
             foreach (var path in imagePathNames)
@@ -202,46 +193,24 @@ namespace VMAT.Models
             return vmList;
         }
 
-        public DateTime PowerOn(RegisteredVirtualMachine vm)
+        public void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service)
         {
+            service.PowerOn();
             vm.LastStarted = DateTime.Now;
             dataDB.SaveChanges();
-
-            return vm.LastStarted;
         }
 
-        public DateTime PowerOff(RegisteredVirtualMachine vm)
+        public void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service)
         {
+            service.PowerOff();
             vm.LastStopped = DateTime.Now;
             dataDB.SaveChanges();
-
-            return vm.LastStopped;
         }
 
         public static IEnumerable<string> GetBaseImageFiles()
         {
             List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => ConvertPathToDatasource(foo));
-        }
-
-        /// <summary>
-        /// Converts datasource-style path to physical network path
-        /// </summary>
-        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
-        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
-        public static string ConvertPathToPhysical(string PathName)
-        {
-            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
-        }
-
-        /// <summary>
-        /// Converts physical network path to datasource-style path
-        /// </summary>
-        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
-        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
-        public static string ConvertPathToDatasource(string PathName)
-        {
-            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
+            return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }
     }
 }

@@ -4,28 +4,33 @@ using System.Linq;
 using Vestris.VMWareLib.Tools.Windows;
 using VMAT.Models.VMware;
 using VMAT.Models;
+using System.Collections.Generic;
 
 namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {
-        private VirtualMachineRepository vmRepo;
+        // Consider changing all methods to static methods, so long as they are thread-safe
         private IVirtualMachine VM;
         private static IVirtualHost virtualHost;
 
         public RegisteredVirtualMachineService(string imagePathName)
+        {
+            SetVirtualHost();
+
+            VM = virtualHost.Open(imagePathName);
+        }
+
+        public RegisteredVirtualMachineService(RegisteredVirtualMachine vm) : this(vm.ImagePathName) { }
+
+        public static void SetVirtualHost()
         {
             if (virtualHost == null)
                 virtualHost = new VirtualHost();
             if (!virtualHost.IsConnected)
                 virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
                     AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
-
-            vmRepo = new VirtualMachineRepository();
-            VM = virtualHost.Open(imagePathName);
         }
-
-        public RegisteredVirtualMachineService(RegisteredVirtualMachine vm) : this(vm.ImagePathName) { }
 
         public VMStatus GetStatus()
         {
@@ -196,6 +201,34 @@ namespace VMAT.Services
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(waitLong ? 120 : 30); //TODO: refactor this out somewhere
             VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
+        }
+
+        /// <summary>
+        /// Converts datasource-style path to physical network path
+        /// </summary>
+        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
+        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
+        public static string ConvertPathToPhysical(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
+        }
+
+        /// <summary>
+        /// Converts physical network path to datasource-style path
+        /// </summary>
+        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
+        public static string ConvertPathToDatasource(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
+        }
+
+        public static IEnumerable<string> GetRegisteredVMImagePaths()
+        {
+            SetVirtualHost();
+            var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName);
+
+            return ret;
         }
     }
 }
