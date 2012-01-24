@@ -1,0 +1,10 @@
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\BackendVMWare.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\BackendVMWare.pdb
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\Vestris.VMWareLib.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\Vestris.VMWareTools.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\Interop.VixCOM.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Release\ResolveAssemblyReference.cache
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Release\BackendVMWare.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Release\BackendVMWare.pdb
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\7za.exe
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Release\BackendVMWare.dll.config

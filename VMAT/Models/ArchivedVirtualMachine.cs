@@ -48,14 +48,14 @@ namespace VMAT.Models
             // and then target file in quotes followed by source file in quotes
             //
             //the a stands for archive, e for extract
-            p.Arguments = "a -t7z " + outName + " " + sourceName + " -mx=7";
+            p.Arguments = "a -t7z " + outName + " " + sourceName;// +" -mx=7";
             p.WindowStyle = ProcessWindowStyle.Hidden;
 
             // 3.
             // Start process and wait for it to exit
             //
-            //System.Diagnostics.Process x = System.Diagnostics.Process.Start(p);
-            //x.WaitForExit();
+            System.Diagnostics.Process x = System.Diagnostics.Process.Start(p);
+            x.WaitForExit();
 
 
             //this way, a command window pops up momentarily

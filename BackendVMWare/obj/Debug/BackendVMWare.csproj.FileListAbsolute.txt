@@ -1,0 +1,17 @@
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\bin\Debug\BackendVMWare.dll
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\bin\Debug\BackendVMWare.pdb
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\bin\Debug\Vestris.VMWareLib.dll
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\obj\Debug\BackendVMWare.dll
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\obj\Debug\BackendVMWare.pdb
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\bin\Debug\Interop.VixCOM.dll
+C:\Users\jacob\Desktop\VMAT\BackendVMWare\bin\Debug\Vestris.VMWareTools.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\BackendVMWare.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\BackendVMWare.pdb
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\Vestris.VMWareLib.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\Vestris.VMWareTools.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\Interop.VixCOM.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Debug\BackendVMWare.dll
+C:\Users\sylvaiam\VMAT\BackendVMWare\obj\Debug\BackendVMWare.pdb
+C:\Users\sylvaiam\VMAT\BackendVMWare\bin\Debug\7za.exe
