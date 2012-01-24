@@ -5,6 +5,7 @@ using System.Web;
 using VMAT.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VMAT.CustomValidators;
 
 namespace VMAT.ViewModels
 {
@@ -29,6 +30,9 @@ namespace VMAT.ViewModels
 
         public string BaseImageFile { get; set; }
 
+//        [Required(ErrorMessage = "IP must be of the form a.b.c.d where a,b,c,d are int from 0-255.")]
+//        [IPValidator(ErrorMessage = "Invalid IP Address")]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }

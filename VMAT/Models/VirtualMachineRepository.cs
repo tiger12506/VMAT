@@ -5,7 +5,7 @@ using System.Web;
 
 namespace VMAT.Models
 {
-    public class VirtualMachineRepository : IVirtualMachineRepository
+    public class VirtualMachineRepository// : IVirtualMachineRepository
     {
         DataEntities dataDB = new DataEntities();
     }
