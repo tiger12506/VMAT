@@ -110,16 +110,6 @@ namespace VMAT.Controllers
             return Json(results);
         }
 
-        //POST: /VirtualMachine/Archive
-
-        [HttpPost]
-        public ActionResult Archive(string ProjectNumbar)
-        {
-            ArchivedVirtualMachine arch = new ArchivedVirtualMachine();
-            arch.ArchiveFile(AppConfiguration.GetWebserverVmPath() + ProjectNumbar, AppConfiguration.GetWebserverVmPath() + ProjectNumbar + ".7z");
-            return Index();
-        }
-
         //
         // GET: /VirtualMachine/Create
 
