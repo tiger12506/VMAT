@@ -52,7 +52,7 @@ function getNextAvailableIP() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "VirtualMachine/GetNextIP",
+        url: "GetNextIP",
         data: "{ }",
         dataType: "json",
         success: function (data) { GetNextAvailableIP.successCallback(data); },
