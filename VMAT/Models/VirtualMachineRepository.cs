@@ -11,6 +11,8 @@ namespace VMAT.Models
     {
         private DataEntities dataDB = new DataEntities();
 
+        int[] reservedIPs;
+
         public void CreateProject(Project proj)
         {
             throw new NotImplementedException();
@@ -120,6 +122,8 @@ namespace VMAT.Models
                 ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
             }
             catch (Exception) { }
+
+            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
 
             bool[] usedIP = new bool[256];
 

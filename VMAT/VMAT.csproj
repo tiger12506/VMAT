@@ -126,6 +126,7 @@
     <Compile Include="Models\ArchivedVirtualMachine.cs" />
     <Compile Include="Models\AppConfiguration.cs" />
     <Compile Include="Models\DataEntities.cs" />
+    <Compile Include="Models\GlobalReservedIP.cs" />
     <Compile Include="Models\HostConfiguration.cs" />
     <Compile Include="Models\IVirtualMachineRepository.cs" />
     <Compile Include="Models\Organization.cs" />

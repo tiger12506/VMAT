@@ -39,6 +39,8 @@ namespace VMAT
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            GlobalReservedIP.CreateList();
         }
     }
 }

@@ -7,15 +7,16 @@ namespace VMAT.Models
         private static readonly object syncSwitch = new object();
         private static Dictionary<string, string> reservedIpList;
 
+        public static void CreateList()
+        {
+            lock (syncSwitch)
+                reservedIpList = new Dictionary<string, string>();
+        }
+
         public static string GetItemByTag(string tag)
         {
             lock (syncSwitch)
-            {
-                if (reservedIpList == null)
-                    reservedIpList = new Dictionary<string, string>();
-
                 return reservedIpList[tag];
-            }
         }
 
         public static Dictionary<string, string> GetReservedIPs()
