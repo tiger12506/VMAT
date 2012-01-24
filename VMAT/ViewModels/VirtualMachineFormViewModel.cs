@@ -11,9 +11,10 @@ namespace VMAT.ViewModels
 {
     public class VirtualMachineFormViewModel
     {
-        /// <summary>
         /// String to identify project. 4 sections: "G"+Project Number (4-digit), 
         /// Company, Site, tiny description. Project Identifier is latter 3 items.
+        /// <summary>
+        /// 4-digit project identifier
         /// </summary>
         [Required(ErrorMessage = "Project Name must be 4 digits")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
@@ -36,6 +37,10 @@ namespace VMAT.ViewModels
         [DisplayName("IP Address")]
         public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }
+
+        public VirtualMachineFormViewModel()
+        {
+        }
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {

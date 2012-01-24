@@ -18,7 +18,7 @@ function toggleMachineStatus(machineName, button) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/VirtualMachine/ToggleStatus",
+        url: "VirtualMachine/ToggleStatus",
         data: "{'image': '" + machineName + "'}",
         dataType: "json",
         success: function (data) { ToggleMachineStatus.successCallback(data, button); },
@@ -44,7 +44,8 @@ ToggleMachineStatus.successCallback = function (data, button) {
 }
 
 ToggleMachineStatus.failureCallback = function (error, machineName, button) {
-    alert("Failed to change machine " + machineName + "'s status: " + error.Status);
+    alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + 
+        JSON.parse(error.responseText));
     resetTransitionButton(button);
 }
 

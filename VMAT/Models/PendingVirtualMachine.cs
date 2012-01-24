@@ -26,9 +26,13 @@ namespace VMAT.Models
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
             // TODO: Fix to properly represent data
-            ImagePathName = "path.vmx";
+            //project name is actually the number
+            ImagePathName = vmForm.ProjectName
             BaseImageName = vmForm.BaseImageFile;
             IP = vmForm.IP;
+//            Hostname = "gapdev" + vmForm.ProjectName + vmForm.MachineNameSuffix;
+
+//            CreateVM();
         }
 
         /// <summary>

@@ -13,14 +13,22 @@ namespace VMAT.Controllers
     public class VirtualMachineController : Controller
     {
         VirtualMachineManager manager = new VirtualMachineManager();
+        IVirtualMachineRepository vmRepo;
         DataEntities dataDB = new DataEntities();
+
+        public VirtualMachineController() : this(new VirtualMachineRepository()) { }
+
+        public VirtualMachineController(IVirtualMachineRepository repo)
+        {
+            vmRepo = repo;
+        }
 
         //
         // GET: /VirtualMachine/
 
         public ActionResult Index()
         {
-            IEnumerable<Project> projectList = manager.GetProjects();
+            IEnumerable<Project> projectList = vmRepo.GetProjects();
             var projectViewList = new List<ProjectViewModel>();
 
             foreach (var project in projectList)
@@ -107,9 +115,11 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
+            int nextIP = manager.GetNextAvailableIP();
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
+            ViewBag.IP = nextIP;
 
             return View();
         }
@@ -139,10 +149,10 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
-        [HandleError]
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
+            int nextIP = manager.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
@@ -150,6 +160,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
+            ViewBag.IP = nextIP;
 
             return View(form);
         }
@@ -172,8 +183,9 @@ namespace VMAT.Controllers
         }
 
         //
-        // GET: /VirtualMachine/GetNextIP
+        // POST: /VirtualMachine/GetNextIP
 
+        [HttpPost]
         public ActionResult GetNextIP()
         {
             int nextIP = manager.GetNextAvailableIP();

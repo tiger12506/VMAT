@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using VMAT.Models;
 
 namespace VMAT.ViewModels
 {
@@ -9,5 +6,13 @@ namespace VMAT.ViewModels
     {
         public string MachineName { get; set; }
         public string ArchiveTime { get; set; }
+
+        public PendingArchiveVirtualMachineViewModel() { }
+
+        public PendingArchiveVirtualMachineViewModel(PendingArchiveVirtualMachine vm)
+        {
+            MachineName = vm.GetMachineName();
+            //ArchiveTime = GetArchiveTime().ToString();
+        }
     }
 }
