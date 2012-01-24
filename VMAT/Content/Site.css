@@ -77,6 +77,7 @@ legend {
 
 .padded {
   padding: 18px;
+  padding-bottom: 0;
 }
 
 
@@ -237,6 +238,8 @@ a.link-button {
     background-color: #eeeeee;
     margin-top: 0;
     border-top: 0;
+    /* Fill entire content area */
+    padding-bottom: 1px;
   }
 
 #logo {
@@ -274,14 +277,29 @@ a.link-button {
 /* PAGE-SPECIFIC ELEMENTS
 ----------------------------------------------------------*/
 
-.created-by li {
-  float: left;
-  margin-right: 10%;
+#about-created-by {
+  margin-bottom: 20px;
 }
 
-  .created-by li ul li {
-    float: none;
+.created-by {
+  margin-left: 30px;
+}
+
+  .created-by li {
+    display: inline-block;
+    margin-right: 140px;
+    vertical-align: top;
   }
+
+    .created-by li ul li {
+      display: block;
+    }
+    
+.org-logo {
+  max-height: 200px;
+  max-width: 400px;
+  display: block;
+}
 
 
 /* FORM ELEMENTS
@@ -289,8 +307,8 @@ a.link-button {
 
 form {
   width: 90%;
-  margin: 0 auto 10px auto;
-  padding-top: 15px;
+  margin: 0 auto 0 auto;
+  padding: 15px 0 10px 0;
 }
 
   form li {
@@ -368,6 +386,10 @@ button.archive {
   color: Red;
   font-weight: bold;
   margin-left: 10px;
+}
+
+#IP1, #IP2, #IP3, #IP4 {
+  width: 8%;
 }
 
 
@@ -591,6 +613,7 @@ button.archive {
     .machine-info .status button.transition {
       background:#f1d50d;
       cursor: wait;
+      /*filter: alpha(opacity=80);*/
     }
 
   .machine-info > table {

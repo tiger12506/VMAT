@@ -18,7 +18,7 @@ function toggleMachineStatus(machineName, button) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/VirtualMachine/ToggleStatus",
+        url: "VirtualMachine/ToggleStatus",
         data: "{'image': '" + machineName + "'}",
         dataType: "json",
         success: function (data) { ToggleMachineStatus.successCallback(data, button); },
@@ -28,17 +28,26 @@ function toggleMachineStatus(machineName, button) {
 
 ToggleMachineStatus.successCallback = function (data, button) {
     var status = ((String)(data.Status)).toLowerCase();
-    var $machine = $(button).closest("machine-info");
+    var $machine = $(button).closest(".machine-info");
+
+    var milli = data.LastShutdownTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+    var stopped = new Date(parseInt(milli));
+    
+    milli = data.LastStartTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+    var started = new Date(parseInt(milli));
 
     $(button).attr("status", status);
-    $machine.children(".tStopped").text(data.LastShutdownTime.toString());
-    $machine.children(".tStarted").text(data.LastStartTime.toString());
+    $machine.find(".tStopped").text(dateFormat(stopped, "m/dd/yyyy HH:MM:ss"));
+    $machine.find(".tStarted").text(dateFormat(started, "m/dd/yyyy HH:MM:ss"));
     setStatusTooltips(button);
     resetTransitionButton(button);
 }
 
 ToggleMachineStatus.failureCallback = function (error, machineName, button) {
-    alert("Failed to change machine " + machineName + "'s status: " + error.Message);
+
+    alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + 
+        JSON.parse(error.responseText));
+
     resetTransitionButton(button);
 }
 

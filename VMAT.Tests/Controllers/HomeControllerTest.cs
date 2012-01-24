@@ -17,12 +17,14 @@ namespace VMAT.Tests.Controllers
         {
             // Arrange
             HomeController controller = new HomeController();
+            VirtualMachineController destController = new VirtualMachineController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
+            ViewResult destView = destController.Index() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Modify this template to kick-start your ASP.NET MVC application.", result.ViewBag.Message);
+            Assert.AreEqual(destView, result);
         }
 
         [TestMethod]

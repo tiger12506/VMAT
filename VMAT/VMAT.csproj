@@ -119,6 +119,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VirtualMachineController.cs" />
+    <Compile Include="CustomValidators\IPValidator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,11 +128,16 @@
     <Compile Include="Models\AppConfiguration.cs" />
     <Compile Include="Models\DataEntities.cs" />
     <Compile Include="Models\HostConfiguration.cs" />
+    <Compile Include="Models\IVirtualMachineRepository.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\PendingArchiveVirtualMachine.cs" />
     <Compile Include="Models\PendingVirtualMachine.cs" />
     <Compile Include="Models\Project.cs" />
-    <Compile Include="Models\RegisteredVirtualMachineService.cs" />
+    <Compile Include="Models\VirtualMachineRepository.cs" />
+    <Compile Include="Services\ArchiveVirtualMachineService.cs" />
+    <Compile Include="Services\BackupVirtualMachineService.cs" />
+    <Compile Include="Services\CreateVirtualMachineService.cs" />
+    <Compile Include="Services\RegisteredVirtualMachineService.cs" />
     <Compile Include="Models\RegisteredVirtualMachine.cs" />
     <Compile Include="Models\VirtualMachine.cs" />
     <Compile Include="Models\VirtualMachineManager.cs" />
@@ -196,6 +202,7 @@
     <Content Include="Content\themes\images\logo_windows-server-2008.png" />
     <Content Include="Scripts\AjaxLogin.js" />
     <Content Include="Scripts\closeProject.js" />
+    <Content Include="Scripts\date.format.js" />
     <Content Include="Scripts\forms.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

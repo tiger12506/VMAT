@@ -14,15 +14,6 @@ namespace VMAT.Models
         /// </summary>
         private static AppSettingsSection appSettings = WebConfigurationManager.OpenWebConfiguration("~").AppSettings;
 
-        /// <summary>
-        /// Set the appSettings section to the given instance of an object. Used primarily for
-        /// testing purposes.
-        /// </summary>
-        /// <param name="settings">The intended appSettings section object.</param>
-        public static void SetWebConfigurationFile(AppSettingsSection settings)
-        {
-            appSettings = settings;
-        }
         public static string CheckConfigSettings()
         {
             string ret = "";
@@ -73,6 +64,7 @@ namespace VMAT.Models
 
             return ret;
         }
+
         private static string CheckPath(string path, string name)
         {
             string ret="";
@@ -193,16 +185,5 @@ namespace VMAT.Models
         {
             return appSettings.Settings["VMPassword"].Value;
         }
-
-        /// <summary>
-        /// Return the local directory containing the data files associated to
-        /// the VMAT application.
-        /// </summary>
-        /// <returns>The full path of the application directory.</returns>
-        public static string GetDataFilesDirectory()
-        {
-            return appSettings.Settings["DataFilesDirectory"].Value;
-        }
-
     }
 }

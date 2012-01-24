@@ -40,14 +40,16 @@ namespace VMAT.Controllers
                     "Anthony Sylvain",
                     "Calvin Mlynarczyk",
                     "Jacob Schmidt"
-                }
+                },
+                LogoFile = "logo_rhit.png"
             });
 
             companies.Add(new Organization {
                 Name = "Global Automation Partners",
                 Authors = new List<string> {
                     "Brian Klimaszewski"
-                }
+                },
+                LogoFile = "logo_gap.png"
             });
 
             return View(companies);

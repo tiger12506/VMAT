@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using VMAT.Models.VMware;
-using Vestris.VMWareLib.Tools.Windows;
 using System.IO;
+using System.Linq;
+using Vestris.VMWareLib.Tools.Windows;
+using VMAT.Models.VMware;
+using VMAT.Models;
 
-namespace VMAT.Models
+namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {
@@ -151,18 +150,22 @@ namespace VMAT.Models
         /// <summary>
         /// If the machine is powered off, power it on. Otherwise, do nothing.
         /// </summary>
-        public static void PowerOn()
+        /// <returns>The time of startup</returns>
+        public static DateTime PowerOn()
         {
             VM.PowerOn();
             virtualMachine.LastStarted = DateTime.Now;
             dataDB.SaveChanges();
+
+            return virtualMachine.LastStarted;
         }
 
         /// <summary>
         /// If the machine is powered on or sleeping, power it off.
         /// Otherwise, do nothing.
         /// </summary>
-        public static void PowerOff()
+        /// <returns>The time of shutdown</returns>
+        public static DateTime PowerOff()
         {
             try
             {
@@ -177,6 +180,8 @@ namespace VMAT.Models
                 virtualMachine.LastStopped = DateTime.Now;
                 dataDB.SaveChanges();
             }
+
+            return virtualMachine.LastStopped;
         }
 
         /// <summary>

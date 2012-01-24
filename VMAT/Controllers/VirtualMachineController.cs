@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using VMAT.Models;
 using VMAT.ViewModels;
+using VMAT.Services;
 
 namespace VMAT.Controllers
 {
@@ -12,14 +13,22 @@ namespace VMAT.Controllers
     public class VirtualMachineController : Controller
     {
         VirtualMachineManager manager = new VirtualMachineManager();
+        IVirtualMachineRepository vmRepo;
         DataEntities dataDB = new DataEntities();
+
+        public VirtualMachineController() : this(new VirtualMachineRepository()) { }
+
+        public VirtualMachineController(IVirtualMachineRepository repo)
+        {
+            vmRepo = repo;
+        }
 
         //
         // GET: /VirtualMachine/
 
         public ActionResult Index()
         {
-            IEnumerable<Project> projectList = manager.GetProjects();
+            IEnumerable<Project> projectList = vmRepo.GetProjects();
             var projectViewList = new List<ProjectViewModel>();
 
             foreach (var project in projectList)
@@ -79,21 +88,23 @@ namespace VMAT.Controllers
             RegisteredVirtualMachine vm = dataDB.VirtualMachines.
                 OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
 
+            DateTime started = vm.LastStarted;
+            DateTime stopped = vm.LastStopped;
+
             RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
             VMStatus status = RegisteredVirtualMachineService.GetStatus();
 
             if (status == VMStatus.Running)
-                RegisteredVirtualMachineService.PowerOff();
+                stopped = RegisteredVirtualMachineService.PowerOff();
             else if (status == VMStatus.Stopped)
-                RegisteredVirtualMachineService.PowerOn();
+                started = RegisteredVirtualMachineService.PowerOn();
 
-            dataDB.SaveChanges();
             status = RegisteredVirtualMachineService.GetStatus();
 
             var results = new ToggleStatusViewModel {
                 Status = status.ToString().ToLower(),
-                LastStartTime = vm.LastStarted,
-                LastShutdownTime = vm.LastStopped
+                LastStartTime = started,
+                LastShutdownTime = stopped
             };
 
             return Json(results);
@@ -114,9 +125,11 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
+            int nextIP = manager.GetNextAvailableIP();
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineManager.GetBaseImageFiles());
+            ViewBag.IP = nextIP;
 
             return View();
         }
@@ -146,10 +159,10 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
-        [HandleError]
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
+            int nextIP = manager.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
@@ -157,6 +170,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(manager.GetProjectInfo(),
                 "ProjectName", "ProjectName");
+            ViewBag.IP = nextIP;
 
             return View(form);
         }
@@ -165,7 +179,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/Edit
 
         [HttpPost]
-        public ActionResult Edit(VirtualMachine vm)
+        public ActionResult Edit(VirtualMachineFormViewModel vm)
         {
             if (ModelState.IsValid)
             {
@@ -176,6 +190,17 @@ namespace VMAT.Controllers
                 "ProjectName", "ProjectName");
 
             return View(vm);
+        }
+
+        //
+        // POST: /VirtualMachine/GetNextIP
+
+        [HttpPost]
+        public ActionResult GetNextIP()
+        {
+            int nextIP = manager.GetNextAvailableIP();
+
+            return Json(nextIP);
         }
 
         //

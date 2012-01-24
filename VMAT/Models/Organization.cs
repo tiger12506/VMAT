@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace VMAT.Models
 {
     public class Organization
     {
-        public string Name;
-        public List<string> Authors;
-        public string ImageFile;
+        public string Name { get; set; }
+        public List<string> Authors { get; set; }
+        public string LogoFile { get; set; }
     }
 }

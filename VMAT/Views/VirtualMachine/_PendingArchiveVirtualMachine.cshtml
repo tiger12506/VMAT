@@ -1,0 +1,27 @@
+﻿@model VMAT.Models.PendingArchiveVirtualMachine
+
+<div class="machine-info" id="@Model.ImagePathName">
+    <span>
+        <span>@Model.GetMachineName() is scheduled to be archived at @DateTime.Now</span>
+        <button class="edit-machine link-button">
+            Undo
+        </button>
+    </span>
+    <span class="tControls">
+        <button type="button" class="toggle-details">
+            Show More
+        </button>
+    </span>
+    <div class="details">
+        <table>
+            <tr>
+                <th>Image File</th>
+                <th>IP Address</th>
+            </tr>
+            <tr>
+                <td class="tImagefile">@Model.BaseImageName</td>
+                <td class="tIP">@Model.IP</td>
+            </tr>
+        </table>
+    </div>  
+</div>

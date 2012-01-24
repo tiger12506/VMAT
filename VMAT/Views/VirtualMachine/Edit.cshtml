@@ -12,7 +12,6 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Virtual Machine</legend>
         <ol>
             <li>
                 @Html.LabelFor(model => model.MachineNameSuffix)
@@ -27,13 +26,17 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP1)
-                @Html.EditorFor(model => model.IP1)
-                @Html.ValidationMessageFor(model => model.IP1)
+                @Html.LabelFor(model => model.IP)
+                @Html.EditorFor(model => model.IP)
+                @Html.ValidationMessageFor(model => model.IP)
             </li>
 
             <li>
-                @* TODO: Add radio buttons for Lifecycle *@
+                @Html.LabelFor(model => model.Lifecycle)
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active,
+                    Model.Lifecycle == VMAT.Models.VMLifecycle.Active) Auto <br />
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Idle,
+                    Model.Lifecycle == VMAT.Models.VMLifecycle.Idle) Manual <br />
             </li>
         </ol>
     </fieldset>

@@ -5,14 +5,16 @@ using System.Web;
 using VMAT.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VMAT.CustomValidators;
 
 namespace VMAT.ViewModels
 {
     public class VirtualMachineFormViewModel
     {
-        /// <summary>
         /// String to identify project. 4 sections: "G"+Project Number (4-digit), 
         /// Company, Site, tiny description. Project Identifier is latter 3 items.
+        /// <summary>
+        /// 4-digit project identifier
         /// </summary>
         [Required(ErrorMessage = "Project Name must be 4 digits")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
@@ -28,18 +30,24 @@ namespace VMAT.ViewModels
         public string MachineNameSuffix { get; set; }
 
         public string BaseImageFile { get; set; }
-        public string IP1 { get; set; }
-        public string IP2 { get; set; }
-        public string IP3 { get; set; }
-        public string IP4 { get; set; }
+
+//        [Required(ErrorMessage = "IP must be of the form a.b.c.d where a,b,c,d are int from 0-255.")]
+//        [IPValidator(ErrorMessage = "Invalid IP Address")]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+        [DisplayName("IP Address")]
+        public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }
+
+        public VirtualMachineFormViewModel()
+        {
+        }
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {
             ProjectName = vm.GetProjectName();
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
-            // TODO: Handle IP Address on form
+            IP = ((RegisteredVirtualMachine)vm).IP;
             Lifecycle = vm.Lifecycle;
         }
     }

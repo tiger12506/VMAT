@@ -32,9 +32,15 @@
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP1)
-                @Html.EditorFor(model => model.IP1)
-                @Html.ValidationMessageFor(model => model.IP1)
+                @Html.LabelFor(model => model.Lifecycle)
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Idle,
+                    new { @checked = true }) Manual <br />
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active) Auto <br />
+            </li>
+            <li>
+                @Html.LabelFor(model => model.IP)
+                @Html.EditorFor(model => model.IP)
+                @Html.ValidationMessageFor(model => model.IP)
             </li>
         </ol>
     </fieldset>
@@ -60,7 +66,7 @@
                     <output name="machinename" for="project-menu machine-suffix">gapdevxxxxyyyyy</output>
                 </td>
                 <td class="pIP">
-                    <output name="ip" for="ip">127.0.0.1</output>
+                    <output name="ip" for="ip">@ViewBag.IP</output>
                 </td>
                 <td class="pImage">
                     <output name="imagefile" for="image-menu">windows.vmx</output>

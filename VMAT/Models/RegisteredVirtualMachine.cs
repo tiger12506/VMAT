@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VMAT.Models.VMware;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -72,6 +73,12 @@ namespace VMAT.Models
             {
                 // TODO: Handle time-out
             }
+
+            RegisteredVirtualMachineService.SetHostname(Hostname);
+            RegisteredVirtualMachineService.SetIP(IP);
+            RegisteredVirtualMachineService.Reboot();
+
+
         }
     }
 }
