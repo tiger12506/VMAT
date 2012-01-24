@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using VMAT.Models.VMware;
 using VMAT.Services;
+using VMAT.ViewModels;
 
 namespace VMAT.Models
 {
@@ -86,12 +88,6 @@ namespace VMAT.Models
             throw new NotImplementedException();
         }
 
-
-        Project IVirtualMachineRepository.GetProjects()
-        {
-            throw new NotImplementedException();
-        }
-
         public int GetNextAvailbaleIP()
         {
             List<string> ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
@@ -142,8 +138,6 @@ namespace VMAT.Models
                 LastStartTime = started,
                 LastShutdownTime = stopped
             };
-
-            return Json(results);
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()

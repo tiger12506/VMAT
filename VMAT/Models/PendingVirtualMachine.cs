@@ -27,7 +27,7 @@ namespace VMAT.Models
         {
             // TODO: Fix to properly represent data
             //project name is actually the number
-            ImagePathName = vmForm.ProjectName
+            ImagePathName = vmForm.ProjectName;
             BaseImageName = vmForm.BaseImageFile;
             IP = vmForm.IP;
 //            Hostname = "gapdev" + vmForm.ProjectName + vmForm.MachineNameSuffix;

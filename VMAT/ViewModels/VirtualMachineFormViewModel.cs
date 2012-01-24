@@ -5,7 +5,6 @@ using System.Web;
 using VMAT.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using VMAT.CustomValidators;
 
 namespace VMAT.ViewModels
 {

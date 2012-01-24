@@ -16,7 +16,7 @@ namespace VMAT.Controllers
         IVirtualMachineRepository vmRepo;
         DataEntities dataDB = new DataEntities();
 
-        public VirtualMachineController() : this(new VirtualMachineRepository()) { }
+        public VirtualMachineController() { }// : this(new VirtualMachineRepository()) { }
 
         public VirtualMachineController(IVirtualMachineRepository repo)
         {
@@ -57,7 +57,7 @@ namespace VMAT.Controllers
                         vmView.LastBackuped = ((RegisteredVirtualMachine)vm).LastBackuped.ToString();
                         vmView.BaseImageName = vm.BaseImageName;
 
-                        projectView.RegisteredVMs.Add(vmView);
+                        (projectView.RegisteredVMs as List<RegisteredVirtualMachineViewModel>).Add(vmView);
                     }
                     else if (vm.GetType() == typeof(PendingVirtualMachine))
                     {
