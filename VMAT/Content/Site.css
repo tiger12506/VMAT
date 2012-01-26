@@ -8,19 +8,19 @@
 }
 
 body {
-  background: #BDBFBA;
+  background: #bdbfba;
   font-size: 1em;
   font-family: Helvetica, Arial, Verdana, sans-serif;
   color: #141414;
 }
 
 a {
-  color: #6380A5;
+  color: #6380a5;
   text-decoration: none;
 }
 
   a:visited {
-    color: #6380A5;
+    color: #6380a5;
   }
 
   a:hover {
@@ -59,8 +59,8 @@ input[type="text"], input[type="number"], input[type="password"], select {
 }
 
   input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus, select:focus {
-    border: 1px solid #F1D50D;
-    box-shadow: 0 0 1px 1px #F1D50D;
+    border: 1px solid #f1d50d;
+    box-shadow: 0 0 1px 1px #f1d50d;
   }
   
 fieldset {
@@ -120,7 +120,7 @@ input[type="submit"], input[type="button"], input[type="reset"] {
 button, input[type="button"], input[type="submit"], input[type="reset"], a.link-button {
   cursor: pointer;
   padding: 2px 5px 2px 5px;
-  border: 2px solid #54544F;
+  border: 2px solid #54544f;
   border-radius: 5px;
   font-size: 100%;
   
@@ -195,58 +195,59 @@ a.link-button {
   border-radius: 7px;
 }
 
-  #page #header {
-    border-bottom: 2px solid #4F4F4F;
-  }
+#header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #4f4f4f;
+}
   
-    #page #header #banner {
-      border-bottom: 2px solid #4F4F4F;
-    }
-    
-      #page #header #banner #logo {
-        margin-left: 1%;
-      }
-
-      #page #header #banner #login {
-        float: right;
-        margin-right: 2%;
-        margin-top: 1%;
-      }
-
-    #page #header #page-title {
-      padding: 1% 0 1% 0;
-      
-      background: #b2b7b0; /* Old browsers */
-      background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b7b0), color-stop(100%,#7f7f7f)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Opera11.10+ */
-      background: -ms-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* IE10+ */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2b7b0', endColorstr='#7f7f7f',GradientType=0 ); /* IE6-9 */
-      background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
-    }
-
-      #page #header #page-title h1 {
-        font-size: 200%;
-        font-weight: normal;
-        margin: 0 0 0 10%;
-        padding: 0;
-      }
-
-  #page #content {
-    min-height: 350px;
-    background-color: #eeeeee;
-    margin-top: 0;
-    border-top: 0;
-    /* Fill entire content area */
-    padding-bottom: 1px;
+  #header #banner {
+    border-bottom: 2px solid #4f4f4f;
   }
+    
+    #header #banner #logo {
+      margin-left: 1%;
+    }
+
+    #header #banner #login {
+      float: right;
+      margin-right: 2%;
+      margin-top: 1%;
+    }
+
+  #header #page-title {
+    padding: 1% 0 1% 0;
+      
+    background: #b2b7b0; /* Old browsers */
+    background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b7b0), color-stop(100%,#7f7f7f)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2b7b0', endColorstr='#7f7f7f',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
+  }
+
+    #header #page-title h1 {
+      font-size: 200%;
+      font-weight: normal;
+      margin: 0 0 0 10%;
+      padding: 0;
+    }
+
+#content {
+  min-height: 350px;
+  background-color: #eeeeee;
+  margin-top: 0;
+  border-top: 0;
+  /* Fill entire content area */
+  padding-bottom: 1px;
+}
 
 #logo {
   font-style: italic;
   font-weight: bold;
   font-size: 400%;
-  color: Black;
+  color: #000000;
   padding: 0;
 }
 
@@ -255,7 +256,8 @@ a.link-button {
   }
 
 #footer {
-  border-top: 2px solid #4F4F4F;
+  background-color: #ffffff;
+  border-top: 2px solid #4f4f4f;
   text-align: center;
 }
 
@@ -383,7 +385,7 @@ button.archive {
   }
 
 .field-validation-error {
-  color: Red;
+  color: #f00;
   font-weight: bold;
   margin-left: 10px;
 }
@@ -463,8 +465,8 @@ button.archive {
 }
 
 .project-header {
-  border-bottom: solid 2px #4F4F4F;
-  border-top: solid 2px #4F4F4F;
+  border-bottom: solid 2px #4f4f4f;
+  border-top: solid 2px #4f4f4f;
   
   background: #b2b7b0; /* Old browsers */
   background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
@@ -490,7 +492,7 @@ button.archive {
     float: right;
     font-size: 120%;
     border: 0;
-    border-left: 2px solid #4F4F4F;
+    border-left: 2px solid #4f4f4f;
     border-radius: 0;
     height: 45px;
   }
@@ -556,11 +558,11 @@ button.archive {
     }
   
       #projects-list .machine-list li:nth-child(even) {
-        background-color: #D1D1D1;
+        background-color: #d1d1d1;
       }
 
 .machine-info {
-  border-bottom: 1px solid Black;
+  border-bottom: 1px solid #000000;
   padding-top: 1%;
   margin: 0;
 }
@@ -578,14 +580,14 @@ button.archive {
       text-align: center;
       margin: 0;
       padding: 0;
-      border: 5px solid #DBDBD6;
+      border: 5px solid #dbdbd6;
       border-radius: 25px;
       height: 40px;
       width: 40px;
     }
     
       .machine-info .status button:hover {
-        border-color: #96A4AD;
+        border-color: #96a4ad;
       }
 
     .machine-info .status button[status="running"] {
@@ -630,7 +632,7 @@ button.archive {
     margin-top: 8px;
     border: none;
     font-size: 100%;
-    color: #6380A5;
+    color: #6380a5;
   }
   
     .machine-info .toggle-details:hover {
@@ -666,17 +668,17 @@ button.archive {
   top: 160px;
   left: 50px;
   z-index: 99999;
-  background: #BDBFBA;
-  border: solid 2px Black;
+  background: #bdbfba;
+  border: solid 2px #000000;
   border-radius: 5px;
-  box-shadow: 0 0 3px 2px Black;
+  box-shadow: 0 0 3px 2px #000000;
   min-height: 150px;
   min-width: 200px;
 }
 
   #popup #popup-header {
     background-color: White;
-    border-bottom: solid 1px Black;
+    border-bottom: solid 1px #000000;
     cursor: move;
     height: 40px;
   }
@@ -785,5 +787,5 @@ ol.error li {
   }
 
   ol.error li #stack-trace{
-    color: #BC1010;
+    color: #bc1010;
   }
