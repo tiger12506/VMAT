@@ -303,6 +303,14 @@ a.link-button {
   display: block;
 }
 
+.project-add {
+  margin-left: 10px;
+}
+
+.project-add-field {
+  display: none;
+}
+
 
 /* FORM ELEMENTS
 ----------------------------------------------------------*/
@@ -419,8 +427,11 @@ button.archive {
       }
 
   .management-header a.link-button {
-    border: 2px solid #496077;
     border-radius: 10px;
+  }
+  
+  .management-header a.link-button, .project-add {
+    border: 2px solid #496077;
     
     background: #b5c4f2; /* Old browsers */
     background: -moz-linear-gradient(top, #b5c4f2 1%, #7ca2e2 100%); /* FF3.6+ */
@@ -432,7 +443,7 @@ button.archive {
     background: linear-gradient(top, #b5c4f2 1%,#7ca2e2 100%); /* W3C */
   }
 
-    .management-header a.link-button:hover {
+    .management-header a.link-button:hover, .project-add:hover {
       background: #99baf7; /* Old browsers */
       background: -moz-linear-gradient(top, #99baf7 7%, #6380a5 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(7%,#99baf7), color-stop(100%,#6380a5)); /* Chrome,Safari4+ */
@@ -443,7 +454,7 @@ button.archive {
       background: linear-gradient(top, #99baf7 7%,#6380a5 100%); /* W3C */
     }
 
-    .management-header a.link-button:active {
+    .management-header a.link-button:active, .project-add:active {
       background: #6380a5; /* Old browsers */
       background: -moz-linear-gradient(top, #6380a5 0%, #99baf7 92%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6380a5), color-stop(92%,#99baf7)); /* Chrome,Safari4+ */

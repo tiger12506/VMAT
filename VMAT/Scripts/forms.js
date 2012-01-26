@@ -17,6 +17,17 @@ $(document).ready(function () {
     $("#project-menu").change(function () {
         $("#project-menu-field").val($(this).val());
     });
+
+    $(".project-add").click(function () {
+        displayAddProjectNumberField();
+    });
+
+    $(".project-add-field").keypress(function (e) {
+        if (e.keyCode == 13) {
+            updateProjectNumberList($(this).val());
+            return false;
+        }
+    });
 });
 
 
@@ -67,4 +78,19 @@ GetNextAvailableIP.successCallback = function (data) {
 GetNextAvailableIP.failureCallback = function (error) {
     alert("Failed to get next available IP address: " + error.status + " - " + 
         JSON.parse(error.responseText));
+}
+
+function displayAddProjectNumberField() {
+    $(".project-add").hide();
+    $("#ProjectName").hide();
+    $(".project-add-field").show();
+    $(".project-add-field").focus();
+}
+
+function updateProjectNumberList(projNumber) {
+    $("#ProjectName").html();
+    $("#ProjectName").show();
+    $(".project-add").show();
+    $(".project-add-field").val("");
+    $(".project-add-field").hide();
 }
