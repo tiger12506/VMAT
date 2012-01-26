@@ -58,7 +58,7 @@ namespace VMAT.Models
 
         public string GetProjectName()
         {
-            int start = ImagePathName.LastIndexOf("/gapdev") + "gapdev".Length + 1;
+            int start = ImagePathName.LastIndexOf("gapdev") + "gapdev".Length;
             int length = 4;
 
             return ImagePathName.Substring(start, length);
@@ -66,7 +66,7 @@ namespace VMAT.Models
 
         public static string GetProjectName(string imagePathName)
         {
-            int start = imagePathName.LastIndexOf("/gapdev") + "gapdev".Length + 1;
+            int start = imagePathName.LastIndexOf("gapdev") + "gapdev".Length;
             int length = 4;
 
             return imagePathName.Substring(start, length);

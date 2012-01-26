@@ -18,7 +18,7 @@ namespace VMAT.ViewModels
         [Required(ErrorMessage = "Project Name must be 4 digits")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Number")]
-        public string ProjectNumber { get; set; }
+        public string ProjectName { get; set; }
 
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
@@ -42,7 +42,7 @@ namespace VMAT.ViewModels
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {
-            ProjectNumber = vm.GetProjectName();
+            ProjectName = vm.GetProjectName();
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;

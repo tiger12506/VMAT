@@ -44,6 +44,32 @@ namespace VMAT.Models
                 }
             }
 
+            foreach (var vm in dataDB.VirtualMachines)
+            {
+                if (vm.GetType() != typeof(RegisteredVirtualMachine))
+                {
+                    string projectName = vm.GetProjectName();
+                    bool found = false;
+
+                    foreach (Project proj in projects)
+                    {
+                        if (proj.ProjectName == projectName)
+                        {
+                            proj.AddVirtualMachine(vm);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        var newProject = new Project(projectName, vm.Hostname,
+                            new List<VirtualMachine> { vm });
+                        projects.Add(newProject);
+                    }
+                }
+            }
+
             return projects;
         }
 
