@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -10,11 +11,15 @@ namespace VMAT.Models
         VirtualMachine GetVirtualMachine(string imagePath);
         void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
         RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
+        void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);
+        PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
         void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
         ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
         void CreatePendingVirtualMachine(PendingVirtualMachine vm);
         PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
-        int GetNextAvailbaleIP();
-        void ToggleVMStatus(string imagePath);
+        string GetNextAvailableIP();
+        VMStatus ToggleVMStatus(string imagePath);
+        void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
+        void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
     }
 }

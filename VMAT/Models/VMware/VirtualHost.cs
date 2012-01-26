@@ -35,16 +35,9 @@ namespace VMAT.Models.VMware
             {
                 List<VirtualMachine> ls = new List<VirtualMachine>();
 
-                try
+                foreach (VMWareVirtualMachine v in vh.RegisteredVirtualMachines)
                 {
-                    foreach (VMWareVirtualMachine v in vh.RegisteredVirtualMachines)
-                    {
-                        ls.Add(new VirtualMachine(v));
-                    }
-                }
-                catch (NotSupportedException)
-                {
-                    // TODO: Exception handling; Mock VMware for development purposes
+                    ls.Add(new VirtualMachine(v));
                 }
 
                 return ls.AsEnumerable();
@@ -57,16 +50,9 @@ namespace VMAT.Models.VMware
             {
                 List<VirtualMachine> ls = new List<VirtualMachine>();
 
-                try
+                foreach (VMWareVirtualMachine v in vh.RunningVirtualMachines)
                 {
-                    foreach (VMWareVirtualMachine v in vh.RunningVirtualMachines)
-                    {
-                        ls.Add(new VirtualMachine(v));
-                    }
-                }
-                catch (NotSupportedException)
-                {
-                    // TODO: Exception handling; Mock VMware for development purposes
+                    ls.Add(new VirtualMachine(v));
                 }
 
                 return ls.AsEnumerable();

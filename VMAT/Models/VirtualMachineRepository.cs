@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VMAT.Models.VMware;
 using VMAT.Services;
-using VMAT.ViewModels;
 
 namespace VMAT.Models
 {
-    public class VirtualMachineRepository// : IVirtualMachineRepository
+    public class VirtualMachineRepository : IVirtualMachineRepository
     {
         private DataEntities dataDB = new DataEntities();
+
+        int[] reservedIPs;
 
         public void CreateProject(Project proj)
         {
@@ -50,100 +49,116 @@ namespace VMAT.Models
 
         public IEnumerable<VirtualMachine> GetVirtualMachines()
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
         }
 
         public VirtualMachine GetVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath);
         }
 
         public void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as RegisteredVirtualMachine;
+        }
+
+        public void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm)
+        {
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
+        }
+
+        public PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath)
+        {
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as PendingArchiveVirtualMachine;
         }
 
         public void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as ArchivedVirtualMachine;
         }
 
         public void CreatePendingVirtualMachine(PendingVirtualMachine vm)
         {
-            throw new NotImplementedException();
+            dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
         }
 
         public PendingVirtualMachine GetPendingVirtualMachine(string imagePath)
         {
-            throw new NotImplementedException();
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath) 
+                as PendingVirtualMachine;
         }
 
-        public int GetNextAvailbaleIP()
+        public string GetNextAvailableIP()
         {
-            List<string> ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                Select(v => v.IP) as List<string>;
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().
-                Select(v => v.IP) as List<string>);
-            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
-                Select(v => v.IP) as List<string>);
+            List<string> ipList = new List<string>();
+            ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
+            // TODO: Actually check these errors
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
+            try
+            {
+                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
+            }
+            catch (Exception) { }
+
+            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
+
             bool[] usedIP = new bool[256];
 
             foreach (var ip in ipList)
             {
                 string longIP = ip;
-                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.')));
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
                 usedIP[ipTail] = true;
             }
 
             for (int index = 0; index < usedIP.Length; index++)
             {
                 if (!usedIP[index])
-                    return index;
+                    return index.ToString();
             }
 
-            return -1;
+            return null;
         }
 
-        public void ToggleStatus(string image)
+        public VMStatus ToggleVMStatus(string image)
         {
             RegisteredVirtualMachine vm = dataDB.VirtualMachines.
                 OfType<RegisteredVirtualMachine>().Single(d => d.ImagePathName == image);
+            var service = new RegisteredVirtualMachineService(image);
 
-            DateTime started = vm.LastStarted;
-            DateTime stopped = vm.LastStopped;
+            if (service.IsRunning())
+                PowerOff(vm, service);
+            else
+                PowerOn(vm, service);
 
-            RegisteredVirtualMachineService.SetRegisteredVirtualMachine(image);
-            VMStatus status = RegisteredVirtualMachineService.GetStatus();
-
-            if (status == VMStatus.Running)
-                stopped = RegisteredVirtualMachineService.PowerOff();
-            else if (status == VMStatus.Stopped)
-                started = RegisteredVirtualMachineService.PowerOn();
-
-            status = RegisteredVirtualMachineService.GetStatus();
-
-            var results = new ToggleStatusViewModel
-            {
-                Status = status.ToString().ToLower(),
-                LastStartTime = started,
-                LastShutdownTime = stopped
-            };
+            return service.GetStatus();
         }
 
         public IEnumerable<VirtualMachine> GetRegisteredVMs()
         {
-            var vh = new VirtualHost();
-            var imagePathNames = vh.RegisteredVirtualMachines.Select(v => v.PathName);
+            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
             var vmList = new List<VirtualMachine>();
 
             foreach (var path in imagePathNames)
@@ -166,12 +181,12 @@ namespace VMAT.Models
                     dataDB.VirtualMachines.Add(vm);
                 }
 
-                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(path);
+                var service = new RegisteredVirtualMachineService(path);
 
-                if (RegisteredVirtualMachineService.GetStatus() == VMStatus.Running)
+                if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = RegisteredVirtualMachineService.GetHostname();
-                    vm.IP = RegisteredVirtualMachineService.GetIP();
+                    vm.Hostname = service.GetHostname();
+                    vm.IP = service.GetIP();
                 }
 
                 dataDB.SaveChanges();
@@ -179,6 +194,26 @@ namespace VMAT.Models
             }
 
             return vmList;
+        }
+
+        public void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service)
+        {
+            service.PowerOn();
+            vm.LastStarted = DateTime.Now;
+            dataDB.SaveChanges();
+        }
+
+        public void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service)
+        {
+            service.PowerOff();
+            vm.LastStopped = DateTime.Now;
+            dataDB.SaveChanges();
+        }
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }
     }
 }

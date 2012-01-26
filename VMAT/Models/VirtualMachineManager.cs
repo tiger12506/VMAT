@@ -19,7 +19,8 @@ namespace VMAT.Models
             if (vh == null)
                 vh = new VirtualHost();
             if (!vh.IsConnected)
-                vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+                vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(), 
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
             return vh;
         }
 
@@ -37,47 +38,6 @@ namespace VMAT.Models
         public IVirtualMachine OpenVM(string imagePathName)
         {
             return vh.Open(imagePathName);
-        }
-
-        public IEnumerable<string> GetRunningVMImagePaths()
-        {
-            var imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
-
-            return imagePathNames;
-        }
-
-        public IEnumerable<RegisteredVirtualMachine> GetRunningVMs()
-        {
-            IEnumerable<String> imagePathNames = vh.RunningVirtualMachines.Select(v => v.PathName);
-            var vmList = new List<RegisteredVirtualMachine>();
-
-            foreach (var path in imagePathNames)
-            {
-                RegisteredVirtualMachine vm;
-
-                try
-                {
-                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                        Single(d => d.ImagePathName == path);
-                    //vm.RefreshFromVMware();
-                    dataDB.Entry(vm).State = EntityState.Modified;
-                    dataDB.SaveChanges();
-                }
-                catch (ArgumentNullException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-                catch (InvalidOperationException e)
-                {
-                    // TODO: Error checking
-                    throw e;
-                }
-                    
-                vmList.Add(vm);
-            }
-
-            return vmList;
         }
 
         public IEnumerable<string> GetRegisteredVMImagePaths()
@@ -112,12 +72,12 @@ namespace VMAT.Models
                     dataDB.VirtualMachines.Add(vm);
                 }
 
-                RegisteredVirtualMachineService.SetRegisteredVirtualMachine(path);
+                var service = new RegisteredVirtualMachineService(path);
 
-                if (RegisteredVirtualMachineService.GetStatus() == VMStatus.Running)
+                if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = RegisteredVirtualMachineService.GetHostname();
-                    vm.IP = RegisteredVirtualMachineService.GetIP();
+                    vm.Hostname = service.GetHostname();
+                    vm.IP = service.GetIP();
                 }
 
                 dataDB.SaveChanges();
@@ -125,43 +85,6 @@ namespace VMAT.Models
             }
 
             return vmList;
-        }
-
-        /// <summary>
-        /// Pull all of the information for each virtual machine. Parse the machine
-        /// and project name and fill in any other derived information. Group the
-        /// machines into their respective projects.
-        /// </summary>
-        /// <returns>A list of project items and information</returns>
-        public IEnumerable<Project> GetProjectInfo()
-        {
-            var projects = new List<Project>();
-
-            foreach (string imageName in GetRegisteredVMImagePaths())
-            {
-                VirtualMachine vm = new RegisteredVirtualMachine(imageName);
-                string projectName = vm.GetProjectName();
-                bool found = false;
-
-                foreach (Project proj in projects)
-                {
-                    if (proj.ProjectName == projectName)
-                    {
-                        proj.AddVirtualMachine(vm);
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    var newProject = new Project(projectName, vm.Hostname,
-                        new List<VirtualMachine> { vm });
-                    projects.Add(newProject);
-                }
-            }
-
-            return projects;
         }
 
         public IEnumerable<Project> GetProjects()

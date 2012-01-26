@@ -18,7 +18,7 @@ function toggleMachineStatus(machineName, button) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "VirtualMachine/ToggleStatus",
+        url: "/VirtualMachine/ToggleStatus",
         data: "{'image': '" + machineName + "'}",
         dataType: "json",
         success: function (data) { ToggleMachineStatus.successCallback(data, button); },

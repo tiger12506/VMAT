@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VMAT;
 using VMAT.Controllers;
 
 namespace VMAT.Tests.Controllers
@@ -13,15 +8,15 @@ namespace VMAT.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void TestIndexRedirects()
         {
             // Arrange
-            HomeController controller = new HomeController();
-            VirtualMachineController destController = new VirtualMachineController();
+            var controller = new HomeController();
+            var destController = new VirtualMachineController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
-            ViewResult destView = destController.Index() as ViewResult;
+            var result = controller.Index() as RedirectResult;
+            var destView = destController.Index() as ViewResult;
 
             // Assert
             Assert.AreEqual(destView, result);

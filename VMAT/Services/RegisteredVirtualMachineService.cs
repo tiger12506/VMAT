@@ -4,31 +4,37 @@ using System.Linq;
 using Vestris.VMWareLib.Tools.Windows;
 using VMAT.Models.VMware;
 using VMAT.Models;
+using System.Collections.Generic;
 
 namespace VMAT.Services
 {
     public class RegisteredVirtualMachineService
     {
-        private static DataEntities dataDB = new DataEntities();
-        private static IVirtualMachine VM;
-        private static RegisteredVirtualMachine virtualMachine;
+        // Consider changing all methods to static methods, so long as they are thread-safe
+        private IVirtualMachine VM;
+        private static IVirtualHost virtualHost;
 
-        public static void SetRegisteredVirtualMachine(string imagePathName)
+        public RegisteredVirtualMachineService(string imagePathName)
         {
-            VM = VirtualMachineManager.GetVirtualHost().Open(imagePathName);
+            GetVirtualHost();
 
-            try
-            {
-                virtualMachine = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                    Single(v => v.ImagePathName == imagePathName);
-            }
-            catch (InvalidOperationException)
-            {
-                virtualMachine = new RegisteredVirtualMachine(imagePathName);
-            }
+            VM = virtualHost.Open(imagePathName);
         }
 
-        public static VMStatus GetStatus()
+        public RegisteredVirtualMachineService(RegisteredVirtualMachine vm) : this(vm.ImagePathName) { }
+
+        public static IVirtualHost GetVirtualHost()
+        {
+            if (virtualHost == null)
+                virtualHost = new VirtualHost();
+            if (!virtualHost.IsConnected)
+                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+
+           return virtualHost;
+        }
+
+        public VMStatus GetStatus()
         {
             if (VM.IsPaused) return VMStatus.Paused;
             else if (VM.IsRunning) return VMStatus.Running;
@@ -39,18 +45,18 @@ namespace VMAT.Services
             else return VMStatus.Stopped;
         }
 
-        public static string GetIP()
+        public bool IsRunning()
         {
-            if (!VM.IsRunning)
-                return virtualMachine.IP;
-            else
-            {
-                LoginTools();
-                return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
-            }
+            return VM.IsRunning;
         }
 
-        public static void SetIP(string value)
+        public string GetIP()
+        {
+            LoginTools();
+            return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
+        }
+
+        public void SetIP(string value)
         {
             if (value.Length < 7)
                 throw new InvalidDataException("IP too short");
@@ -77,31 +83,26 @@ namespace VMAT.Services
             }
         }
 
-        public static string GetHostname()
+        public string GetHostname()
         {
-            if (!VM.IsRunning)
-                return virtualMachine.Hostname;
-            else
+            try
             {
-                try
-                {
-                    LoginTools();
-                    Shell guestShell = new Shell(VM.VM); //TODO: mock?
-                    Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
-                    return output.StdOut.Replace("\n", "").Replace("\r", "");
-                }
-                catch (TimeoutException)
-                {
-                    return "hostname_timeout";
-                }
-                catch (Exception)
-                {
-                    return "hostname_error";
-                }
+                LoginTools();
+                Shell guestShell = new Shell(VM.VM); //TODO: mock?
+                Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
+                return output.StdOut.Replace("\n", "").Replace("\r", "");
+            }
+            catch (TimeoutException)
+            {
+                return "hostname_timeout";
+            }
+            catch (Exception)
+            {
+                return "hostname_error";
             }
         }
 
-        public static void SetHostname(string hostname)
+        public void SetHostname(string hostname)
         {
             if (hostname.Length < 3)
                 throw new ArgumentException("Hostname too short");
@@ -151,13 +152,9 @@ namespace VMAT.Services
         /// If the machine is powered off, power it on. Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of startup</returns>
-        public static DateTime PowerOn()
+        public void PowerOn()
         {
             VM.PowerOn();
-            virtualMachine.LastStarted = DateTime.Now;
-            dataDB.SaveChanges();
-
-            return virtualMachine.LastStarted;
         }
 
         /// <summary>
@@ -165,7 +162,7 @@ namespace VMAT.Services
         /// Otherwise, do nothing.
         /// </summary>
         /// <returns>The time of shutdown</returns>
-        public static DateTime PowerOff()
+        public void PowerOff()
         {
             try
             {
@@ -175,19 +172,12 @@ namespace VMAT.Services
             {
                 VM.PowerOff();
             }
-            finally
-            {
-                virtualMachine.LastStopped = DateTime.Now;
-                dataDB.SaveChanges();
-            }
-
-            return virtualMachine.LastStopped;
         }
 
         /// <summary>
         /// Put the machine in a sleeping state.
         /// </summary>
-        public static void Pause()
+        public void Pause()
         {
             VM.Pause();
         }
@@ -195,24 +185,52 @@ namespace VMAT.Services
         /// <summary>
         /// Unsleep the machine.
         /// </summary>
-        public static void Unpause()
+        public void Unpause()
         {
             VM.Unpause();
         }
 
-        public static void Reboot()
+        public void Reboot()
         {
             PowerOff();
             System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
             PowerOn();
         }
 
-        private static void LoginTools(bool waitLong = false)
+        private void LoginTools(bool waitLong = false)
         {
             // TODO: Handle in case powered off better
             if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(waitLong ? 120 : 30); //TODO: refactor this out somewhere
             VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
+        }
+
+        /// <summary>
+        /// Converts datasource-style path to physical network path
+        /// </summary>
+        /// <param name="PathName">Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</param>
+        /// <returns>Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</returns>
+        public static string ConvertPathToPhysical(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetDatastore(), AppConfiguration.GetWebserverVmPath()).Replace('/', '\\');
+        }
+
+        /// <summary>
+        /// Converts physical network path to datasource-style path
+        /// </summary>
+        /// <param name="PathName">Physical absolute path (from webserver to VM server), ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
+        public static string ConvertPathToDatasource(string PathName)
+        {
+            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
+        }
+
+        public static IEnumerable<string> GetRegisteredVMImagePaths()
+        {
+            GetVirtualHost();
+            var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName);
+
+            return ret;
         }
     }
 }

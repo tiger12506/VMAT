@@ -20,12 +20,11 @@ namespace VMAT.ViewModels
 
         public RegisteredVirtualMachineViewModel(RegisteredVirtualMachine vm)
         {
-            RegisteredVirtualMachineService.
-                SetRegisteredVirtualMachine(vm.ImagePathName);
+            var service = new RegisteredVirtualMachineService(vm.ImagePathName);
 
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
-            Status = RegisteredVirtualMachineService.GetStatus().ToString().ToLower();
+            Status = service.GetStatus().ToString().ToLower();
             MachineName = vm.GetMachineName();
             IP = vm.IP;
             CreatedTime = vm.CreatedTime.ToString();

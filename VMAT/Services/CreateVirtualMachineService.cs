@@ -1,58 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
+using System.Linq;
+using VMAT.Models;
 
 namespace VMAT.Services
 {
     public class CreateVirtualMachineService
     {
-        /*
-        /// <summary>
-        /// Create VM using this object's info. Assume that IP is not already taken.
-        /// </summary>
-        /// <returns>New object representing VM</returns>
-        public VMInfo CreateVM()
-        {
+        PendingVirtualMachine VM;
 
-            var vmm = new VMManager();
-            if (vmm.GetRegisteredVMs().Contains(ImagePathName))
+        public CreateVirtualMachineService() { }
+
+        public CreateVirtualMachineService(PendingVirtualMachine vm)
+        {
+            VM = vm;
+        }
+
+        public RegisteredVirtualMachine CreateVM()
+        {
+            if (RegisteredVirtualMachineService.GetRegisteredVMImagePaths().Contains(VM.ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
-            if (!ImagePathName.StartsWith(Config.GetDatastore()) || !BaseImageName.StartsWith(Config.GetDatastore()))
+            if (!VM.ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !VM.BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
-            if (ImagePathName.Length < 8 || BaseImageName.Length < 8 || IP.Length < 7 || HostnameWithDomain.Length < 3)
+            if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7 || VM.Hostname.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
 
             //this all really needs to be async, report status, and handle errors in individual steps better
-            CopyVMFiles();
+            CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
 
-            System.Threading.Thread.Sleep(8 * 1000); //ensure file copied 
+            // Allot VMware time to copy the file
+            System.Threading.Thread.Sleep(8 * 1000);
 
-            VMManager.GetVH().Register(ImagePathName);
+            RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
 
-            var newVM = new VMInfo(ImagePathName);
-
-            newVM.Status = VMStatus.Running;
-        
-            //make triple-double-dog sure that the VM is online and ready
-            System.Threading.Thread.Sleep(180 * 1000); //allow VM time to power on
-            newVM.Reboot();
-            System.Threading.Thread.Sleep(180 * 1000); //allow VM time to power on
-            try
-            {
-
-            }
-            catch (TimeoutException)
-            {
-            }
-            newVM.IP = IP;
-            newVM.HostnameWithDomain = HostnameWithDomain;
-            newVM.BaseImageName = BaseImageName;
-            newVM.ProjectName = ProjectName;
-            newVM.Created = System.DateTime.Now;
-
-            newVM.Reboot();
+            var newVM = new RegisteredVirtualMachine(VM.ImagePathName);
 
             return newVM;
 
@@ -62,8 +43,6 @@ namespace VMAT.Services
             //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
             //we don't seem to have vmware-vdiskmanager 
 
-
-
             //failed try:
             //var baseVM = openVM(info.BaseImageName);
             //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
@@ -71,12 +50,12 @@ namespace VMAT.Services
 
         }
 
-        private void CopyVMFiles()
+        private void CopyVMFiles(string baseImageName, string imagePathName)
         {
-            string sourceVMX = VMInfo.ConvertPathToPhysical(BaseImageName);
+            string sourceVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(baseImageName);
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
             string sourcePath = Path.GetDirectoryName(sourceVMX);
-            string destVMX = VMInfo.ConvertPathToPhysical(ImagePathName);
+            string destVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(imagePathName);
             string destName = Path.GetFileNameWithoutExtension(destVMX);
             string destPath = Path.GetDirectoryName(destVMX);
 
@@ -93,8 +72,8 @@ namespace VMAT.Services
                 strFile += "\r\nuuid.action = \"create\"\r\n";
                 strFile += "msg.autoAnswer = \"TRUE\"\r\n";
             }
+
             File.WriteAllText(destVMX, strFile);
         }
-         * */
     }
 }

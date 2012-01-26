@@ -17,7 +17,7 @@ namespace VMAT.ViewModels
         /// </summary>
         [Required(ErrorMessage = "Project Name must be 4 digits")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
-        [DisplayName("Project Name")]
+        [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
         /// <summary>
@@ -37,9 +37,7 @@ namespace VMAT.ViewModels
         public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }
 
-        public VirtualMachineFormViewModel()
-        {
-        }
+        public VirtualMachineFormViewModel() { }
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {

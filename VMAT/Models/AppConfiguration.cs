@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Web.Configuration;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -51,7 +52,7 @@ namespace VMAT.Models
 
             try
             {
-                VirtualMachineManager.GetVirtualHost();
+                RegisteredVirtualMachineService.GetVirtualHost();
             }
             catch (Exception e)
             {
