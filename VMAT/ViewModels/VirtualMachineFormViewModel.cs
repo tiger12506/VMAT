@@ -33,6 +33,8 @@ namespace VMAT.ViewModels
         public string IP { get; set; }
         public VMLifecycle Lifecycle { get; set; }
 
+        public VirtualMachineFormViewModel() { }
+
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {
             ProjectName = vm.GetProjectName();
