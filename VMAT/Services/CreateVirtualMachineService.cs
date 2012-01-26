@@ -33,7 +33,24 @@ namespace VMAT.Services
 
             RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
 
-            var newVM = new RegisteredVirtualMachine(VM.ImagePathName);
+            try
+            {
+                var service = new RegisteredVirtualMachineService(VM.ImagePathName);
+                // Make triple-double-dog sure that the VM is online and ready.
+                // Allow VM time to power on
+                service.PowerOn();
+                System.Threading.Thread.Sleep(180 * 1000);
+
+                // Allow VM time to reboot
+                service.Reboot();
+                System.Threading.Thread.Sleep(250 * 1000);
+            }
+            catch (TimeoutException)
+            {
+                // TODO: Handle time-out
+            }
+
+            var newVM = new RegisteredVirtualMachine(VM);
 
             return newVM;
 
@@ -47,7 +64,6 @@ namespace VMAT.Services
             //var baseVM = openVM(info.BaseImageName);
             //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
             //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
-
         }
 
         private void CopyVMFiles(string baseImageName, string imagePathName)

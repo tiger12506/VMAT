@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VMAT.Models.VMware;
-using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -56,23 +55,6 @@ namespace VMAT.Models
             Hostname = vm.Hostname;
             BaseImageName = vm.BaseImageName;
             CreatedTime = DateTime.Now;
-
-            try
-            {
-                var service = new RegisteredVirtualMachineService(ImagePathName);
-                // Make triple-double-dog sure that the VM is online and ready.
-                // Allow VM time to power on
-                service.PowerOn();
-                System.Threading.Thread.Sleep(180 * 1000);
-
-                // Allow VM time to reboot
-                service.Reboot();
-                System.Threading.Thread.Sleep(250 * 1000);
-            }
-            catch (TimeoutException)
-            {
-                // TODO: Handle time-out
-            }
         }
     }
 }
