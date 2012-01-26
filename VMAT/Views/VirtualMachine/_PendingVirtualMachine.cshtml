@@ -1,8 +1,8 @@
-﻿@model VMAT.Models.PendingVirtualMachine
+﻿@model VMAT.ViewModels.PendingVirtualMachineViewModel
 
 <div class="machine-info" id="@Model.ImagePathName">
     <span>
-        <span>@Model.GetMachineName() is scheduled to be created at @DateTime.Now</span>
+        <span>@Model.MachineName is scheduled to be created at @ViewBag.CreationTime</span>
         <button class="edit-machine link-button">
             Undo
         </button>

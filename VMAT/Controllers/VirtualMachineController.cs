@@ -11,12 +11,15 @@ namespace VMAT.Controllers
     public class VirtualMachineController : Controller
     {
         IVirtualMachineRepository vmRepo;
+        IConfigurationRepository configRepo;
 
-        public VirtualMachineController() : this(new VirtualMachineRepository()) { }
+        public VirtualMachineController() : 
+            this(new VirtualMachineRepository(), new ConfigurationRepository()) { }
 
-        public VirtualMachineController(IVirtualMachineRepository repo)
+        public VirtualMachineController(IVirtualMachineRepository vms, IConfigurationRepository config)
         {
-            vmRepo = repo;
+            vmRepo = vms;
+            configRepo = config;
         }
 
         //
@@ -31,6 +34,8 @@ namespace VMAT.Controllers
             {
                 projectViewList.Add(new ProjectViewModel(project));
             }
+
+            ViewBag.CreationTime = configRepo.GetVmCreationTime();
 
             return View(projectViewList);
         }

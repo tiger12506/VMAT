@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 
 namespace VMAT.Models
 {
@@ -14,9 +9,11 @@ namespace VMAT.Models
         [DisplayName("Maximum VM Count")]
         public int MaxVMCount { get; set; }
 
+        [DefaultValue(0)]
         [DisplayName("Minimum IP Address")]
         public string MinIP { get; set; }
 
+        [DefaultValue(0)]
         [DisplayName("Maximum IP Address")]
         public string MaxIP { get; set; }
 
@@ -28,5 +25,12 @@ namespace VMAT.Models
 
         [DisplayName("Archive VM Time")]
         public DateTime ArchiveVMTime { get; set; }
+
+        public HostConfiguration()
+        {
+            CreateVMTime = DateTime.Now;
+            BackupVMTime = DateTime.Now;
+            ArchiveVMTime = DateTime.Now;
+        }
     }
 }
