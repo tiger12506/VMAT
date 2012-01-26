@@ -52,7 +52,7 @@ namespace VMAT.Models
 
             try
             {
-                RegisteredVirtualMachineService.SetVirtualHost();
+                RegisteredVirtualMachineService.GetVirtualHost();
             }
             catch (Exception e)
             {

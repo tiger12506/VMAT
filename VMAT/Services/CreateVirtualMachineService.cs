@@ -35,7 +35,7 @@ namespace VMAT.Services
             // Allot VMware time to copy the file
             System.Threading.Thread.Sleep(8 * 1000);
 
-            VirtualMachineManager.GetVirtualHost().Register(VM.ImagePathName);
+            RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
 
             var newVM = new RegisteredVirtualMachine(VM.ImagePathName);
 

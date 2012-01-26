@@ -16,25 +16,22 @@ namespace VMAT.Services
 
         public RegisteredVirtualMachineService(string imagePathName)
         {
-            SetVirtualHost();
+            GetVirtualHost();
 
             VM = virtualHost.Open(imagePathName);
         }
 
         public RegisteredVirtualMachineService(RegisteredVirtualMachine vm) : this(vm.ImagePathName) { }
 
-        public static void SetVirtualHost()
-        {
-            SetVirtualHost(new VirtualHost());
-        }
-
-        public static void SetVirtualHost(IVirtualHost vh)
+        public static IVirtualHost GetVirtualHost()
         {
             if (virtualHost == null)
-                virtualHost = vh;
+                virtualHost = new VirtualHost();
             if (!virtualHost.IsConnected)
                 virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
                     AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+
+           return virtualHost;
         }
 
         public VMStatus GetStatus()
@@ -230,7 +227,7 @@ namespace VMAT.Services
 
         public static IEnumerable<string> GetRegisteredVMImagePaths()
         {
-            SetVirtualHost();
+            GetVirtualHost();
             var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName);
 
             return ret;

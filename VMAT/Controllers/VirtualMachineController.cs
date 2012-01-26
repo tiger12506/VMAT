@@ -58,7 +58,7 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
-            int nextIP = vmRepo.GetNextAvailableIP();
+            string nextIP = vmRepo.GetNextAvailableIP();
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
@@ -94,7 +94,7 @@ namespace VMAT.Controllers
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
-            int nextIP = vmRepo.GetNextAvailableIP();
+            string nextIP = vmRepo.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
@@ -130,7 +130,7 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult GetNextIP()
         {
-            int nextIP = vmRepo.GetNextAvailableIP();
+            string nextIP = vmRepo.GetNextAvailableIP();
 
             return Json(nextIP);
         }

@@ -110,7 +110,7 @@ namespace VMAT.Tests.Models
             return vmList;
         }
 
-        public int GetNextAvailableIP()
+        public string GetNextAvailableIP()
         {
             throw new NotImplementedException();
         }

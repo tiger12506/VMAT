@@ -106,7 +106,7 @@ namespace VMAT.Models
                 as PendingVirtualMachine;
         }
 
-        public int GetNextAvailableIP()
+        public string GetNextAvailableIP()
         {
             List<string> ipList = new List<string>();
             ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
@@ -137,10 +137,10 @@ namespace VMAT.Models
             for (int index = 0; index < usedIP.Length; index++)
             {
                 if (!usedIP[index])
-                    return index;
+                    return index.ToString();
             }
 
-            return -1;
+            return null;
         }
 
         public VMStatus ToggleVMStatus(string image)

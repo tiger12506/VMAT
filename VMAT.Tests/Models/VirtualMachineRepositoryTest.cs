@@ -12,7 +12,7 @@ namespace VMAT.Tests.Models
             var vmRepo = new MockVirtualMachineRepository();
 
             // Act
-            int nextIP = vmRepo.GetNextAvailableIP();
+            string nextIP = vmRepo.GetNextAvailableIP();
             
             // Assert
             Assert.AreEqual(3, nextIP);
