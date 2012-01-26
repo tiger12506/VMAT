@@ -18,7 +18,7 @@ namespace VMAT.ViewModels
         [Required(ErrorMessage = "Project Name must be 4 digits")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Number")]
-        public string ProjectName { get; set; }
+        public string ProjectNumber { get; set; }
 
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
@@ -30,18 +30,19 @@ namespace VMAT.ViewModels
 
         public string BaseImageFile { get; set; }
 
-//        [Required(ErrorMessage = "IP must be of the form a.b.c.d where a,b,c,d are int from 0-255.")]
-//        [IPValidator(ErrorMessage = "Invalid IP Address")]
-        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", 
+            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
+
+        [DisplayName("Lifecycle")]
         public VMLifecycle Lifecycle { get; set; }
 
         public VirtualMachineFormViewModel() { }
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {
-            ProjectName = vm.GetProjectName();
+            ProjectNumber = vm.GetProjectName();
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
