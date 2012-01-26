@@ -477,9 +477,24 @@ button.archive {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2b7b0', endColorstr='#7f7f7f',GradientType=0 ); /* IE6-9 */
   background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
 }
+
+  .project-header .project-display {
+    color: #b6b6b6;
+    background: 0;
+    border: 0;
+    margin-left: 12px;
+  }
+  
+    .project-header .project-display:hover {
+      color: #787777;
+    }
+    
+    .project-header .project-display:active {
+      color: #464646;
+    }
     
   .project-header h2 {
-    margin: 1% 16% 1% 5%;
+    margin: 1% 20px 1% 5px;
     display: inline-block;
   }
 
