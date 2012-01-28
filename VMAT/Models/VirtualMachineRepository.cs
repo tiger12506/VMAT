@@ -150,22 +150,33 @@ namespace VMAT.Models
 
             ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
 
-            bool[] usedIP = new bool[256];
+            bool[] ipUsed = new bool[256];
+            ipUsed[0] = true;
 
             foreach (var ip in ipList)
             {
                 string longIP = ip;
                 int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-                usedIP[ipTail] = true;
+                ipUsed[ipTail] = true;
             }
 
-            for (int index = 0; index < usedIP.Length; index++)
+            for (int index = 0; index < ipUsed.Length; index++)
             {
-                if (!usedIP[index])
-                    return index.ToString();
+                if (!ipUsed[index])
+                    return "192.168.1." + index.ToString();
             }
 
             return null;
+        }
+
+        public void ReserveIP(string imagePathName, string ip)
+        {
+            GlobalReservedIP.ReserveIP(imagePathName, ip);
+        }
+
+        public void UnreserveIP(string ip)
+        {
+            GlobalReservedIP.UnreserveIP(ip);
         }
 
         public VMStatus ToggleVMStatus(string image)
