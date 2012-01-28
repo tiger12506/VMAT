@@ -266,10 +266,6 @@
     <Content Include="Views\Configuration\Host.cshtml" />
     <Content Include="Views\Shared\_Popup.cshtml" />
     <Content Include="Views\VirtualMachine\_ProjectCloseForm.cshtml" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\VirtualMachine\_ClosingProject.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
@@ -278,6 +274,9 @@
     <Content Include="Views\VirtualMachine\_PendingArchiveVirtualMachine.cshtml" />
     <Content Include="Views\VirtualMachine\_PendingVirtualMachine.cshtml" />
     <Content Include="Views\VirtualMachine\_RegisteredVirtualMachine.cshtml" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -301,8 +300,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51619</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost/VMAT</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
