@@ -43,7 +43,7 @@ function undoPendingOperation($container) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/VirtualMachine/UndoPendingOperation",
+        url: $.url("undoPendingOperation"),
         data: "{'image': '" + imagePath + "'}",
         dataType: "json",
         success: function (data) { UndoPendingOperation.successCallback($container); },
