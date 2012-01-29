@@ -83,6 +83,13 @@ namespace VMAT.Models
             return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath);
         }
 
+        public void DeleteVirtualMachine(string imagePath)
+        {
+            VirtualMachine vm = dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath);
+            dataDB.VirtualMachines.Remove(vm);
+            dataDB.SaveChanges();
+        }
+
         public void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm)
         {
             dataDB.VirtualMachines.Add(vm);

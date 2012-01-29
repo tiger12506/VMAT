@@ -9,6 +9,7 @@ namespace VMAT.Models
         IEnumerable<Project> GetProjects();
         IEnumerable<VirtualMachine> GetVirtualMachines();
         VirtualMachine GetVirtualMachine(string imagePath);
+        void DeleteVirtualMachine(string imagePath);
         void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
         RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
         void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);

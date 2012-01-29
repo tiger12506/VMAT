@@ -140,5 +140,11 @@ namespace VMAT.Tests.Models
 
             throw new NullReferenceException();
         }
+
+
+        public void DeleteVirtualMachine(string imagePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
