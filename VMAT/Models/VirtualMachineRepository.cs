@@ -127,56 +127,8 @@ namespace VMAT.Models
 
         public PendingVirtualMachine GetPendingVirtualMachine(string imagePath)
         {
-            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath) 
+            return dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
                 as PendingVirtualMachine;
-        }
-
-        public string GetNextAvailableIP()
-        {
-            List<string> ipList = new List<string>();
-            ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).ToList<string>();
-            // TODO: Actually check these errors
-            try
-            {
-                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().Select(v => v.IP) as List<string>);
-            }
-            catch (Exception) { }
-
-            try
-            {
-                ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().Select(v => v.IP) as List<string>);
-            }
-            catch (Exception) { }
-
-            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
-
-            bool[] ipUsed = new bool[256];
-            ipUsed[0] = true;
-
-            foreach (var ip in ipList)
-            {
-                string longIP = ip;
-                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-                ipUsed[ipTail] = true;
-            }
-
-            for (int index = 0; index < ipUsed.Length; index++)
-            {
-                if (!ipUsed[index])
-                    return "192.168.1." + index.ToString();
-            }
-
-            return null;
-        }
-
-        public void ReserveIP(string imagePathName, string ip)
-        {
-            GlobalReservedIP.ReserveIP(imagePathName, ip);
-        }
-
-        public void UnreserveIP(string ip)
-        {
-            GlobalReservedIP.UnreserveIP(ip);
         }
 
         public VMStatus ToggleVMStatus(string image)
@@ -233,6 +185,49 @@ namespace VMAT.Models
             return vmList;
         }
 
+        public string GetNextAvailableIP()
+        {
+            List<string> ipList = new List<string>();
+            ipList = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().Select(v => v.IP).
+                ToList<string>();
+
+            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingVirtualMachine>().
+                Select(v => v.IP).ToList<string>());
+
+            ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
+                Select(v => v.IP).ToList<string>());
+
+            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
+
+            bool[] ipUsed = new bool[256];
+            ipUsed[0] = true;
+
+            foreach (var ip in ipList)
+            {
+                string longIP = ip;
+                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
+                ipUsed[ipTail] = true;
+            }
+
+            for (int index = 0; index < ipUsed.Length; index++)
+            {
+                if (!ipUsed[index])
+                    return "192.168.1." + index.ToString();
+            }
+
+            return null;
+        }
+
+        public void ReserveIP(string imagePathName, string ip)
+        {
+            GlobalReservedIP.ReserveIP(imagePathName, ip);
+        }
+
+        public void UnreserveIP(string ip)
+        {
+            GlobalReservedIP.UnreserveIP(ip);
+        }
+
         public void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service)
         {
             service.PowerOn();
@@ -249,7 +244,8 @@ namespace VMAT.Models
 
         public static IEnumerable<string> GetBaseImageFiles()
         {
-            List<string> filePaths = new List<string>(Directory.GetFiles(AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+            List<string> filePaths = new List<string>(Directory.GetFiles(
+                AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
             return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }
     }

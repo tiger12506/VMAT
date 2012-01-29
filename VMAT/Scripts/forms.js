@@ -28,6 +28,10 @@ $(document).ready(function () {
             return false;
         }
     });
+
+    $(".project-add-field").focusout(function () {
+        updateProjectNumberList($(this).val());
+    });
 });
 
 
@@ -88,7 +92,10 @@ function displayAddProjectNumberField() {
 }
 
 function updateProjectNumberList(projNumber) {
-    $("#ProjectName").html();
+    if (projNumber)
+        $('#ProjectName').append('<option value=' + projNumber + ' selected="selected">' + 
+            projNumber + '</option>');
+
     $("#ProjectName").show();
     $(".project-add").show();
     $(".project-add-field").val("");
