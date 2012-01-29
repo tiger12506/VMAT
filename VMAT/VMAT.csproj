@@ -301,7 +301,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51619</DevelopmentServerPort>
+          <DevelopmentServerPort>59267</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/VMAT</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
