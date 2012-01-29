@@ -63,13 +63,14 @@ namespace VMAT.Controllers
 
         public ActionResult Create()
         {
-            string nextIP = vmRepo.GetNextAvailableIP();
+            var vmForm = new VirtualMachineFormViewModel();
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
-            ViewBag.IP = nextIP;
+            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            vmForm.IP = vmRepo.GetNextAvailableIP();
 
-            return View();
+            return View(vmForm);
         }
 
         //
@@ -89,6 +90,8 @@ namespace VMAT.Controllers
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
+            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            vmForm.IP = vmRepo.GetNextAvailableIP();
 
             return View(vmForm);
         }
@@ -99,7 +102,6 @@ namespace VMAT.Controllers
         public ActionResult Edit(string img)
         {
             string imageFile = HttpUtility.UrlDecode(img);
-            string nextIP = vmRepo.GetNextAvailableIP();
 
             // TODO: Handle all VM types
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
@@ -107,7 +109,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-            ViewBag.IP = nextIP;
+            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
 
             return View(form);
         }
@@ -125,6 +127,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
+            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
 
             return View(vm);
         }
