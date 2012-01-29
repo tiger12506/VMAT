@@ -59,6 +59,16 @@ namespace VMAT.Controllers
         }
 
         //
+        // POST: /VirtualMachine/UndoPendingOperation
+
+        [HttpPost]
+        public ActionResult UndoPendingOperation(string image)
+        {
+            vmRepo.DeleteVirtualMachine(image);
+            return Json(image);
+        }
+
+        //
         // GET: /VirtualMachine/Create
 
         public ActionResult Create()
