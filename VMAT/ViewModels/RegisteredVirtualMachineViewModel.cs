@@ -1,5 +1,6 @@
 ﻿using VMAT.Models;
 using VMAT.Services;
+using System.Web.UI.WebControls;
 
 namespace VMAT.ViewModels
 {
@@ -7,6 +8,7 @@ namespace VMAT.ViewModels
     {
         public string ImagePathName { get; set; }
         public string BaseImageName { get; set; }
+        public Image OperatingSystemIcon { get; set; }
         public string Status { get; set; }
         public string MachineName { get; set; }
         public string IP { get; set; }
@@ -32,6 +34,9 @@ namespace VMAT.ViewModels
             LastStarted = vm.LastStarted.ToString();
             LastArchived = vm.LastArchived.ToString();
             LastBackuped = vm.LastBackuped.ToString();
+
+            if (vm.BaseImageName == "Windows 7")
+                OperatingSystemIcon = new Image();
         }
     }
 }
