@@ -37,7 +37,8 @@
                 @Html.LabelFor(model => model.Lifecycle)
                 @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Idle,
                     new { @checked = true }) Manual <br />
-                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active) Auto <br />
+                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active,
+                    new { @checked = false }) Auto <br />
             </li>
             <li>
                 @Html.LabelFor(model => model.IP)
