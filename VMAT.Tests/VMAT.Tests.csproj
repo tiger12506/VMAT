@@ -60,9 +60,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
@@ -103,8 +106,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Vestris.VMWareTools.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountControllerTest.cs" />
+    <Compile Include="ConfigurationControllerTest.cs" />
+    <Compile Include="ErrorControllerTest.cs" />
     <Compile Include="Models\MockVirtualMachineRepository.cs" />
     <Compile Include="Models\VirtualMachineRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +124,7 @@
     <Compile Include="Services\CreateVirtualMachineServiceTest.cs" />
     <Compile Include="Services\MockCreateVirtualMachineService.cs" />
     <Compile Include="Services\MockRegisteredVirtualMachineService.cs" />
+    <Compile Include="VirtualMachineControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -133,6 +141,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Shadow Include="Test References\VMAT.accessor" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

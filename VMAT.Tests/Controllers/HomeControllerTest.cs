@@ -17,12 +17,12 @@ namespace VMAT.Tests.Controllers
             var result = controller.Index() as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual(result.RouteValues["action"], "Index");
-            Assert.AreEqual(result.RouteValues["controller"], "VirtualMachine");
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("VirtualMachine", result.RouteValues["controller"]);
         }
 
         [TestMethod]
-        public void About()
+        public void TestAbout()
         {
             // Arrange
             var controller = new HomeController();
@@ -31,11 +31,11 @@ namespace VMAT.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("About", result.ViewName);
         }
 
         [TestMethod]
-        public void Help()
+        public void TestHelp()
         {
             // Arrange
             var controller = new HomeController();
@@ -44,7 +44,7 @@ namespace VMAT.Tests.Controllers
             ViewResult result = controller.Help() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.IsNotNull("Help", result.ViewName);
         }
     }
 }
