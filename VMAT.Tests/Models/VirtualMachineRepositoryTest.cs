@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using VMAT.Models;
 
 namespace VMAT.Tests.Models
 {
@@ -9,14 +11,15 @@ namespace VMAT.Tests.Models
         public void TestGetNextAvailableIP()
         {
             // Arrange
-            var vmRepo = new MockVirtualMachineRepository();
+            var mockRepo = new Mock<IVirtualMachineRepository>();
+            mockRepo.Setup(repo => repo.GetNextAvailableIP()).Returns("192.168.1.1");
 
             // Act
+            IVirtualMachineRepository vmRepo = mockRepo.Object;
             string nextIP = vmRepo.GetNextAvailableIP();
             
             // Assert
-            Assert.AreEqual(3, nextIP);
-            Assert.Inconclusive("Not Implemented");
+            mockRepo.Verify();
         }
     }
 }

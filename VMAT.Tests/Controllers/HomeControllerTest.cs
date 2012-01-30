@@ -12,24 +12,36 @@ namespace VMAT.Tests.Controllers
         {
             // Arrange
             var controller = new HomeController();
-            var destController = new VirtualMachineController();
 
             // Act
-            var result = controller.Index() as RedirectResult;
-            var destView = destController.Index() as ViewResult;
+            var result = controller.Index() as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual(destView, result);
+            Assert.AreEqual(result.RouteValues["action"], "Index");
+            Assert.AreEqual(result.RouteValues["controller"], "VirtualMachine");
         }
 
         [TestMethod]
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            var controller = new HomeController();
 
             // Act
             ViewResult result = controller.About() as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void Help()
+        {
+            // Arrange
+            var controller = new HomeController();
+
+            // Act
+            ViewResult result = controller.Help() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

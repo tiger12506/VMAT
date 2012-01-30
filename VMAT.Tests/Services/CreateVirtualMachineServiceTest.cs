@@ -13,7 +13,6 @@ namespace VMAT.Tests.Services
         {
             // Arrange
             var imageLocation = @"c:/vm.vmx";
-            var vmm = new MockCreateVirtualMachineService();
             var mHost = new Mock<IVirtualHost>();
             var mVM = new Mock<IVirtualMachine>();
             mHost.Setup(host => host.ConnectToVMWareServer("vmat.reshall.rose-hulman.edu", "Nathan", "Vmat1234"));
@@ -22,7 +21,7 @@ namespace VMAT.Tests.Services
             mVM.Setup(vm => vm.LoginInGuest("Administrator", "password"));
 
             // Act
-            vmm.CreateVM(mHost.Object, imageLocation);
+            
 
             // Assert
             mHost.VerifyAll();
