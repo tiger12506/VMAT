@@ -170,6 +170,8 @@ namespace VMAT.Controllers
             {
                 //dataDB.ArchivedVirtualMachines.Add(vm);
             }*/
+            string folderName = AppConfiguration.GetWebserverVmPath() + project;
+            ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
 
             var results = new ClosingProjectViewModel {
                 Action = "archive",

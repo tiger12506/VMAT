@@ -1,8 +1,26 @@
-﻿$(document).ready(function () {
+﻿var $projectName;
+
+$(document).ready(function () {
     // Activate items if JavaScript is enabled
     $(".machine-info .details").hide();
     $(".status button").attr("title", function () {
         setStatusTooltips($(this));
+    });
+
+    $(".project-close").click(function () {
+
+        $projectName = $(this).closest(".project").attr("id");
+        Popup.loadPopup("Close Project G" + $projectName + "?", "#project-close-form");
+
+        $("#popup-content button.archive").click(function () {
+            archiveProject($projectName);
+            Popup.disablePopup();
+        });
+
+        $("#popup-content button.delete").click(function () {
+            deleteProject($projectName);
+            Popup.disablePopup();
+        });
     });
 
     $(".project-display").click(function () {
