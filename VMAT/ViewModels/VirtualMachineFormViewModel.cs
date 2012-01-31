@@ -35,6 +35,7 @@ namespace VMAT.ViewModels
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
+        [DefaultValue(VMLifecycle.Idle)]
         [DisplayName("Lifecycle")]
         public VMLifecycle Lifecycle { get; set; }
 

@@ -31,10 +31,16 @@ namespace VMAT.Models
                 reservedIpList[imagePathName] = ip;
         }
 
-        public static void UnreserveIP(string imagePathName)
+        public static void UnreserveIP(string ip)
         {
             lock (syncSwitch)
-                reservedIpList.Remove(imagePathName);
+            {
+                foreach (var image in reservedIpList.Keys)
+                {
+                    if (reservedIpList[image] == ip)
+                        reservedIpList.Remove(image);
+                }
+            }
         }
     }
 }

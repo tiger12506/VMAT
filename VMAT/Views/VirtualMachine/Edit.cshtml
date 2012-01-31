@@ -22,6 +22,8 @@
             <li>
                 @Html.LabelFor(model => model.ProjectName)
                 @Html.DropDownList("ProjectName")
+                <input type="text" name="project-add-field" class="project-add-field" />
+                <button type="button" class="project-add">Add</button>
                 @Html.ValidationMessageFor(model => model.ProjectName)
             </li>
 
@@ -59,7 +61,7 @@
                     <output name="machinename" for="project-menu machine-suffix">gapdevxxxxyyyyy</output>
                 </td>
                 <td class="pIP">
-                    <output name="ip" for="ip">127.0.0.1</output>
+                    <output name="ip" for="ip">@Model.IP</output>
                 </td>
             </tr>
         </table>

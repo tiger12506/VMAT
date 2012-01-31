@@ -25,7 +25,7 @@ function archiveProject(projectName) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/VirtualMachine/ArchiveProject",
+        url: $.url("archiveProject"),
         data: "{'project': '" + projectName + "'}",
         dataType: "json",
         success: function (data) { CloseProject.successCallback(data, projectName); },
@@ -37,7 +37,7 @@ function deleteProject(projectName) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/VirtualMachine/DeleteProject",
+        url: $.url("deleteProject"),
         data: "{'project': '" + projectName + "'}",
         dataType: "json",
         success: function (data) { CloseProject.successCallback(data, projectName); },
@@ -47,14 +47,6 @@ function deleteProject(projectName) {
 
 CloseProject.successCallback = function (data, project) {
     var $projectContainer = $("#" + project + " .project-machines");
-
-    /*$.ajax({
-        url: "/VirtualMachine/_ClosingProject.cshtml",
-        type: 'GET',
-        dataType: 'html',
-        success: function (result) { $projectContainer.html(result); }
-    });*/
-
     $projectContainer.children(".project-closing h4").text("Project G" + project + " will be " + data.Action + "d at " + data.Time.toString());
     $projectContainer.children(".project-closing button").attr({ "action": data.Action, value: "Undo" });
     

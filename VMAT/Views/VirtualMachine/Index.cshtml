@@ -9,6 +9,15 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/toggleMachineStatus.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/date.format.js")"></script>
 
+<script type="text/javascript">
+    // URL Lookup Table
+    urlTable['undoPendingOperation'] = '@Url.Action("UndoPendingOperation")';
+    urlTable['toggleMachineStatus'] =  '@Url.Action("ToggleStatus")';
+    urlTable['archiveProject'] = '@Url.Action("ArchiveProject")';
+    urlTable['deleteProject'] = '@Url.Action("DeleteProject")';
+    urlTable['getNextIP'] = '@Url.Action("GetNextIP")';
+</script>
+
 <div class="management-header">
     <ul>
         <li>
