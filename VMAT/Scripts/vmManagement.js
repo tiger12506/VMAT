@@ -1,4 +1,5 @@
-﻿// File: vmManagement.js
+﻿var $projectName;
+
 
 var UndoPendingOperation = {};
 
@@ -9,11 +10,27 @@ $(document).ready(function () {
         setStatusTooltips($(this));
     });
 
+    $(".project-close").click(function () {
+
+        $projectName = $(this).closest(".project").attr("id");
+        Popup.loadPopup("Close Project G" + $projectName + "?", "#project-close-form");
+
+        $("#popup-content button.archive").click(function () {
+            archiveProject($projectName);
+            Popup.disablePopup();
+        });
+
+        $("#popup-content button.delete").click(function () {
+            deleteProject($projectName);
+            Popup.disablePopup();
+        });
+    });
+
     $(".project-display").click(function () {
-        if ($(this).text() === "V") {
+        if ($(this).text() === "v") {
             $(this).text(">");
         } else {
-            $(this).text("V");
+            $(this).text("v");
         }
 
         $(this).closest(".project").children(".project-machines").slideToggle(300);

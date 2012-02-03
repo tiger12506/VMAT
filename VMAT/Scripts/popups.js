@@ -3,6 +3,7 @@
 
 // False: Disabled, True: Enabled
 var popupStatus = false;
+var Popup = {};
 
 $(document).ready(function () {
     $("#popup-header").mousedown(function () {
@@ -10,25 +11,19 @@ $(document).ready(function () {
     });
 
     $("#popup-header button.cancel").click(function () {
-        disablePopup();
+        Popup.disablePopup();
     });
 
     $(document).keydown(function (e) {
         if (e.keyCode == 27)
-            disablePopup();
-    });
-
-    $(".project-close").click(function () {
-        var $projectName = $(this).closest(".project").attr("id");
-
-        loadPopup("Close Project G" + $projectName + "?", "#project-close-form");
+            Popup.disablePopup();
     });
 });
 
 // ****** The following borrows code from
 // http://yensdesign.com/2008/09/how-to-create-a-stunning-and-smooth-popup-using-jquery/
 
-function loadPopup(title, element, attributes) {
+Popup.loadPopup = function(title, element, attributes) {
     if (!popupStatus) {
         $("#popup-header > h2").text(title);
 
@@ -43,7 +38,7 @@ function loadPopup(title, element, attributes) {
     }
 }
 
-function disablePopup() { 
+Popup.disablePopup = function() { 
     if (popupStatus) {
         $("#popup").fadeOut("fast", function () {
             $("#popup-header > h2").text("");

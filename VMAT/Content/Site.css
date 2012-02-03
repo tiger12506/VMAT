@@ -7,6 +7,10 @@
   padding: 0;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background: #bdbfba;
   font-size: 1em;
