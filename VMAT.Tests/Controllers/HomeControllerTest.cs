@@ -8,7 +8,7 @@ namespace VMAT.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void TestIndexRedirects()
+        public void HomeIndexRedirectsToVirtualMachine()
         {
             // Arrange
             var controller = new HomeController();
@@ -22,29 +22,29 @@ namespace VMAT.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestAbout()
+        public void About()
         {
             // Arrange
             var controller = new HomeController();
 
             // Act
-            ViewResult result = controller.About() as ViewResult;
+            var result = controller.About();
 
             // Assert
-            Assert.AreEqual("About", result.ViewName);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void TestHelp()
+        public void Help()
         {
             // Arrange
             var controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Help() as ViewResult;
+            var result = controller.Help();
 
             // Assert
-            Assert.IsNotNull("Help", result.ViewName);
+            Assert.IsNotNull(result);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Data.Entity;
 using VMAT.Models;
 
 namespace VMAT.Tests.Models
@@ -7,8 +8,10 @@ namespace VMAT.Tests.Models
     [TestClass]
     public class VirtualMachineRepositoryTest
     {
+        private Mock<DbContext> mockDB = new Mock<DbContext>();
+        
         [TestMethod]
-        public void TestGetNextAvailableIP()
+        public void GetNextAvailableIP()
         {
             // Arrange
             var mockRepo = new Mock<IVirtualMachineRepository>();

@@ -8,42 +8,42 @@ namespace VMAT.Tests.Controllers
     public class ErrorControllerTest
     {
         [TestMethod]
-        public void TestIndex()
+        public void ErrorIndex()
         {
             // Arrange
             var controller = new ErrorController();
 
             // Act
-            var result = controller.Index() as ViewResult;
+            var result = controller.Index();
 
             // Assert
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void TestForbidden()
+        public void Forbidden()
         {
             // Arrange
             var controller = new ErrorController();
 
             // Act
-            var result = controller.Forbidden() as ViewResult;
+            var result = controller.Forbidden();
 
             // Assert
-            Assert.AreEqual("Forbidden", result.ViewName);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void TestPageNotFound()
+        public void PageNotFound()
         {
             // Arrange
             var controller = new ErrorController();
 
             // Act
-            var result = controller.PageNotFound() as ViewResult;
+            var result = controller.PageNotFound();
 
             // Assert
-            Assert.AreEqual("PageNotFound", result.ViewName);
+            Assert.IsNotNull(result);
         }
     }
 }

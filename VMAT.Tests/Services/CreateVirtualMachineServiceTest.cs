@@ -9,7 +9,7 @@ namespace VMAT.Tests.Services
     {
         //TODO: doesn't test right method
         [TestMethod]
-        public void TestCreateVM()
+        public void CreateVirtualMachine()
         {
             // Arrange
             var imageLocation = @"c:/vm.vmx";
