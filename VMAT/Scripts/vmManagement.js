@@ -27,10 +27,10 @@ $(document).ready(function () {
     });
 
     $(".project-display").click(function () {
-        if ($(this).text() === "V") {
+        if ($(this).text() === "v") {
             $(this).text(">");
         } else {
-            $(this).text("V");
+            $(this).text("v");
         }
 
         $(this).closest(".project").children(".project-machines").slideToggle(300);
