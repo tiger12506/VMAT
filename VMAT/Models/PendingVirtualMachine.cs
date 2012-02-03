@@ -17,8 +17,12 @@ namespace VMAT.Models
             string machineName = "gapdev" + vmForm.ProjectName + vmForm.MachineNameSuffix;
             ImagePathName = vmForm.ProjectName + "/" + machineName + "/" + machineName + ".vmx";
             BaseImageName = vmForm.BaseImageFile;
-            Lifecycle = vmForm.Lifecycle;
             IP = vmForm.IP;
+
+            if (vmForm.IsAutoStarted)
+                Lifecycle = VMLifecycle.Active;
+            else
+                Lifecycle = VMLifecycle.Idle;
         }
     }
 }

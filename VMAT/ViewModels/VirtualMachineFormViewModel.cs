@@ -35,9 +35,9 @@ namespace VMAT.ViewModels
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
-        [DefaultValue(VMLifecycle.Idle)]
-        [DisplayName("Lifecycle")]
-        public VMLifecycle Lifecycle { get; set; }
+        [DefaultValue(false)]
+        [DisplayName("Startup")]
+        public bool IsAutoStarted { get; set; }
 
         public VirtualMachineFormViewModel() { }
 
@@ -47,7 +47,11 @@ namespace VMAT.ViewModels
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
-            Lifecycle = vm.Lifecycle;
+
+            if (vm.Lifecycle == VMLifecycle.Active)
+                IsAutoStarted = true;
+            else if (vm.Lifecycle == VMLifecycle.Idle)
+                IsAutoStarted = false;
         }
     }
 }
