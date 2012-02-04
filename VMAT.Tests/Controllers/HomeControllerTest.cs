@@ -8,28 +8,40 @@ namespace VMAT.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void TestIndexRedirects()
+        public void HomeIndexRedirectsToVirtualMachine()
         {
             // Arrange
             var controller = new HomeController();
-            var destController = new VirtualMachineController();
 
             // Act
-            var result = controller.Index() as RedirectResult;
-            var destView = destController.Index() as ViewResult;
+            var result = controller.Index() as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual(destView, result);
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("VirtualMachine", result.RouteValues["controller"]);
         }
 
         [TestMethod]
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            var controller = new HomeController();
 
             // Act
-            ViewResult result = controller.About() as ViewResult;
+            var result = controller.About();
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void Help()
+        {
+            // Arrange
+            var controller = new HomeController();
+
+            // Act
+            var result = controller.Help();
 
             // Assert
             Assert.IsNotNull(result);

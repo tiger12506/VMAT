@@ -3,5 +3,4 @@
 *.vsmdi
 TestResults/
 *.testsettings
-BackendVMWare/App.config
-VMatOld/
+VMAT.wiki/
