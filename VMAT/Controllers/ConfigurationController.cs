@@ -40,5 +40,15 @@ namespace VMAT.Controllers
 
             return View(config);
         }
+
+        //
+        // GET: /Configuration/Check
+
+        public ActionResult Check()
+        {
+            ViewData["ConfigCheckOutput"] = AppConfiguration.CheckConfigSettings();
+            return View();
+        }
+
     }
 }
