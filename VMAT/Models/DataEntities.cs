@@ -9,6 +9,6 @@ namespace VMAT.Models
     public class DataEntities : DbContext
     {
         public DbSet<VirtualMachine> VirtualMachines { get; set; }
-        public HostConfiguration HostConfiguration { get; set; }
+        public DbSet<HostConfiguration> HostConfiguration { get; set; }
     }
 }
