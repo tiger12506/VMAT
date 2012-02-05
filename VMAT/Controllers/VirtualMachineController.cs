@@ -12,8 +12,8 @@ namespace VMAT.Controllers
     [HandleError]
     public class VirtualMachineController : Controller
     {
-        IVirtualMachineRepository vmRepo;
-        IConfigurationRepository configRepo;
+        private IVirtualMachineRepository vmRepo;
+        private IConfigurationRepository configRepo;
 
         public VirtualMachineController() : 
             this(new VirtualMachineRepository(), new ConfigurationRepository()) { }
