@@ -16,7 +16,7 @@ namespace VMAT.ViewModels
         /// 4-digit project identifier
         /// </summary>
         [Required(ErrorMessage = "Project Name must be 4 digits")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
+        [RegularExpression("[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
