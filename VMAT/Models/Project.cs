@@ -26,7 +26,9 @@ namespace VMAT.Models
         /// </summary>
         public List<VirtualMachine> VirtualMachines { get; set; }
 
-        public Project(string name) : this(name, "vmat.csse.rose-hulman.edu") { }
+        public Project() { }
+
+        public Project(string name) : this(name, AppConfiguration.GetVMHostName()) { }
 
         public Project(string name, string hostname)
         {

@@ -7,7 +7,8 @@ namespace VMAT.Models
 {
     public class RegisteredVirtualMachine : VirtualMachine
     {
-        [StringLength(15, ErrorMessage = "Invalid IP Address")]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 

@@ -40,7 +40,6 @@ namespace VMAT.Controllers
             ViewBag.CreationTime = configRepo.GetVmCreationTime();
             ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
             ViewBag.BackupTime = configRepo.GetVmBackupTime();
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
 
             return View(projectViewList);
         }
