@@ -164,7 +164,6 @@
     <Compile Include="Services\RegisteredVirtualMachineService.cs" />
     <Compile Include="Models\RegisteredVirtualMachine.cs" />
     <Compile Include="Models\VirtualMachine.cs" />
-    <Compile Include="Models\VirtualMachineManager.cs" />
     <Compile Include="Models\VMware\IProcess.cs" />
     <Compile Include="Models\VMware\IVirtualHost.cs" />
     <Compile Include="Models\VMware\IVirtualMachine.cs" />
