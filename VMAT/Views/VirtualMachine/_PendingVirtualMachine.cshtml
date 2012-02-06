@@ -1,17 +1,19 @@
 ﻿@model VMAT.ViewModels.PendingVirtualMachineViewModel
 
 <div class="machine-info pending" id="@Model.ImagePathName">
-    <span>
-        <span class="message">@Model.MachineName is scheduled to be created at @ViewBag.CreationTime</span>
-        <button class="undo-pending">
-            Undo
-        </button>
-    </span>
-    <span class="tControls">
-        <button type="button" class="toggle-details">
-            Show More
-        </button>
-    </span>
+    <div class="primary">
+        <span class="pending-message">
+            <span class="message">@Model.MachineName is scheduled to be created at @ViewBag.CreationTime</span>
+            <button class="undo-pending">
+                Undo
+            </button>
+        </span>
+        <span class="tControls">
+            <button type="button" class="toggle-details">
+                Show More
+            </button>
+        </span>
+    </div>
     <div class="details">
         <table>
             <tr>

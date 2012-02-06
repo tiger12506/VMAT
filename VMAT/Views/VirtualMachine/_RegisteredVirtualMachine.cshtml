@@ -1,34 +1,36 @@
 ﻿@model VMAT.ViewModels.RegisteredVirtualMachineViewModel
 
 <div class="machine-info registered" id="@Model.ImagePathName">
-    <div class="status">
-        <button type="button" status="@Model.Status"></button>
+    <div class="primary">
+        <div class="status">
+            <button type="button" status="@Model.Status"></button>
+        </div>
+        <table>
+            <tr>
+                <th>Machine Name</th>
+                <th>IP Address</th>
+                <th>Date Created</th>
+                <th>Last Shutdown Time</th>
+                <th>
+                    <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
+                        class="edit-machine link-button">
+                        Edit
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <td class="tMachinename">@Model.MachineName</td>
+                <td class="tIP">@Model.IP</td>
+                <td class="tCreated">@Model.CreatedTime</td>
+                <td class="tStopped">@Model.LastStopped</td>
+                <td class="tControls">
+                    <button type="button" class="toggle-details">
+                        Show More
+                    </button>
+                </td>
+            </tr>
+        </table>
     </div>
-    <table>
-        <tr>
-            <th>Machine Name</th>
-            <th>IP Address</th>
-            <th>Date Created</th>
-            <th>Last Shutdown Time</th>
-            <th>
-                <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
-                    class="edit-machine link-button">
-                    Edit
-                </a>
-            </th>
-        </tr>
-        <tr>
-            <td class="tMachinename">@Model.MachineName</td>
-            <td class="tIP">@Model.IP</td>
-            <td class="tCreated">@Model.CreatedTime</td>
-            <td class="tStopped">@Model.LastStopped</td>
-            <td class="tControls">
-                <button type="button" class="toggle-details">
-                    Show More
-                </button>
-            </td>
-        </tr>
-    </table>
     <div class="details">
         <table>
             <tr>
@@ -41,7 +43,7 @@
             </tr>
             <tr>
                 <td class="tStatus"><!-- Empty --></td>
-                <td class="tImagefile">@Model.OperatingSystemIcon</td>
+                <td class="tOS">@Model.OperatingSystemIcon</td>
                 <td class="tStarted">@Model.LastStarted</td>
                 <td class="tBackuped">@Model.LastBackuped</td>
                 <td class="tArchived">@Model.LastArchived</td>
