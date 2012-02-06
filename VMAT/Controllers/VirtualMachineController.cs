@@ -81,7 +81,7 @@ namespace VMAT.Controllers
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
             return View(vmForm);
