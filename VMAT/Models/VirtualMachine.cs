@@ -29,6 +29,9 @@ namespace VMAT.Models
         [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
+        [DisplayName("Operating System")]
+        public string OS { get; set; }
+
         [DisplayName("Hostname")]
         public string Hostname { get; set; }
 
