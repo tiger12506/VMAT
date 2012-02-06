@@ -660,7 +660,10 @@ button.archive {
   }
   
     .machine-info.pending .pending-message .message {
-      margin-right: 15px;
+      position: relative;
+      float: left;
+      width: 580px;
+      top: 6px;
     }
     
   .machine-info.pending .primary {
