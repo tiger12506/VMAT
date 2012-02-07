@@ -31,12 +31,31 @@ namespace VMAT.Services
             CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
 
             // Allot VMware time to copy the file
-            System.Threading.Thread.Sleep(8 * 1000);
+            System.Threading.Thread.Sleep(16 * 1000);
 
             RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
+            var service = new RegisteredVirtualMachineService(VM.ImagePathName);
 
-            SetIPHostname();
+            try
+            {
+                // Make triple-double-dog sure that the VM is online and ready.
+                // Allow VM time to power on
+                service.PowerOn();
+                System.Threading.Thread.Sleep(180 * 1000);
 
+                // Allow VM time to reboot
+                service.Reboot();
+                System.Threading.Thread.Sleep(250 * 1000);
+            }
+            catch (TimeoutException)
+            {
+
+            }
+            SetIPHostname(service);
+
+            // Allow VM time to reboot
+            service.Reboot();
+            System.Threading.Thread.Sleep(250 * 1000);
             
 
             var newVM = new RegisteredVirtualMachine(VM);
@@ -54,32 +73,25 @@ namespace VMAT.Services
             //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
             //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
         }
-        private void SetIPHostname(bool retry=true)
+        private void SetIPHostname(RegisteredVirtualMachineService service, bool retry = true)
         {
             try
             {
-                var service = new RegisteredVirtualMachineService(VM.ImagePathName);
-                // Make triple-double-dog sure that the VM is online and ready.
-                // Allow VM time to power on
-                service.PowerOn();
-                System.Threading.Thread.Sleep(180 * 1000);
-
-                // Allow VM time to reboot
-                service.Reboot();
-                System.Threading.Thread.Sleep(250 * 1000);
-
-                service.SetIP(VM.IP);
+                System.Threading.Thread.Sleep(8 * 1000);
                 service.SetHostname(VM.Hostname);
                 System.Threading.Thread.Sleep(8 * 1000);
-
-                // Allow VM time to reboot
-                service.Reboot();
-                System.Threading.Thread.Sleep(250 * 1000);
+                service.SetIP(VM.IP);
+                System.Threading.Thread.Sleep(8 * 1000);
 
             }
             catch (TimeoutException)
             {
-                if (retry) SetIPHostname(false);
+                if (retry) SetIPHostname(service, false);
+                // TODO: Handle time-out
+            }
+            catch (Exception)
+            {
+                if (retry) SetIPHostname(service, false);
                 // TODO: Handle time-out
             }
 
