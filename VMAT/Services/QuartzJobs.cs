@@ -9,7 +9,7 @@ namespace VMAT.Services
     public class MyJob : IJob
     {
         #region IJob Members
-
+        private static Models.DataEntities dataDB = new Models.DataEntities();
         public void Execute(JobExecutionContext context)
         {
             JobDataMap data = context.MergedJobDataMap;
@@ -22,7 +22,16 @@ namespace VMAT.Services
 
         public static void CreateEm()
         {
+            var ls=dataDB.VirtualMachines.OfType<Models.PendingVirtualMachine>();
+            foreach (var pendingVM in ls)
+            {
+                var service = new CreateVirtualMachineService(pendingVM);
+                var regVM = service.CreateVM();
+                dataDB.VirtualMachines.Remove(pendingVM);
+                dataDB.VirtualMachines.Add(regVM);
+                dataDB.SaveChanges();
 
+            }
         }
     }
 }

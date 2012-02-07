@@ -13,10 +13,9 @@ namespace VMAT.Controllers
         //
         // GET: /Configuration/Test
 
-        public ActionResult Index()
+        public ActionResult TestRun()
         {
-            var j=new VMAT.Services.MyJob();
-            j.Execute();
+            VMAT.Services.MyJob.CreateEm();
 
             return RedirectToAction("Host");
             
