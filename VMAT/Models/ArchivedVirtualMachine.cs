@@ -42,6 +42,16 @@ namespace VMAT.Models
 
         public static void ArchiveFile(string sourceName, string outName)
         {
+            //SevenZip.SevenZipCompressor s = new SevenZip.SevenZipCompressor();
+            //SevenZip.SevenZipCompressor.SetLibraryPath(@"C:\Program Files\7-Zip\7z.dll");
+            //s.ArchiveFormat = SevenZip.OutArchiveFormat.SevenZip;
+            //s.CompressionLevel = SevenZip.CompressionLevel.Fast;
+            ////s.CompressDirectory("C:\\Users\\sylvaiam\\VMAT\\VMat", @"C:\Users\sylvaiam\VMAT\VMat\bin\Vmat.7z");
+            //if (System.IO.Directory.Exists(sourceName))
+            //    s.CompressDirectory(sourceName, @"C:\Users\sylvaiam\VMAT\VMat\bin\Vmat.7z");
+            //else
+            //    s.CompressFiles(outName, new string[] { sourceName });
+
             // 1
             // Initialize process information.
             //
@@ -64,18 +74,18 @@ namespace VMAT.Models
             x.WaitForExit();
 
 
-            //this way, a command window pops up momentarily
-            var bob = System.IO.Directory.GetCurrentDirectory();  
-            System.Diagnostics.Process l = new System.Diagnostics.Process();
-            l.StartInfo.FileName = "7za.exe";
-            l.StartInfo.Arguments = "a -t7z " + AppConfiguration.GetHostVmPath() + outName + "2 " + sourceName;
-            l.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            l.EnableRaisingEvents = true;
-            l.StartInfo.UseShellExecute = false;
-            l.StartInfo.RedirectStandardOutput = true;
-            l.Start(); // This is were it throuws the exception because it can't find the file.
-            //// Do stuff to verify zip archive is not corrupt
-            l.WaitForExit();
+            ////this way, a command window pops up momentarily
+            //var bob = System.IO.Directory.GetCurrentDirectory();  
+            //System.Diagnostics.Process l = new System.Diagnostics.Process();
+            //l.StartInfo.FileName = "7za.exe";
+            //l.StartInfo.Arguments = "a -t7z " + AppConfiguration.GetHostVmPath() + outName + "2 " + sourceName;
+            //l.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            //l.EnableRaisingEvents = true;
+            //l.StartInfo.UseShellExecute = false;
+            //l.StartInfo.RedirectStandardOutput = true;
+            //l.Start(); // This is were it throuws the exception because it can't find the file.
+            ////// Do stuff to verify zip archive is not corrupt
+            //l.WaitForExit();
         }
     }
 }
