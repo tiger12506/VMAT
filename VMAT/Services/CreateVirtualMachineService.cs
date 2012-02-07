@@ -7,6 +7,8 @@ namespace VMAT.Services
 {
     public class CreateVirtualMachineService
     {
+
+
         PendingVirtualMachine VM;
 
         public CreateVirtualMachineService() { }

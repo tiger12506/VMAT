@@ -9,6 +9,19 @@ namespace VMAT.Controllers
 {
     public class ConfigurationController : Controller
     {
+
+        //
+        // GET: /Configuration/Test
+
+        public ActionResult Index()
+        {
+            var j=new VMAT.Services.MyJob();
+            j.Execute();
+
+            return RedirectToAction("Host");
+            
+        }
+
         //
         // GET: /Configuration/
 

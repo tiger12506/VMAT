@@ -13,12 +13,16 @@ namespace VMAT.Services
         public void Execute(JobExecutionContext context)
         {
             JobDataMap data = context.MergedJobDataMap;
-
+            
             string msg = data.GetString("MessageToLog") ?? string.Empty;
 
         }
 
         #endregion
 
+        public static void CreateEm()
+        {
+
+        }
     }
 }
