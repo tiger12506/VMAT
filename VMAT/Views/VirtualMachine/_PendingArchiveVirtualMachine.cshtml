@@ -1,22 +1,23 @@
 ﻿@model VMAT.ViewModels.PendingArchiveVirtualMachineViewModel
 
 <div class="machine-info pending-archive" id="@Model.ImagePathName">
-    <div class="status">
-        <button type="button" status="@Model.Status"></button>
+    <div class="primary">
+        <div class="status">
+            <button type="button" status="@Model.Status"></button>
+        </div>
+
+        <span>
+            <span>@Model.MachineName is scheduled to be archived at @ViewBag.ArchiveTime</span>
+            <button class="edit-machine link-button">
+                Undo
+            </button>
+        </span>
+        <span class="tControls">
+            <button type="button" class="toggle-details">
+                Show More
+            </button>
+        </span>
     </div>
-
-    <span>
-        <span>@Model.MachineName is scheduled to be archived at @ViewBag.ArchiveTime</span>
-        <button class="edit-machine link-button">
-            Undo
-        </button>
-    </span>
-    <span class="tControls">
-        <button type="button" class="toggle-details">
-            Show More
-        </button>
-    </span>
-
     <div class="details">
         <table>
             <tr>
