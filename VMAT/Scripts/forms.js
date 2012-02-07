@@ -42,7 +42,7 @@ function updatePreviewPane() {
     var machineSuffix = $("#MachineNameSuffix").val();
     var ip = $("#IP").val();
 
-    $(".pProject").text("G" + projectNumber);
+    $(".pProject").text(projectNumber);
     $(".pHostname").text("vmat.rose-hulman.edu");
 
     if (machineSuffix && machineSuffix.length <= 5)
