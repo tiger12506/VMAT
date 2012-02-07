@@ -16,7 +16,7 @@ namespace VMAT.ViewModels
         /// 4-digit project identifier
         /// </summary>
         [Required(ErrorMessage = "Project Name must be 4 digits")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
+        [RegularExpression("[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must be 4 digits")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
@@ -35,9 +35,9 @@ namespace VMAT.ViewModels
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
-        [DefaultValue(VMLifecycle.Idle)]
-        [DisplayName("Lifecycle")]
-        public VMLifecycle Lifecycle { get; set; }
+        [DefaultValue(false)]
+        [DisplayName("Startup")]
+        public bool IsAutoStarted { get; set; }
 
         public VirtualMachineFormViewModel() { }
 
@@ -47,7 +47,11 @@ namespace VMAT.ViewModels
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
-            Lifecycle = vm.Lifecycle;
+
+            if (vm.Lifecycle == VMLifecycle.Active)
+                IsAutoStarted = true;
+            else if (vm.Lifecycle == VMLifecycle.Idle)
+                IsAutoStarted = false;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace VMAT.Models
 
                 if (!found)
                 {
-                    var newProject = new Project(projectName, vm.Hostname,
+                    var newProject = new Project(projectName, AppConfiguration.GetVMHostName(),
                         new List<VirtualMachine> { vm });
                     projects.Add(newProject);
                 }
@@ -63,7 +63,7 @@ namespace VMAT.Models
 
                     if (!found)
                     {
-                        var newProject = new Project(projectName, vm.Hostname,
+                        var newProject = new Project(projectName, AppConfiguration.GetVMHostName(),
                             new List<VirtualMachine> { vm });
                         projects.Add(newProject);
                     }
@@ -181,7 +181,7 @@ namespace VMAT.Models
 
                 if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = service.GetHostname();
+                    vm.Hostname = AppConfiguration.GetVMHostName();
                     vm.IP = service.GetIP();
                 }
 

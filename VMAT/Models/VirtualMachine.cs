@@ -29,6 +29,9 @@ namespace VMAT.Models
         [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
+        [DisplayName("Operating System")]
+        public string OS { get; set; }
+
         [DisplayName("Hostname")]
         public string Hostname { get; set; }
 
@@ -61,7 +64,9 @@ namespace VMAT.Models
             int start = ImagePathName.LastIndexOf("gapdev") + "gapdev".Length;
             int length = 4;
 
-            return ImagePathName.Substring(start, length);
+            if(ImagePathName.Substring(start).StartsWith("G"))
+                return /*"G" + */ImagePathName.Substring(start, length + 1);
+            return /*"G" + */ImagePathName.Substring(start, length);
         }
 
         public static string GetProjectName(string imagePathName)
@@ -69,7 +74,9 @@ namespace VMAT.Models
             int start = imagePathName.LastIndexOf("gapdev") + "gapdev".Length;
             int length = 4;
 
-            return imagePathName.Substring(start, length);
+            if (imagePathName.Substring(start).StartsWith("G"))
+                return /*"G" + */imagePathName.Substring(start, length + 1);
+            return /*"G" + */imagePathName.Substring(start, length);
         }
     }
 }

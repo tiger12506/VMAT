@@ -1,8 +1,12 @@
-﻿@model VMAT.Models.PendingArchiveVirtualMachine
+﻿@model VMAT.ViewModels.PendingArchiveVirtualMachineViewModel
 
-<div class="machine-info" id="@Model.ImagePathName">
+<div class="machine-info pending-archive" id="@Model.ImagePathName">
+    <div class="status">
+        <button type="button" status="@Model.Status"></button>
+    </div>
+
     <span>
-        <span>@Model.GetMachineName() is scheduled to be archived at @DateTime.Now</span>
+        <span>@Model.MachineName is scheduled to be archived at @ViewBag.ArchiveTime</span>
         <button class="edit-machine link-button">
             Undo
         </button>
@@ -12,16 +16,54 @@
             Show More
         </button>
     </span>
+
     <div class="details">
         <table>
             <tr>
-                <th>Image File</th>
+                <th>Machine Name</th>
                 <th>IP Address</th>
+                <th>Date Created</th>
+                <th>Last Shutdown Time</th>
+                <th>
+                    <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
+                        class="edit-machine link-button">
+                        Edit
+                    </a>
+                </th>
             </tr>
             <tr>
-                <td class="tImagefile">@Model.BaseImageName</td>
+                <td class="tMachinename">@Model.MachineName</td>
                 <td class="tIP">@Model.IP</td>
+                <td class="tCreated">@Model.CreatedTime</td>
+                <td class="tStopped">@Model.LastStopped</td>
+                <td class="tControls">
+                    <button type="button" class="toggle-details">
+                        Show More
+                    </button>
+                </td>
             </tr>
         </table>
-    </div>  
+        <div>
+            <table>
+                <tr>
+                    <th><!-- Empty --></th>
+                    <th>Operating System</th>
+                    <th>Last Start Time</th>
+                    <th>Last Backup Time</th>
+                    <th>Last Archive Time</th>
+                    <th><!-- No Data --></th>
+                </tr>
+                <tr>
+                    <td class="tStatus"><!-- Empty --></td>
+                    <td class="tImagefile">@Model.OperatingSystemIcon</td>
+                    <td class="tStarted">@Model.LastStarted</td>
+                    <td class="tBackuped">@Model.LastBackuped</td>
+                    <td class="tArchived">@Model.LastArchived</td>
+                    <td class="tEmpty">
+                        <!-- No Data -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

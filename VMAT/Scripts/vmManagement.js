@@ -13,7 +13,7 @@ $(document).ready(function () {
     $(".project-close").click(function () {
 
         $projectName = $(this).closest(".project").attr("id");
-        Popup.loadPopup("Close Project G" + $projectName + "?", "#project-close-form");
+        Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
 
         $("#popup-content button.archive").click(function () {
             archiveProject($projectName);
@@ -27,10 +27,10 @@ $(document).ready(function () {
     });
 
     $(".project-display").click(function () {
-        if ($(this).text() === "V") {
+        if ($(this).text() === "v") {
             $(this).text(">");
         } else {
-            $(this).text("V");
+            $(this).text("v");
         }
 
         $(this).closest(".project").children(".project-machines").slideToggle(300);
