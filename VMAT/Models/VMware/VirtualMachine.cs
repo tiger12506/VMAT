@@ -312,7 +312,8 @@ namespace VMAT.Models.VMware
 
         public void PowerOff()
         {
-            vm.PowerOff();
+            if(vm.IsRunning)
+                vm.PowerOff();
         }
 
         public void PowerOff(int powerOffOptions, int timeoutInSeconds)
