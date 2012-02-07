@@ -171,7 +171,6 @@
     <Compile Include="Services\RegisteredVirtualMachineService.cs" />
     <Compile Include="Models\RegisteredVirtualMachine.cs" />
     <Compile Include="Models\VirtualMachine.cs" />
-    <Compile Include="Models\VirtualMachineManager.cs" />
     <Compile Include="Models\VMware\IProcess.cs" />
     <Compile Include="Models\VMware\IVirtualHost.cs" />
     <Compile Include="Models\VMware\IVirtualMachine.cs" />
@@ -296,10 +295,7 @@
     <None Include="_bin_deployableAssemblies\System.Web.Mvc.dll" />
     <None Include="readme.txt" />
     <Content Include="Views\Home\Help.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\VirtualMachine\Index.cshtml" />
     <Content Include="Views\VirtualMachine\Edit.cshtml" />

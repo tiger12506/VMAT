@@ -12,8 +12,8 @@ namespace VMAT.Controllers
     [HandleError]
     public class VirtualMachineController : Controller
     {
-        IVirtualMachineRepository vmRepo;
-        IConfigurationRepository configRepo;
+        private IVirtualMachineRepository vmRepo;
+        private IConfigurationRepository configRepo;
 
         public VirtualMachineController() : 
             this(new VirtualMachineRepository(), new ConfigurationRepository()) { }
@@ -38,7 +38,8 @@ namespace VMAT.Controllers
             }
 
             ViewBag.CreationTime = configRepo.GetVmCreationTime();
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
+            ViewBag.BackupTime = configRepo.GetVmBackupTime();
 
             return View(projectViewList);
         }
@@ -80,7 +81,7 @@ namespace VMAT.Controllers
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
             return View(vmForm);
@@ -100,8 +101,25 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
+            bool projectNameExists = false;
+
+            foreach (var item in projectName)
+            {
+                if (item.Value == vmForm.ProjectName)
+                {
+                    projectNameExists = true;
+                    break;
+                }
+            }
+
+            if (!projectNameExists)
+            {
+                // TODO: Add in new project numbers
+            }
+
+            ViewBag.ProjectName = projectName;
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
             ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
             vmForm.IP = vmRepo.GetNextAvailableIP();

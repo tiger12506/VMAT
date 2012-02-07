@@ -2,17 +2,10 @@
 
 namespace VMAT.ViewModels
 {
-    public class PendingArchiveVirtualMachineViewModel
+    public class PendingArchiveVirtualMachineViewModel : RegisteredVirtualMachineViewModel
     {
-        public string MachineName { get; set; }
-        public string ArchiveTime { get; set; }
+        public PendingArchiveVirtualMachineViewModel() : base() { }
 
-        public PendingArchiveVirtualMachineViewModel() { }
-
-        public PendingArchiveVirtualMachineViewModel(PendingArchiveVirtualMachine vm)
-        {
-            MachineName = vm.GetMachineName();
-            //ArchiveTime = GetArchiveTime().ToString();
-        }
+        public PendingArchiveVirtualMachineViewModel(PendingArchiveVirtualMachine vm) : base(vm) { }
     }
 }

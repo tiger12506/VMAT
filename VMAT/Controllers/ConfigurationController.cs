@@ -9,7 +9,6 @@ namespace VMAT.Controllers
 {
     public class ConfigurationController : Controller
     {
-
         //
         // GET: /Configuration/Test
 
@@ -18,7 +17,15 @@ namespace VMAT.Controllers
             VMAT.Services.MyJob.CreateEm();
 
             return RedirectToAction("Host");
-            
+        }
+
+        private IConfigurationRepository configRepo;
+
+        public ConfigurationController() : this(new ConfigurationRepository()) { }
+
+        public ConfigurationController(IConfigurationRepository config)
+        {
+            configRepo = config;
         }
 
         //
@@ -34,9 +41,7 @@ namespace VMAT.Controllers
 
         public ActionResult Host()
         {
-            var config = new HostConfiguration();
-
-            return View(config);
+            return View(configRepo.GetHostConfiguration());
         }
 
         //
@@ -47,6 +52,8 @@ namespace VMAT.Controllers
         {
             if (ModelState.IsValid)
             {
+                configRepo.SetHostConfiguration(config);
+
                 return RedirectToAction("Index", "VirtualMachine");
             }
 

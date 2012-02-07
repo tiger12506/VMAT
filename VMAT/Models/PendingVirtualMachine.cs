@@ -6,7 +6,8 @@ namespace VMAT.Models
 {
     public class PendingVirtualMachine : VirtualMachine
     {
-        [StringLength(15, ErrorMessage ="Invalid IP Address")]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
@@ -15,9 +16,10 @@ namespace VMAT.Models
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
             string machineName = "gapdev" + vmForm.ProjectName + vmForm.MachineNameSuffix;
-            ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + machineName + "/" + machineName + ".vmx";
             Hostname = machineName;
+            ImagePathName = AppConfiguration.GetDatastore() + "G" + vmForm.ProjectName + "/" + machineName + "/" + machineName + ".vmx";
             BaseImageName = vmForm.BaseImageFile;
+            Hostname = AppConfiguration.GetVMHostName();
             IP = vmForm.IP;
 
             if (vmForm.IsAutoStarted)

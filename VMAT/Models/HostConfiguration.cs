@@ -1,19 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VMAT.Models
 {
     public class HostConfiguration
     {
-        [DefaultValue(0)]
+        [Key]
+        [ScaffoldColumn(false)]
+        [DisplayName("Hostname")]
+        public string Hostname { get; set; }
+
         [DisplayName("Maximum VM Count")]
         public int MaxVMCount { get; set; }
 
-        [DefaultValue(0)]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("Minimum IP Address")]
         public string MinIP { get; set; }
 
-        [DefaultValue(0)]
+        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
         [DisplayName("Maximum IP Address")]
         public string MaxIP { get; set; }
 
@@ -28,9 +35,13 @@ namespace VMAT.Models
 
         public HostConfiguration()
         {
-            CreateVMTime = DateTime.Now;
-            BackupVMTime = DateTime.Now;
-            ArchiveVMTime = DateTime.Now;
+            Hostname = "vmat.rose-hulman.edu";
+            MaxVMCount = 0;
+            MinIP = "192.168.1.1";
+            MaxIP = "192.168.1.255";
+            CreateVMTime = DateTime.Now.AddHours(12);
+            BackupVMTime = DateTime.Now.AddHours(12);
+            ArchiveVMTime = DateTime.Now.AddHours(12);
         }
     }
 }

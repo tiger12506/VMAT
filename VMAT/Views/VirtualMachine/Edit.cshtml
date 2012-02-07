@@ -15,28 +15,29 @@
         <ol>
             <li>
                 @Html.LabelFor(model => model.MachineNameSuffix)
-                @Html.EditorFor(model => model.MachineNameSuffix)
+                @Html.TextBoxFor(model => model.MachineNameSuffix,
+                    new { @maxlength = "5" })
                 @Html.ValidationMessageFor(model => model.MachineNameSuffix)
             </li>
 
             <li>
                 @Html.LabelFor(model => model.ProjectName)
                 @Html.DropDownList("ProjectName")
-                <input type="text" name="project-add-field" class="project-add-field" />
+                @Html.TextBoxFor(model => model.ProjectName, new { @class = "project-add-field", @maxlength = "4" })
                 <button type="button" class="project-add">Add</button>
                 @Html.ValidationMessageFor(model => model.ProjectName)
             </li>
 
             <li>
-                @Html.LabelFor(model => model.IP)
-                @Html.EditorFor(model => model.IP)
-                @Html.ValidationMessageFor(model => model.IP)
+                @Html.LabelFor(model => model.IsAutoStarted)
+                @Html.RadioButtonFor(model => model.IsAutoStarted, false) Manual <br />
+                @Html.RadioButtonFor(model => model.IsAutoStarted, true) Auto <br />
             </li>
 
             <li>
-                @Html.LabelFor(model => model.Lifecycle)
-                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Idle) Manual <br />
-                @Html.RadioButtonFor(model => model.Lifecycle, VMAT.Models.VMLifecycle.Active) Auto <br />
+                @Html.LabelFor(model => model.IP)
+                @Html.TextBoxFor(model => model.IP, new { @maxlength = "15" })
+                @Html.ValidationMessageFor(model => model.IP)
             </li>
         </ol>
     </fieldset>

@@ -1,27 +1,29 @@
 ﻿@model VMAT.Models.ArchivedVirtualMachine 
 
 <div class="machine-info" id="@Model.ImagePathName">
-    <table>
-        <tr>
-            <th>Machine Name</th>
-            <th>Archive Time</th>
-            <th>
-                <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
-                    class="edit-machine link-button">
-                    Unarchive
-                </a>
-            </th>
-        </tr>
-        <tr>
-            <td class="tMachinename">@Model.GetMachineName()</td>
-            <td class="tArchived">@Model.LastArchived</td>
-            <td class="tControls">
-                <button type="button" class="toggle-details">
-                    Show More
-                </button>
-            </td>
-        </tr>
-    </table>
+    <div class="primary">
+        <table>
+            <tr>
+                <th>Machine Name</th>
+                <th>Archive Time</th>
+                <th>
+                    <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
+                        class="edit-machine link-button">
+                        Unarchive
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <td class="tMachinename">@Model.GetMachineName()</td>
+                <td class="tArchived">@Model.LastArchived</td>
+                <td class="tControls">
+                    <button type="button" class="toggle-details">
+                        Show More
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
     <div class="details">
         <table>
             <tr>
