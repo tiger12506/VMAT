@@ -23,7 +23,7 @@
             <li>
                 @Html.LabelFor(model => model.ProjectName)
                 @Html.DropDownList("ProjectName")
-                @Html.TextBoxFor(model => model.ProjectName, new { @class = "project-add-field", @maxlength = "4" })
+                @Html.TextBoxFor(model => model.ProjectName, new { @class = "project-add-field", @maxlength = "5" })
                 <button type="button" class="project-add">Add</button>
                 @Html.ValidationMessageFor(model => model.ProjectName)
             </li>
@@ -63,7 +63,7 @@
                     <output name="projectnumber" for="project-menu">Gxxxx</output>
                 </td>
                 <td class="pHostname">
-                    <output name="hostname">example.com</output>
+                    <output name="hostname">@ViewBag.Hostname</output>
                 </td>
                 <td class="pMachinename">
                     <output name="machinename" for="project-menu machine-suffix">gapdevxxxxyyyyy</output>
