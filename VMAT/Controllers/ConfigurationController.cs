@@ -14,7 +14,7 @@ namespace VMAT.Controllers
 
         public ActionResult TestRun()
         {
-            VMAT.Services.MyJob.CreateEm();
+            VMAT.Services.QuartzJobs.CreatePendingVMs();
 
             return RedirectToAction("Host");
         }

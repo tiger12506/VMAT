@@ -14,6 +14,7 @@ namespace VMAT
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -41,6 +42,15 @@ namespace VMAT
             RegisterRoutes(RouteTable.Routes);
 
             GlobalReservedIP.CreateList();
+
+
+            //VMAT Add Quartz jobs
+            Services.QuartzJobs.RegisterJobs();
+
+        }
+        protected void Application_End()
+        {
+
         }
     }
 }
