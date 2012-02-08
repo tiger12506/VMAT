@@ -33,11 +33,11 @@ namespace VMAT.Services
             // Allot VMware time to copy the file
             System.Threading.Thread.Sleep(16 * 1000);
 
-            RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
-            var service = new RegisteredVirtualMachineService(VM.ImagePathName);
-
+            RegisteredVirtualMachineService service=null;
             try
             {
+                RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
+                service = new RegisteredVirtualMachineService(VM.ImagePathName);
                 // Make triple-double-dog sure that the VM is online and ready.
                 // Allow VM time to power on
                 service.PowerOn();
@@ -47,7 +47,7 @@ namespace VMAT.Services
                 service.Reboot();
                 System.Threading.Thread.Sleep(250 * 1000);
             }
-            catch (TimeoutException)
+            catch (Exception)
             {
 
             }

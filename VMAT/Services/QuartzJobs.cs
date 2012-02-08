@@ -26,10 +26,23 @@ namespace VMAT.Services
             foreach (var pendingVM in ls)
             {
                 var service = new CreateVirtualMachineService(pendingVM);
-                var regVM = service.CreateVM();
-                dataDB.VirtualMachines.Remove(pendingVM);
-                dataDB.VirtualMachines.Add(regVM);
-                dataDB.SaveChanges();
+                Models.RegisteredVirtualMachine regVM=null;
+                try
+                {
+                    regVM = service.CreateVM();
+                }
+                catch (Exception) { }
+
+                //if that excepts, this should still continue
+                try
+                {
+                    dataDB.VirtualMachines.Remove(pendingVM);
+                    dataDB.VirtualMachines.Add(regVM);
+                }
+                finally
+                {
+                    dataDB.SaveChanges();
+                }
 
             }
         }
