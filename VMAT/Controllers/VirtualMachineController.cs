@@ -68,7 +68,16 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult UndoPendingOperation(string image)
         {
-            vmRepo.DeleteVirtualMachine(image);
+            try
+            {
+                vmRepo.DeleteVirtualMachine(image);
+            }
+            catch (InvalidOperationException)
+            {
+                // If this fails, the VM is already removed from the database.
+                // Therefore, ignore it and send success response.
+            }
+
             return Json(image);
         }
 
@@ -231,12 +240,14 @@ namespace VMAT.Controllers
             string folderName = AppConfiguration.GetWebserverVmPath() + project;
             ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
             //needs to store the created archive file in the database
+            /*
             var results = new ClosingProjectViewModel {
                 Action = "archive",
                 Time = DateTime.Now
             };
 
-            return Json(results);
+            return Json(results);*/
+            return RedirectToAction("Index");
         }
 
         //
