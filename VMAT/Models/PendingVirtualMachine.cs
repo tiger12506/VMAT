@@ -16,10 +16,10 @@ namespace VMAT.Models
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
             string machineName = "gapdev" + vmForm.ProjectName + vmForm.MachineNameSuffix;
-            Hostname = machineName;
+            Hostname = machineName; //note doesn't follow other conventions currently
+            //Hostname = AppConfiguration.GetVMHostName(); 
             ImagePathName = AppConfiguration.GetDatastore() + "G" + vmForm.ProjectName + "/" + machineName + "/" + machineName + ".vmx";
             BaseImageName = vmForm.BaseImageFile;
-            Hostname = AppConfiguration.GetVMHostName();
             IP = vmForm.IP;
 
             if (vmForm.IsAutoStarted)

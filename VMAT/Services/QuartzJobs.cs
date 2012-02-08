@@ -23,7 +23,7 @@ namespace VMAT.Services
         public static void CreateEm()
         {
             var ls=dataDB.VirtualMachines.OfType<Models.PendingVirtualMachine>();
-            foreach (var pendingVM in ls)
+            foreach (Models.PendingVirtualMachine pendingVM in ls)
             {
                 var service = new CreateVirtualMachineService(pendingVM);
                 Models.RegisteredVirtualMachine regVM=null;

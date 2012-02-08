@@ -26,7 +26,7 @@ namespace VMAT.Services
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
             if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7 || VM.Hostname.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
-
+            
             //this all really needs to be async, report status, and handle errors in individual steps better
             CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
 
