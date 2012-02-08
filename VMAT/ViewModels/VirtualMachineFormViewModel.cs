@@ -15,8 +15,8 @@ namespace VMAT.ViewModels
         /// <summary>
         /// 4-digit project identifier
         /// </summary>
-        [Required(ErrorMessage = "Project Name must be 4 digits")]
-        [RegularExpression("[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must be 4 digits")]
+        [Required(ErrorMessage = "Project Name is required")]
+        [RegularExpression("G[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
@@ -31,7 +31,7 @@ namespace VMAT.ViewModels
         public string BaseImageFile { get; set; }
 
         [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", 
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+            ErrorMessage = "Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 

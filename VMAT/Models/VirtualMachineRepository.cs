@@ -211,9 +211,16 @@ namespace VMAT.Models
 
             foreach (var ip in ipList)
             {
-                string longIP = ip;
-                int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-                ipUsed[ipTail] = true;
+                try
+                {
+                    string longIP = ip;
+                    int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
+                    ipUsed[ipTail] = true;
+                }
+                catch (NullReferenceException)
+                {
+                    // Ignore if a stored IP address is NULL
+                }
             }
 
             for (int index = 0; index < ipUsed.Length; index++)
