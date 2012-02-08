@@ -84,6 +84,5 @@ UndoPendingOperation.successCallback = function ($container) {
 };
 
 UndoPendingOperation.failureCallback = function (error, imagePath) {
-    alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " +
-        JSON.parse(error.responseText));
+    alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
 };

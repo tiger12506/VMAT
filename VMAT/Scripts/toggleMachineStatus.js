@@ -44,8 +44,7 @@ ToggleMachineStatus.successCallback = function (data, button) {
 };
 
 ToggleMachineStatus.failureCallback = function (error, machineName, button) {
-    alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " +
-        JSON.parse(error.responseText));
+    alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + JSON.parse(error.responseText));
     resetTransitionButton(button);
 };
 
