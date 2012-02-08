@@ -1,7 +1,7 @@
 ﻿@model VMAT.ViewModels.VirtualMachineFormViewModel
 
 @{
-    ViewBag.Title = "Edit Machine";
+    ViewBag.Title = "Edit Machine gapdev" + Model.ProjectName + Model.MachineNameSuffix;
 }
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
@@ -13,6 +13,7 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <ol>
+        @*
             <li>
                 @Html.LabelFor(model => model.MachineNameSuffix)
                 @Html.TextBoxFor(model => model.MachineNameSuffix,
@@ -27,7 +28,7 @@
                 <button type="button" class="project-add">Add</button>
                 @Html.ValidationMessageFor(model => model.ProjectName)
             </li>
-
+            *@
             <li>
                 @Html.LabelFor(model => model.IsAutoStarted)
                 @Html.RadioButtonFor(model => model.IsAutoStarted, false) Manual <br />
@@ -42,7 +43,7 @@
         </ol>
     </fieldset>
     
-    <fieldset name="preview" id="preview">
+    @*<fieldset name="preview" id="preview">
         <legend>Preview</legend>
         <table>
             <tr>
@@ -66,7 +67,7 @@
                 </td>
             </tr>
         </table>
-    </fieldset>
+    </fieldset>*@
     
     <input type="submit" value="Update" />
     
