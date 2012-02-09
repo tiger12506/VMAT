@@ -15,29 +15,29 @@ namespace VMAT.ViewModels
         /// <summary>
         /// 4-digit project identifier
         /// </summary>
-        [Required(ErrorMessage = "Project Name must be 4 digits")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Project Name must be 4 digits")]
+        [Required(ErrorMessage = "Must be in the form 'G1234'")]
+        [RegularExpression("G[0-9]{4}", ErrorMessage = "Must be in the form 'G1234'")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
         /// </summary>
-        [Required(ErrorMessage = "Suffix must be 1 < length < 5, and composed only of alphanumeric chars")]
-        [RegularExpression("^[a-z-A-Z0-9]{1,5}$", ErrorMessage = "Suffix must be 1 < length < 5, and composed only of alphanumeric chars")]
+        [Required(ErrorMessage = "Suffix must be 1-5 alphanumeric chars")]
+        [RegularExpression("^[a-z-A-Z0-9]{1,5}$", ErrorMessage = "Suffix must be 1-5 alphanumeric chars")]
         [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }
 
         public string BaseImageFile { get; set; }
 
         [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", 
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+            ErrorMessage = "Invalid IP Address")]
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
-        [DefaultValue(VMLifecycle.Idle)]
-        [DisplayName("Lifecycle")]
-        public VMLifecycle Lifecycle { get; set; }
+        [DefaultValue(false)]
+        [DisplayName("Startup")]
+        public bool IsAutoStarted { get; set; }
 
         public VirtualMachineFormViewModel() { }
 
@@ -47,7 +47,11 @@ namespace VMAT.ViewModels
             MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
-            Lifecycle = vm.Lifecycle;
+            
+            if (vm.Lifecycle == VMLifecycle.Active)
+                IsAutoStarted = true;
+            else if (vm.Lifecycle == VMLifecycle.Idle)
+                IsAutoStarted = false;
         }
     }
 }
