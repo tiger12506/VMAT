@@ -56,7 +56,7 @@ namespace VMAT.Services
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error registering or first-booting new VM, will attempt to continue", ex));
+                new SchedulerInfo("Error registering or first-booting new VM, will attempt to continue", ex).LogElmah();
             }
             SetIPHostname(service);
 
@@ -75,10 +75,6 @@ namespace VMAT.Services
             //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
             //we don't seem to have vmware-vdiskmanager 
 
-            //failed try:
-            //var baseVM = openVM(info.BaseImageName);
-            //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
-            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
         }
         private void SetIPHostname(RegisteredVirtualMachineService service, bool retry = true)
         {
@@ -94,8 +90,7 @@ namespace VMAT.Services
             catch (Exception ex)
             {
                 if (retry) SetIPHostname(service, false);
-                else Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error setting IP or hostname of new VM, will need to be manually set but will continue", ex));
-                // TODO: Handle time-out
+                else new SchedulerInfo("Error setting IP or hostname of new VM, will need to be manually set but will continue", ex).LogElmah();
             }
 
         }

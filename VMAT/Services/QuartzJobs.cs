@@ -22,6 +22,14 @@ namespace VMAT.Services
             : base(message, innerException)
         {
         }
+        /// <summary>
+        /// Logs this exception in Elmah
+        /// </summary>
+        public void LogElmah()
+        {
+            //can't use this cuz no http context: Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            ErrorLog.GetDefault(null).Log(new Error(this));
+        }
     }
     public class QuartzJobs
     {
@@ -60,6 +68,7 @@ namespace VMAT.Services
 
             sched.ScheduleJob(archiveJD, archiveTrigger);
 
+            new SchedulerInfo("Jobs scheduled (Application_Start fired)").LogElmah();
         }
 
         public static void ArchivePendingVMs()
@@ -67,7 +76,7 @@ namespace VMAT.Services
             var ls = dataDB.VirtualMachines.OfType<Models.PendingArchiveVirtualMachine>();
             foreach (var pendingVM in ls)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Beginning archive of hostname " + pendingVM.Hostname));
+                new SchedulerInfo("Beginning archive of hostname " + pendingVM.Hostname).LogElmah();
                 var service = new ArchiveVirtualMachineService();
                 try
                 {
@@ -75,7 +84,7 @@ namespace VMAT.Services
                 }
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    new SchedulerInfo("Uncaught VM archive error", ex).LogElmah();
                 }
 
                 //important: if that excepts, this should probably still continue?
@@ -84,10 +93,9 @@ namespace VMAT.Services
                     dataDB.VirtualMachines.Remove(pendingVM);
                     //dataDB.VirtualMachines.Add(regVM);
                 }
-
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    new SchedulerInfo("Error updating database post-VM archive, may need manual modification", ex).LogElmah();
                 }
                 try
                 {
@@ -96,11 +104,11 @@ namespace VMAT.Services
 
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex));
+                    new SchedulerInfo("Error updating database post-VM archive, may need manual modification", ex).LogElmah();
                 }
 
             }
-            Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("All archiving completed"));
+            new SchedulerInfo("All archiving completed").LogElmah();
         }
 
         public static void CreatePendingVMs()
@@ -108,7 +116,7 @@ namespace VMAT.Services
             var ls = dataDB.VirtualMachines.OfType<Models.PendingVirtualMachine>();
             foreach (Models.PendingVirtualMachine pendingVM in ls)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Beginning creation of hostname " + pendingVM.Hostname));
+                new SchedulerInfo("Beginning creation of hostname " + pendingVM.Hostname).LogElmah();
                 var service = new CreateVirtualMachineService(pendingVM);
                 Models.RegisteredVirtualMachine regVM = null;
                 try
@@ -117,7 +125,7 @@ namespace VMAT.Services
                 }
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    new SchedulerInfo("Uncaught VM creation error",ex).LogElmah();
                 }
 
                 //if that excepts, this should still continue
@@ -126,10 +134,9 @@ namespace VMAT.Services
                     dataDB.VirtualMachines.Remove(pendingVM);
                     dataDB.VirtualMachines.Add(regVM);
                 }
-
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex));
+                    new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex).LogElmah();
                 }
                 try
                 {
@@ -138,11 +145,11 @@ namespace VMAT.Services
 
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex));
+                    new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex).LogElmah();
                 }
 
             }
-            Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("All creation completed"));
+            new SchedulerInfo("All creation completed").LogElmah();
 
         }
     }
@@ -152,9 +159,9 @@ namespace VMAT.Services
         #region IJob Members
         public void Execute(JobExecutionContext context)
         {
-            JobDataMap data = context.MergedJobDataMap;
+            //JobDataMap data = context.MergedJobDataMap;
 
-            string msg = data.GetString("MessageToLog") ?? string.Empty;
+            //string msg = data.GetString("MessageToLog") ?? string.Empty;
 
             QuartzJobs.CreatePendingVMs();
         }
@@ -168,9 +175,9 @@ namespace VMAT.Services
         #region IJob Members
         public void Execute(JobExecutionContext context)
         {
-            JobDataMap data = context.MergedJobDataMap;
+            //JobDataMap data = context.MergedJobDataMap;
 
-            string msg = data.GetString("MessageToLog") ?? string.Empty;
+            //string msg = data.GetString("MessageToLog") ?? string.Empty;
 
             QuartzJobs.ArchivePendingVMs();
         }
