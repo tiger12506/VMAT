@@ -195,17 +195,10 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult UndoPendingArchiveOperation(string image)
         {
-            try
-            {
-                vmRepo.DeleteVirtualMachine(image);
-            }
-            catch (InvalidOperationException)
-            {
-                // If this fails, the VM is already removed from the database.
-                // Therefore, ignore it and send success response.
-            }
+            vmRepo.UndoScheduleArchiveVirtualMachine(image);
 
-            return Json(image);
+            //return Json(image);
+            return RedirectToAction("Index");
         }
 
         //
@@ -224,15 +217,8 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ArchiveMachine(RegisteredVirtualMachine vm)
         {
-            try
-            {
-                vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
-                vmRepo.DeleteVirtualMachine(vm.ImagePathName);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
+            vmRepo.DeleteVirtualMachine(vm.ImagePathName);
             
             return RedirectToAction("Index");
         }
@@ -262,13 +248,13 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult DeleteProject(string project)
         {
-            //var proj = proj.ProjectName;
-            var results = new ClosingProjectViewModel {
+            /*var results = new ClosingProjectViewModel {
                 Action = "delete",
                 Time = DateTime.Now
             };
 
-            return Json(results);
+            return Json(results);*/
+            return RedirectToAction("Index");
         }
     }
 }

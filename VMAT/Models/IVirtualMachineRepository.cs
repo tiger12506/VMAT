@@ -16,6 +16,7 @@ namespace VMAT.Models
         void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);
         void ScheduleArchiveVirtualMachine(string imagePath);
         void ScheduleArchiveProject(string projectName);
+        void UndoScheduleArchiveVirtualMachine(string imagePath);
         PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
         void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
         ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
