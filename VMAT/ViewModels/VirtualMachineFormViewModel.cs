@@ -23,8 +23,8 @@ namespace VMAT.ViewModels
         /// <summary>
         /// The readable name of the virtual machine, derived from the Image Path Name.
         /// </summary>
-        [Required(ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
-        [StringLength(5, ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [Required(ErrorMessage = "Suffix must be 1 < length < 5, and composed only of alphanumeric chars")]
+        [RegularExpression("^[a-z-A-Z0-9]{1,5}$", ErrorMessage = "Suffix must be 1 < length < 5, and composed only of alphanumeric chars")]
         [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }
 
