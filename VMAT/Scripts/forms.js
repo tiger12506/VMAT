@@ -74,7 +74,7 @@ function updateBaseImagePreview() {
 
 function getNextAvailableIP() {
     $.ajax({
-        type: "POST",
+        type: "GET",
         contentType: "application/json; charset=utf-8",
         url: $.url("getNextIP"),
         data: "{ }",

@@ -35,14 +35,12 @@ namespace VMAT
         {
             AreaRegistration.RegisterAllAreas();
 
+            //Database.SetInitializer<DataEntities>(
             Database.SetInitializer<DataEntities>(
                 new DropCreateDatabaseIfModelChanges<DataEntities>());
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
-            GlobalReservedIP.CreateList();
-
 
             //VMAT Add Quartz jobs
             Services.QuartzJobs.RegisterJobs();

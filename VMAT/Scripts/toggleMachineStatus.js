@@ -1,8 +1,5 @@
 ﻿// File: toggleMachineStatus.js
 
-// Declare ToggleMachineStatus namespace
-var ToggleMachineStatus = {};
-
 $(document).ready(function () {
     $(".status > button").click(function () {
         var $imagePath = $(this).closest(".machine-info").attr("id");
@@ -15,38 +12,38 @@ $(document).ready(function () {
 });
 
 function toggleMachineStatus(machineName, button) {
+    var successCallback = function(data, button) {
+        var status = ((String)(data.Status)).toLowerCase();
+        var $machine = $(button).closest(".machine-info");
+
+        var milli = data.LastShutdownTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+        var stopped = new Date(parseInt(milli));
+
+        milli = data.LastStartTime.replace(/\/Date\((-?\d+)\)\//, '$1');
+        var started = new Date(parseInt(milli));
+
+        $(button).attr("status", status);
+        $machine.find(".tStopped").text(dateFormat(stopped, "m/dd/yyyy HH:MM:ss"));
+        $machine.find(".tStarted").text(dateFormat(started, "m/dd/yyyy HH:MM:ss"));
+        setStatusTooltips(button);
+        resetTransitionButton(button);
+    };
+
+    var failureCallback = function (error, machineName, button) {
+        alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + JSON.parse(error.responseText));
+        resetTransitionButton(button);
+    };
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: $.url("toggleMachineStatus"),
         data: "{'image': '" + machineName + "'}",
         dataType: "json",
-        success: function (data) { ToggleMachineStatus.successCallback(data, button); },
-        error: function (error) { ToggleMachineStatus.failureCallback(error, machineName, button); }
+        success: function (data) { successCallback(data, button); },
+        error: function (error) { failureCallback(error, machineName, button); }
     });
 }
-
-ToggleMachineStatus.successCallback = function (data, button) {
-    var status = ((String)(data.Status)).toLowerCase();
-    var $machine = $(button).closest(".machine-info");
-
-    var milli = data.LastShutdownTime.replace(/\/Date\((-?\d+)\)\//, '$1');
-    var stopped = new Date(parseInt(milli));
-
-    milli = data.LastStartTime.replace(/\/Date\((-?\d+)\)\//, '$1');
-    var started = new Date(parseInt(milli));
-
-    $(button).attr("status", status);
-    $machine.find(".tStopped").text(dateFormat(stopped, "m/dd/yyyy HH:MM:ss"));
-    $machine.find(".tStarted").text(dateFormat(started, "m/dd/yyyy HH:MM:ss"));
-    setStatusTooltips(button);
-    resetTransitionButton(button);
-};
-
-ToggleMachineStatus.failureCallback = function (error, machineName, button) {
-    alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + JSON.parse(error.responseText));
-    resetTransitionButton(button);
-};
 
 function resetTransitionButton(button) {
     $(button).removeClass("transition");

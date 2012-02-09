@@ -8,7 +8,7 @@
 
         <span>
             <span>@Model.MachineName is scheduled to be archived at @ViewBag.ArchiveTime</span>
-            <button class="edit-machine link-button">
+            <button class="undo-pending">
                 Undo
             </button>
         </span>
@@ -37,11 +37,6 @@
                 <td class="tIP">@Model.IP</td>
                 <td class="tCreated">@Model.CreatedTime</td>
                 <td class="tStopped">@Model.LastStopped</td>
-                <td class="tControls">
-                    <button type="button" class="toggle-details">
-                        Show More
-                    </button>
-                </td>
             </tr>
         </table>
         <div>

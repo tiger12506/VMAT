@@ -10,8 +10,6 @@ namespace VMAT.Models
     {
         private DataEntities dataDB = new DataEntities();
 
-        int[] reservedIPs;
-
         public void CreateProject(Project proj)
         {
             throw new NotImplementedException();
@@ -21,7 +19,7 @@ namespace VMAT.Models
         {
             var projects = new List<Project>();
 
-            foreach (var vm in GetRegisteredVMs())
+            foreach (var vm in GetAllRegisteredVirtualMachines())
             {
                 string projectName = vm.GetProjectName();
                 bool found = false;
@@ -73,9 +71,49 @@ namespace VMAT.Models
             return projects;
         }
 
-        public IEnumerable<VirtualMachine> GetVirtualMachines()
+        public IEnumerable<VirtualMachine> GetAllVirtualMachines()
         {
             return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
+        }
+
+        public IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines()
+        {
+            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
+            var vmList = new List<RegisteredVirtualMachine>();
+
+            foreach (var path in imagePathNames)
+            {
+                RegisteredVirtualMachine vm;
+
+                try
+                {
+                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
+                        Single(d => d.ImagePathName == path);
+                }
+                catch (ArgumentNullException)
+                {
+                    vm = new RegisteredVirtualMachine(path);
+                    dataDB.VirtualMachines.Add(vm);
+                }
+                catch (InvalidOperationException)
+                {
+                    vm = new RegisteredVirtualMachine(path);
+                    dataDB.VirtualMachines.Add(vm);
+                }
+
+                var service = new RegisteredVirtualMachineService(path);
+
+                if (service.GetStatus() == VMStatus.Running)
+                {
+                    vm.Hostname = AppConfiguration.GetVMHostName();
+                    vm.IP = service.GetIP();
+                }
+
+                dataDB.SaveChanges();
+                vmList.Add(vm);
+            }
+
+            return vmList;
         }
 
         public VirtualMachine GetVirtualMachine(string imagePath)
@@ -106,6 +144,26 @@ namespace VMAT.Models
         {
             dataDB.VirtualMachines.Add(vm);
             dataDB.SaveChanges();
+        }
+
+        public void ScheduleArchiveVirtualMachine(string imagePath)
+        {
+            var vm = dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath) 
+                as RegisteredVirtualMachine;
+            var archiveVm = new PendingArchiveVirtualMachine(vm);
+            dataDB.VirtualMachines.Add(archiveVm);
+            dataDB.VirtualMachines.Remove(vm);
+        }
+
+        public void ScheduleArchiveProject(string projectName)
+        {
+            IEnumerable<RegisteredVirtualMachine> vms = GetAllRegisteredVirtualMachines();
+
+            foreach (var vm in vms)
+            {
+                if (vm.GetProjectName() == projectName)
+                    ScheduleArchiveVirtualMachine(vm.ImagePathName);
+            }
         }
 
         public PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath)
@@ -152,46 +210,6 @@ namespace VMAT.Models
             return service.GetStatus();
         }
 
-        public IEnumerable<VirtualMachine> GetRegisteredVMs()
-        {
-            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
-            var vmList = new List<VirtualMachine>();
-
-            foreach (var path in imagePathNames)
-            {
-                RegisteredVirtualMachine vm;
-
-                try
-                {
-                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                        Single(d => d.ImagePathName == path);
-                }
-                catch (ArgumentNullException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-                catch (InvalidOperationException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-
-                var service = new RegisteredVirtualMachineService(path);
-
-                if (service.GetStatus() == VMStatus.Running)
-                {
-                    vm.Hostname = AppConfiguration.GetVMHostName();
-                    vm.IP = service.GetIP();
-                }
-
-                dataDB.SaveChanges();
-                vmList.Add(vm);
-            }
-
-            return vmList;
-        }
-
         public string GetNextAvailableIP()
         {
             List<string> ipList = new List<string>();
@@ -203,8 +221,6 @@ namespace VMAT.Models
 
             ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
                 Select(v => v.IP).ToList<string>());
-
-            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
 
             bool[] ipUsed = new bool[256];
             ipUsed[0] = true;
