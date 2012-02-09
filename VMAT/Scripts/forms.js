@@ -1,8 +1,5 @@
 ﻿//File: forms.js
 
-// Declare GetNextAvailableIP namespace
-var GetNextAvailableIP = {};
-
 $(document).ready(function () {
     // Update on load
     updatePreviewPane();
@@ -73,24 +70,23 @@ function updateBaseImagePreview() {
 }
 
 function getNextAvailableIP() {
+    var successCallback = function (data) {
+        $(".pIP").text(data);
+    }
+
+    var failureCallback = function (error) {
+        alert("Failed to get next available IP address: " + error.status);
+    }
+
     $.ajax({
-        type: "POST",
+        type: "GET",
         contentType: "application/json; charset=utf-8",
         url: $.url("getNextIP"),
         data: "{ }",
         dataType: "json",
-        success: function (data) { GetNextAvailableIP.successCallback(data); },
-        error: function (error) { GetNextAvailableIP.failureCallback(error); }
+        success: function (data) { successCallback(data); },
+        error: function (error) { failureCallback(error); }
     });
-}
-
-GetNextAvailableIP.successCallback = function (data) {
-    $(".pIP").text(data);
-}
-
-GetNextAvailableIP.failureCallback = function (error) {
-    alert("Failed to get next available IP address: " + error.status + " - " + 
-        JSON.parse(error.responseText));
 }
 
 function displayAddProjectNumberField() {

@@ -57,5 +57,20 @@ namespace VMAT.Models
             BaseImageName = vm.BaseImageName;
             CreatedTime = DateTime.Now;
         }
+
+        public RegisteredVirtualMachine(PendingArchiveVirtualMachine vm)
+        {
+            ImagePathName = vm.ImagePathName;
+            BaseImageName = vm.BaseImageName;
+            OS = vm.OS;
+            Hostname = vm.Hostname;
+            Lifecycle = vm.Lifecycle;
+            IP = vm.IP;
+            CreatedTime = vm.CreatedTime;
+            LastStarted = vm.LastStarted;
+            LastStopped = vm.LastStopped;
+            LastArchived = vm.LastArchived;
+            LastBackuped = vm.LastBackuped;
+        }
     }
 }

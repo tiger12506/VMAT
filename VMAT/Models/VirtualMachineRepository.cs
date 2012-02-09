@@ -8,20 +8,48 @@ namespace VMAT.Models
 {
     public class VirtualMachineRepository : IVirtualMachineRepository
     {
-        private DataEntities dataDB = new DataEntities();
+        private DataEntities dataDB;
 
-        int[] reservedIPs;
+        public VirtualMachineRepository() : this(new DataEntities()) { }
+
+        public VirtualMachineRepository(DataEntities db)
+        {
+            dataDB = db;
+        }
 
         public void CreateProject(Project proj)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetProjects()
+        public Project GetProject(string projectName)
+        {
+            var project = new Project(projectName);
+
+            foreach (var vm in GetAllRegisteredVirtualMachines())
+            {
+                if (vm.GetProjectName() == projectName)
+                    project.AddVirtualMachine(vm);
+            }
+
+            foreach (var vm in dataDB.VirtualMachines)
+            {
+                if (vm.GetType() != typeof(RegisteredVirtualMachine) &&
+                    vm.GetType() != typeof(PendingArchiveVirtualMachine))
+                {
+                    if (vm.GetProjectName() == projectName)
+                        project.AddVirtualMachine(vm);
+                }
+            }
+
+            return project;
+        }
+
+        public IEnumerable<Project> GetAllProjects()
         {
             var projects = new List<Project>();
 
-            foreach (var vm in GetRegisteredVMs())
+            foreach (var vm in GetAllRegisteredVirtualMachines())
             {
                 string projectName = vm.GetProjectName();
                 bool found = false;
@@ -46,7 +74,8 @@ namespace VMAT.Models
 
             foreach (var vm in dataDB.VirtualMachines)
             {
-                if (vm.GetType() != typeof(RegisteredVirtualMachine))
+                if (vm.GetType() != typeof(RegisteredVirtualMachine) && 
+                    vm.GetType() != typeof(PendingArchiveVirtualMachine))
                 {
                     string projectName = vm.GetProjectName();
                     bool found = false;
@@ -73,9 +102,57 @@ namespace VMAT.Models
             return projects;
         }
 
-        public IEnumerable<VirtualMachine> GetVirtualMachines()
+        public IEnumerable<VirtualMachine> GetAllVirtualMachines()
         {
             return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
+        }
+
+        public IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines()
+        {
+            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
+            var vmList = new List<RegisteredVirtualMachine>();
+
+            foreach (var path in imagePathNames)
+            {
+                RegisteredVirtualMachine vm;
+
+                try
+                {
+                    vm = dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
+                        Single(d => d.ImagePathName == path);
+                }
+                catch (InvalidOperationException)
+                {
+                    try
+                    {
+                        vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
+                            Single(d => d.ImagePathName == path);
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        vm = new RegisteredVirtualMachine(path);
+                        dataDB.VirtualMachines.Add(vm);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        vm = new RegisteredVirtualMachine(path);
+                        dataDB.VirtualMachines.Add(vm);
+                    }
+                }
+
+                var service = new RegisteredVirtualMachineService(path);
+
+                if (service.GetStatus() == VMStatus.Running)
+                {
+                    vm.Hostname = AppConfiguration.GetVMHostName();
+                    vm.IP = service.GetIP();
+                }
+
+                vmList.Add(vm);
+            }
+
+            dataDB.SaveChanges();
+            return vmList;
         }
 
         public VirtualMachine GetVirtualMachine(string imagePath)
@@ -105,6 +182,68 @@ namespace VMAT.Models
         public void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm)
         {
             dataDB.VirtualMachines.Add(vm);
+            dataDB.SaveChanges();
+        }
+
+        public void ScheduleArchiveVirtualMachine(string imagePath)
+        {
+            var vm = dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath) 
+                as RegisteredVirtualMachine;
+            var archiveVm = new PendingArchiveVirtualMachine(vm);
+            
+            try
+            {
+                dataDB.VirtualMachines.Remove(vm);
+                dataDB.VirtualMachines.Add(archiveVm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
+            dataDB.SaveChanges();
+        }
+
+        public void ScheduleArchiveProject(string projectName)
+        {
+            IEnumerable<RegisteredVirtualMachine> vms = GetAllRegisteredVirtualMachines();
+
+            foreach (var vm in vms)
+            {
+                if (vm.GetProjectName() == projectName)
+                    ScheduleArchiveVirtualMachine(vm.ImagePathName);
+            }
+        }
+
+        public void UndoScheduleArchiveVirtualMachine(string imagePath)
+        {
+            var archiveVm = dataDB.VirtualMachines.Single(v => v.ImagePathName == imagePath)
+                as PendingArchiveVirtualMachine;
+            var vm = new RegisteredVirtualMachine(archiveVm);
+
+            try
+            {
+                dataDB.VirtualMachines.Remove(archiveVm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
+            dataDB.SaveChanges();
+
+            try
+            {
+                dataDB.VirtualMachines.Add(vm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
             dataDB.SaveChanges();
         }
 
@@ -152,46 +291,6 @@ namespace VMAT.Models
             return service.GetStatus();
         }
 
-        public IEnumerable<VirtualMachine> GetRegisteredVMs()
-        {
-            var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
-            var vmList = new List<VirtualMachine>();
-
-            foreach (var path in imagePathNames)
-            {
-                RegisteredVirtualMachine vm;
-
-                try
-                {
-                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                        Single(d => d.ImagePathName == path);
-                }
-                catch (ArgumentNullException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-                catch (InvalidOperationException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
-                }
-
-                var service = new RegisteredVirtualMachineService(path);
-
-                if (service.GetStatus() == VMStatus.Running)
-                {
-                    vm.Hostname = AppConfiguration.GetVMHostName();
-                    vm.IP = service.GetIP();
-                }
-
-                dataDB.SaveChanges();
-                vmList.Add(vm);
-            }
-
-            return vmList;
-        }
-
         public string GetNextAvailableIP()
         {
             List<string> ipList = new List<string>();
@@ -203,8 +302,6 @@ namespace VMAT.Models
 
             ipList.AddRange(dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
                 Select(v => v.IP).ToList<string>());
-
-            ipList.AddRange(GlobalReservedIP.GetReservedIPs().Values);
 
             bool[] ipUsed = new bool[256];
             ipUsed[0] = true;

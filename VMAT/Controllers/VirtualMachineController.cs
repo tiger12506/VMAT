@@ -29,7 +29,7 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Project> projectList = vmRepo.GetProjects();
+            IEnumerable<Project> projectList = vmRepo.GetAllProjects();
             var projectViewList = new List<ProjectViewModel>();
 
             foreach (var project in projectList)
@@ -37,48 +37,11 @@ namespace VMAT.Controllers
                 projectViewList.Add(new ProjectViewModel(project));
             }
 
-            ViewBag.CreationTime = configRepo.GetVmCreationTime();
-            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
-            ViewBag.BackupTime = configRepo.GetVmBackupTime();
+            ViewBag.CreationTime = configRepo.GetVmCreationTime().ToLongTimeString();
+            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime().ToLongTimeString();
+            ViewBag.BackupTime = configRepo.GetVmBackupTime().ToLongTimeString();
 
             return View(projectViewList);
-        }
-
-        //
-        // POST: /VirtualMachine/ToggleStatus
-
-        [HttpPost]
-        public ActionResult ToggleStatus(string image)
-        {
-            VMStatus status = vmRepo.ToggleVMStatus(image);
-            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
-
-            var results = new ToggleStatusViewModel {
-                Status = status.ToString().ToLower(),
-                LastStartTime = vm.LastStarted,
-                LastShutdownTime = vm.LastStopped
-            };
-
-            return Json(results);
-        }
-
-        //
-        // POST: /VirtualMachine/UndoPendingOperation
-
-        [HttpPost]
-        public ActionResult UndoPendingOperation(string image)
-        {
-            try
-            {
-                vmRepo.DeleteVirtualMachine(image);
-            }
-            catch (InvalidOperationException)
-            {
-                // If this fails, the VM is already removed from the database.
-                // Therefore, ignore it and send success response.
-            }
-
-            return Json(image);
         }
 
         //
@@ -87,7 +50,7 @@ namespace VMAT.Controllers
         public ActionResult Create()
         {
             var vmForm = new VirtualMachineFormViewModel();
-            var projectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");
             
             foreach (var item in projectName)
@@ -118,7 +81,7 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            var projectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");
             bool projectNameExists = false;
 
@@ -155,7 +118,7 @@ namespace VMAT.Controllers
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
             var form = new VirtualMachineFormViewModel(vm);
 
-            var projectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");
 
             foreach (var item in projectName)
@@ -181,7 +144,7 @@ namespace VMAT.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
+            ViewBag.ProjectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
@@ -189,9 +152,59 @@ namespace VMAT.Controllers
         }
 
         //
-        // POST: /VirtualMachine/GetNextIP
+        // POST: /VirtualMachine/ToggleStatus
 
         [HttpPost]
+        public ActionResult ToggleStatus(string image)
+        {
+            VMStatus status = vmRepo.ToggleVMStatus(image);
+            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
+
+            var results = new ToggleStatusViewModel
+            {
+                Status = status.ToString().ToLower(),
+                LastStartTime = vm.LastStarted,
+                LastShutdownTime = vm.LastStopped
+            };
+
+            return Json(results);
+        }
+
+        //
+        // POST: /VirtualMachine/UndoPendingCreateOperation
+
+        [HttpPost]
+        public ActionResult UndoPendingCreateOperation(string image)
+        {
+            try
+            {
+                vmRepo.DeleteVirtualMachine(image);
+            }
+            catch (InvalidOperationException)
+            {
+                // If this fails, the VM is already removed from the database.
+                // Therefore, ignore it and send success response.
+            }
+
+            return Json(image);
+        }
+
+        //
+        // POST: /VirtualMachine/UndoPendingArchiveOperation
+
+        [HttpPost]
+        public ActionResult UndoPendingArchiveOperation(string image)
+        {
+            vmRepo.UndoScheduleArchiveVirtualMachine(image);
+            var vm = vmRepo.GetRegisteredVirtualMachine(image);
+            var viewModel = new RegisteredVirtualMachineViewModel(vm);
+
+            return PartialView("_RegisteredVirtualMachine", viewModel);
+        }
+
+        //
+        // GET: /VirtualMachine/GetNextIP
+
         public ActionResult GetNextIP()
         {
             string nextIP = vmRepo.GetNextAvailableIP();
@@ -203,18 +216,13 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/ArchiveMachine
 
         [HttpPost]
-        public ActionResult ArchiveMachine(RegisteredVirtualMachine vm)
+        public ActionResult ArchiveMachine(string image)
         {
-            try
-            {
-                vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
-            }
-            catch (Exception)
-            {
-                // TODO: Handle exception
-            }
-            
-            return RedirectToAction("Index");
+            vmRepo.ScheduleArchiveVirtualMachine(image);
+            var vm = vmRepo.GetPendingArchiveVirtualMachine(image);
+            var viewModel = new PendingArchiveVirtualMachineViewModel(vm);
+
+            return PartialView("_PendingArchiveVirtualMachine", viewModel);
         }
 
         //
@@ -223,35 +231,11 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ArchiveProject(string project)
         {
-            /*var proj = GetProject(;
+            vmRepo.ScheduleArchiveProject(project);
+            var proj = vmRepo.GetProject(project);
+            var viewModel = new ProjectViewModel(proj);
 
-            foreach (var vm in proj.VirtualMachines)
-            {
-                //dataDB.ArchivedVirtualMachines.Add(vm);
-            }*/
-            VirtualMachineRepository vmr = new VirtualMachineRepository();
-            foreach (RegisteredVirtualMachine vm in vmr.GetRegisteredVMs())
-            {
-                if (vm.GetProjectName() == project)
-                {
-                    vmr.PowerOff(vm, new Services.RegisteredVirtualMachineService(vm));
-                    ArchiveMachine(vm);
-                }
-            }
-            /*string folderName = AppConfiguration.GetWebserverVmPath() + project;
-            if (ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z"))
-            {
-
-            }*/
-            //needs to store the created archive file in the database
-            /*
-            var results = new ClosingProjectViewModel {
-                Action = "archive",
-                Time = DateTime.Now
-            };
-
-            return Json(results);*/
-            return RedirectToAction("Index");
+            return PartialView("_Project", viewModel);
         }
 
         //
@@ -260,13 +244,13 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult DeleteProject(string project)
         {
-            //var proj = proj.ProjectName;
-            var results = new ClosingProjectViewModel {
+            /*var results = new ClosingProjectViewModel {
                 Action = "delete",
                 Time = DateTime.Now
             };
 
-            return Json(results);
+            return Json(results);*/
+            return RedirectToAction("Index");
         }
     }
 }

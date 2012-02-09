@@ -81,10 +81,13 @@ namespace VMAT.Services
                 try
                 {
                     //TODO insert archiving code
-                    if (Models.ArchivedVirtualMachine.ArchiveFile(pendingVM.ImagePathName, pendingVM.ImagePathName + ".7z"))
+                    string vmFilename = RegisteredVirtualMachineService.ConvertPathToPhysical(pendingVM.ImagePathName);
+                    vmFilename = vmFilename.Substring(0, vmFilename.LastIndexOf('\\'));
+                    if (!Models.ArchivedVirtualMachine.ArchiveFile(vmFilename, vmFilename + ".7z"))
                     {
-                        //It was a success
+                        //It was a failure
                         //IMPORTANT: if it fails, should it not continue?
+                        new SchedulerInfo("VM archiving failed").LogElmah();
                     }
                 }
                 catch (Exception ex)

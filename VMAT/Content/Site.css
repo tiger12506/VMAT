@@ -196,7 +196,7 @@ a.link-button {
 #page {
   width: 920px;
   background-color: #ffffff;
-  margin: 20px auto 0px auto;
+  margin: 20px auto 20px auto;
   border: 2px solid #496077;
   border-radius: 7px;
 }
@@ -204,6 +204,7 @@ a.link-button {
 #header {
   background-color: #ffffff;
   border-bottom: 2px solid #4f4f4f;
+  border-radius: 7px 7px 0 0;
 }
   
   #header #banner {
@@ -462,6 +463,15 @@ button.archive {
         top: 4px;
       }
 
+#projects-list {
+  margin: 0;
+  padding: 0;
+}
+  
+  #projects-list li {
+    margin-bottom: 25px;
+  }
+
 .project {
   margin-left: 0;
   background-color: White;
@@ -480,10 +490,13 @@ button.archive {
 }
 
   .project-header .project-display {
+    font-size: 130%;
     color: #b6b6b6;
     background: 0;
     border: 0;
     margin-left: 12px;
+    margin-right: 5px;
+    width: 20px;
   }
   
     .project-header .project-display:hover {
@@ -495,7 +508,7 @@ button.archive {
     }
     
   .project-header h2 {
-    margin: 9px 70px 9px 5px;
+    margin: 9px 70px 9px 0;
     display: inline-block;
   }
 
@@ -548,28 +561,19 @@ button.archive {
         width: 15px;
         height: 15px;
       }
-    
-#projects-list {
+
+#projects-list .machine-list {
   margin: 0;
   padding: 0;
 }
   
-  #projects-list li {
-    margin-bottom: 10px;
-  }
-
-  #projects-list .machine-list {
+  #projects-list .machine-list li {
     margin: 0;
-    padding: 0;
   }
   
-    #projects-list .machine-list li {
-      margin: 0;
+    #projects-list .machine-list li:nth-child(even) {
+      background-color: #d1d1d1;
     }
-  
-      #projects-list .machine-list li:nth-child(even) {
-        background-color: #d1d1d1;
-      }
 
 .machine-info {
   border-bottom: 1px solid #000000;
@@ -601,7 +605,7 @@ button.archive {
       text-decoration: underline;
     }
 
-  .machine-info.registered .status {
+  .machine-info .status {
     padding-left: 15px;
     display: inline-table;
     vertical-align: top;
@@ -610,7 +614,7 @@ button.archive {
     text-align: center;
   }
 
-    .machine-info.registered .status button {
+    .machine-info .status button {
       text-align: center;
       margin: 0;
       padding: 0;
@@ -620,11 +624,11 @@ button.archive {
       width: 40px;
     }
     
-      .machine-info.registered .status button:hover {
+      .machine-info .status button:hover {
         border-color: #96a4ad;
       }
 
-    .machine-info.registered .status button[status="running"] {
+    .machine-info .status button[status="running"] {
       background: #bde2b3; /* Old browsers */
       background: -moz-linear-gradient(top,  #bde2b3 0%, #7fd82b 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bde2b3), color-stop(100%,#7fd82b)); /* Chrome,Safari4+ */
@@ -633,7 +637,7 @@ button.archive {
       background: linear-gradient(top,  #bde2b3 0%,#7fd82b 100%); /* W3C */
     }
     
-    .machine-info.registered .status button[status="stopped"]  {
+    .machine-info .status button[status="stopped"]  {
       background: #e5c8b3; /* Old browsers */
       background: -moz-linear-gradient(top,  #e5c8b3 0%, #db462b 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5c8b3), color-stop(100%,#db462b)); /* Chrome,Safari4+ */
@@ -642,36 +646,48 @@ button.archive {
       background: linear-gradient(top,  #e5c8b3 0%,#db462b 100%); /* W3C */
      }
     
-    .machine-info.registered .status button.transition {
-      backgroundicolor: #f1d50d;
-      cursor: wait;
-      /*filter: alpha(opacity=80);*/
+    .machine-info .status button img {
+      visibility: hidden;
     }
     
-    .machine-info.registered .edit-machine {
+    .machine-info .status button.transition {
+      opacity: 0.8;
+    }
+    
+      .machine-info .status button.transition img {
+        visibility: visible;
+      }
+    
+    .machine-info .edit-machine {
       font-size: 120%;
       text-transform: none;
     }
   
-  .machine-info.pending .pending-message {
-    float: left;
+  .machine-info.pending .pending-message, .machine-info.pending-archive .pending-message {
+    display: inline-block;
     margin-left: 100px;
     width: 685px;
   }
   
-    .machine-info.pending .pending-message .message {
-      position: relative;
-      float: left;
+    .machine-info .pending-message .message {
+      display: inline-block;
       width: 580px;
-      top: 6px;
     }
     
-  .machine-info.pending .primary {
+  .machine-info.pending .primary, .machine-info.pending-archive .primary {
     padding-bottom: 10px;
   }
   
   .machine-info.pending .details table {
     margin-left: 30px;
+  }
+  
+  .machine-info.pending-archive .pending-message {
+    margin-left: 31px;
+  }
+  
+  .machine-info.pending-archive table tr th {
+    padding-top: 14px;
   }
 
 
