@@ -646,11 +646,13 @@ button.archive {
       background: linear-gradient(top,  #e5c8b3 0%,#db462b 100%); /* W3C */
      }
     
-    .machine-info .status button.transition {
-      backgroundicolor: #f1d50d;
-      cursor: wait;
-      /*filter: alpha(opacity=80);*/
+    .machine-info .status button img {
+      visibility: hidden;
     }
+    
+      .machine-info .status button.transition img {
+        visibility: visible;
+      }
     
     .machine-info .edit-machine {
       font-size: 120%;
