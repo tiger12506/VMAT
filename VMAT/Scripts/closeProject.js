@@ -5,9 +5,7 @@ var CloseProject = {};
 
 $(document).ready(function () {
     $("#project-close-form button.archive").click(function () {
-
         var project = $(this).closest("#project-close-form").attr("project");
-        alert("ok"); //outdated code; no longer gets called
         archiveProject(project);
         Popup.disablePopup();
     });
@@ -53,5 +51,5 @@ CloseProject.successCallback = function (data, project) {
 }
 
 CloseProject.failureCallback = function (error, project) {
-    alert("Failed to close project " + project + ": " + error);
+    alert("Failed to close project " + project + ": " + error.status);
 }

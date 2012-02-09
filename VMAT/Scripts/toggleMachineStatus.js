@@ -4,7 +4,6 @@ $(document).ready(function () {
     $(".status > button").click(function () {
         var $imagePath = $(this).closest(".machine-info").attr("id");
         $(this).addClass("transition");
-        $(this).html("?");
         $(this).attr("disabled", "disabled");
 
         toggleMachineStatus($imagePath, this);
@@ -30,7 +29,7 @@ function toggleMachineStatus(machineName, button) {
     };
 
     var failureCallback = function (error, machineName, button) {
-        alert("Failed to change machine " + machineName + "'s status: " + error.status + " - " + JSON.parse(error.responseText));
+        alert("Failed to change machine " + machineName + "'s status: " + error.status);
         resetTransitionButton(button);
     };
 
@@ -47,7 +46,6 @@ function toggleMachineStatus(machineName, button) {
 
 function resetTransitionButton(button) {
     $(button).removeClass("transition");
-    $(button).html("");
     $(button).removeAttr("disabled");
 }
 

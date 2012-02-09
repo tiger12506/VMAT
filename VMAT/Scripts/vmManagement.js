@@ -74,7 +74,7 @@ function undoPendingCreateOperation($container) {
     };
 
     var failureCallback = function(error, imagePath) {
-        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+        alert("Failed to undo operation on " + imagePath + ": " + error.status);
     };
 
     $.ajax({
@@ -99,7 +99,7 @@ function undoPendingArchiveOperation($container) {
     };
 
     var failureCallback = function (error, imagePath) {
-        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+        alert("Failed to undo operation on " + imagePath + ": " + error.status);
     };
 
     $.ajax({
@@ -107,7 +107,7 @@ function undoPendingArchiveOperation($container) {
         contentType: "application/json; charset=utf-8",
         url: $.url("undoPendingArchiveOperation"),
         data: "{'image': '" + imagePath + "'}",
-        dataType: "json",
+        dataType: "html",
         success: function (data) { successCallback($container); },
         error: function (error) { failureCallback(error, imagePath); }
     });
