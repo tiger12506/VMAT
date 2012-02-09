@@ -1,8 +1,5 @@
 ﻿var $projectName;
 
-
-var UndoPendingOperation = {};
-
 $(document).ready(function () {
     // Activate items if JavaScript is enabled
     $(".machine-info .details").hide();
@@ -48,41 +45,71 @@ $(document).ready(function () {
         $detailsDiv.slideToggle(300);
     });
 
-    $(".undo-pending").click(function () {
+    $(".pending-vm .undo-pending").click(function () {
         var $container = $(this).closest(".machine-info");
-        undoPendingOperation($container);
+        undoPendingCreateOperation($container);
+    });
+
+    $(".pending-archive-vm .undo-pending").click(function () {
+        var $container = $(this).closest(".machine-info");
+        undoPendingArchiveOperation($container);
     });
 });
 
-function undoPendingOperation($container) {
+function undoPendingCreateOperation($container) {
     var imagePath = $container.attr("id");
+
+    var successCallback = function($container) {
+        var $project = $container.closest(".project");
+
+        if ($container.closest("li").siblings().length >= 1) {
+            $container.animate({ height: "toggle", opacity: "toggle" }, 400, function () {
+                $container.closest("li").remove();
+            });
+        } else {
+            $project.animate({ height: "toggle", opacity: "toggle" }, 400, function () {
+                $project.closest("li").remove();
+            });
+        }
+    };
+
+    var failureCallback = function(error, imagePath) {
+        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+    };
 
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: $.url("undoPendingOperation"),
+        url: $.url("undoPendingCreateOperation"),
         data: "{'image': '" + imagePath + "'}",
         dataType: "json",
-        success: function (data) { UndoPendingOperation.successCallback($container); },
-        error: function (error) { UndoPendingOperation.failureCallback(error, imagePath); }
+        success: function (data) { successCallback($container); },
+        error: function (error) { failureCallback(error, imagePath); }
     });
-    //UndoPendingOperation.successCallback($container); FOR TESTING
+    //successCallback($container); FOR TESTING
 }
 
-UndoPendingOperation.successCallback = function ($container) {
-    var $project = $container.closest(".project");
 
-    if ($container.closest("li").siblings().length >= 1) {
-        $container.animate({ height: "toggle", opacity: "toggle" }, 400, function () {
-            $container.closest("li").remove();
-        });
-    } else {
-        $project.animate({ height: "toggle", opacity: "toggle" }, 400, function () {
-            $project.closest("li").remove();
-        });
-    }
-};
 
-UndoPendingOperation.failureCallback = function (error, imagePath) {
-    alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
-};
+function undoPendingArchiveOperation($container) {
+    var imagePath = $container.attr("id");
+
+    var successCallback = function ($container) {
+        alert("success");
+    };
+
+    var failureCallback = function (error, imagePath) {
+        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+    };
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: $.url("undoPendingArchiveOperation"),
+        data: "{'image': '" + imagePath + "'}",
+        dataType: "json",
+        success: function (data) { successCallback($container); },
+        error: function (error) { failureCallback(error, imagePath); }
+    });
+    //successCallback($container); FOR TESTING
+}
