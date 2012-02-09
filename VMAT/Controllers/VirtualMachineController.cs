@@ -37,9 +37,9 @@ namespace VMAT.Controllers
                 projectViewList.Add(new ProjectViewModel(project));
             }
 
-            ViewBag.CreationTime = configRepo.GetVmCreationTime();
-            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
-            ViewBag.BackupTime = configRepo.GetVmBackupTime();
+            ViewBag.CreationTime = configRepo.GetVmCreationTime().ToLongTimeString();
+            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime().ToLongTimeString();
+            ViewBag.BackupTime = configRepo.GetVmBackupTime().ToLongTimeString();
 
             return View(projectViewList);
         }
