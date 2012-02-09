@@ -44,52 +44,8 @@
     <ul id="projects-list">
     @foreach (var project in Model)
     {
-        <li>
-            <div class="project" id="@project.ProjectName">
-                <div class="project-header">
-                    <button type="button" class="project-display collapse">v</button>
-                    <h2>@project.ProjectName</h2>
-                    <h3>@project.Hostname</h3>
-                    <button type="button" class="project-close">
-                        <span class="icon">
-                            <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
-                        </span>
-                        Close
-                    </button>
-                </div>
-
-                <div class="project-machines">
-                    <ul class="machine-list">
-                    @foreach (var vm in project.RegisteredVMs)
-                    {
-                        <li class="registered-vm">
-                            @Html.Partial("_RegisteredVirtualMachine", vm)
-                        </li>
-                    }
-
-                    @foreach (var vm in project.PendingArchiveVMs)
-                    {
-                        <li class="pending-archive-vm">
-                            @Html.Partial("_PendingArchiveVirtualMachine", vm)
-                        </li>
-                    }
-
-                    @foreach (var vm in project.PendingVMs)
-                    {
-                        <li class="pending-vm">
-                            @Html.Partial("_PendingVirtualMachine", vm)
-                        </li>
-                    }
-
-                    @foreach (var vm in project.ArchivedVMs)
-                    {
-                        <li class="archived-vm">
-                            @Html.Partial("_ArchivedVirtualMachine", vm)
-                        </li>
-                    }
-                    </ul>
-                </div>
-            </div>
+        <li class="project-item">
+            @Html.Partial("_Project", project)
         </li>
     }
     </ul>
@@ -97,7 +53,6 @@
 
 
 @* +++++++++++++++ Popup DIVs +++++++++++++++++ *@
-
 
 @Html.Partial("_Popup")
 

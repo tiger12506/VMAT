@@ -650,6 +650,10 @@ button.archive {
       visibility: hidden;
     }
     
+    .machine-info .status button.transition {
+      opacity: 0.8;
+    }
+    
       .machine-info .status button.transition img {
         visibility: visible;
       }
