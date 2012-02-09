@@ -18,14 +18,12 @@ $(document).ready(function () {
 });
 
 function archiveProject(projectName) {
-    alert("ok:" + projectName);
-
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: $.url("archiveProject"),
         data: "{'project': '" + projectName + "'}",
-        dataType: "json",
+        dataType: "html",
         success: function (data) { CloseProject.successCallback(data, projectName); },
         error: function (error) { CloseProject.failureCallback(error, projectName); }
     });
@@ -37,16 +35,20 @@ function deleteProject(projectName) {
         contentType: "application/json; charset=utf-8",
         url: $.url("deleteProject"),
         data: "{'project': '" + projectName + "'}",
-        dataType: "json",
+        dataType: "html",
         success: function (data) { CloseProject.successCallback(data, projectName); },
         error: function (error) { CloseProject.failureCallback(error, projectName); }
     });
 }
 
-CloseProject.successCallback = function (data, project) {
-    var $projectContainer = $("#" + project + " .project-machines");
-    $projectContainer.children(".project-closing h4").text("Project " + project + " will be " + data.Action + "d at " + data.Time.toString());
-    $projectContainer.children(".project-closing button").attr({ "action": data.Action, value: "Undo" });
+CloseProject.successCallback = function (item, project) {
+    $("#" + project).closest("li.project-item").fadeOut(200, function () {
+        $(this).html(item);
+        enableToggleDetails();
+        enablePendingOperationControls();
+        enableProjectControls();
+        $(this).fadeIn(200);
+    });
     
 }
 

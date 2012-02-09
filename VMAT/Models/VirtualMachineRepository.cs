@@ -22,7 +22,30 @@ namespace VMAT.Models
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetProjects()
+        public Project GetProject(string projectName)
+        {
+            var project = new Project(projectName);
+
+            foreach (var vm in GetAllRegisteredVirtualMachines())
+            {
+                if (vm.GetProjectName() == projectName)
+                    project.AddVirtualMachine(vm);
+            }
+
+            foreach (var vm in dataDB.VirtualMachines)
+            {
+                if (vm.GetType() != typeof(RegisteredVirtualMachine) &&
+                    vm.GetType() != typeof(PendingArchiveVirtualMachine))
+                {
+                    if (vm.GetProjectName() == projectName)
+                        project.AddVirtualMachine(vm);
+                }
+            }
+
+            return project;
+        }
+
+        public IEnumerable<Project> GetAllProjects()
         {
             var projects = new List<Project>();
 

@@ -1,14 +1,17 @@
 ﻿var $projectName;
 
 $(document).ready(function () {
-    // Activate items if JavaScript is enabled
-    $(".machine-info .details").hide();
-    $(".status button").attr("title", function () {
-        setStatusTooltips($(this));
-    });
+    enableProjectControls();
 
+    enableToggleDetails();
+
+    enablePendingOperationControls();
+});
+
+
+// Create event handlers for DOM elements
+function enableProjectControls() {
     $(".project-close").click(function () {
-
         $projectName = $(this).closest(".project").attr("id");
         Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
 
@@ -32,6 +35,14 @@ $(document).ready(function () {
 
         $(this).closest(".project").children(".project-machines").slideToggle(300);
     });
+}
+
+function enableToggleDetails() {
+    // Activate items if JavaScript is enabled
+    $(".machine-info .details").hide();
+    $(".status button").attr("title", function () {
+        setStatusTooltips($(this));
+    });
 
     $(".toggle-details").click(function () {
         var $detailsDiv = $(this).closest(".machine-info").children(".details");
@@ -44,7 +55,9 @@ $(document).ready(function () {
 
         $detailsDiv.slideToggle(300);
     });
+}
 
+function enablePendingOperationControls() {
     $(".pending-vm .undo-pending").click(function () {
         var $container = $(this).closest(".machine-info");
         undoPendingCreateOperation($container);
@@ -54,7 +67,7 @@ $(document).ready(function () {
         var $container = $(this).closest(".machine-info");
         undoPendingArchiveOperation($container);
     });
-});
+}
 
 function undoPendingCreateOperation($container) {
     var imagePath = $container.attr("id");
@@ -89,13 +102,16 @@ function undoPendingCreateOperation($container) {
     //successCallback($container); FOR TESTING
 }
 
-
-
 function undoPendingArchiveOperation($container) {
     var imagePath = $container.attr("id");
 
-    var successCallback = function ($container) {
-        alert("success");
+    var successCallback = function (item) {
+        $container.closest("li").fadeOut(200, function () {
+            $(this).html(item);
+            enableToggleDetails();
+            enablePendingOperationControls();
+            $(this).fadeIn(200);
+        });
     };
 
     var failureCallback = function (error, imagePath) {
@@ -108,7 +124,7 @@ function undoPendingArchiveOperation($container) {
         url: $.url("undoPendingArchiveOperation"),
         data: "{'image': '" + imagePath + "'}",
         dataType: "html",
-        success: function (data) { successCallback($container); },
+        success: function (data) { successCallback(data); },
         error: function (error) { failureCallback(error, imagePath); }
     });
     //successCallback($container); FOR TESTING
