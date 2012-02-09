@@ -12,13 +12,20 @@ namespace VMAT.Controllers
         //
         // GET: /Configuration/Test
 
-        public ActionResult TestRun()
+        public ActionResult ScheduleRunAll()
         {
             VMAT.Services.QuartzJobs.CreatePendingVMs();
-
+            VMAT.Services.QuartzJobs.ArchivePendingVMs();
             return RedirectToAction("Host");
         }
 
+        public ActionResult ThrowException()
+        {
+            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Test thrown by /Configuration/ThrowException"));
+            
+            return RedirectToAction("Host");
+
+        }
         private IConfigurationRepository configRepo;
 
         public ConfigurationController() : this(new ConfigurationRepository()) { }

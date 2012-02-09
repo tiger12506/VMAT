@@ -89,7 +89,7 @@ namespace VMAT.Controllers
             var vmForm = new VirtualMachineFormViewModel();
             var projectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-
+            
             foreach (var item in projectName)
             {
                 item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);

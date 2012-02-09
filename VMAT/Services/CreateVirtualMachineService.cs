@@ -28,9 +28,16 @@ namespace VMAT.Services
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
             
             //this all really needs to be async, report status, and handle errors in individual steps better
-            CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
+            try
+            {
+                CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
+            }
+            catch (Exception ex)
+            {
+                throw new SchedulerInfo("Error copying files, VM creation aborted.", ex);
+            }
 
-            // Allot VMware time to copy the file
+            // Allot time to finish copying the file
             System.Threading.Thread.Sleep(16 * 1000);
 
             RegisteredVirtualMachineService service=null;
@@ -47,9 +54,9 @@ namespace VMAT.Services
                 service.Reboot();
                 System.Threading.Thread.Sleep(250 * 1000);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error registering or first-booting new VM, will attempt to continue", ex));
             }
             SetIPHostname(service);
 
@@ -84,14 +91,10 @@ namespace VMAT.Services
                 System.Threading.Thread.Sleep(8 * 1000);
 
             }
-            catch (TimeoutException)
+            catch (Exception ex)
             {
                 if (retry) SetIPHostname(service, false);
-                // TODO: Handle time-out
-            }
-            catch (Exception)
-            {
-                if (retry) SetIPHostname(service, false);
+                else Elmah.ErrorSignal.FromCurrentContext().Raise(new SchedulerInfo("Error setting IP or hostname of new VM, will need to be manually set but will continue", ex));
                 // TODO: Handle time-out
             }
 
