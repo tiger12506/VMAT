@@ -131,7 +131,7 @@ namespace VMAT.Services
                 //if that excepts, this should still continue
                 try
                 {
-                    dataDB.VirtualMachines.Remove(pendingVM);
+                    dataDB.VirtualMachines.Remove(pendingVM); //TODO: do we just want to remove this before starting to create the VM?
                     dataDB.VirtualMachines.Add(regVM);
                 }
                 catch (Exception ex)
