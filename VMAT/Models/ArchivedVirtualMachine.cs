@@ -40,7 +40,7 @@ namespace VMAT.Models
             Created = vm.CreatedTime;
         }
 
-        public static void ArchiveFile(string sourceName, string outName)
+        public static bool ArchiveFile(string sourceName, string outName)
         {
             //SevenZip.SevenZipCompressor s = new SevenZip.SevenZipCompressor();
             //SevenZip.SevenZipCompressor.SetLibraryPath(@"C:\Program Files\7-Zip\7z.dll");
@@ -48,7 +48,7 @@ namespace VMAT.Models
             //s.CompressionLevel = SevenZip.CompressionLevel.Fast;
             ////s.CompressDirectory("C:\\Users\\sylvaiam\\VMAT\\VMat", @"C:\Users\sylvaiam\VMAT\VMat\bin\Vmat.7z");
             //if (System.IO.Directory.Exists(sourceName))
-            //    s.CompressDirectory(sourceName, @"C:\Users\sylvaiam\VMAT\VMat\bin\Vmat.7z");
+            //    s.CompressDirectory(sourceName, outName);
             //else
             //    s.CompressFiles(outName, new string[] { sourceName });
 
@@ -73,7 +73,8 @@ namespace VMAT.Models
             System.Diagnostics.Process x = System.Diagnostics.Process.Start(p);
             x.WaitForExit();
 
-
+            return x.ExitCode == 0;
+            
             ////this way, a command window pops up momentarily
             //var bob = System.IO.Directory.GetCurrentDirectory();  
             //System.Diagnostics.Process l = new System.Diagnostics.Process();
