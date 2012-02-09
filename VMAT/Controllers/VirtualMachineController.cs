@@ -45,43 +45,6 @@ namespace VMAT.Controllers
         }
 
         //
-        // POST: /VirtualMachine/ToggleStatus
-
-        [HttpPost]
-        public ActionResult ToggleStatus(string image)
-        {
-            VMStatus status = vmRepo.ToggleVMStatus(image);
-            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
-
-            var results = new ToggleStatusViewModel {
-                Status = status.ToString().ToLower(),
-                LastStartTime = vm.LastStarted,
-                LastShutdownTime = vm.LastStopped
-            };
-
-            return Json(results);
-        }
-
-        //
-        // POST: /VirtualMachine/UndoPendingOperation
-
-        [HttpPost]
-        public ActionResult UndoPendingOperation(string image)
-        {
-            try
-            {
-                vmRepo.DeleteVirtualMachine(image);
-            }
-            catch (InvalidOperationException)
-            {
-                // If this fails, the VM is already removed from the database.
-                // Therefore, ignore it and send success response.
-            }
-
-            return Json(image);
-        }
-
-        //
         // GET: /VirtualMachine/Create
 
         public ActionResult Create()
@@ -189,9 +152,65 @@ namespace VMAT.Controllers
         }
 
         //
-        // POST: /VirtualMachine/GetNextIP
+        // POST: /VirtualMachine/ToggleStatus
 
         [HttpPost]
+        public ActionResult ToggleStatus(string image)
+        {
+            VMStatus status = vmRepo.ToggleVMStatus(image);
+            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
+
+            var results = new ToggleStatusViewModel
+            {
+                Status = status.ToString().ToLower(),
+                LastStartTime = vm.LastStarted,
+                LastShutdownTime = vm.LastStopped
+            };
+
+            return Json(results);
+        }
+
+        //
+        // POST: /VirtualMachine/UndoPendingCreateOperation
+
+        [HttpPost]
+        public ActionResult UndoPendingCreateOperation(string image)
+        {
+            try
+            {
+                vmRepo.DeleteVirtualMachine(image);
+            }
+            catch (InvalidOperationException)
+            {
+                // If this fails, the VM is already removed from the database.
+                // Therefore, ignore it and send success response.
+            }
+
+            return Json(image);
+        }
+
+        //
+        // POST: /VirtualMachine/UndoPendingArchiveOperation
+
+        [HttpPost]
+        public ActionResult UndoPendingArchiveOperation(string image)
+        {
+            try
+            {
+                vmRepo.DeleteVirtualMachine(image);
+            }
+            catch (InvalidOperationException)
+            {
+                // If this fails, the VM is already removed from the database.
+                // Therefore, ignore it and send success response.
+            }
+
+            return Json(image);
+        }
+
+        //
+        // GET: /VirtualMachine/GetNextIP
+
         public ActionResult GetNextIP()
         {
             string nextIP = vmRepo.GetNextAvailableIP();
@@ -208,10 +227,11 @@ namespace VMAT.Controllers
             try
             {
                 vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
+                vmRepo.DeleteVirtualMachine(vm.ImagePathName);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // TODO: Handle exception
+                throw e;
             }
             
             return RedirectToAction("Index");
@@ -223,23 +243,9 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ArchiveProject(string project)
         {
-            /*var proj = GetProject(;
-
-            foreach (var vm in proj.VirtualMachines)
-            {
-                //dataDB.ArchivedVirtualMachines.Add(vm);
-            }*/
-            VirtualMachineRepository vmr = new VirtualMachineRepository();
-            foreach (RegisteredVirtualMachine vm in vmr.GetRegisteredVMs())
-            {
-                if (vm.GetProjectName() == project)
-                {
-                    vmr.PowerOff(vm, new Services.RegisteredVirtualMachineService(vm));
-                }
-            }
-            string folderName = AppConfiguration.GetWebserverVmPath() + project;
-            ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
-            //needs to store the created archive file in the database
+            vmRepo.ScheduleArchiveProject(project);
+            //string folderName = AppConfiguration.GetWebserverVmPath() + project;
+            //ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
             /*
             var results = new ClosingProjectViewModel {
                 Action = "archive",
