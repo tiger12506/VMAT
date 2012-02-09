@@ -7,12 +7,15 @@ namespace VMAT.Models
     {
         void CreateProject(Project proj);
         IEnumerable<Project> GetProjects();
-        IEnumerable<VirtualMachine> GetVirtualMachines();
+        IEnumerable<VirtualMachine> GetAllVirtualMachines();
+        IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines();
         VirtualMachine GetVirtualMachine(string imagePath);
         void DeleteVirtualMachine(string imagePath);
         void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
         RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
         void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);
+        void ScheduleArchiveVirtualMachine(string imagePath);
+        void ScheduleArchiveProject(string projectName);
         PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
         void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
         ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
