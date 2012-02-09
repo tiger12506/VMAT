@@ -13,11 +13,7 @@ $(document).ready(function () {
     // IE <=8 Compatibility
     $("form input").keyup(updatePreviewPane);
     $("form input").change(updatePreviewPane);
-
-    $("#project-menu").change(function () {
-        $("#project-menu-field").val($(this).val());
-    });
-
+    
     $(".project-add").click(function () {
         displayAddProjectNumberField();
     });
@@ -38,30 +34,43 @@ $(document).ready(function () {
 // Update the preview display on the 'Create Machine' page with the information
 // currently entered in the form inputs.
 function updatePreviewPane() {
-    var projectNumber = $("#ProjectName").val();
-    var machineSuffix = $("#MachineNameSuffix").val();
-    var ip = $("#IP").val();
+    updateImageFilePreview();
+    updateIpPreview();
+    updateBaseImagePreview();
+};
 
-    $(".pProject").text("G" + projectNumber);
-    $(".pHostname").text("vmat.rose-hulman.edu");
+function updateImageFilePreview() {
+    var machineSuffix = $("#MachineNameSuffix").val();
+    var projectNumber = $("#ProjectName").val();
+
+    $(".pProject").text(projectNumber);
+
+    // HACK: Project naming convention nonsense
+    projectNumber = projectNumber.replace("G", "");
 
     if (machineSuffix && machineSuffix.length <= 5)
         $(".pMachinename").text("gapdev" + projectNumber + machineSuffix);
     else
         $(".pMachinename").text("gapdev" + projectNumber + "yyyyy");
+}
+
+function updateIpPreview() {
+    var ip = $("#IP").val();
 
     if (ip && ip.length <= 15)
         $(".pIP").text(ip);
     else
         getNextAvailableIP();
-    
+}
+
+function updateBaseImagePreview() {
     try {
         var imageFile = $("#BaseImageFile option:selected").val();
         $(".pImage").text(imageFile);
     } catch (e) {
         // Ignore if the field does not exist
     }
-};
+}
 
 function getNextAvailableIP() {
     $.ajax({
@@ -92,9 +101,11 @@ function displayAddProjectNumberField() {
 }
 
 function updateProjectNumberList(projNumber) {
-    if (projNumber)
-        $('#ProjectName').append('<option value=' + projNumber + ' selected="selected">' + 
+    if (projNumber) {
+        $('#ProjectName').append('<option value=' + projNumber + ' selected="selected">' +
             projNumber + '</option>');
+        updateImageFilePreview();
+    }
 
     $("#ProjectName").show();
     $(".project-add").show();

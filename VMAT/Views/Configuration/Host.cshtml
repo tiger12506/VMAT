@@ -26,7 +26,9 @@
                 @Html.EditorFor(model => model.MaxIP)
                 @Html.ValidationMessageFor(model => model.MaxIP)
             </li>
-
+            <li>
+                Note: application must be restarted (in IIS) for schedule changes to take effect. Dates are ignored but required.
+            </li>
             <li>
                 @Html.LabelFor(model => model.CreateVMTime)
                 @Html.EditorFor(model => model.CreateVMTime)
@@ -51,6 +53,7 @@
     
     <div>
         @Html.ActionLink("Check Web.config Settings", "Check")<br />
+        @Html.ActionLink("See Exception Log", "", "elmah")<br />
         @Html.ActionLink("Back to List", "Index", "VirtualMachine")
     </div>
 }

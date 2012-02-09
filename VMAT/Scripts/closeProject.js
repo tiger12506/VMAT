@@ -47,7 +47,7 @@ function deleteProject(projectName) {
 
 CloseProject.successCallback = function (data, project) {
     var $projectContainer = $("#" + project + " .project-machines");
-    $projectContainer.children(".project-closing h4").text("Project G" + project + " will be " + data.Action + "d at " + data.Time.toString());
+    $projectContainer.children(".project-closing h4").text("Project " + project + " will be " + data.Action + "d at " + data.Time.toString());
     $projectContainer.children(".project-closing button").attr({ "action": data.Action, value: "Undo" });
     
 }

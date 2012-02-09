@@ -7,6 +7,8 @@ namespace VMAT.Services
 {
     public class CreateVirtualMachineService
     {
+
+
         PendingVirtualMachine VM;
 
         public CreateVirtualMachineService() { }
@@ -24,18 +26,25 @@ namespace VMAT.Services
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
             if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7 || VM.Hostname.Length < 3)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
-
+            
             //this all really needs to be async, report status, and handle errors in individual steps better
-            CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
-
-            // Allot VMware time to copy the file
-            System.Threading.Thread.Sleep(8 * 1000);
-
-            RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
-
             try
             {
-                var service = new RegisteredVirtualMachineService(VM.ImagePathName);
+                CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
+            }
+            catch (Exception ex)
+            {
+                throw new SchedulerInfo("Error copying files, VM creation aborted.", ex);
+            }
+
+            // Allot time to finish copying the file
+            System.Threading.Thread.Sleep(16 * 1000);
+
+            RegisteredVirtualMachineService service=null;
+            try
+            {
+                RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
+                service = new RegisteredVirtualMachineService(VM.ImagePathName);
                 // Make triple-double-dog sure that the VM is online and ready.
                 // Allow VM time to power on
                 service.PowerOn();
@@ -45,10 +54,16 @@ namespace VMAT.Services
                 service.Reboot();
                 System.Threading.Thread.Sleep(250 * 1000);
             }
-            catch (TimeoutException)
+            catch (Exception ex)
             {
-                // TODO: Handle time-out
+                new SchedulerInfo("Error registering or first-booting new VM, will attempt to continue", ex).LogElmah();
             }
+            SetIPHostname(service);
+
+            // Allow VM time to reboot
+            service.Reboot();
+            System.Threading.Thread.Sleep(250 * 1000);
+            
 
             var newVM = new RegisteredVirtualMachine(VM);
 
@@ -60,12 +75,25 @@ namespace VMAT.Services
             //http://panoskrt.wordpress.com/2009/01/20/clone-virtual-machine-on-vmware-server-20/
             //we don't seem to have vmware-vdiskmanager 
 
-            //failed try:
-            //var baseVM = openVM(info.BaseImageName);
-            //var baseVM = openVM("[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx");
-            //baseVM.Clone(VMWareVirtualMachineCloneType.Full, "[ha-datacenter/standard] Windows2003A/Windows2003A.vmx");  fails, error code 6, operation not supported. (because not supported on VMware Server 2) 
         }
+        private void SetIPHostname(RegisteredVirtualMachineService service, bool retry = true)
+        {
+            try
+            {
+                System.Threading.Thread.Sleep(8 * 1000);
+                service.SetHostname(VM.Hostname);
+                System.Threading.Thread.Sleep(8 * 1000);
+                service.SetIP(VM.IP);
+                System.Threading.Thread.Sleep(8 * 1000);
 
+            }
+            catch (Exception ex)
+            {
+                if (retry) SetIPHostname(service, false);
+                else new SchedulerInfo("Error setting IP or hostname of new VM, will need to be manually set but will continue", ex).LogElmah();
+            }
+
+        }
         private void CopyVMFiles(string baseImageName, string imagePathName)
         {
             string sourceVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(baseImageName);

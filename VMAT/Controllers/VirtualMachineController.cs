@@ -68,7 +68,16 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult UndoPendingOperation(string image)
         {
-            vmRepo.DeleteVirtualMachine(image);
+            try
+            {
+                vmRepo.DeleteVirtualMachine(image);
+            }
+            catch (InvalidOperationException)
+            {
+                // If this fails, the VM is already removed from the database.
+                // Therefore, ignore it and send success response.
+            }
+
             return Json(image);
         }
 
@@ -78,8 +87,16 @@ namespace VMAT.Controllers
         public ActionResult Create()
         {
             var vmForm = new VirtualMachineFormViewModel();
-            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
+            
+            foreach (var item in projectName)
+            {
+                item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
+                item.Text = item.Value;
+            }
+
+            ViewBag.ProjectName = projectName;
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
@@ -121,7 +138,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = projectName;
             ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
             return View(vmForm);
@@ -138,9 +155,17 @@ namespace VMAT.Controllers
             VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
             var form = new VirtualMachineFormViewModel(vm);
 
-            ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
+            var projectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+
+            foreach (var item in projectName)
+            {
+                item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
+                item.Text = item.Value;
+            }
+
+            ViewBag.ProjectName = projectName;
+            ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
             return View(form);
         }
@@ -158,7 +183,7 @@ namespace VMAT.Controllers
 
             ViewBag.ProjectName = new SelectList(vmRepo.GetProjects(),
                 "ProjectName", "ProjectName");
-            ViewBag.Hostname = "vmat.rose-hulman.edu"; // TODO: Pull from somewhere
+            ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
             return View(vm);
         }
@@ -215,12 +240,14 @@ namespace VMAT.Controllers
             string folderName = AppConfiguration.GetWebserverVmPath() + project;
             ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
             //needs to store the created archive file in the database
+            /*
             var results = new ClosingProjectViewModel {
                 Action = "archive",
                 Time = DateTime.Now
             };
 
-            return Json(results);
+            return Json(results);*/
+            return RedirectToAction("Index");
         }
 
         //

@@ -122,7 +122,7 @@ namespace VMAT.Services
                             Name = WScript.Arguments.Item(0)
                             Return = objComputer.rename(Name,NULL,NULL)
                                 If Return <> 0 Then
-                                    WScript.Echo ""rename-fail""
+                                    WScript.Echo ""rename-fail, error = "" & Err.Number
                                 Else
                                     WScript.Echo ""rename-succ""
                                 End If
