@@ -81,6 +81,11 @@ namespace VMAT.Services
                 try
                 {
                     //TODO insert archiving code
+                    if (Models.ArchivedVirtualMachine.ArchiveFile(pendingVM.ImagePathName, pendingVM.ImagePathName + ".7z"))
+                    {
+                        //It was a success
+                        //IMPORTANT: if it fails, should it not continue?
+                    }
                 }
                 catch (Exception ex)
                 {
