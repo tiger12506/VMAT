@@ -196,7 +196,7 @@ a.link-button {
 #page {
   width: 920px;
   background-color: #ffffff;
-  margin: 20px auto 0px auto;
+  margin: 20px auto 20px auto;
   border: 2px solid #496077;
   border-radius: 7px;
 }
@@ -204,6 +204,7 @@ a.link-button {
 #header {
   background-color: #ffffff;
   border-bottom: 2px solid #4f4f4f;
+  border-radius: 7px 7px 0 0;
 }
   
   #header #banner {
@@ -462,6 +463,15 @@ button.archive {
         top: 4px;
       }
 
+#projects-list {
+  margin: 0;
+  padding: 0;
+}
+  
+  #projects-list li {
+    margin-bottom: 25px;
+  }
+
 .project {
   margin-left: 0;
   background-color: White;
@@ -548,28 +558,19 @@ button.archive {
         width: 15px;
         height: 15px;
       }
-    
-#projects-list {
+
+#projects-list .machine-list {
   margin: 0;
   padding: 0;
 }
   
-  #projects-list li {
-    margin-bottom: 10px;
-  }
-
-  #projects-list .machine-list {
+  #projects-list .machine-list li {
     margin: 0;
-    padding: 0;
   }
   
-    #projects-list .machine-list li {
-      margin: 0;
+    #projects-list .machine-list li:nth-child(even) {
+      background-color: #d1d1d1;
     }
-  
-      #projects-list .machine-list li:nth-child(even) {
-        background-color: #d1d1d1;
-      }
 
 .machine-info {
   border-bottom: 1px solid #000000;
