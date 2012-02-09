@@ -230,15 +230,19 @@ namespace VMAT.Controllers
                 //dataDB.ArchivedVirtualMachines.Add(vm);
             }*/
             VirtualMachineRepository vmr = new VirtualMachineRepository();
-            /*foreach (RegisteredVirtualMachine vm in vmr.GetRegisteredVMs())
+            foreach (RegisteredVirtualMachine vm in vmr.GetRegisteredVMs())
             {
                 if (vm.GetProjectName() == project)
                 {
                     vmr.PowerOff(vm, new Services.RegisteredVirtualMachineService(vm));
+                    ArchiveMachine(vm);
                 }
+            }
+            /*string folderName = AppConfiguration.GetWebserverVmPath() + project;
+            if (ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z"))
+            {
+
             }*/
-            string folderName = AppConfiguration.GetWebserverVmPath() + project;
-            ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
             //needs to store the created archive file in the database
             /*
             var results = new ClosingProjectViewModel {
