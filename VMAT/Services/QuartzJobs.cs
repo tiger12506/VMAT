@@ -45,7 +45,11 @@ namespace VMAT.Services
             sched = schedFact.GetScheduler();
             sched.Start();
 
-
+            if (dataDB.HostConfiguration.Count() < 1)
+            {
+                new SchedulerInfo("No jobs scheduled due to lack of configuration").LogElmah();
+                return;
+            }
             // Create VMs
             JobDetail createJD = new JobDetail("CreateVMs", null, typeof(CreateVMsJob));
 
@@ -99,6 +103,7 @@ namespace VMAT.Services
                 try
                 {
                     dataDB.VirtualMachines.Remove(pendingVM);
+                    //TODO create & add an ArchivedVM
                     //dataDB.VirtualMachines.Add(regVM);
                 }
                 catch (Exception ex)
