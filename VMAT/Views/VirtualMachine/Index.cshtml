@@ -19,37 +19,29 @@
     urlTable['getNextIP'] = '@Url.Action("GetNextIP")';
 </script>
 
-<div class="management-header">
-    <ul>
-        <li>
-            <a href="@Url.Action("Create")" class="link-button">
-                <span class="icon">
-                    <img src="@Url.Content("~/Content/themes/images/icon_server-create.png")" alt="+" />
-                </span>
-                Create
-            </a>
-        </li>
-        <li>
-            <a href="@Url.Action("Host", "Configuration")" class="link-button">
-                <span class="icon">
-                    <img src="@Url.Content("~/Content/themes/images/icon_server-admin.png")" alt="*" />
-                </span>
-                Admin
-            </a>
-        </li>
-    </ul>
-</div>
+<ul class="management-header">
+    <li>
+        <a href="@Url.Action("Create")" class="link-button">
+            <img src="@Url.Content("~/Content/themes/images/icon_server-create.png")" alt="+" />
+            Create
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Host", "Configuration")" class="link-button">
+            <img src="@Url.Content("~/Content/themes/images/icon_server-admin.png")" alt="*" />
+            Admin
+        </a>
+    </li>
+</ul>
 
-<div id="display-projects-list" class="list">
-    <ul id="projects-list">
+<ul id="project-list">
     @foreach (var project in Model)
     {
         <li class="project-item">
             @Html.Partial("_Project", project)
         </li>
     }
-    </ul>
-</div>
+</ul>
 
 
 @* +++++++++++++++ Popup DIVs +++++++++++++++++ *@

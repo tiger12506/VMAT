@@ -1,4 +1,6 @@
-﻿var $projectName;
+﻿// File: vmManagement.js
+
+var $projectName;
 
 $(document).ready(function () {
     enableProjectControls();
@@ -26,14 +28,14 @@ function enableProjectControls() {
         });
     });
 
-    $(".project-display").click(function () {
-        if ($(this).text() === "v") {
+    $(".project-collapse").click(function () {
+        if ($(this).text() == "v") {
             $(this).text(">");
         } else {
             $(this).text("v");
         }
 
-        $(this).closest(".project").children(".project-machines").slideToggle(300);
+        $(this).closest(".project").children(".machine-list").slideToggle(300);
     });
 }
 

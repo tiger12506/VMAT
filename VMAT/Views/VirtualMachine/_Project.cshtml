@@ -2,19 +2,16 @@
 
 <div class="project" id="@Model.ProjectName">
     <div class="project-header">
-        <button type="button" class="project-display collapse">v</button>
+        <button type="button" class="project-collapse">v</button>
         <h2>@Model.ProjectName</h2>
         <h3>@Model.Hostname</h3>
         <button type="button" class="project-close">
-            <span class="icon">
-                <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
-            </span>
+            <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
             Close
         </button>
     </div>
 
-    <div class="project-machines">
-        <ul class="machine-list">
+    <ul class="machine-list">
         @foreach (var vm in Model.RegisteredVMs)
         {
             <li class="registered-vm">
@@ -42,6 +39,5 @@
                 @Html.Partial("_ArchivedVirtualMachine", vm)
             </li>
         }
-        </ul>
-    </div>
+    </ul>
 </div>
