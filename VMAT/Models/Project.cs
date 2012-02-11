@@ -9,8 +9,9 @@ namespace VMAT.Models
         /// <summary>
         /// Gets or sets the name of the project.
         /// </summary>
+        [Key]
         [Required(ErrorMessage = "Project Name required")]
-        [RegularExpression("[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must be 4 digits")]
+        [RegularExpression("G[0-9]{4}", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Name")]
         public string ProjectName { get; set; }
 

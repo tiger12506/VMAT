@@ -21,7 +21,7 @@ namespace VMAT.Models
 
             foreach (var vm in GetAllRegisteredVirtualMachines())
             {
-                string projectName = vm.GetProjectName();
+                string projectName = vm.ProjectName;
                 bool found = false;
 
                 foreach (Project proj in projects)
@@ -46,7 +46,7 @@ namespace VMAT.Models
             {
                 if (vm.GetType() != typeof(RegisteredVirtualMachine))
                 {
-                    string projectName = vm.GetProjectName();
+                    string projectName = vm.ProjectName;
                     bool found = false;
 
                     foreach (Project proj in projects)
@@ -161,7 +161,7 @@ namespace VMAT.Models
 
             foreach (var vm in vms)
             {
-                if (vm.GetProjectName() == projectName)
+                if (vm.ProjectName == projectName)
                     ScheduleArchiveVirtualMachine(vm.ImagePathName);
             }
         }

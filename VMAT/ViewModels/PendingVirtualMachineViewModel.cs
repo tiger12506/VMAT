@@ -15,7 +15,7 @@ namespace VMAT.ViewModels
         {
             ImagePathName = vm.ImagePathName;
             OS = vm.OS;
-            MachineName = vm.GetMachineName();
+            MachineName = "gapdev" + vm.ProjectName.Trim('G') + vm.MachineName;
             IP = vm.IP;
         }
     }

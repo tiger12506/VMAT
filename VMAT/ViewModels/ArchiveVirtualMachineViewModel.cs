@@ -11,7 +11,7 @@ namespace VMAT.ViewModels
 
         public ArchiveVirtualMachineViewModel(ArchivedVirtualMachine vm)
         {
-            MachineName = vm.GetMachineName();
+            MachineName = "gapdev" + vm.ProjectName.Trim('G') + vm.MachineName;
             ArchiveTime = vm.LastArchived.ToString();
         }
     }

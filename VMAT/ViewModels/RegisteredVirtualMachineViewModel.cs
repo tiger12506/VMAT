@@ -8,7 +8,7 @@ namespace VMAT.ViewModels
     {
         public string ImagePathName { get; set; }
         public string BaseImageName { get; set; }
-        public Image OperatingSystemIcon { get; set; }
+        public string OperatingSystemIcon { get; set; }
         public string Status { get; set; }
         public string MachineName { get; set; }
         public string IP { get; set; }
@@ -27,7 +27,7 @@ namespace VMAT.ViewModels
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
             Status = service.GetStatus().ToString().ToLower();
-            MachineName = vm.GetMachineName();
+            MachineName = "gapdev" + vm.ProjectName.Trim('G') + vm.MachineName;
             IP = vm.IP;
             CreatedTime = vm.CreatedTime.ToString();
             LastStopped = vm.LastStopped.ToString();
@@ -36,7 +36,9 @@ namespace VMAT.ViewModels
             LastBackuped = vm.LastBackuped.ToString();
 
             if (vm.BaseImageName == "Windows 7")
-                OperatingSystemIcon = new Image();
+                OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";
+            else if (vm.BaseImageName == "Windows Server 2008")
+                OperatingSystemIcon = "~/Content/themes/images/logo_windows-server-2008.png";
         }
     }
 }

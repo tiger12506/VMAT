@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using VMAT.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VMAT.Models;
 
 namespace VMAT.ViewModels
 {
@@ -16,7 +12,7 @@ namespace VMAT.ViewModels
         /// 4-digit project identifier
         /// </summary>
         [Required(ErrorMessage = "Project Name is required")]
-        [RegularExpression("G[0-9][0-9][0-9][0-9]", ErrorMessage = "Project Name must follow the format 'G1234'")]
+        [RegularExpression("G[0-9]{4}", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
@@ -43,15 +39,11 @@ namespace VMAT.ViewModels
 
         public VirtualMachineFormViewModel(Models.VirtualMachine vm)
         {
-            ProjectName = vm.GetProjectName();
-            MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
+            ProjectName = vm.ProjectName;
+            MachineNameSuffix = vm.MachineName;
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
-
-            if (vm.Lifecycle == VMLifecycle.Active)
-                IsAutoStarted = true;
-            else if (vm.Lifecycle == VMLifecycle.Idle)
-                IsAutoStarted = false;
+            IsAutoStarted = vm.IsAutoStarted;
         }
     }
 }
