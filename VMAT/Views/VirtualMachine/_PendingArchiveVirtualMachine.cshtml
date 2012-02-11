@@ -1,6 +1,6 @@
 ﻿@model VMAT.ViewModels.PendingArchiveVirtualMachineViewModel
 
-<div class="machine-info pending-archive" id="@Model.ImagePathName">
+<div class="machine-info pending-archive" id="@Model.VirtualMachineId">
     <div class="primary">
         <div class="status">
             <button type="button" status="@Model.Status"></button>
@@ -26,7 +26,7 @@
                 <th>Date Created</th>
                 <th>Last Shutdown Time</th>
                 <th>
-                    <a href="@Url.Action("Edit", new { img = Url.Encode(Model.ImagePathName) })" 
+                    <a href="@Url.Action("Edit", new { img = Url.Encode(Model.VirtualMachineId.ToString()) })" 
                         class="edit-machine link-button">
                         Edit
                     </a>
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td class="tStatus"><!-- Empty --></td>
-                    <td class="tImagefile">@Model.OperatingSystemIcon</td>
+                    <td class="tImagefile"><img src="@Url.Content(Model.OperatingSystemIcon)" alt="" /></td>
                     <td class="tStarted">@Model.LastStarted</td>
                     <td class="tBackuped">@Model.LastBackuped</td>
                     <td class="tArchived">@Model.LastArchived</td>

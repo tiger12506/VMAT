@@ -16,17 +16,19 @@ namespace VMAT.Models
     public abstract class VirtualMachine
     {
         [Key]
+        [ScaffoldColumn(false)]
+        public int VirtualMachineId { get; set; }
+
+        [ScaffoldColumn(false)]
+        public int ProjectId { get; set; }
+
         [Required(ErrorMessage = "Image Path Name required")]
         [DisplayName("Image Filepath")]
         public string ImagePathName { get; protected set; }
 
-        [Required(ErrorMessage = "Machine Name Suffix required")]
+        [Required(ErrorMessage = "Machine Name required")]
         [DisplayName("Machine Name Suffix")]
         public string MachineName { get; set; }
-
-        [Required]
-        [DisplayName("Project Name")]
-        public string ProjectName { get; set; }
 
         [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }

@@ -15,7 +15,7 @@ namespace VMAT.Models
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetProjects()
+        public IEnumerable<Project> GetAllProjects()
         {
             var projects = new List<Project>();
 

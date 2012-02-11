@@ -6,20 +6,12 @@ namespace VMAT.ViewModels
 {
     public class VirtualMachineFormViewModel
     {
-        /// String to identify project. 4 sections: "G"+Project Number (4-digit), 
-        /// Company, Site, tiny description. Project Identifier is latter 3 items.
-        /// <summary>
-        /// 4-digit project identifier
-        /// </summary>
-        [Required(ErrorMessage = "Project Name is required")]
+        [Required]
         [RegularExpression("G[0-9]{4}", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
-        /// <summary>
-        /// The readable name of the virtual machine, derived from the Image Path Name.
-        /// </summary>
-        [Required(ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+        [Required]
         [RegularExpression("[0-9A-Za-z]{1,5}", ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
         [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }

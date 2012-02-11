@@ -4,7 +4,7 @@ using System.Web.UI.WebControls;
 
 namespace VMAT.ViewModels
 {
-    public class RegisteredVirtualMachineViewModel
+    public class RegisteredVirtualMachineViewModel : VirtualMachineViewModel
     {
         public string ImagePathName { get; set; }
         public string BaseImageName { get; set; }

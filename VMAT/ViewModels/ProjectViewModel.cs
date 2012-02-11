@@ -5,6 +5,7 @@ namespace VMAT.ViewModels
 {
     public class ProjectViewModel
     {
+        public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public string Hostname { get; set; }
         public IEnumerable<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }

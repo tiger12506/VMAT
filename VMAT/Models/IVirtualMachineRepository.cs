@@ -6,7 +6,7 @@ namespace VMAT.Models
     public interface IVirtualMachineRepository
     {
         void CreateProject(Project proj);
-        IEnumerable<Project> GetProjects();
+        IEnumerable<Project> GetAllProjects();
         IEnumerable<VirtualMachine> GetAllVirtualMachines();
         IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines();
         VirtualMachine GetVirtualMachine(string imagePath);
