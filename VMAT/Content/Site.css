@@ -245,8 +245,7 @@ a.link-button {
   background-color: #eeeeee;
   margin-top: 0;
   border-top: 0;
-  /* Fill entire content area */
-  padding-bottom: 1px;
+  padding-bottom: 1px; /* Fill entire content area */
 }
 
 #logo {
@@ -290,15 +289,11 @@ a.link-button {
   margin-left: 30px;
 }
 
-  .created-by li {
+  .created-by > li {
     display: inline-block;
     margin-right: 140px;
     vertical-align: top;
   }
-
-    .created-by li ul li {
-      display: block;
-    }
     
 .org-logo {
   max-height: 200px;
@@ -400,18 +395,21 @@ button.archive {
 ----------------------------------------------------------*/
 
 .management-header {
-  text-align: center;
   padding: 25px 0;
 }
-  
-  .management-header li {
-    display: inline;
-    margin-right: 50px;
+
+  .management-header ul {
+    text-align: center;
   }
-    
-    .management-header li:last-child {
-      margin-right: 0;
+  
+    .management-header li {
+      display: inline;
+      margin-right: 50px;
     }
+    
+      .management-header li:last-child {
+        margin-right: 0;
+      }
 
   .management-header a.link-button {
     border-radius: 10px;
@@ -451,7 +449,7 @@ button.archive {
   padding: 0;
 }
   
-  #project-list li {
+  #project-list > li {
     margin-bottom: 25px;
   }
 
@@ -541,20 +539,14 @@ button.archive {
         height: 15px;
         top: 0;
       }
-
-#project-list .machine-list {
+  
+.machine-list > li {
   margin: 0;
-  padding: 0;
-  min-height: 0;
 }
   
-  #project-list .machine-list li {
-    margin: 0;
+  .machine-list > li:nth-child(even) {
+    background-color: #d1d1d1;
   }
-  
-    #project-list .machine-list li:nth-child(even) {
-      background-color: #d1d1d1;
-    }
 
 .machine-info {
   border-bottom: 1px solid #000000;
@@ -675,10 +667,9 @@ button.archive {
 /* POPUP WINDOWS
 ----------------------------------------------------------*/
 
-#popup-background{  
+#popup-background {  
   display: none;  
-  position: fixed;  
-  _position: absolute; /* hack for internet explorer 6*/  
+  position: fixed;
   height: 100%;  
   width: 100%;  
   top: 0;  
@@ -703,60 +694,60 @@ button.archive {
   min-width: 200px;
 }
 
-  #popup #popup-header {
-    background-color: White;
-    border-bottom: solid 1px #000000;
-    cursor: move;
-    height: 40px;
-  }
+#popup-header {
+  background-color: White;
+  border-bottom: solid 1px #000000;
+  cursor: move;
+  height: 40px;
+}
 
-    #popup #popup-header h2 {
-      position: relative;
-      margin-left: 10px;
-      float: left;
-      clear: left;
-      top: 5px;
-    }
+  #popup-header h2 {
+    position: relative;
+    margin-left: 10px;
+    float: left;
+    clear: left;
+    top: 5px;
+  }
     
-    #popup #popup-header button.cancel {
-      float: right;
-      clear: right;
-      background: 0;
-      border: 0;
-      margin-left: 25px;
-    }
+  #popup-header button.cancel {
+    float: right;
+    clear: right;
+    background: 0;
+    border: 0;
+    margin-left: 25px;
+  }
     
-      #popup #popup-header button.cancel img {
-        height: 30px;
-        width: 30px;
-      }
+    #popup-header button.cancel img {
+      height: 30px;
+      width: 30px;
+    }
     
 #popup-content {
   padding: 5px;
 }
 
-#popup-content ul {
-  width: 95%;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
-}
-
-#popup-content ul li {
-  margin-bottom: 5%;
-  text-align: center;
-}
-
-  #popup-content ul li:first-child {
-    margin-top: 2%;
+  #popup-content ul {
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
   }
+
+  #popup-content ul li {
+    margin-bottom: 5%;
+    text-align: center;
+  }
+
+    #popup-content ul li:first-child {
+      margin-top: 2%;
+    }
   
-  #popup-content button img {
-    width: 25px;
-    height: 25px;
-    position: relative;
-    top: 3px;
-  }
+    #popup-content button img {
+      width: 25px;
+      height: 25px;
+      position: relative;
+      top: 3px;
+    }
   
 .popup-content-panel {
   display: none;
@@ -813,6 +804,6 @@ ol.error li {
     margin: 0;
   }
 
-  ol.error li #stack-trace{
+  ol.error li #stack-trace {
     color: #bc1010;
   }

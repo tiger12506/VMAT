@@ -19,20 +19,22 @@
     urlTable['getNextIP'] = '@Url.Action("GetNextIP")';
 </script>
 
-<ul class="management-header">
-    <li>
-        <a href="@Url.Action("Create")" class="link-button">
-            <img src="@Url.Content("~/Content/themes/images/icon_server-create.png")" alt="+" />
-            Create
-        </a>
-    </li>
-    <li>
-        <a href="@Url.Action("Host", "Configuration")" class="link-button">
-            <img src="@Url.Content("~/Content/themes/images/icon_server-admin.png")" alt="*" />
-            Admin
-        </a>
-    </li>
-</ul>
+<div class="management-header">
+    <ul>
+        <li>
+            <a href="@Url.Action("Create")" class="link-button">
+                <img src="@Url.Content("~/Content/themes/images/icon_server-create.png")" alt="+" />
+                Create
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Host", "Configuration")" class="link-button">
+                <img src="@Url.Content("~/Content/themes/images/icon_server-admin.png")" alt="*" />
+                Admin
+            </a>
+        </li>
+    </ul>
+</div>
 
 <ul id="project-list">
     @foreach (var project in Model)
@@ -42,7 +44,6 @@
         </li>
     }
 </ul>
-
 
 @* +++++++++++++++ Popup DIVs +++++++++++++++++ *@
 
