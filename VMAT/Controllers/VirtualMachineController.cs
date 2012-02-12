@@ -76,7 +76,7 @@ namespace VMAT.Controllers
             if (ModelState.IsValid)
             {
                 var vm = new PendingVirtualMachine(vmForm);
-                vmRepo.CreatePendingVirtualMachine(vm);
+                vmRepo.CreateVirtualMachine(vm);
 
                 return RedirectToAction("Index");
             }
@@ -110,12 +110,10 @@ namespace VMAT.Controllers
         //
         // GET: /VirtualMachine/Edit
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
-            string imageFile = HttpUtility.UrlDecode(id);
-
             // TODO: Handle all VM types
-            VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
+            VirtualMachine vm = vmRepo.GetVirtualMachine(id);
             var form = new VirtualMachineFormViewModel(vm);
 
             var projectName = new SelectList(vmRepo.GetAllProjects(),
@@ -155,10 +153,10 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/ToggleStatus
 
         [HttpPost]
-        public ActionResult ToggleStatus(string id)
+        public ActionResult ToggleStatus(int id)
         {
             VMStatus status = vmRepo.ToggleVMStatus(id);
-            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(id);
+            RegisteredVirtualMachine vm = (RegisteredVirtualMachine)vmRepo.GetVirtualMachine(id);
 
             var results = new ToggleStatusViewModel
             {
@@ -174,7 +172,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/UndoPendingCreateOperation
 
         [HttpPost]
-        public ActionResult UndoPendingCreateOperation(string id)
+        public ActionResult UndoPendingCreateOperation(int id)
         {
             try
             {
@@ -193,7 +191,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/UndoPendingArchiveOperation
 
         [HttpPost]
-        public ActionResult UndoPendingArchiveOperation(string id)
+        public ActionResult UndoPendingArchiveOperation(int id)
         {
             try
             {
@@ -222,12 +220,11 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/ArchiveMachine
 
         [HttpPost]
-        public ActionResult ArchiveMachine(RegisteredVirtualMachine vm)
+        public ActionResult ArchiveMachine(int id)
         {
             try
             {
-                vmRepo.CreatePendingArchiveVirtualMachine(new PendingArchiveVirtualMachine(vm));
-                vmRepo.DeleteVirtualMachine(vm.ImagePathName);
+                vmRepo.ScheduleArchiveVirtualMachine(id);
             }
             catch (Exception e)
             {
@@ -241,7 +238,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/ArchiveProject
 
         [HttpPost]
-        public ActionResult ArchiveProject(string id)
+        public ActionResult ArchiveProject(int id)
         {
             vmRepo.ScheduleArchiveProject(id);
             //string folderName = AppConfiguration.GetWebserverVmPath() + project;
@@ -260,7 +257,7 @@ namespace VMAT.Controllers
         // POST: /VirtualMachine/DeleteProject
 
         [HttpPost]
-        public ActionResult DeleteProject(string id)
+        public ActionResult DeleteProject(int id)
         {
             //var proj = proj.ProjectName;
             var results = new ClosingProjectViewModel {

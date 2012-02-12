@@ -18,6 +18,8 @@ namespace VMAT.Models
         [DisplayName("Hostname")]
         public string Hostname { get; set; }
 
+        public List<VirtualMachine> VirtualMachines { get; set; }
+
         public Project() { }
 
         public Project(string name) : this(name, AppConfiguration.GetVMHostName()) { }
@@ -26,6 +28,7 @@ namespace VMAT.Models
         {
             ProjectName = name;
             Hostname = hostname;
+            VirtualMachines = new List<VirtualMachine>();
         }
     }
 }
