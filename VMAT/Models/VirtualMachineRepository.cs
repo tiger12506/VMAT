@@ -186,6 +186,37 @@ namespace VMAT.Models
             dataDB.SaveChanges();
         }
 
+        public void UndoScheduleArchiveVirtualMachine(int id)
+        {
+            var archiveVm = dataDB.VirtualMachines.Single(v => v.VirtualMachineId == id)
+                as PendingArchiveVirtualMachine;
+            var vm = new RegisteredVirtualMachine(archiveVm);
+
+            try
+            {
+                dataDB.VirtualMachines.Remove(archiveVm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
+            dataDB.SaveChanges();
+
+            try
+            {
+                dataDB.VirtualMachines.Add(vm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
+            dataDB.SaveChanges();
+        }
+
         public void ScheduleArchiveProject(int id)
         {
             var project = GetProjectWithVirtualMachines(id);

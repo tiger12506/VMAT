@@ -30,7 +30,7 @@ namespace VMAT.ViewModels
 
         public VirtualMachineFormViewModel() { }
 
-        public VirtualMachineFormViewModel(Models.VirtualMachine vm)
+        public VirtualMachineFormViewModel(VirtualMachine vm)
         {
             ProjectName = vm.ProjectName;
             MachineNameSuffix = vm.MachineName;

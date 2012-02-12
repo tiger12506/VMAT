@@ -193,25 +193,11 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult UndoPendingArchiveOperation(int id)
         {
-<<<<<<< HEAD
-            try
-            {
-                vmRepo.DeleteVirtualMachine(id);
-            }
-            catch (InvalidOperationException)
-            {
-                // If this fails, the VM is already removed from the database.
-                // Therefore, ignore it and send success response.
-            }
-
-            return Json(id);
-=======
-            vmRepo.UndoScheduleArchiveVirtualMachine(image);
-            var vm = vmRepo.GetRegisteredVirtualMachine(image);
-            var viewModel = new RegisteredVirtualMachineViewModel(vm);
+            vmRepo.UndoScheduleArchiveVirtualMachine(id);
+            var vm = vmRepo.GetVirtualMachine(id);
+            var viewModel = new RegisteredVirtualMachineViewModel(vm as RegisteredVirtualMachine);
 
             return PartialView("_RegisteredVirtualMachine", viewModel);
->>>>>>> pre_master
         }
 
         //

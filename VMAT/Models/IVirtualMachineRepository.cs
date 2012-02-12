@@ -16,6 +16,7 @@ namespace VMAT.Models
         VirtualMachine GetVirtualMachine(int id);
         void DeleteVirtualMachine(int id);
         void ScheduleArchiveVirtualMachine(int id);
+        void UndoScheduleArchiveVirtualMachine(int id);
         void ScheduleArchiveProject(int id);
         string GetNextAvailableIP();
         VMStatus ToggleVMStatus(int id);
