@@ -10,7 +10,8 @@
         @foreach (var org in Model)
         {
             <li>
-                <img src='@Url.Content("~/Content/themes/images/" + org.LogoFile)' alt="@org.Name" class="org-logo" />
+                @*<img src='@Url.Content("~/Content/themes/images/" + org.LogoFile)' alt="@org.Name" class="org-logo" />*@
+                <h3>@org.Name</h3>
                 <ul>
                     @foreach (var author in org.Authors)
                     {

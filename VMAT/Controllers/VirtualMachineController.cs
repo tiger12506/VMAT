@@ -193,6 +193,7 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult UndoPendingArchiveOperation(int id)
         {
+<<<<<<< HEAD
             try
             {
                 vmRepo.DeleteVirtualMachine(id);
@@ -204,6 +205,13 @@ namespace VMAT.Controllers
             }
 
             return Json(id);
+=======
+            vmRepo.UndoScheduleArchiveVirtualMachine(image);
+            var vm = vmRepo.GetRegisteredVirtualMachine(image);
+            var viewModel = new RegisteredVirtualMachineViewModel(vm);
+
+            return PartialView("_RegisteredVirtualMachine", viewModel);
+>>>>>>> pre_master
         }
 
         //
@@ -222,16 +230,11 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult ArchiveMachine(int id)
         {
-            try
-            {
-                vmRepo.ScheduleArchiveVirtualMachine(id);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            
-            return RedirectToAction("Index");
+            vmRepo.ScheduleArchiveVirtualMachine(id);
+            var vm = vmRepo.GetVirtualMachine(id);
+            var viewModel = new PendingArchiveVirtualMachineViewModel(vm as PendingArchiveVirtualMachine);
+
+            return PartialView("_PendingArchiveVirtualMachine", viewModel);
         }
 
         //
@@ -241,16 +244,10 @@ namespace VMAT.Controllers
         public ActionResult ArchiveProject(int id)
         {
             vmRepo.ScheduleArchiveProject(id);
-            //string folderName = AppConfiguration.GetWebserverVmPath() + project;
-            //ArchivedVirtualMachine.ArchiveFile(folderName, folderName + ".7z");
-            /*
-            var results = new ClosingProjectViewModel {
-                Action = "archive",
-                Time = DateTime.Now
-            };
+            var proj = vmRepo.GetProject(id);
+            var viewModel = new ProjectViewModel(proj);
 
-            return Json(results);*/
-            return RedirectToAction("Index");
+            return PartialView("_Project", viewModel);
         }
 
         //
@@ -259,13 +256,13 @@ namespace VMAT.Controllers
         [HttpPost]
         public ActionResult DeleteProject(int id)
         {
-            //var proj = proj.ProjectName;
-            var results = new ClosingProjectViewModel {
+            /*var results = new ClosingProjectViewModel {
                 Action = "delete",
                 Time = DateTime.Now
             };
 
-            return Json(results);
+            return Json(results);*/
+            return RedirectToAction("Index");
         }
     }
 }

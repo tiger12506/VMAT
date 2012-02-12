@@ -1,14 +1,19 @@
-﻿var $projectName;
+﻿// File: vmManagement.js
+
+var $projectName;
 
 $(document).ready(function () {
-    // Activate items if JavaScript is enabled
-    $(".machine-info .details").hide();
-    $(".status button").attr("title", function () {
-        setStatusTooltips($(this));
-    });
+    enableProjectControls();
 
+    enableToggleDetails();
+
+    enablePendingOperationControls();
+});
+
+
+// Create event handlers for DOM elements
+function enableProjectControls() {
     $(".project-close").click(function () {
-
         $projectName = $(this).closest(".project").attr("id");
         Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
 
@@ -23,14 +28,22 @@ $(document).ready(function () {
         });
     });
 
-    $(".project-display").click(function () {
-        if ($(this).text() === "v") {
+    $(".project-collapse").click(function () {
+        if ($(this).text() == "v") {
             $(this).text(">");
         } else {
             $(this).text("v");
         }
 
-        $(this).closest(".project").children(".project-machines").slideToggle(300);
+        $(this).closest(".project").children(".machine-list").slideToggle(300);
+    });
+}
+
+function enableToggleDetails() {
+    // Activate items if JavaScript is enabled
+    $(".machine-info .details").hide();
+    $(".status button").attr("title", function () {
+        setStatusTooltips($(this));
     });
 
     $(".toggle-details").click(function () {
@@ -44,7 +57,9 @@ $(document).ready(function () {
 
         $detailsDiv.slideToggle(300);
     });
+}
 
+function enablePendingOperationControls() {
     $(".pending-vm .undo-pending").click(function () {
         var $container = $(this).closest(".machine-info");
         undoPendingCreateOperation($container);
@@ -54,7 +69,7 @@ $(document).ready(function () {
         var $container = $(this).closest(".machine-info");
         undoPendingArchiveOperation($container);
     });
-});
+}
 
 function undoPendingCreateOperation($container) {
     var imagePath = $container.attr("id");
@@ -74,7 +89,7 @@ function undoPendingCreateOperation($container) {
     };
 
     var failureCallback = function(error, imagePath) {
-        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+        alert("Failed to undo operation on " + imagePath + ": " + error.status);
     };
 
     $.ajax({
@@ -89,17 +104,20 @@ function undoPendingCreateOperation($container) {
     //successCallback($container); FOR TESTING
 }
 
-
-
 function undoPendingArchiveOperation($container) {
     var imagePath = $container.attr("id");
 
-    var successCallback = function ($container) {
-        alert("success");
+    var successCallback = function (item) {
+        $container.closest("li").fadeOut(200, function () {
+            $(this).html(item);
+            enableToggleDetails();
+            enablePendingOperationControls();
+            $(this).fadeIn(200);
+        });
     };
 
     var failureCallback = function (error, imagePath) {
-        alert("Failed to undo operation on " + imagePath + ": " + error.status + " - " + JSON.parse(error.responseText));
+        alert("Failed to undo operation on " + imagePath + ": " + error.status);
     };
 
     $.ajax({
@@ -107,8 +125,8 @@ function undoPendingArchiveOperation($container) {
         contentType: "application/json; charset=utf-8",
         url: $.url("undoPendingArchiveOperation"),
         data: "{'image': '" + imagePath + "'}",
-        dataType: "json",
-        success: function (data) { successCallback($container); },
+        dataType: "html",
+        success: function (data) { successCallback(data); },
         error: function (error) { failureCallback(error, imagePath); }
     });
     //successCallback($container); FOR TESTING

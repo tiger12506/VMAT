@@ -8,7 +8,14 @@ namespace VMAT.Models
 {
     public class VirtualMachineRepository : IVirtualMachineRepository
     {
-        private DataEntities dataDB = new DataEntities();
+        private DataEntities dataDB;
+
+        public VirtualMachineRepository() : this(new DataEntities()) { }
+
+        public VirtualMachineRepository(DataEntities db)
+        {
+            dataDB = db;
+        }
 
         public void CreateProject(Project proj)
         {
@@ -56,7 +63,8 @@ namespace VMAT.Models
 
             foreach (var vm in dataDB.VirtualMachines)
             {
-                if (vm.GetType() != typeof(RegisteredVirtualMachine))
+                if (vm.GetType() != typeof(RegisteredVirtualMachine) && 
+                    vm.GetType() != typeof(PendingArchiveVirtualMachine))
                 {
                     string projectName = vm.ProjectName;
                     bool found = false;
@@ -104,18 +112,26 @@ namespace VMAT.Models
 
                 try
                 {
-                    vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
+                    vm = dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
                         Single(d => d.ImagePathName == path);
-                }
-                catch (ArgumentNullException)
-                {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
                 }
                 catch (InvalidOperationException)
                 {
-                    vm = new RegisteredVirtualMachine(path);
-                    dataDB.VirtualMachines.Add(vm);
+                    try
+                    {
+                        vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
+                            Single(d => d.ImagePathName == path);
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        vm = new RegisteredVirtualMachine(path);
+                        dataDB.VirtualMachines.Add(vm);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        vm = new RegisteredVirtualMachine(path);
+                        dataDB.VirtualMachines.Add(vm);
+                    }
                 }
 
                 var service = new RegisteredVirtualMachineService(path);
@@ -126,10 +142,10 @@ namespace VMAT.Models
                     vm.IP = service.GetIP();
                 }
 
-                dataDB.SaveChanges();
                 vmList.Add(vm);
             }
 
+            dataDB.SaveChanges();
             return vmList;
         }
 
@@ -155,8 +171,19 @@ namespace VMAT.Models
             var vm = dataDB.VirtualMachines.Single(v => v.VirtualMachineId == id) 
                 as RegisteredVirtualMachine;
             var archiveVm = new PendingArchiveVirtualMachine(vm);
-            dataDB.VirtualMachines.Add(archiveVm);
-            dataDB.VirtualMachines.Remove(vm);
+            
+            try
+            {
+                dataDB.VirtualMachines.Remove(vm);
+                dataDB.VirtualMachines.Add(archiveVm);
+            }
+            catch (Exception)
+            {
+                // Do not save changes if error occurs
+                return;
+            }
+
+            dataDB.SaveChanges();
         }
 
         public void ScheduleArchiveProject(int id)

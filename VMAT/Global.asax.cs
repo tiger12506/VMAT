@@ -14,7 +14,6 @@ namespace VMAT
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -35,7 +34,6 @@ namespace VMAT
         {
             AreaRegistration.RegisterAllAreas();
 
-            //Database.SetInitializer<DataEntities>(
             Database.SetInitializer<DataEntities>(
                 new DropCreateDatabaseIfModelChanges<DataEntities>());
 
@@ -44,10 +42,6 @@ namespace VMAT
 
             //VMAT Add Quartz jobs
             Services.QuartzJobs.RegisterJobs();
-
-        }
-        protected void Application_End()
-        {
 
         }
     }

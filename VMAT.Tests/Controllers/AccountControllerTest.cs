@@ -15,7 +15,7 @@ namespace VMAT.Tests.Controllers
             var controller = new AccountController();
 
             // Act
-            var result = controller.Index();
+            var result = controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

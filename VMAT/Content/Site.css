@@ -164,6 +164,12 @@ button, input[type="button"], input[type="submit"], input[type="reset"], a.link-
     background: linear-gradient(top,  #74767c 0%,#bfb9b3 100%); /* W3C */
   }
 
+  button img, input[type="button"] img, input[type="submit"] img, input[type="reset"] img, a.link-button img {
+    position: relative;
+    top: 4px;
+    margin: 0 3px;
+  }
+  
 button[disabled="disabled"] {
   cursor: default;
   opacity: 0.4;
@@ -184,7 +190,7 @@ a.link-button {
     margin: 0 3px 0 3px;
   }
   
-    a.link-button span.icon img {
+    a.link-button img {
       width: 25px;
       height: 25px;
     }
@@ -196,7 +202,7 @@ a.link-button {
 #page {
   width: 920px;
   background-color: #ffffff;
-  margin: 20px auto 0px auto;
+  margin: 20px auto 20px auto;
   border: 2px solid #496077;
   border-radius: 7px;
 }
@@ -204,24 +210,21 @@ a.link-button {
 #header {
   background-color: #ffffff;
   border-bottom: 2px solid #4f4f4f;
+  border-radius: 7px 7px 0 0;
 }
   
   #header #banner {
     border-bottom: 2px solid #4f4f4f;
+    padding: 0 10px;
   }
-    
-    #header #banner #logo {
-      margin-left: 1%;
-    }
 
     #header #banner #login {
       float: right;
-      margin-right: 2%;
-      margin-top: 1%;
+      margin-top: 10px;
     }
 
   #header #page-title {
-    padding: 1% 0 1% 0;
+    padding: 10px 0;
       
     background: #b2b7b0; /* Old browsers */
     background: -moz-linear-gradient(top, #b2b7b0 0%, #7f7f7f 100%); /* FF3.6+ */
@@ -234,8 +237,7 @@ a.link-button {
     #header #page-title h1 {
       font-size: 200%;
       font-weight: normal;
-      margin: 0 0 0 10%;
-      padding: 0;
+      margin-left: 100px;
     }
 
 #content {
@@ -243,8 +245,7 @@ a.link-button {
   background-color: #eeeeee;
   margin-top: 0;
   border-top: 0;
-  /* Fill entire content area */
-  padding-bottom: 1px;
+  padding-bottom: 1px; /* Fill entire content area */
 }
 
 #logo {
@@ -262,17 +263,14 @@ a.link-button {
 #footer {
   background-color: #ffffff;
   border-top: 2px solid #4f4f4f;
+  border-radius: 0 0 7px 7px;
   text-align: center;
+  padding: 13px 0;
 }
-
-  #footer ul {
-    padding: 0;
-    margin: 1.5% 0 1.5% 0;
-  }
 
     #footer ul li {
       display: inline;
-      margin-right: 3%;
+      margin-right: 30px;
     }
     
       #footer ul li:last-child {
@@ -291,15 +289,11 @@ a.link-button {
   margin-left: 30px;
 }
 
-  .created-by li {
+  .created-by > li {
     display: inline-block;
     margin-right: 140px;
     vertical-align: top;
   }
-
-    .created-by li ul li {
-      display: block;
-    }
     
 .org-logo {
   max-height: 200px;
@@ -396,31 +390,24 @@ button.archive {
   margin-left: 10px;
 }
 
-#IP1, #IP2, #IP3, #IP4 {
-  width: 8%;
-}
-
 
 /* VIRTUAL MACHINE LIST
 ----------------------------------------------------------*/
 
 .management-header {
-  text-align: center;
-  padding-top: 3%;
-  padding-bottom: 3%;
+  padding: 25px 0;
 }
 
   .management-header ul {
-    padding: 0;
-    margin: 0;
+    text-align: center;
   }
   
-    .management-header ul li {
+    .management-header li {
       display: inline;
-      margin-right: 6%;
+      margin-right: 50px;
     }
     
-      .management-header ul li:last-child {
+      .management-header li:last-child {
         margin-right: 0;
       }
 
@@ -457,10 +444,14 @@ button.archive {
       background: linear-gradient(top, #6380a5 0%,#99baf7 92%); /* W3C */
     }
 
-      .management-header a.link-button span.icon img {
-        position: relative;
-        top: 4px;
-      }
+#project-list {
+  margin: 0;
+  padding: 0;
+}
+  
+  #project-list > li {
+    margin-bottom: 25px;
+  }
 
 .project {
   margin-left: 0;
@@ -479,23 +470,26 @@ button.archive {
   background: linear-gradient(top, #b2b7b0 0%,#7f7f7f 100%); /* W3C */
 }
 
-  .project-header .project-display {
+  .project-header .project-collapse {
+    font-size: 130%;
     color: #b6b6b6;
     background: 0;
     border: 0;
     margin-left: 12px;
+    margin-right: 5px;
+    width: 20px;
   }
   
-    .project-header .project-display:hover {
+    .project-header .project-collapse:hover {
       color: #787777;
     }
     
-    .project-header .project-display:active {
+    .project-header .project-collapse:active {
       color: #464646;
     }
     
   .project-header h2 {
-    margin: 9px 70px 9px 5px;
+    margin: 9px 70px 9px 0;
     display: inline-block;
   }
 
@@ -539,37 +533,20 @@ button.archive {
       background: -o-linear-gradient(top, #823131 0%,#aa6b6b 100%); /* Opera11.10+ */
       background: linear-gradient(top, #823131 0%,#aa6b6b 100%); /* W3C */
     }
-    
-    .project-header .project-close span.icon {
-      
-    }
 
-      .project-header .project-close span.icon img {
+      .project-header .project-close img {
         width: 15px;
         height: 15px;
+        top: 0;
       }
-    
-#projects-list {
+  
+.machine-list > li {
   margin: 0;
-  padding: 0;
 }
   
-  #projects-list li {
-    margin-bottom: 10px;
+  .machine-list > li:nth-child(even) {
+    background-color: #d1d1d1;
   }
-
-  #projects-list .machine-list {
-    margin: 0;
-    padding: 0;
-  }
-  
-    #projects-list .machine-list li {
-      margin: 0;
-    }
-  
-      #projects-list .machine-list li:nth-child(even) {
-        background-color: #d1d1d1;
-      }
 
 .machine-info {
   border-bottom: 1px solid #000000;
@@ -601,7 +578,7 @@ button.archive {
       text-decoration: underline;
     }
 
-  .machine-info.registered .status {
+  .machine-info .status {
     padding-left: 15px;
     display: inline-table;
     vertical-align: top;
@@ -610,7 +587,7 @@ button.archive {
     text-align: center;
   }
 
-    .machine-info.registered .status button {
+    .machine-info .status button {
       text-align: center;
       margin: 0;
       padding: 0;
@@ -620,11 +597,11 @@ button.archive {
       width: 40px;
     }
     
-      .machine-info.registered .status button:hover {
+      .machine-info .status button:hover {
         border-color: #96a4ad;
       }
 
-    .machine-info.registered .status button[status="running"] {
+    .machine-info .status button[status="running"] {
       background: #bde2b3; /* Old browsers */
       background: -moz-linear-gradient(top,  #bde2b3 0%, #7fd82b 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bde2b3), color-stop(100%,#7fd82b)); /* Chrome,Safari4+ */
@@ -633,7 +610,7 @@ button.archive {
       background: linear-gradient(top,  #bde2b3 0%,#7fd82b 100%); /* W3C */
     }
     
-    .machine-info.registered .status button[status="stopped"]  {
+    .machine-info .status button[status="stopped"]  {
       background: #e5c8b3; /* Old browsers */
       background: -moz-linear-gradient(top,  #e5c8b3 0%, #db462b 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5c8b3), color-stop(100%,#db462b)); /* Chrome,Safari4+ */
@@ -642,53 +619,64 @@ button.archive {
       background: linear-gradient(top,  #e5c8b3 0%,#db462b 100%); /* W3C */
      }
     
-    .machine-info.registered .status button.transition {
-      backgroundicolor: #f1d50d;
-      cursor: wait;
-      /*filter: alpha(opacity=80);*/
+    .machine-info .status button img {
+      visibility: hidden;
     }
     
-    .machine-info.registered .edit-machine {
+    .machine-info .status button.transition {
+      opacity: 0.8;
+    }
+    
+      .machine-info .status button.transition img {
+        visibility: visible;
+      }
+    
+    .machine-info .edit-machine {
       font-size: 120%;
       text-transform: none;
     }
   
-  .machine-info.pending .pending-message {
-    float: left;
+  .machine-info.pending .pending-message, .machine-info.pending-archive .pending-message {
+    display: inline-block;
     margin-left: 100px;
     width: 685px;
   }
   
-    .machine-info.pending .pending-message .message {
-      position: relative;
-      float: left;
+    .machine-info .pending-message .message {
+      display: inline-block;
       width: 580px;
-      top: 6px;
     }
     
-  .machine-info.pending .primary {
+  .machine-info.pending .primary, .machine-info.pending-archive .primary {
     padding-bottom: 10px;
   }
   
   .machine-info.pending .details table {
     margin-left: 30px;
   }
+  
+  .machine-info.pending-archive .pending-message {
+    margin-left: 31px;
+  }
+  
+  .machine-info.pending-archive table tr th {
+    padding-top: 14px;
+  }
 
 
 /* POPUP WINDOWS
 ----------------------------------------------------------*/
 
-#popup-background{  
-  display:none;  
-  position:fixed;  
-  _position:absolute; /* hack for internet explorer 6*/  
-  height:100%;  
-  width:100%;  
-  top:0;  
-  left:0;  
-  background:#000000;  
-  border:1px solid #cecece;
-  z-index:1; 
+#popup-background {  
+  display: none;  
+  position: fixed;
+  height: 100%;  
+  width: 100%;  
+  top: 0;  
+  left: 0;  
+  background: #000000;  
+  border: 1px solid #cecece;
+  z-index: 1; 
   opacity: 0.5;
 } 
 
@@ -706,60 +694,60 @@ button.archive {
   min-width: 200px;
 }
 
-  #popup #popup-header {
-    background-color: White;
-    border-bottom: solid 1px #000000;
-    cursor: move;
-    height: 40px;
-  }
+#popup-header {
+  background-color: White;
+  border-bottom: solid 1px #000000;
+  cursor: move;
+  height: 40px;
+}
 
-    #popup #popup-header h2 {
-      position: relative;
-      margin-left: 10px;
-      float: left;
-      clear: left;
-      top: 5px;
-    }
+  #popup-header h2 {
+    position: relative;
+    margin-left: 10px;
+    float: left;
+    clear: left;
+    top: 5px;
+  }
     
-    #popup #popup-header button.cancel {
-      float: right;
-      clear: right;
-      background: 0;
-      border: 0;
-      margin-left: 25px;
-    }
+  #popup-header button.cancel {
+    float: right;
+    clear: right;
+    background: 0;
+    border: 0;
+    margin-left: 25px;
+  }
     
-      #popup #popup-header button.cancel img {
-        height: 30px;
-        width: 30px;
-      }
+    #popup-header button.cancel img {
+      height: 30px;
+      width: 30px;
+    }
     
 #popup-content {
   padding: 5px;
 }
 
-#popup-content ul {
-  width: 95%;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
-}
-
-#popup-content ul li {
-  margin-bottom: 5%;
-  text-align: center;
-}
-
-  #popup-content ul li:first-child {
-    margin-top: 2%;
+  #popup-content ul {
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
   }
+
+  #popup-content ul li {
+    margin-bottom: 5%;
+    text-align: center;
+  }
+
+    #popup-content ul li:first-child {
+      margin-top: 2%;
+    }
   
-  #popup-content button img {
-    width: 25px;
-    height: 25px;
-    position: relative;
-    top: 3px;
-  }
+    #popup-content button img {
+      width: 25px;
+      height: 25px;
+      position: relative;
+      top: 3px;
+    }
   
 .popup-content-panel {
   display: none;
@@ -816,6 +804,6 @@ ol.error li {
     margin: 0;
   }
 
-  ol.error li #stack-trace{
+  ol.error li #stack-trace {
     color: #bc1010;
   }
