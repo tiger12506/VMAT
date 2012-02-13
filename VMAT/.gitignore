@@ -2,3 +2,4 @@ bin/
 obj/
 App_Data/
 *.csproj.user
+VMAT.Publish.xml
