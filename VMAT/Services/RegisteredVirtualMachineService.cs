@@ -12,11 +12,13 @@ namespace VMAT.Services
     {
         // Consider changing all methods to static methods, so long as they are thread-safe
         private IVirtualMachine VM;
-        private static IVirtualHost virtualHost;
+        private IVirtualHost virtualHost;
 
         public RegisteredVirtualMachineService(string imagePathName)
         {
-            GetVirtualHost();
+            virtualHost = new VirtualHost();
+            virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
 
             VM = virtualHost.Open(imagePathName);
         }
@@ -25,13 +27,11 @@ namespace VMAT.Services
 
         public static IVirtualHost GetVirtualHost()
         {
-            if (virtualHost == null)
-                virtualHost = new VirtualHost();
-            if (!virtualHost.IsConnected)
-                virtualHost.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
-                    AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
+            var vh = new VirtualHost();
+            vh.ConnectToVMWareVIServer(AppConfiguration.GetVMwareHostAndPort(),
+                AppConfiguration.GetVMwareUsername(), AppConfiguration.GetVMwarePassword());
 
-           return virtualHost;
+            return vh;
         }
 
         public VMStatus GetStatus()
@@ -227,10 +227,9 @@ namespace VMAT.Services
 
         public static IEnumerable<string> GetRegisteredVMImagePaths()
         {
-            GetVirtualHost();
-            var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName);
+            var vh = GetVirtualHost();
 
-            return ret;
+            return vh.RegisteredVirtualMachines.Select(v => v.PathName);
         }
 
         public static IEnumerable<string> GetBaseImageFiles()
