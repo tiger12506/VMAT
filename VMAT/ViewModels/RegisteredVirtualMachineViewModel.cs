@@ -1,5 +1,4 @@
 ﻿using VMAT.Models;
-using VMAT.Services;
 using System.Web.UI.WebControls;
 
 namespace VMAT.ViewModels
@@ -22,12 +21,12 @@ namespace VMAT.ViewModels
 
         public RegisteredVirtualMachineViewModel(RegisteredVirtualMachine vm)
         {
-            var service = new RegisteredVirtualMachineService(vm.ImagePathName);
+            var service = new VMAT.Services.RegisteredVirtualMachineService(vm.ImagePathName);
 
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
             Status = service.GetStatus().ToString().ToLower();
-            MachineName = "gapdev" + vm.ProjectName.Trim('G') + vm.MachineName;
+            MachineName = vm.MachineName;
             IP = vm.IP;
             CreatedTime = vm.CreatedTime.ToString();
             LastStopped = vm.LastStopped.ToString();

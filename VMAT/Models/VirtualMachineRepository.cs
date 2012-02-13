@@ -15,6 +15,27 @@ namespace VMAT.Models
         public VirtualMachineRepository(DataEntities db)
         {
             dataDB = db;
+
+            if (dataDB.Projects == null || dataDB.Projects.Local.Count <= 0)
+                InitializeProjects();
+        }
+
+        private void InitializeProjects()
+        {
+            var registeredImages = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
+
+            foreach (var image in registeredImages)
+            {
+                int startIndex = image.IndexOf("] ") + "] ".Length;
+                string projectName = image.Substring(startIndex, 4);
+
+                if (!dataDB.Projects.Select(p => p.ProjectName).Contains(projectName))
+                {
+                    var service = new RegisteredVirtualMachineService(image);
+                    var project = new Project(projectName, service.GetHostname());
+                    dataDB.Projects.Add(project);
+                }
+            }
         }
 
         public void CreateProject(Project proj)
@@ -35,60 +56,6 @@ namespace VMAT.Models
         public IEnumerable<Project> GetAllProjects()
         {
             return dataDB.Projects.ToList();
-
-            /*svar projects = new List<Project>();
-
-            foreach (var vm in GetAllRegisteredVirtualMachines())
-            {
-                string projectName = vm.ProjectName;
-                bool found = false;
-
-                foreach (Project proj in projects)
-                {
-                    if (proj.ProjectName == projectName)
-                    {
-                        proj.AddVirtualMachine(vm);
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    var newProject = new Project(projectName, AppConfiguration.GetVMHostName(),
-                        new List<VirtualMachine> { vm });
-                    projects.Add(newProject);
-                }
-            }
-
-            foreach (var vm in dataDB.VirtualMachines)
-            {
-                if (vm.GetType() != typeof(RegisteredVirtualMachine) && 
-                    vm.GetType() != typeof(PendingArchiveVirtualMachine))
-                {
-                    string projectName = vm.ProjectName;
-                    bool found = false;
-
-                    foreach (Project proj in projects)
-                    {
-                        if (proj.ProjectName == projectName)
-                        {
-                            proj.AddVirtualMachine(vm);
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        var newProject = new Project(projectName, AppConfiguration.GetVMHostName(),
-                            new List<VirtualMachine> { vm });
-                        projects.Add(newProject);
-                    }
-                }
-            }
-
-            return projects;*/
         }
 
         public IEnumerable<Project> GetAllProjectsWithVirtualMachines()
@@ -101,44 +68,53 @@ namespace VMAT.Models
             return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
         }
 
-        public IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines()
+        private IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines()
         {
             var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
             var vmList = new List<RegisteredVirtualMachine>();
 
-            foreach (var path in imagePathNames)
+            foreach (var image in imagePathNames)
             {
                 RegisteredVirtualMachine vm;
 
                 try
                 {
                     vm = dataDB.VirtualMachines.OfType<PendingArchiveVirtualMachine>().
-                        Single(d => d.ImagePathName == path);
+                        Single(d => d.ImagePathName == image);
                 }
                 catch (InvalidOperationException)
                 {
                     try
                     {
                         vm = dataDB.VirtualMachines.OfType<RegisteredVirtualMachine>().
-                            Single(d => d.ImagePathName == path);
+                            Single(d => d.ImagePathName == image);
                     }
-                    catch (ArgumentNullException)
+                    catch (Exception)
                     {
-                        vm = new RegisteredVirtualMachine(path);
-                        dataDB.VirtualMachines.Add(vm);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        vm = new RegisteredVirtualMachine(path);
+                        int startIndex = image.IndexOf("] ") + "] ".Length;
+                        int length = image.IndexOf('\\', startIndex) - startIndex;
+                        string projectName = image.Substring(startIndex, length);
+
+                        startIndex = image.LastIndexOf('\\');
+                        length = image.LastIndexOf('.') - startIndex;
+                        string machineName = image.Substring(startIndex, length);
+
+                        vm = new RegisteredVirtualMachine
+                        {
+                            MachineName = machineName,
+                            ImagePathName = image,
+                            IsAutoStarted = false,
+                            Project = dataDB.Projects.Single(p => p.ProjectName == image)
+                        };
+
                         dataDB.VirtualMachines.Add(vm);
                     }
                 }
 
-                var service = new RegisteredVirtualMachineService(path);
+                var service = new RegisteredVirtualMachineService(image);
 
                 if (service.GetStatus() == VMStatus.Running)
                 {
-                    vm.Hostname = AppConfiguration.GetVMHostName();
                     vm.IP = service.GetIP();
                 }
 
@@ -291,13 +267,6 @@ namespace VMAT.Models
             service.PowerOff();
             vm.LastStopped = DateTime.Now;
             dataDB.SaveChanges();
-        }
-
-        public static IEnumerable<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(
-                AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }
     }
 }

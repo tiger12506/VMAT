@@ -52,15 +52,10 @@ namespace VMAT.Controllers
             var vmForm = new VirtualMachineFormViewModel();
             var projectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");
-            
-            foreach (var item in projectName)
-            {
-                item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
-                item.Text = item.Value;
-            }
 
             ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(
+                VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
@@ -100,7 +95,8 @@ namespace VMAT.Controllers
             }
 
             ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(
+                VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
@@ -114,7 +110,8 @@ namespace VMAT.Controllers
         {
             // TODO: Handle all VM types
             VirtualMachine vm = vmRepo.GetVirtualMachine(id);
-            var form = new VirtualMachineFormViewModel(vm);
+            string project = vmRepo.GetProject(vm.VirtualMachineId).ProjectName;
+            var form = new VirtualMachineFormViewModel(vm, project);
 
             var projectName = new SelectList(vmRepo.GetAllProjects(),
                 "ProjectName", "ProjectName");

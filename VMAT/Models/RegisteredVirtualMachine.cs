@@ -12,9 +12,6 @@ namespace VMAT.Models
         [DisplayName("IP Address")]
         public string IP { get; set; }
 
-        [DisplayName("Hostname")]
-        new public string Hostname { get; set; }
-
         [DisplayName("Last Shutdown")]
         public DateTime LastStopped { get; set; }
 
@@ -44,18 +41,13 @@ namespace VMAT.Models
             ImagePathName = vm.PathName;
         }
 
-        public RegisteredVirtualMachine(string imagePathName) : this()
+        public RegisteredVirtualMachine(PendingVirtualMachine vm) : this()
         {
-            ImagePathName = imagePathName;
-        }
-
-        public RegisteredVirtualMachine(PendingVirtualMachine vm)
-            : this(vm.ImagePathName)
-        {
+            ImagePathName = vm.ImagePathName;
             IP = vm.IP;
-            Hostname = vm.Hostname;
             BaseImageName = vm.BaseImageName;
-            CreatedTime = DateTime.Now;
+            IsAutoStarted = vm.IsAutoStarted;
+            OS = vm.OS;
         }
 
         public RegisteredVirtualMachine(PendingArchiveVirtualMachine vm)
@@ -63,8 +55,7 @@ namespace VMAT.Models
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
             OS = vm.OS;
-            Hostname = vm.Hostname;
-            Lifecycle = vm.Lifecycle;
+            IsAutoStarted = vm.IsAutoStarted;
             IP = vm.IP;
             CreatedTime = vm.CreatedTime;
             LastStarted = vm.LastStarted;

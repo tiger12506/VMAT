@@ -22,24 +22,23 @@ namespace VMAT.Models
         [ScaffoldColumn(false)]
         public int ProjectId { get; set; }
 
-        [Required(ErrorMessage = "Image Path Name required")]
-        [DisplayName("Image Filepath")]
-        public string ImagePathName { get; protected set; }
-
-        [Required(ErrorMessage = "Machine Name required")]
-        [DisplayName("Machine Name Suffix")]
+        [RegularExpression("^gapdev[0-9]{4}[a-zA-Z0-9]{1,5}$")]
+        [DisplayName("Machine Name")]
         public string MachineName { get; set; }
+
+        [DisplayName("Image Filepath")]
+        public string ImagePathName { get; set; }
 
         [DisplayName("Base Image File")]
         public string BaseImageName { get; set; }
 
         [DisplayName("Operating System")]
+        [RegularExpression("[a-zA-Z0-9 ]")]
         public string OS { get; set; }
-
-        [DisplayName("Hostname")]
-        public string Hostname { get; set; }
 
         [DisplayName("Startup")]
         public bool IsAutoStarted { get; set; }
+
+        public Project Project { get; set; }
     }
 }

@@ -30,9 +30,9 @@ namespace VMAT.ViewModels
 
         public VirtualMachineFormViewModel() { }
 
-        public VirtualMachineFormViewModel(VirtualMachine vm)
+        public VirtualMachineFormViewModel(VirtualMachine vm, string projectName)
         {
-            ProjectName = vm.ProjectName;
+            ProjectName = projectName;
             MachineNameSuffix = vm.MachineName;
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;

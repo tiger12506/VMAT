@@ -10,7 +10,6 @@ namespace VMAT.Models
         [ScaffoldColumn(false)]
         public int ProjectId { get; set; }
 
-        [Required(ErrorMessage = "Project Name required")]
         [RegularExpression("G[0-9]{4}", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Name")]
         public string ProjectName { get; set; }

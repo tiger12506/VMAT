@@ -80,7 +80,7 @@ namespace VMAT.Services
             var ls = dataDB.VirtualMachines.OfType<Models.PendingArchiveVirtualMachine>();
             foreach (var pendingVM in ls)
             {
-                new SchedulerInfo("Beginning archive of hostname " + pendingVM.Hostname).LogElmah();
+                new SchedulerInfo("Beginning archive of hostname " + pendingVM.Project.Hostname).LogElmah();
                 var service = new ArchiveVirtualMachineService();
                 try
                 {
@@ -129,7 +129,7 @@ namespace VMAT.Services
             var ls = dataDB.VirtualMachines.OfType<Models.PendingVirtualMachine>();
             foreach (Models.PendingVirtualMachine pendingVM in ls)
             {
-                new SchedulerInfo("Beginning creation of hostname " + pendingVM.Hostname).LogElmah();
+                new SchedulerInfo("Beginning creation of hostname " + pendingVM.Project.Hostname).LogElmah();
                 var service = new CreateVirtualMachineService(pendingVM);
                 Models.RegisteredVirtualMachine regVM = null;
                 try
