@@ -232,5 +232,13 @@ namespace VMAT.Services
 
             return ret;
         }
+
+        public static IEnumerable<string> GetBaseImageFiles()
+        {
+            List<string> filePaths = new List<string>(Directory.GetFiles(
+                AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories).
+                Where(f => f.EndsWith(".vmx")));
+            return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
+        }
     }
 }

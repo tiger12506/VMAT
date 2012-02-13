@@ -60,7 +60,7 @@ namespace VMAT.Controllers
             }
 
             ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 
@@ -100,7 +100,7 @@ namespace VMAT.Controllers
             }
 
             ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VirtualMachineRepository.GetBaseImageFiles());
+            ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
             ViewBag.Hostname = AppConfiguration.GetVMHostName();
             vmForm.IP = vmRepo.GetNextAvailableIP();
 

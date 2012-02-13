@@ -352,12 +352,5 @@ namespace VMAT.Models
             vm.LastStopped = DateTime.Now;
             dataDB.SaveChanges();
         }
-
-        public static IEnumerable<string> GetBaseImageFiles()
-        {
-            List<string> filePaths = new List<string>(Directory.GetFiles(
-                AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
-            return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
-        }
     }
 }
