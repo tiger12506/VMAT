@@ -1,13 +1,15 @@
 ﻿// File: toggleMachineStatus.js
 
-$(document).ready(function () {
-    $(".status > button").click(function () {
-        var $imagePath = $(this).closest(".machine-info").attr("id");
-        $(this).addClass("transition");
-        $(this).attr("disabled", "disabled");
+var toggleStatusClick = function () {
+    var $imagePath = $(this).closest(".machine-info").attr("id");
+    $(this).addClass("transition");
+    $(this).attr("disabled", "disabled");
 
-        toggleMachineStatus($imagePath, this);
-    });
+    toggleMachineStatus($imagePath, this);
+}
+
+$(document).ready(function () {
+    $(".status > button").click(toggleStatusClick);
 });
 
 function toggleMachineStatus(machineName, button) {

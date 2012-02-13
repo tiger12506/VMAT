@@ -2,74 +2,72 @@
 
 var $projectName;
 
-$(document).ready(function () {
-    enableProjectControls();
+var toggleDetailsClick = function () {
+    var $detailsDiv = $(this).closest(".machine-info").children(".details");
 
-    enableToggleDetails();
+    if ($(this).text() === "Show Less") {
+        $(this).text("Show More");
+    } else {
+        $(this).text("Show Less");
+    }
 
-    enablePendingOperationControls();
-});
+    $detailsDiv.slideToggle(300);
+}
 
+var projectCloseClick = function () {
+    $projectName = $(this).closest(".project").attr("id");
+    Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
 
-// Create event handlers for DOM elements
-function enableProjectControls() {
-    $(".project-close").click(function () {
-        $projectName = $(this).closest(".project").attr("id");
-        Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
-
-        $("#popup-content button.archive").click(function () {
-            archiveProject($projectName);
-            Popup.disablePopup();
-        });
-
-        $("#popup-content button.delete").click(function () {
-            deleteProject($projectName);
-            Popup.disablePopup();
-        });
+    $("#popup-content button.archive").click(function () {
+        archiveProject($projectName);
+        Popup.disablePopup();
     });
 
-    $(".project-collapse").click(function () {
-        if ($(this).text() == "v") {
-            $(this).text(">");
-        } else {
-            $(this).text("v");
-        }
-
-        $(this).closest(".project").children(".machine-list").slideToggle(300);
+    $("#popup-content button.delete").click(function () {
+        deleteProject($projectName);
+        Popup.disablePopup();
     });
 }
 
-function enableToggleDetails() {
+var projectCollapseClick = function () {
+    if ($(this).text() == "v") {
+        $(this).text(">");
+    } else {
+        $(this).text("v");
+    }
+
+    $(this).closest(".project").children(".machine-list").slideToggle(300);
+}
+
+var undoPendingCreateClick = function () {
+    var $container = $(this).closest(".machine-info");
+    undoPendingCreateOperation($container);
+}
+
+var undoPendingArchiveClick = function () {
+    var $container = $(this).closest(".machine-info");
+    undoPendingArchiveOperation($container);
+}
+
+
+$(document).ready(function () {
     // Activate items if JavaScript is enabled
     $(".machine-info .details").hide();
     $(".status button").attr("title", function () {
         setStatusTooltips($(this));
     });
 
-    $(".toggle-details").click(function () {
-        var $detailsDiv = $(this).closest(".machine-info").children(".details");
+    $(".toggle-details").click(toggleDetailsClick);
 
-        if ($(this).text() === "Show Less") {
-            $(this).text("Show More");
-        } else {
-            $(this).text("Show Less");
-        }
+    $(".project-close").click(projectCloseClick);
 
-        $detailsDiv.slideToggle(300);
-    });
-}
+    $(".project-collapse").click(projectCollapseClick);
 
-function enablePendingOperationControls() {
-    $(".pending-vm .undo-pending").click(function () {
-        var $container = $(this).closest(".machine-info");
-        undoPendingCreateOperation($container);
-    });
+    $(".pending-vm .undo-pending").click(undoPendingCreateClick);
 
-    $(".pending-archive-vm .undo-pending").click(function () {
-        var $container = $(this).closest(".machine-info");
-        undoPendingArchiveOperation($container);
-    });
-}
+    $(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
+});
+
 
 function undoPendingCreateOperation($container) {
     var imagePath = $container.attr("id");
@@ -110,8 +108,14 @@ function undoPendingArchiveOperation($container) {
     var successCallback = function (item) {
         $container.closest("li").fadeOut(200, function () {
             $(this).html(item);
-            enableToggleDetails();
-            enablePendingOperationControls();
+            $(this).find(".machine-info .details").hide();
+            $(this).find(".status button").attr("title", function () {
+                setStatusTooltips($(this));
+            });
+
+            $(this).find(".status > button").click(toggleStatusClick);
+            $(this).find(".toggle-details").click(toggleDetailsClick);
+            $(this).find(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
             $(this).fadeIn(200);
         });
     };

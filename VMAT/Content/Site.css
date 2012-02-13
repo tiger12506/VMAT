@@ -621,6 +621,8 @@ button.archive {
     
     .machine-info .status button img {
       visibility: hidden;
+      top: 0;
+      margin: 0;
     }
     
     .machine-info .status button.transition {

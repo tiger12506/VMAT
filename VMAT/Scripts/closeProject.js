@@ -44,12 +44,20 @@ function deleteProject(projectName) {
 CloseProject.successCallback = function (item, project) {
     $("#" + project).closest("li.project-item").fadeOut(200, function () {
         $(this).html(item);
-        enableToggleDetails();
-        enablePendingOperationControls();
-        enableProjectControls();
+        
+        $(this).find(".machine-info .details").hide();
+        $(this).find(".status button").attr("title", function () {
+            setStatusTooltips($(this));
+        });
+
+        $(this).find(".project-close").click(projectCloseClick);
+        $(this).find(".project-collapse").click(projectCollapseClick);
+        $(this).find(".status > button").click(toggleStatusClick);
+        $(this).find(".toggle-details").click(toggleDetailsClick);
+        $(this).find(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
+
         $(this).fadeIn(200);
     });
-    
 }
 
 CloseProject.failureCallback = function (error, project) {
