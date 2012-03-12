@@ -539,14 +539,18 @@ button.archive {
         height: 15px;
         top: 0;
       }
-  
-.machine-list > li {
-  margin: 0;
+      
+.machine-list {
+  width: 100%;
 }
-  
-  .machine-list > li:nth-child(even) {
-    background-color: #d1d1d1;
+
+  .machine-list > li {
+    margin: 0;
   }
+  
+    .machine-list > li:nth-child(even) {
+      background-color: #d1d1d1;
+    }
 
 .machine-info {
   border-bottom: 1px solid #000000;
