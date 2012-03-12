@@ -49,7 +49,7 @@ namespace VMAT.Models
         /// <summary>
         /// Takes either a physical path or datasource path and provides just the base path name
         /// </summary>
-        /// <param name="PathName">Physical or datasource path, ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
+        /// <param name="imagePathName">Physical or datasource path, ie "//VMServer/VirtualMachines/Windows 7/Windows 7.VMx</param>
         /// <returns>Base path name, ie "Windows 7"</returns>
         public static string GetMachineName(string imagePathName)
         {
