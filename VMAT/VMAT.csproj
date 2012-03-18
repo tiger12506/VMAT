@@ -201,7 +201,6 @@
     <Content Include="7za.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\ElmahErrors.txt" />
     <Content Include="App_Data\VMAT.sdf" />
     <Content Include="Content\IE.css" />
     <Content Include="Content\IE7.css" />
