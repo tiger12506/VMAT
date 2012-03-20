@@ -98,9 +98,18 @@ function displayAddProjectNumberField() {
 
 function updateProjectNumberList(projNumber) {
     if (projNumber) {
-        $('#ProjectName').append('<option value=' + projNumber + ' selected="selected">' +
+        var exists = false;
+
+        $("#ProjectName option").each(function () {
+            if ($(this).val() == projNumber)
+                exists = true;
+        });
+
+        if (!exists) {
+            $('#ProjectName').append('<option value=' + projNumber + ' selected="selected">' +
             projNumber + '</option>');
-        updateImageFilePreview();
+            updateImageFilePreview();
+        }
     }
 
     $("#ProjectName").show();
