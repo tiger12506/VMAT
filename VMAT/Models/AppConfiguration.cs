@@ -60,8 +60,14 @@ namespace VMAT.Models
             }
 
             //usernames, passwords, GetDataFilesDirectory skipped
-
-            ret += "<br />Check complete.<br />";
+            if (ret.Length < 2)
+            {
+                ret += "Web.config settings check succeeded, no errors found.<br />";
+            }
+            else
+            {
+                ret += "<br />Web.config settings check failed, errors listed above.<br />";
+            }
 
             return ret;
         }

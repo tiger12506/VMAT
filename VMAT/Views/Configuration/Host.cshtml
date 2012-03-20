@@ -52,8 +52,8 @@
     <input type="submit" value="Save" />
     
     <div>
+        @Html.ActionLink("See Log Output (info & exceptions)", "", "elmah")<br />
         @Html.ActionLink("Check Web.config Settings", "Check")<br />
-        @Html.ActionLink("See Exception Log", "", "elmah")<br />
         @Html.ActionLink("Run All Scheduled Tasks Now (may be slow)", "ScheduleRunAll")<br />
         @Html.ActionLink("Back to List", "Index", "VirtualMachine")
     </div>
