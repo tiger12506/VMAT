@@ -3,7 +3,7 @@
 <div class="machine-info registered" id="@Model.ImagePathName">
     <div class="primary">
         <div class="status">
-            <button type="button" status="@Model.Status"><img src="@Url.Content("~/Content/themes/images/loading.gif")" alt="?" /></button>
+            <button type="button" status="@Model.Status"><img src="@Url.Content("~/Content/themes/images/icon_loading.gif")" alt="?" /></button>
         </div>
         <table>
             <tr>
@@ -30,6 +30,11 @@
                 </td>
             </tr>
         </table>
+		<div class="archive-vm-button">
+			<button type="button">
+				<img src="@Url.Content("~/Content/themes/images/icon_archive-vm.jpg")" alt="X" />
+			</button>
+		</div>
     </div>
     <div class="details">
         <table>

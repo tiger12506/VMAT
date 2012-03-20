@@ -641,7 +641,21 @@ button.confirm {
 	  font-size: 120%;
 	  text-transform: none;
 	}
-  
+	
+	.machine-info .archive-vm-button {
+		display: inline-block;
+	}
+	
+		.machine-info .archive-vm-button button {
+			border: 0;
+			background: 0;
+			padding: 0;
+		}
+		
+			.machine-info .archive-vm-button button img {
+				margin: 0;
+			}
+			
   .machine-info.pending .pending-message, .machine-info.pending-archive .pending-message {
 	display: inline-block;
 	margin-left: 100px;
