@@ -16,15 +16,14 @@ var toggleDetailsClick = function () {
 
 var projectCloseClick = function () {
     $projectName = $(this).closest(".project").attr("id");
-    Popup.loadPopup("Close Project " + $projectName + "?", "#project-close-form");
+    Popup.loadPopup("Archive Project " + $projectName + "?", "#project-close-form");
 
-    $("#popup-content button.archive").click(function () {
+    $("#popup-content button.confirm").click(function () {
         archiveProject($projectName);
         Popup.disablePopup();
     });
 
-    $("#popup-content button.delete").click(function () {
-        deleteProject($projectName);
+    $("#popup-content button.deny").click(function () {
         Popup.disablePopup();
     });
 }

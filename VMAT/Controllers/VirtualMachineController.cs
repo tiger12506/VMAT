@@ -9,248 +9,233 @@ using System.Web.Script.Serialization;
 
 namespace VMAT.Controllers
 {
-    [HandleError]
-    public class VirtualMachineController : Controller
-    {
-        private IVirtualMachineRepository vmRepo;
-        private IConfigurationRepository configRepo;
+	[HandleError]
+	public class VirtualMachineController : Controller
+	{
+		private IVirtualMachineRepository vmRepo;
+		private IConfigurationRepository configRepo;
 
-        public VirtualMachineController() : 
-            this(new VirtualMachineRepository(), new ConfigurationRepository()) { }
+		public VirtualMachineController() : 
+			this(new VirtualMachineRepository(), new ConfigurationRepository()) { }
 
-        public VirtualMachineController(IVirtualMachineRepository vms, IConfigurationRepository config)
-        {
-            vmRepo = vms;
-            configRepo = config;
-        }
+		public VirtualMachineController(IVirtualMachineRepository vms, IConfigurationRepository config)
+		{
+			vmRepo = vms;
+			configRepo = config;
+		}
 
-        //
-        // GET: /VirtualMachine/
+		//
+		// GET: /VirtualMachine/
 
-        public ActionResult Index()
-        {
-            IEnumerable<Project> projectList = vmRepo.GetAllProjects();
-            var projectViewList = new List<ProjectViewModel>();
+		public ActionResult Index()
+		{
+			IEnumerable<Project> projectList = vmRepo.GetAllProjects();
+			var projectViewList = new List<ProjectViewModel>();
 
-            foreach (var project in projectList)
-            {
-                projectViewList.Add(new ProjectViewModel(project));
-            }
+			foreach (var project in projectList)
+			{
+				projectViewList.Add(new ProjectViewModel(project));
+			}
 
-            ViewBag.CreationTime = configRepo.GetVmCreationTime().ToLongTimeString();
-            ViewBag.ArchiveTime = configRepo.GetVmArchiveTime().ToLongTimeString();
-            ViewBag.BackupTime = configRepo.GetVmBackupTime().ToLongTimeString();
+			ViewBag.CreationTime = configRepo.GetVmCreationTime().ToLongTimeString();
+			ViewBag.ArchiveTime = configRepo.GetVmArchiveTime().ToLongTimeString();
+			ViewBag.BackupTime = configRepo.GetVmBackupTime().ToLongTimeString();
 
-            return View(projectViewList);
-        }
+			return View(projectViewList);
+		}
 
-        //
-        // GET: /VirtualMachine/Create
+		//
+		// GET: /VirtualMachine/Create
 
-        public ActionResult Create()
-        {
-            var vmForm = new VirtualMachineFormViewModel();
-            var projectName = new SelectList(vmRepo.GetAllProjects(),
-                "ProjectName", "ProjectName");
-            
-            foreach (var item in projectName)
-            {
-                item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
-                item.Text = item.Value;
-            }
+		public ActionResult Create()
+		{
+			var vmForm = new VirtualMachineFormViewModel();
+			var projectName = new SelectList(vmRepo.GetAllProjects(),
+				"ProjectName", "ProjectName");
+			
+			foreach (var item in projectName)
+			{
+				item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
+				item.Text = item.Value;
+			}
 
-            ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
-            ViewBag.Hostname = AppConfiguration.GetVMHostName();
-            vmForm.IP = vmRepo.GetNextAvailableIP();
+			ViewBag.ProjectName = projectName;
+			ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
+			ViewBag.Hostname = AppConfiguration.GetVMHostName();
+			vmForm.IP = vmRepo.GetNextAvailableIP();
 
-            return View(vmForm);
-        }
+			return View(vmForm);
+		}
 
-        //
-        // POST: /VirtualMachine/Create
+		//
+		// POST: /VirtualMachine/Create
 
-        [HttpPost]
-        public ActionResult Create(VirtualMachineFormViewModel vmForm)
-        {
-            if (ModelState.IsValid)
-            {
-                var vm = new PendingVirtualMachine(vmForm);
-                vmRepo.CreatePendingVirtualMachine(vm);
+		[HttpPost]
+		public ActionResult Create(VirtualMachineFormViewModel vmForm)
+		{
+			if (ModelState.IsValid)
+			{
+				var vm = new PendingVirtualMachine(vmForm);
+				vmRepo.CreatePendingVirtualMachine(vm);
 
-                return RedirectToAction("Index");
-            }
+				return RedirectToAction("Index");
+			}
 
-            var projectName = new SelectList(vmRepo.GetAllProjects(),
-                "ProjectName", "ProjectName");
-            bool projectNameExists = false;
+			var projectName = new SelectList(vmRepo.GetAllProjects(),
+				"ProjectName", "ProjectName");
+			bool projectNameExists = false;
 
-            foreach (var item in projectName)
-            {
-                if (item.Value == vmForm.ProjectName)
-                {
-                    projectNameExists = true;
-                    break;
-                }
-            }
+			foreach (var item in projectName)
+			{
+				if (item.Value == vmForm.ProjectName)
+				{
+					projectNameExists = true;
+					break;
+				}
+			}
 
-            if (!projectNameExists)
-            {
-                // TODO: Add in new project numbers
-            }
+			if (!projectNameExists)
+			{
+				// TODO: Add in new project numbers
+			}
 
-            ViewBag.ProjectName = projectName;
-            ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
-            ViewBag.Hostname = AppConfiguration.GetVMHostName();
-            vmForm.IP = vmRepo.GetNextAvailableIP();
+			ViewBag.ProjectName = projectName;
+			ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
+			ViewBag.Hostname = AppConfiguration.GetVMHostName();
+			vmForm.IP = vmRepo.GetNextAvailableIP();
 
-            return View(vmForm);
-        }
+			return View(vmForm);
+		}
 
-        //
-        // GET: /VirtualMachine/Edit
+		//
+		// GET: /VirtualMachine/Edit
 
-        public ActionResult Edit(string img)
-        {
-            string imageFile = HttpUtility.UrlDecode(img);
+		public ActionResult Edit(string img)
+		{
+			string imageFile = HttpUtility.UrlDecode(img);
 
-            // TODO: Handle all VM types
-            VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
-            var form = new VirtualMachineFormViewModel(vm);
+			// TODO: Handle all VM types
+			VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
+			var form = new VirtualMachineFormViewModel(vm);
 
-            var projectName = new SelectList(vmRepo.GetAllProjects(),
-                "ProjectName", "ProjectName");
+			var projectName = new SelectList(vmRepo.GetAllProjects(),
+				"ProjectName", "ProjectName");
 
-            foreach (var item in projectName)
-            {
-                item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
-                item.Text = item.Value;
-            }
+			foreach (var item in projectName)
+			{
+				item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
+				item.Text = item.Value;
+			}
 
-            ViewBag.ProjectName = projectName;
-            ViewBag.Hostname = AppConfiguration.GetVMHostName();
+			ViewBag.ProjectName = projectName;
+			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
-            return View(form);
-        }
+			return View(form);
+		}
 
-        //
-        // POST: /VirtualMachine/Edit
+		//
+		// POST: /VirtualMachine/Edit
 
-        [HttpPost]
-        public ActionResult Edit(VirtualMachineFormViewModel vm)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
+		[HttpPost]
+		public ActionResult Edit(VirtualMachineFormViewModel vm)
+		{
+			if (ModelState.IsValid)
+			{
+				return RedirectToAction("Index");
+			}
 
-            ViewBag.ProjectName = new SelectList(vmRepo.GetAllProjects(),
-                "ProjectName", "ProjectName");
-            ViewBag.Hostname = AppConfiguration.GetVMHostName();
+			ViewBag.ProjectName = new SelectList(vmRepo.GetAllProjects(),
+				"ProjectName", "ProjectName");
+			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
-            return View(vm);
-        }
+			return View(vm);
+		}
 
-        //
-        // POST: /VirtualMachine/ToggleStatus
+		//
+		// POST: /VirtualMachine/ToggleStatus
 
-        [HttpPost]
-        public ActionResult ToggleStatus(string image)
-        {
-            VMStatus status = vmRepo.ToggleVMStatus(image);
-            RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
+		[HttpPost]
+		public ActionResult ToggleStatus(string image)
+		{
+			VMStatus status = vmRepo.ToggleVMStatus(image);
+			RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
 
-            var results = new ToggleStatusViewModel
-            {
-                Status = status.ToString().ToLower(),
-                LastStartTime = vm.LastStarted,
-                LastShutdownTime = vm.LastStopped
-            };
+			var results = new ToggleStatusViewModel
+			{
+				Status = status.ToString().ToLower(),
+				LastStartTime = vm.LastStarted,
+				LastShutdownTime = vm.LastStopped
+			};
 
-            return Json(results);
-        }
+			return Json(results);
+		}
 
-        //
-        // POST: /VirtualMachine/UndoPendingCreateOperation
+		//
+		// POST: /VirtualMachine/UndoPendingCreateOperation
 
-        [HttpPost]
-        public ActionResult UndoPendingCreateOperation(string image)
-        {
-            try
-            {
-                vmRepo.DeleteVirtualMachine(image);
-            }
-            catch (InvalidOperationException)
-            {
-                // If this fails, the VM is already removed from the database.
-                // Therefore, ignore it and send success response.
-            }
+		[HttpPost]
+		public ActionResult UndoPendingCreateOperation(string image)
+		{
+			try
+			{
+				vmRepo.DeleteVirtualMachine(image);
+			}
+			catch (InvalidOperationException)
+			{
+				// If this fails, the VM is already removed from the database.
+				// Therefore, ignore it and send success response.
+			}
 
-            return Json(image);
-        }
+			return Json(image);
+		}
 
-        //
-        // POST: /VirtualMachine/UndoPendingArchiveOperation
+		//
+		// POST: /VirtualMachine/UndoPendingArchiveOperation
 
-        [HttpPost]
-        public ActionResult UndoPendingArchiveOperation(string image)
-        {
-            vmRepo.UndoScheduleArchiveVirtualMachine(image);
-            var vm = vmRepo.GetRegisteredVirtualMachine(image);
-            var viewModel = new RegisteredVirtualMachineViewModel(vm);
+		[HttpPost]
+		public ActionResult UndoPendingArchiveOperation(string image)
+		{
+			vmRepo.UndoScheduleArchiveVirtualMachine(image);
+			var vm = vmRepo.GetRegisteredVirtualMachine(image);
+			var viewModel = new RegisteredVirtualMachineViewModel(vm);
 
-            return PartialView("_RegisteredVirtualMachine", viewModel);
-        }
+			return PartialView("_RegisteredVirtualMachine", viewModel);
+		}
 
-        //
-        // GET: /VirtualMachine/GetNextIP
+		//
+		// GET: /VirtualMachine/GetNextIP
 
-        public ActionResult GetNextIP()
-        {
-            string nextIP = vmRepo.GetNextAvailableIP();
+		public ActionResult GetNextIP()
+		{
+			string nextIP = vmRepo.GetNextAvailableIP();
 
-            return Json(nextIP);
-        }
+			return Json(nextIP);
+		}
 
-        //
-        // POST: /VirtualMachine/ArchiveMachine
+		//
+		// POST: /VirtualMachine/ArchiveMachine
 
-        [HttpPost]
-        public ActionResult ArchiveMachine(string image)
-        {
-            vmRepo.ScheduleArchiveVirtualMachine(image);
-            var vm = vmRepo.GetPendingArchiveVirtualMachine(image);
-            var viewModel = new PendingArchiveVirtualMachineViewModel(vm);
+		[HttpPost]
+		public ActionResult ArchiveMachine(string image)
+		{
+			vmRepo.ScheduleArchiveVirtualMachine(image);
+			var vm = vmRepo.GetPendingArchiveVirtualMachine(image);
+			var viewModel = new PendingArchiveVirtualMachineViewModel(vm);
 
-            return PartialView("_PendingArchiveVirtualMachine", viewModel);
-        }
+			return PartialView("_PendingArchiveVirtualMachine", viewModel);
+		}
 
-        //
-        // POST: /VirtualMachine/ArchiveProject
+		//
+		// POST: /VirtualMachine/ArchiveProject
 
-        [HttpPost]
-        public ActionResult ArchiveProject(string project)
-        {
-            vmRepo.ScheduleArchiveProject(project);
-            var proj = vmRepo.GetProject(project);
-            var viewModel = new ProjectViewModel(proj);
+		[HttpPost]
+		public ActionResult ArchiveProject(string project)
+		{
+			vmRepo.ScheduleArchiveProject(project);
+			var proj = vmRepo.GetProject(project);
+			var viewModel = new ProjectViewModel(proj);
 
-            return PartialView("_Project", viewModel);
-        }
-
-        //
-        // POST: /VirtualMachine/DeleteProject
-
-        [HttpPost]
-        public ActionResult DeleteProject(string project)
-        {
-            /*var results = new ClosingProjectViewModel {
-                Action = "delete",
-                Time = DateTime.Now
-            };
-
-            return Json(results);*/
-            return RedirectToAction("Index");
-        }
-    }
+			return PartialView("_Project", viewModel);
+		}
+	}
 }
