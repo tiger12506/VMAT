@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VMAT.Models;
+using System.Management;
+using System.IO;
+
 
 namespace VMAT.Controllers
 {
@@ -15,6 +18,19 @@ namespace VMAT.Controllers
 
         public ActionResult Index()
         {
+            try
+            {
+                DriveInfo dI = new DriveInfo("Z:");
+                long fS = dI.AvailableFreeSpace;
+            }
+            catch (IOException ex)
+            {
+                //drive not ready or exist
+            }
+            catch (ArgumentException ex)
+            {
+                //drive does not exist
+            }
             return RedirectToAction("Index", "VirtualMachine");
         }
 
