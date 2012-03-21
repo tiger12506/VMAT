@@ -3,7 +3,9 @@
 <div class="machine-info registered" id="@Model.VirtualMachineId">
     <div class="primary">
         <div class="status">
-            <button type="button" status="@Model.Status"><img src="@Url.Content("~/Content/themes/images/loading.gif")" alt="?" /></button>
+            <button type="button" status="@Model.Status">
+				<img src="@Url.Content("~/Content/themes/images/loading.gif")" alt="?" />
+			</button>
         </div>
         <table>
             <tr>
@@ -13,9 +15,7 @@
                 <th>Last Shutdown Time</th>
                 <th>
                     <a href="@Url.Action("Edit", new { img = Url.Encode(Model.VirtualMachineId.ToString()) })" 
-                        class="edit-machine link-button">
-                        Edit
-                    </a>
+                        class="edit-machine link-button">Edit</a>
                 </th>
             </tr>
             <tr>
@@ -24,9 +24,7 @@
                 <td class="tCreated">@Model.CreatedTime</td>
                 <td class="tStopped">@Model.LastStopped</td>
                 <td class="tControls">
-                    <button type="button" class="toggle-details">
-                        Show More
-                    </button>
+                    <button type="button" class="toggle-details">Show More</button>
                 </td>
             </tr>
         </table>
@@ -34,22 +32,20 @@
     <div class="details">
         <table>
             <tr>
-                <th><!-- Empty --></th>
+                <th>@* Empty *@</th>
                 <th>Operating System</th>
                 <th>Last Start Time</th>
                 <th>Last Backup Time</th>
                 <th>Last Archive Time</th>
-                <th><!-- No Data --></th>
+                <th>@* No Data *@</th>
             </tr>
             <tr>
-                <td class="tStatus"><!-- Empty --></td>
+                <td class="tStatus">@* Empty *@</td>
                 <td class="tOS"><img src="@Url.Content(Model.OperatingSystemIcon)" alt="" /></td>
                 <td class="tStarted">@Model.LastStarted</td>
                 <td class="tBackuped">@Model.LastBackuped</td>
                 <td class="tArchived">@Model.LastArchived</td>
-                <td class="tEmpty">
-                    <!-- No Data -->
-                </td>
+                <td class="tEmpty">@* No Data *@</td>
             </tr>
         </table>
     </div>

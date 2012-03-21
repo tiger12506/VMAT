@@ -23,6 +23,7 @@ namespace VMAT.ViewModels
         {
             var service = new VMAT.Services.RegisteredVirtualMachineService(vm.ImagePathName);
 
+			VirtualMachineId = vm.VirtualMachineId;
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
             Status = service.GetStatus().ToString().ToLower();

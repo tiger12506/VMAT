@@ -81,7 +81,7 @@ namespace VMAT.Services
             try
             {
                 System.Threading.Thread.Sleep(8 * 1000);
-                service.SetHostname(VM.Project.Hostname);
+                service.SetHostname(VM.Hostname);
                 System.Threading.Thread.Sleep(8 * 1000);
                 service.SetIP(VM.IP);
                 System.Threading.Thread.Sleep(8 * 1000);

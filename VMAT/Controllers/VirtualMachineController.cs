@@ -108,7 +108,6 @@ namespace VMAT.Controllers
 
         public ActionResult Edit(int id)
         {
-            // TODO: Handle all VM types
             VirtualMachine vm = vmRepo.GetVirtualMachine(id);
             string project = vmRepo.GetProject(vm.VirtualMachineId).ProjectName;
             var form = new VirtualMachineFormViewModel(vm, project);

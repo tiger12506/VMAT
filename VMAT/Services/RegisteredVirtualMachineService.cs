@@ -52,7 +52,15 @@ namespace VMAT.Services
 
         public string GetIP()
         {
-            LoginTools();
+			try
+			{
+				LoginTools();
+			}
+			catch (Exception)
+			{
+				return "ip_error";
+			}
+
             return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
         }
 
@@ -193,14 +201,15 @@ namespace VMAT.Services
         public void Reboot()
         {
             PowerOff();
-            System.Threading.Thread.Sleep(20 * 1000); //allow VM time to power off (may not be needed)
+			// Allow VM time to power off (may not be needed)
+            System.Threading.Thread.Sleep(20 * 1000); 
             PowerOn();
         }
 
         private void LoginTools(bool waitLong = false)
         {
-            // TODO: Handle in case powered off better
-            if (!VM.IsRunning) throw new InvalidOperationException("VM is not running");
+            if (!VM.IsRunning) 
+				throw new InvalidOperationException("VM is not running");
             VM.WaitForToolsInGuest(waitLong ? 120 : 30); //TODO: refactor this out somewhere
             VM.LoginInGuest(AppConfiguration.GetVMsUsername(), AppConfiguration.GetVMsPassword());
         }
@@ -237,6 +246,7 @@ namespace VMAT.Services
         {
             List<string> filePaths = new List<string>(Directory.GetFiles(
                 AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+
             return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }
     }

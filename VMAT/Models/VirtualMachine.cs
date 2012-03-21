@@ -15,14 +15,9 @@ namespace VMAT.Models
 
     public abstract class VirtualMachine
     {
-        [Key]
         [ScaffoldColumn(false)]
         public int VirtualMachineId { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int ProjectId { get; set; }
-
-        [RegularExpression("^gapdev[0-9]{4}[a-zA-Z0-9]{1,5}$")]
         [DisplayName("Machine Name")]
         public string MachineName { get; set; }
 
@@ -36,9 +31,12 @@ namespace VMAT.Models
         [RegularExpression("[a-zA-Z0-9 ]")]
         public string OS { get; set; }
 
+		[DisplayName("Hostname")]
+		public string Hostname { get; set; }
+
         [DisplayName("Startup")]
         public bool IsAutoStarted { get; set; }
 
-        public Project Project { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

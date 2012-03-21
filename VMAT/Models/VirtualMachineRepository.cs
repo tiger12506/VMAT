@@ -16,25 +16,42 @@ namespace VMAT.Models
         {
             dataDB = db;
 
-            if (dataDB.Projects == null || dataDB.Projects.Local.Count <= 0)
-                InitializeProjects();
+            if (dataDB.Projects == null || dataDB.Projects.Count() <= 0)
+                InitializeDataContext();
         }
 
-        private void InitializeProjects()
+        private void InitializeDataContext()
         {
             var registeredImages = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
 
             foreach (var image in registeredImages)
             {
-                int startIndex = image.IndexOf("] ") + "] ".Length;
-                string projectName = image.Substring(startIndex, 4);
+				int startIndex = image.IndexOf("] ") + "] ".Length;
+				int length = image.IndexOf('/', startIndex) - startIndex;
+				string projectName = image.Substring(startIndex, length);
+				var service = new RegisteredVirtualMachineService(image);
 
-                if (!dataDB.Projects.Select(p => p.ProjectName).Contains(projectName))
-                {
-                    var service = new RegisteredVirtualMachineService(image);
-                    var project = new Project(projectName, service.GetHostname());
-                    dataDB.Projects.Add(project);
-                }
+				if (!dataDB.Projects.Select(p => p.ProjectName).Contains(projectName))
+				{
+					var project = new Project(projectName);
+					dataDB.Projects.Add(project);
+					dataDB.SaveChanges();
+				}
+
+				startIndex = image.LastIndexOf('/') + 1;
+				length = image.LastIndexOf('.') - startIndex;
+				string machineName = image.Substring(startIndex, length);
+
+				var vm = new RegisteredVirtualMachine ();
+				vm.MachineName = machineName;
+				vm.ImagePathName = image;
+				vm.IsAutoStarted = false;
+				vm.Hostname = service.GetHostname();
+				vm.IP = service.GetIP();
+				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
+
+				dataDB.VirtualMachines.Add(vm);
+				dataDB.SaveChanges();
             }
         }
 

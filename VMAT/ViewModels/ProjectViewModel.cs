@@ -7,7 +7,6 @@ namespace VMAT.ViewModels
     {
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
-        public string Hostname { get; set; }
         public IEnumerable<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }
         public IEnumerable<PendingVirtualMachineViewModel> PendingVMs { get; set; }
         public IEnumerable<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
@@ -24,7 +23,6 @@ namespace VMAT.ViewModels
         public ProjectViewModel(Project project) : this()
         {
             ProjectName = project.ProjectName;
-            Hostname = project.Hostname;
 
             foreach (var vm in project.VirtualMachines)
             {
