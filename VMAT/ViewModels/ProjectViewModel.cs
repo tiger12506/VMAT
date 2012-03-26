@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Objects;
 using VMAT.Models;
+using System;
 
 namespace VMAT.ViewModels
 {
@@ -26,28 +28,30 @@ namespace VMAT.ViewModels
 
             foreach (var vm in project.VirtualMachines)
             {
-                if (vm.GetType() == typeof(RegisteredVirtualMachine))
+				Type type = ObjectContext.GetObjectType(vm.GetType());
+
+                if (type == typeof(RegisteredVirtualMachine))
                 {
                     var vmView = new RegisteredVirtualMachineViewModel(
                         vm as RegisteredVirtualMachine);
 
                     AddRegisteredVirtualMachineViewModel(vmView);
                 }
-                else if (vm.GetType() == typeof(PendingVirtualMachine))
+                else if (type == typeof(PendingVirtualMachine))
                 {
                     var vmView = new PendingVirtualMachineViewModel(
                         vm as PendingVirtualMachine);
 
                     AddPendingVirtualMachineViewModel(vmView);
                 }
-                else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
+                else if (type == typeof(PendingArchiveVirtualMachine))
                 {
                     var vmView = new PendingArchiveVirtualMachineViewModel(
                         vm as PendingArchiveVirtualMachine);
 
                     AddPendingArchiveVirtualMachineViewModel(vmView);
                 }
-                else if (vm.GetType() == typeof(ArchivedVirtualMachine))
+                else if (type == typeof(ArchivedVirtualMachine))
                 {
                     var vmView = new ArchiveVirtualMachineViewModel(
                         vm as ArchivedVirtualMachine);
