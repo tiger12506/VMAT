@@ -44,13 +44,19 @@ namespace VMAT.Models
 				string machineName = image.Substring(startIndex, length);
 
 				bool vmExists = true;
-				RegisteredVirtualMachine vm = dataDB.VirtualMachines.Single(
-					v => v.MachineName == machineName) as RegisteredVirtualMachine;
 
-				if (vm == null)
+				RegisteredVirtualMachine vm;
+
+				try
+				{
+					vm = dataDB.VirtualMachines.Single(v => v.MachineName == machineName) 
+						as RegisteredVirtualMachine;
+				}
+				catch (Exception)
 				{
 					vmExists = false;
 					vm = new RegisteredVirtualMachine();
+					dataDB.VirtualMachines.Add(vm);
 				}
 
 				vm.MachineName = machineName;
@@ -60,9 +66,7 @@ namespace VMAT.Models
 				vm.Hostname = service.GetHostname();
 				vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
-
-				if (!vmExists)
-					dataDB.VirtualMachines.Add(vm);
+					
 
 				dataDB.SaveChanges();
 			}

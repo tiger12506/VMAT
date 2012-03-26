@@ -28,7 +28,6 @@ namespace VMAT.Models
 		public string BaseImageName { get; set; }
 
 		[DisplayName("Operating System")]
-		[RegularExpression("[a-zA-Z0-9 ]")]
 		public string OS { get; set; }
 
 		[DisplayName("Hostname")]
