@@ -107,6 +107,11 @@ namespace VMAT.Models
 			return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
 		}
 
+        public IEnumerable<PendingVirtualMachine> GetAllPendingVirtualMachines()
+        {
+            return dataDB.VirtualMachines.OfType<PendingVirtualMachine>();
+        }
+
 		public IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines()
 		{
 			var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
@@ -267,8 +272,48 @@ namespace VMAT.Models
 
 		public void CreatePendingVirtualMachine(PendingVirtualMachine vm)
 		{
-			dataDB.VirtualMachines.Add(vm);
-			dataDB.SaveChanges();
+            long freeSpace = 0;
+            long fileSize = 0;
+            long currentlyPendingSize = 0;
+            int fudgeFactor = (int) Math.Pow(2, 22); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
+            try
+            {
+                string[] a = Directory.GetFiles(vm.ImagePathName);
+                foreach (string name in a)
+                {
+                    FileInfo info = new FileInfo(name);
+                    fileSize += info.Length + fudgeFactor;
+                }
+                foreach (PendingVirtualMachine pvm in GetAllPendingVirtualMachines())
+                {
+                    a = Directory.GetFiles(pvm.ImagePathName);
+                    foreach (string name in a)
+                    {
+                        FileInfo info = new FileInfo(name);
+                        currentlyPendingSize += info.Length + fudgeFactor;
+                    }
+                }
+                DriveInfo dI = new DriveInfo("Z:");
+                freeSpace = dI.TotalSize;
+                freeSpace = dI.AvailableFreeSpace;
+            }
+            catch (IOException ex)
+            {
+                //drive not ready or exist
+            }
+            catch (ArgumentException ex)
+            {
+                //drive does not exist
+            }
+            if (freeSpace > fileSize)
+            {
+                dataDB.VirtualMachines.Add(vm);
+                dataDB.SaveChanges();
+            }
+            else
+            {
+                //error message
+            }
 		}
 
 		public PendingVirtualMachine GetPendingVirtualMachine(string imagePath)

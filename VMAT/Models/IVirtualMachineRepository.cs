@@ -22,6 +22,7 @@ namespace VMAT.Models
 		void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
 		ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
 		void CreatePendingVirtualMachine(PendingVirtualMachine vm);
+        IEnumerable<PendingVirtualMachine> GetAllPendingVirtualMachines();
 		PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
 		string GetNextAvailableIP();
 		VMStatus ToggleVMStatus(string imagePath);
