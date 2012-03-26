@@ -222,7 +222,7 @@ namespace VMAT.Services
         /// <returns>Datasource format, ie "[ha-datacenter/standard] Windows 7/Windows 7.VMx"</returns>
         public static string ConvertPathToDatasource(string PathName)
         {
-            return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
+            return PathName.Replace(AppConfiguration.GetWebserverBaseImagePath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
         }
 
         public static IEnumerable<string> GetRegisteredVMImagePaths()
@@ -236,7 +236,7 @@ namespace VMAT.Services
         public static IEnumerable<string> GetBaseImageFiles()
         {
             List<string> filePaths = new List<string>(Directory.GetFiles(
-                AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories).
+                AppConfiguration.GetWebserverBaseImagePath(), "*.vmx", SearchOption.AllDirectories).
                 Where(f => f.EndsWith(".vmx")));
             return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
         }

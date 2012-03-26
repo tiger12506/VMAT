@@ -38,6 +38,11 @@ var projectCollapseClick = function () {
     $(this).closest(".project").children(".machine-list").slideToggle(300);
 }
 
+var vmArchiveClick = function () {
+	var $container = $(this).closest(".machine-info");
+	archiveVm($container.attr("id"));
+}
+
 var undoPendingCreateClick = function () {
     var $container = $(this).closest(".machine-info");
     undoPendingCreateOperation($container);
@@ -50,21 +55,23 @@ var undoPendingArchiveClick = function () {
 
 
 $(document).ready(function () {
-    // Activate items if JavaScript is enabled
-    $(".machine-info .details").hide();
-    $(".status button").attr("title", function () {
-        setStatusTooltips($(this));
-    });
+	// Activate items if JavaScript is enabled
+	$(".machine-info .details").hide();
+	$(".status button").attr("title", function () {
+		setStatusTooltips($(this));
+	});
 
-    $(".toggle-details").click(toggleDetailsClick);
+	$(".toggle-details").click(toggleDetailsClick);
 
-    $(".project-close").click(projectCloseClick);
+	$(".project-close").click(projectCloseClick);
 
-    $(".project-collapse").click(projectCollapseClick);
+	$(".project-collapse").click(projectCollapseClick);
 
-    $(".pending-vm .undo-pending").click(undoPendingCreateClick);
+	$(".archive-vm-button button").click(vmArchiveClick);
 
-    $(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
+	$(".pending-vm .undo-pending").click(undoPendingCreateClick);
+
+	$(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
 });
 
 
