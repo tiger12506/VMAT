@@ -833,3 +833,29 @@ ol.error li {
   ol.error li #stack-trace {
 	color: #bc1010;
   }
+
+/* HELP/ABOUT PAGE
+-----------------------------------------------------------*/
+ul.dotted
+{
+    display: block;
+    list-style-position: outside;
+    list-style-type: disc;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    padding-left: 40px;
+}
+
+ul.indented
+{
+    display: block;
+    list-style-position: outside;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    padding-left: 40px;
+}
+
+div.page
+{
+    padding: 10px;
+}
