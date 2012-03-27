@@ -276,8 +276,8 @@ namespace VMAT.Models
             long fileSize = 0;
             long currentlyPendingSize = 0;
             int fudgeFactor = (int) Math.Pow(2, 22); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
-            try
-            {
+            //try
+            //{
                 string[] a = Directory.GetFiles(vm.ImagePathName);
                 foreach (string name in a)
                 {
@@ -296,15 +296,17 @@ namespace VMAT.Models
                 DriveInfo dI = new DriveInfo("Z:");
                 freeSpace = dI.TotalSize;
                 freeSpace = dI.AvailableFreeSpace;
-            }
-            catch (IOException ex)
-            {
-                //drive not ready or exist
-            }
-            catch (ArgumentException ex)
-            {
-                //drive does not exist
-            }
+            //}
+            //catch (IOException ex)
+            //{
+            //    //drive not ready or exist
+            //    throw new IOException("Drive not ready or does not exist");
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    //drive does not exist
+            //    throw new 
+            //}
             if (freeSpace > fileSize)
             {
                 dataDB.VirtualMachines.Add(vm);
@@ -313,6 +315,7 @@ namespace VMAT.Models
             else
             {
                 //error message
+                throw new Exception("Not enough free space");
             }
 		}
 
