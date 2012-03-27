@@ -307,7 +307,7 @@ namespace VMAT.Models
             //    //drive does not exist
             //    throw new 
             //}
-            if (freeSpace > fileSize)
+            if (freeSpace > fileSize + currentlyPendingSize)
             {
                 dataDB.VirtualMachines.Add(vm);
                 dataDB.SaveChanges();
