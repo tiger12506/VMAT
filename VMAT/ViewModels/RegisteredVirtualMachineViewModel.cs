@@ -39,6 +39,8 @@ namespace VMAT.ViewModels
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";
 			else if (vm.BaseImageName == "Windows Server 2008")
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-server-2008.png";
+			else
+				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";
 		}
 	}
 }
