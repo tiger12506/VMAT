@@ -15,12 +15,12 @@ namespace VMAT.Models
         public int MaxVMCount { get; set; }
 
         [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+            ErrorMessage = "Invalid IP Address")]
         [DisplayName("Minimum IP Address")]
         public string MinIP { get; set; }
 
         [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
+            ErrorMessage = "Invalid IP Address")]
         [DisplayName("Maximum IP Address")]
         public string MaxIP { get; set; }
 

@@ -16,8 +16,7 @@ namespace VMAT.Models
             ImagePathName = vm.ImagePathName;
             BaseImageName = vm.BaseImageName;
             OS = vm.OS;
-            Hostname = vm.Hostname;
-            Lifecycle = vm.Lifecycle;
+            IsAutoStarted = vm.IsAutoStarted;
             IP = vm.IP;
             CreatedTime = vm.CreatedTime;
             LastStarted = vm.LastStarted;

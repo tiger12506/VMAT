@@ -2,7 +2,7 @@
 
 namespace VMAT.ViewModels
 {
-    public class PendingVirtualMachineViewModel
+    public class PendingVirtualMachineViewModel : VirtualMachineViewModel
     {
         public string ImagePathName { get; set; }
         public string OS { get; set; }
@@ -15,7 +15,7 @@ namespace VMAT.ViewModels
         {
             ImagePathName = vm.ImagePathName;
             OS = vm.OS;
-            MachineName = vm.GetMachineName();
+            MachineName = vm.MachineName;
             IP = vm.IP;
         }
     }

@@ -52,15 +52,10 @@ namespace VMAT.Controllers
 			var vmForm = new VirtualMachineFormViewModel();
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
-			
-			foreach (var item in projectName)
-			{
-				item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
-				item.Text = item.Value;
-			}
 
 			ViewBag.ProjectName = projectName;
-			ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
+			ViewBag.BaseImageFile = new SelectList(
+				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
 			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 			vmForm.IP = vmRepo.GetNextAvailableIP();
 
@@ -76,7 +71,7 @@ namespace VMAT.Controllers
 			if (ModelState.IsValid)
 			{
 				var vm = new PendingVirtualMachine(vmForm);
-				vmRepo.CreatePendingVirtualMachine(vm);
+				vmRepo.CreateVirtualMachine(vm);
 
 				return RedirectToAction("Index");
 			}
@@ -100,7 +95,8 @@ namespace VMAT.Controllers
 			}
 
 			ViewBag.ProjectName = projectName;
-			ViewBag.BaseImageFile = new SelectList(VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
+			ViewBag.BaseImageFile = new SelectList(
+				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
 			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 			vmForm.IP = vmRepo.GetNextAvailableIP();
 
@@ -110,13 +106,11 @@ namespace VMAT.Controllers
 		//
 		// GET: /VirtualMachine/Edit
 
-		public ActionResult Edit(string img)
+		public ActionResult Edit(int id)
 		{
-			string imageFile = HttpUtility.UrlDecode(img);
-
-			// TODO: Handle all VM types
-			VirtualMachine vm = new RegisteredVirtualMachine(imageFile);
-			var form = new VirtualMachineFormViewModel(vm);
+			VirtualMachine vm = vmRepo.GetVirtualMachine(id);
+			string project = vmRepo.GetProject(vm.VirtualMachineId).ProjectName;
+			var form = new VirtualMachineFormViewModel(vm, project);
 
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
@@ -155,10 +149,10 @@ namespace VMAT.Controllers
 		// POST: /VirtualMachine/ToggleStatus
 
 		[HttpPost]
-		public ActionResult ToggleStatus(string image)
+		public ActionResult ToggleStatus(int id)
 		{
-			VMStatus status = vmRepo.ToggleVMStatus(image);
-			RegisteredVirtualMachine vm = vmRepo.GetRegisteredVirtualMachine(image);
+			VMStatus status = vmRepo.ToggleVMStatus(id);
+			RegisteredVirtualMachine vm = (RegisteredVirtualMachine)vmRepo.GetVirtualMachine(id);
 
 			var results = new ToggleStatusViewModel
 			{
@@ -174,11 +168,11 @@ namespace VMAT.Controllers
 		// POST: /VirtualMachine/UndoPendingCreateOperation
 
 		[HttpPost]
-		public ActionResult UndoPendingCreateOperation(string image)
+		public ActionResult UndoPendingCreateOperation(int id)
 		{
 			try
 			{
-				vmRepo.DeleteVirtualMachine(image);
+				vmRepo.DeleteVirtualMachine(id);
 			}
 			catch (InvalidOperationException)
 			{
@@ -186,18 +180,18 @@ namespace VMAT.Controllers
 				// Therefore, ignore it and send success response.
 			}
 
-			return Json(image);
+			return Json(id);
 		}
 
 		//
 		// POST: /VirtualMachine/UndoPendingArchiveOperation
 
 		[HttpPost]
-		public ActionResult UndoPendingArchiveOperation(string image)
+		public ActionResult UndoPendingArchiveOperation(int id)
 		{
-			vmRepo.UndoScheduleArchiveVirtualMachine(image);
-			var vm = vmRepo.GetRegisteredVirtualMachine(image);
-			var viewModel = new RegisteredVirtualMachineViewModel(vm);
+			vmRepo.UndoScheduleArchiveVirtualMachine(id);
+			var vm = vmRepo.GetVirtualMachine(id);
+			var viewModel = new RegisteredVirtualMachineViewModel(vm as RegisteredVirtualMachine);
 
 			return PartialView("_RegisteredVirtualMachine", viewModel);
 		}
@@ -216,11 +210,11 @@ namespace VMAT.Controllers
 		// POST: /VirtualMachine/ArchiveMachine
 
 		[HttpPost]
-		public ActionResult ArchiveMachine(string image)
+		public ActionResult ArchiveMachine(int id)
 		{
-			vmRepo.ScheduleArchiveVirtualMachine(image);
-			var vm = vmRepo.GetPendingArchiveVirtualMachine(image);
-			var viewModel = new PendingArchiveVirtualMachineViewModel(vm);
+			vmRepo.ScheduleArchiveVirtualMachine(id);
+			var vm = vmRepo.GetVirtualMachine(id);
+			var viewModel = new PendingArchiveVirtualMachineViewModel(vm as PendingArchiveVirtualMachine);
 
 			return PartialView("_PendingArchiveVirtualMachine", viewModel);
 		}
@@ -229,10 +223,10 @@ namespace VMAT.Controllers
 		// POST: /VirtualMachine/ArchiveProject
 
 		[HttpPost]
-		public ActionResult ArchiveProject(string project)
+		public ActionResult ArchiveProject(int id)
 		{
-			vmRepo.ScheduleArchiveProject(project);
-			var proj = vmRepo.GetProject(project);
+			vmRepo.ScheduleArchiveProject(id);
+			var proj = vmRepo.GetProject(id);
 			var viewModel = new ProjectViewModel(proj);
 
 			return PartialView("_Project", viewModel);

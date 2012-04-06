@@ -6,26 +6,20 @@ namespace VMAT.Models
 	public interface IVirtualMachineRepository
 	{
 		void CreateProject(Project proj);
-		Project GetProject(string projectName);
+		Project GetProject(int id);
+		Project GetProjectWithVirtualMachines(int id);
 		IEnumerable<Project> GetAllProjects();
+		IEnumerable<Project> GetAllProjectsWithVirtualMachines();
 		IEnumerable<VirtualMachine> GetAllVirtualMachines();
-		IEnumerable<RegisteredVirtualMachine> GetAllRegisteredVirtualMachines();
-		VirtualMachine GetVirtualMachine(string imagePath);
-		void DeleteVirtualMachine(string imagePath);
-		void CreateRegisteredVirtualMachine(RegisteredVirtualMachine vm);
-		RegisteredVirtualMachine GetRegisteredVirtualMachine(string imagePath);
-		void CreatePendingArchiveVirtualMachine(PendingArchiveVirtualMachine vm);
-		void ScheduleArchiveVirtualMachine(string imagePath);
-		void ScheduleArchiveProject(string projectName);
-		void UndoScheduleArchiveVirtualMachine(string imagePath);
-		PendingArchiveVirtualMachine GetPendingArchiveVirtualMachine(string imagePath);
-		void CreateArchivedVirtualMachine(ArchivedVirtualMachine vm);
-		ArchivedVirtualMachine GetArchivedVirtualMachine(string imagePath);
-		void CreatePendingVirtualMachine(PendingVirtualMachine vm);
-        IEnumerable<PendingVirtualMachine> GetAllPendingVirtualMachines();
-		PendingVirtualMachine GetPendingVirtualMachine(string imagePath);
+		IEnumerable<PendingVirtualMachine> GetAllPendingVirtualMachines();
+		void CreateVirtualMachine(VirtualMachine vm);
+		VirtualMachine GetVirtualMachine(int id);
+		void DeleteVirtualMachine(int id);
+		void ScheduleArchiveVirtualMachine(int id);
+		void UndoScheduleArchiveVirtualMachine(int id);
+		void ScheduleArchiveProject(int id);
 		string GetNextAvailableIP();
-		VMStatus ToggleVMStatus(string imagePath);
+		VMStatus ToggleVMStatus(int id);
 		void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
 		void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
 	}

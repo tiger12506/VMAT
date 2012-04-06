@@ -80,7 +80,7 @@ namespace VMAT.Services
             var ls = dataDB.VirtualMachines.OfType<Models.PendingArchiveVirtualMachine>();
             foreach (var pendingVM in ls)
             {
-                new SchedulerInfo("Beginning archive of hostname " + pendingVM.Hostname).LogElmah();
+                new SchedulerInfo("Beginning archive of project " + pendingVM.Hostname).LogElmah();
                 var service = new ArchiveVirtualMachineService();
                 try
                 {

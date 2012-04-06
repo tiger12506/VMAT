@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using VMAT.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VMAT.Models;
 
 namespace VMAT.ViewModels
 {
     public class VirtualMachineFormViewModel
     {
-        /// String to identify project. 4 sections: "G"+Project Number (4-digit), 
-        /// Company, Site, tiny description. Project Identifier is latter 3 items.
-        /// <summary>
-        /// 4-digit project identifier
-        /// </summary>
-        [Required(ErrorMessage = "Must be in the form 'G1234'")]
-        [RegularExpression("G[0-9]{4}", ErrorMessage = "Must be in the form 'G1234'")]
+        [Required]
+        [RegularExpression("G[0-9]{4}", ErrorMessage = "Project Name must follow the format 'G1234'")]
         [DisplayName("Project Number")]
         public string ProjectName { get; set; }
 
-        /// <summary>
-        /// The readable name of the virtual machine, derived from the Image Path Name.
-        /// </summary>
-        [Required(ErrorMessage = "Suffix must be 1-5 alphanumeric chars")]
-        [RegularExpression("^[a-z-A-Z0-9]{1,5}$", ErrorMessage = "Suffix must be 1-5 alphanumeric chars")]
+        [Required]
+        [RegularExpression("[0-9A-Za-z]{1,5}", ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
+
         [DisplayName("Machine Name Suffix")]
         public string MachineNameSuffix { get; set; }
 
@@ -41,17 +30,13 @@ namespace VMAT.ViewModels
 
         public VirtualMachineFormViewModel() { }
 
-        public VirtualMachineFormViewModel(Models.VirtualMachine vm)
+        public VirtualMachineFormViewModel(VirtualMachine vm, string projectName)
         {
-            ProjectName = vm.GetProjectName();
-            MachineNameSuffix = vm.GetMachineName().Substring("gapdev1111".Length + 1);
+            ProjectName = projectName;
+            MachineNameSuffix = vm.MachineName;
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
-            
-            if (vm.Lifecycle == VMLifecycle.Active)
-                IsAutoStarted = true;
-            else if (vm.Lifecycle == VMLifecycle.Idle)
-                IsAutoStarted = false;
+            IsAutoStarted = vm.IsAutoStarted;
         }
     }
 }

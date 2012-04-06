@@ -196,6 +196,7 @@
     <Compile Include="ViewModels\RegisteredVirtualMachineViewModel.cs" />
     <Compile Include="ViewModels\ToggleStatusViewModel.cs" />
     <Compile Include="ViewModels\VirtualMachineFormViewModel.cs" />
+    <Compile Include="ViewModels\VirtualMachineViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="7za.exe">

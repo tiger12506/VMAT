@@ -15,17 +15,12 @@ namespace VMAT.Models
 
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
-            string machineName = "gapdev" + vmForm.ProjectName.Replace("G", "") + vmForm.MachineNameSuffix;
-            Hostname = machineName; //note doesn't follow other conventions currently
-            //Hostname = AppConfiguration.GetVMHostName(); 
-            ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + machineName + "/" + machineName + ".vmx";
+            MachineName = "gapdev" + vmForm.ProjectName.Trim('G') + vmForm.MachineNameSuffix;
+            ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + 
+                MachineName + "/" + MachineName + ".vmx";
             BaseImageName = vmForm.BaseImageFile;
             IP = vmForm.IP;
-
-            if (vmForm.IsAutoStarted)
-                Lifecycle = VMLifecycle.Active;
-            else
-                Lifecycle = VMLifecycle.Idle;
+            IsAutoStarted = vmForm.IsAutoStarted;
         }
     }
 }
