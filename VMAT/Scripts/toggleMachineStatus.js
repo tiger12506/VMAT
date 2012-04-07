@@ -39,7 +39,7 @@ function toggleMachineStatus(machineName, button) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: $.url("toggleMachineStatus"),
-        data: "{'image': '" + machineName + "'}",
+        data: "{'id': '" + machineName + "'}",
         dataType: "json",
         success: function (data) { successCallback(data, button); },
         error: function (error) { failureCallback(error, machineName, button); }
