@@ -12,7 +12,7 @@
 				<th>Date Created</th>
 				<th>Last Shutdown Time</th>
 				<th>
-					<a href="@Url.Action("Edit", new { img = Url.Encode(Model.VirtualMachineId.ToString()) })"  
+					<a href="@Url.Action("Edit", new { id = Url.Encode(Model.VirtualMachineId.ToString()) })"  
 						class="edit-machine link-button">
 						Edit
 					</a>
@@ -56,3 +56,4 @@
 			</tr>
 		</table>
 	</div>
+</div>

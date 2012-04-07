@@ -233,7 +233,7 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\themes\images\loading.gif" />
+    <Content Include="Content\themes\images\icon_loading.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\themes\images\favicon.png" />
     <Content Include="Content\themes\images\icon_close-window.png" />

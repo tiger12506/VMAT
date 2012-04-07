@@ -15,7 +15,7 @@ namespace VMAT.Models
 
         public PendingVirtualMachine(VirtualMachineFormViewModel vmForm)
         {
-            MachineName = "gapdev" + vmForm.ProjectName.Trim('G') + vmForm.MachineNameSuffix;
+            MachineName = "gapdev" + vmForm.ProjectName.Trim('G') + vmForm.MachineName;
             ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + 
                 MachineName + "/" + MachineName + ".vmx";
             BaseImageName = vmForm.BaseImageFile;

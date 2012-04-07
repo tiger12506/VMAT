@@ -15,7 +15,7 @@ namespace VMAT.ViewModels
         [RegularExpression("[0-9A-Za-z]{1,5}", ErrorMessage = "Machine Name Suffix must be 1-5 characters long")]
 
         [DisplayName("Machine Name Suffix")]
-        public string MachineNameSuffix { get; set; }
+        public string MachineName { get; set; }
 
         public string BaseImageFile { get; set; }
 
@@ -33,7 +33,7 @@ namespace VMAT.ViewModels
         public VirtualMachineFormViewModel(VirtualMachine vm, string projectName)
         {
             ProjectName = projectName;
-            MachineNameSuffix = vm.MachineName;
+            MachineName = vm.MachineName;
             BaseImageFile = vm.BaseImageName;
             IP = ((RegisteredVirtualMachine)vm).IP;
             IsAutoStarted = vm.IsAutoStarted;
