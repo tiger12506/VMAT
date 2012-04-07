@@ -43,8 +43,6 @@ namespace VMAT.Models
 				length = image.LastIndexOf('.') - startIndex;
 				string machineName = image.Substring(startIndex, length);
 
-				bool vmExists = true;
-
 				RegisteredVirtualMachine vm;
 
 				try
@@ -54,7 +52,6 @@ namespace VMAT.Models
 				}
 				catch (Exception)
 				{
-					vmExists = false;
 					vm = new RegisteredVirtualMachine();
 					dataDB.VirtualMachines.Add(vm);
 				}
@@ -66,7 +63,14 @@ namespace VMAT.Models
 				vm.Hostname = service.GetHostname();
 				vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
-					
+
+				if (vm.IP == "ip_error" || vm.Hostname == "hostname_error")
+				{
+					service.PowerOn();
+					vm.IP = service.GetIP();
+					vm.Hostname = service.GetHostname();
+					service.PowerOff();
+				}
 
 				dataDB.SaveChanges();
 			}
