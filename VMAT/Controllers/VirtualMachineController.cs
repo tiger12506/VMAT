@@ -70,7 +70,7 @@ namespace VMAT.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var vm = new PendingVirtualMachine(vmForm);
+				var vm = new VirtualMachine(vmForm);
 				vmRepo.CreateVirtualMachine(vm);
 
 				return RedirectToAction("Index");
@@ -152,7 +152,7 @@ namespace VMAT.Controllers
 		public ActionResult ToggleStatus(int id)
 		{
 			VMStatus status = vmRepo.ToggleVMStatus(id);
-			RegisteredVirtualMachine vm = (RegisteredVirtualMachine)vmRepo.GetVirtualMachine(id);
+			VirtualMachine vm = vmRepo.GetVirtualMachine(id);
 
 			var results = new ToggleStatusViewModel
 			{
@@ -191,7 +191,7 @@ namespace VMAT.Controllers
 		{
 			vmRepo.UndoScheduleArchiveVirtualMachine(id);
 			var vm = vmRepo.GetVirtualMachine(id);
-			var viewModel = new RegisteredVirtualMachineViewModel(vm as RegisteredVirtualMachine);
+			var viewModel = new VirtualMachineViewModel(vm);
 
 			return PartialView("_RegisteredVirtualMachine", viewModel);
 		}
@@ -215,7 +215,7 @@ namespace VMAT.Controllers
 			vmRepo.ScheduleArchiveVirtualMachine(id);
 			var vm = vmRepo.GetVirtualMachine(id);
 			
-			var viewModel = new PendingArchiveVirtualMachineViewModel(vm as PendingArchiveVirtualMachine);
+			var viewModel = new VirtualMachineViewModel(vm);
 
 			return PartialView("_PendingArchiveVirtualMachine", viewModel);
 		}

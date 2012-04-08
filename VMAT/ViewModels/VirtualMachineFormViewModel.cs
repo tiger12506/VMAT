@@ -35,7 +35,7 @@ namespace VMAT.ViewModels
             ProjectName = projectName;
             MachineName = vm.MachineName;
             BaseImageFile = vm.BaseImageName;
-            IP = ((RegisteredVirtualMachine)vm).IP;
+            IP = (vm).IP;
             IsAutoStarted = vm.IsAutoStarted;
         }
     }

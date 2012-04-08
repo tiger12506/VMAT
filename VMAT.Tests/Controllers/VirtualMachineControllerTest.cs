@@ -55,7 +55,7 @@ namespace VMAT.Tests.Controllers
             var mockVmRepo = new Mock<IVirtualMachineRepository>();
             var mockConfigRepo = new Mock<IConfigurationRepository>();
 
-            var vm = new PendingVirtualMachine();
+            var vm = new VirtualMachine();
 
             mockVmRepo.Setup(v => v.CreateVirtualMachine(vm));
 

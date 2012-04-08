@@ -1,4 +1,4 @@
-﻿@model VMAT.ViewModels.PendingVirtualMachineViewModel
+﻿@model VMAT.ViewModels.VirtualMachineViewModel
 
 <div class="machine-info pending" machineid="@Model.VirtualMachineId">
     <div class="primary">
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td class="tImagefile">@Model.ImagePathName</td>
-                <td class="tOS">@Model.OS</td>
+                <td class="tOS">@Model.OperatingSystemIcon</td>
                 <td class="tIP">@Model.IP</td>
             </tr>
         </table>

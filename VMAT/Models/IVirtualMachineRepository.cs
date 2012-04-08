@@ -11,7 +11,7 @@ namespace VMAT.Models
 		IEnumerable<Project> GetAllProjects();
 		IEnumerable<Project> GetAllProjectsWithVirtualMachines();
 		IEnumerable<VirtualMachine> GetAllVirtualMachines();
-		IEnumerable<PendingVirtualMachine> GetAllPendingVirtualMachines();
+		IEnumerable<VirtualMachine> GetAllPendingVirtualMachines();
 		void CreateVirtualMachine(VirtualMachine vm);
 		VirtualMachine GetVirtualMachine(int id);
 		void DeleteVirtualMachine(int id);
@@ -20,7 +20,7 @@ namespace VMAT.Models
 		void ScheduleArchiveProject(int id);
 		string GetNextAvailableIP();
 		VMStatus ToggleVMStatus(int id);
-		void PowerOn(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
-		void PowerOff(RegisteredVirtualMachine vm, RegisteredVirtualMachineService service);
+		void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service);
+		void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service);
 	}
 }

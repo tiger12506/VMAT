@@ -1,4 +1,4 @@
-﻿@model VMAT.Models.ArchivedVirtualMachine 
+﻿@model VMAT.ViewModels.VirtualMachineViewModel
 
 <div class="machine-info" machineid="@Model.VirtualMachineId">
     <div class="primary">
@@ -14,7 +14,7 @@
                 </th>
             </tr>
             <tr>
-                <td class="tMachinename">@Model.GetMachineName()</td>
+                <td class="tMachinename">@Model.MachineName</td>
                 <td class="tArchived">@Model.LastArchived</td>
                 <td class="tControls">
                     <button type="button" class="toggle-details">
@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td class="tImagefile">@Model.BaseImageName</td>
-                <td class="tCreated">@Model.Created</td>
+                <td class="tCreated">@Model.CreatedTime</td>
                 <td class="tStarted">@Model.LastStarted</td>
                 <td class="tBackuped">@Model.LastBackuped</td>
             </tr>

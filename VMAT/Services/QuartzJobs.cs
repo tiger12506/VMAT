@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Quartz;
-using Quartz.Core;
-using Quartz.Impl;
-
 using Elmah;
+using Quartz;
+using Quartz.Impl;
+using VMAT.Models;
 namespace VMAT.Services
 {
     public class SchedulerInfo : Exception
@@ -77,7 +74,7 @@ namespace VMAT.Services
 
         public static void ArchivePendingVMs()
         {
-            var ls = dataDB.VirtualMachines.OfType<Models.PendingArchiveVirtualMachine>();
+            var ls = dataDB.VirtualMachines.Where(v => v.IsPendingArchive);
             foreach (var pendingVM in ls)
             {
                 new SchedulerInfo("Beginning archive of project " + pendingVM.Hostname).LogElmah();
@@ -87,7 +84,7 @@ namespace VMAT.Services
                     //TODO insert archiving code
                     string vmFilename = RegisteredVirtualMachineService.ConvertPathToPhysical(pendingVM.ImagePathName);
                     vmFilename = vmFilename.Substring(0, vmFilename.LastIndexOf('\\'));
-                    if (!Models.ArchivedVirtualMachine.ArchiveFile(vmFilename, vmFilename + ".7z"))
+                    if (!Models.VirtualMachine.ArchiveFile(vmFilename, vmFilename + ".7z"))
                     {
                         //It was a failure
                         //IMPORTANT: if it fails, should it not continue?
@@ -126,12 +123,12 @@ namespace VMAT.Services
 
         public static void CreatePendingVMs()
         {
-            var ls = dataDB.VirtualMachines.OfType<Models.PendingVirtualMachine>();
-            foreach (Models.PendingVirtualMachine pendingVM in ls)
+            var ls = dataDB.VirtualMachines.Where(v => v.Status == VMStatus.Pending);
+            foreach (Models.VirtualMachine pendingVM in ls)
             {
                 new SchedulerInfo("Beginning creation of hostname " + pendingVM.Hostname).LogElmah();
                 var service = new CreateVirtualMachineService(pendingVM);
-                Models.RegisteredVirtualMachine regVM = null;
+                Models.VirtualMachine regVM = null;
                 try
                 {
                     regVM = service.CreateVM();

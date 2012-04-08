@@ -23,7 +23,7 @@ function archiveProject(id) {
 			});
 
 			// Reattach event listeners to new DOM elements
-			$(this).find(".project-close").click(projectCloseClick);
+			$(this).find(".project-close").click(projectArchiveClick);
 			$(this).find(".project-collapse").click(projectCollapseClick);
 			$(this).find(".status > button").click(toggleStatusClick);
 			$(this).find(".toggle-details").click(toggleDetailsClick);

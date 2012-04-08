@@ -25,7 +25,7 @@ function archiveMachine(id) {
 			// Reattach event listeners to new DOM elements
 			$(this).find(".status > button").click(toggleStatusClick);
 			$(this).find(".toggle-details").click(toggleDetailsClick);
-			$(this).find(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
+			$(this).find(".undo-pending").click(undoPendingArchiveClick);
 
 			$(this).fadeIn(200);
 		});

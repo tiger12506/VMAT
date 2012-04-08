@@ -128,6 +128,7 @@ function undoPendingArchiveOperation($container) {
 				setStatusTooltips($(this));
 			});
 
+			$(this).find(".archive-vm-button button").click(machineArchiveClick);
 			$(this).find(".status > button").click(toggleStatusClick);
 			$(this).find(".toggle-details").click(toggleDetailsClick);
 			$(this).find(".pending-archive-vm .undo-pending").click(undoPendingArchiveClick);
