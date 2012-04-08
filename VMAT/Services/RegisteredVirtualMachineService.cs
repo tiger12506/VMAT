@@ -247,7 +247,8 @@ namespace VMAT.Services
 			List<string> filePaths = new List<string>(Directory.GetFiles(
 				AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
 
-			return filePaths.Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
+			return filePaths.Where(foo => foo.Substring(foo.Length - 4) == ".vmx").
+				Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
 		}
 	}
 }
