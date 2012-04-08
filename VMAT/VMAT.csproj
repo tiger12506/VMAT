@@ -206,19 +206,6 @@
     <Content Include="App_Data\VMAT.sdf" />
     <Content Include="Content\IE.css" />
     <Content Include="Content\IE7.css" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
     <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
@@ -246,7 +233,8 @@
     <Content Include="Content\themes\images\logo_windows-server-2003.gif" />
     <Content Include="Content\themes\images\logo_windows-server-2008.png" />
     <Content Include="Scripts\AjaxLogin.js" />
-    <Content Include="Scripts\closeProject.js" />
+    <Content Include="Scripts\archiveProject.js" />
+    <Content Include="Scripts\archiveMachine.js" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="Scripts\forms.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -283,6 +271,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Configuration\Check.cshtml" />
     <Content Include="Views\VirtualMachine\_Project.cshtml" />
+    <Content Include="Views\VirtualMachine\_ConfirmationForm.cshtml" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
@@ -315,7 +304,6 @@
     <Content Include="Views\Configuration\Index.cshtml" />
     <Content Include="Views\Configuration\Host.cshtml" />
     <Content Include="Views\Shared\_Popup.cshtml" />
-    <Content Include="Views\VirtualMachine\_ProjectCloseForm.cshtml" />
     <Content Include="Views\VirtualMachine\_ClosingProject.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
@@ -345,7 +333,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>59267</DevelopmentServerPort>
+          <DevelopmentServerPort>52717</DevelopmentServerPort>
           <DevelopmentServerVPath>/VMAT/</DevelopmentServerVPath>
           <IISUrl>http://localhost/VMAT</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

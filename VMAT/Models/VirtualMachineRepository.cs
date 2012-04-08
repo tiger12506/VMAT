@@ -64,13 +64,13 @@ namespace VMAT.Models
 				vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
 
-				if (vm.IP == "ip_error" || vm.Hostname == "hostname_error")
+				/*if (vm.IP == "ip_error" || vm.Hostname == "hostname_error")
 				{
 					service.PowerOn();
 					vm.IP = service.GetIP();
 					vm.Hostname = service.GetHostname();
 					service.PowerOff();
-				}
+				}*/
 
 				dataDB.SaveChanges();
 			}
@@ -189,9 +189,9 @@ namespace VMAT.Models
 		{
 			var vm = dataDB.VirtualMachines.Single(v => v.VirtualMachineId == id)
 				as RegisteredVirtualMachine;
-			var archiveVm = new PendingArchiveVirtualMachine(vm);
+			vm = new PendingArchiveVirtualMachine(vm);
 			
-			try
+			/*try
 			{
 				dataDB.VirtualMachines.Remove(vm);
 				dataDB.VirtualMachines.Add(archiveVm);
@@ -200,7 +200,7 @@ namespace VMAT.Models
 			{
 				// Do not save changes if error occurs
 				return;
-			}
+			}*/
 
 			dataDB.SaveChanges();
 		}

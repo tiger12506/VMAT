@@ -44,6 +44,7 @@ namespace VMAT.Models
 
 		public RegisteredVirtualMachine(PendingVirtualMachine vm) : this()
 		{
+			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
 			IP = vm.IP;
 			BaseImageName = vm.BaseImageName;
@@ -53,6 +54,7 @@ namespace VMAT.Models
 
 		public RegisteredVirtualMachine(PendingArchiveVirtualMachine vm)
 		{
+			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
 			BaseImageName = vm.BaseImageName;
 			OS = vm.OS;

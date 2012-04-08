@@ -18,6 +18,8 @@ namespace VMAT.Models
 		[ScaffoldColumn(false)]
 		public int VirtualMachineId { get; set; }
 
+		public string gay { get; set; }
+
 		[DisplayName("Machine Name")]
 		public string MachineName { get; set; }
 

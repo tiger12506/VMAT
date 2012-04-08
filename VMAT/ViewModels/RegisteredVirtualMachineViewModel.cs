@@ -21,8 +21,6 @@ namespace VMAT.ViewModels
 
 		public RegisteredVirtualMachineViewModel(RegisteredVirtualMachine vm)
 		{
-			var service = new VMAT.Services.RegisteredVirtualMachineService(vm.ImagePathName);
-
 			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
 			BaseImageName = vm.BaseImageName;

@@ -214,6 +214,7 @@ namespace VMAT.Controllers
 		{
 			vmRepo.ScheduleArchiveVirtualMachine(id);
 			var vm = vmRepo.GetVirtualMachine(id);
+			
 			var viewModel = new PendingArchiveVirtualMachineViewModel(vm as PendingArchiveVirtualMachine);
 
 			return PartialView("_PendingArchiveVirtualMachine", viewModel);

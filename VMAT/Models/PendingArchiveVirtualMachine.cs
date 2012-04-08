@@ -5,24 +5,25 @@ using System.Web;
 
 namespace VMAT.Models
 {
-    public class PendingArchiveVirtualMachine : RegisteredVirtualMachine
-    {
-        // Currently no different than Registered VM
+	public class PendingArchiveVirtualMachine : RegisteredVirtualMachine
+	{
+		// Currently no different than Registered VM
 
-        public PendingArchiveVirtualMachine() : base() { }
+		public PendingArchiveVirtualMachine() : base() { }
 
-        public PendingArchiveVirtualMachine(RegisteredVirtualMachine vm)
-        {
-            ImagePathName = vm.ImagePathName;
-            BaseImageName = vm.BaseImageName;
-            OS = vm.OS;
-            IsAutoStarted = vm.IsAutoStarted;
-            IP = vm.IP;
-            CreatedTime = vm.CreatedTime;
-            LastStarted = vm.LastStarted;
-            LastStopped = vm.LastStopped;
-            LastArchived = vm.LastArchived;
-            LastBackuped = vm.LastBackuped;
-        }
-    }
+		public PendingArchiveVirtualMachine(RegisteredVirtualMachine vm)
+		{
+			VirtualMachineId = vm.VirtualMachineId;
+			ImagePathName = vm.ImagePathName;
+			BaseImageName = vm.BaseImageName;
+			OS = vm.OS;
+			IsAutoStarted = vm.IsAutoStarted;
+			IP = vm.IP;
+			CreatedTime = vm.CreatedTime;
+			LastStarted = vm.LastStarted;
+			LastStopped = vm.LastStopped;
+			LastArchived = vm.LastArchived;
+			LastBackuped = vm.LastBackuped;
+		}
+	}
 }
