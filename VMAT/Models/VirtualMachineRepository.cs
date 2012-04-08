@@ -280,12 +280,18 @@ namespace VMAT.Models
 				try
 				{
 					string longIP = ip;
+
 					int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
 					ipUsed[ipTail] = true;
+
 				}
 				catch (NullReferenceException)
 				{
 					// Ignore if a stored IP address is NULL
+				}
+				catch (FormatException)
+				{
+					// Ignore if a stored IP address is invalid
 				}
 			}
 
@@ -301,6 +307,7 @@ namespace VMAT.Models
 		public void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VMStatus.PoweringOn;
+			dataDB.SaveChanges();
 			service.PowerOn();
 			vm.Status = VMStatus.Running;
 			vm.LastStarted = DateTime.Now;
@@ -310,6 +317,7 @@ namespace VMAT.Models
 		public void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VMStatus.PoweringOff;
+			dataDB.SaveChanges();
 			service.PowerOff();
 			vm.Status = VMStatus.Stopped;
 			vm.LastStopped = DateTime.Now;
