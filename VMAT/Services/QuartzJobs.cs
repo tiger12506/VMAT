@@ -69,7 +69,7 @@ namespace VMAT.Services
 
             sched.ScheduleJob(archiveJD, archiveTrigger);
 
-            new SchedulerInfo("Jobs scheduled (Application_Start fired)").LogElmah();
+            new SchedulerInfo("Jobs scheduled (likely Application_Start fired). Create start time is " + createTrigger.StartTimeUtc).LogElmah();
         }
 
         public static void ArchivePendingVMs()
@@ -141,6 +141,7 @@ namespace VMAT.Services
                 //if that excepts, this should still continue
                 try
                 {
+                    //TODO now that every VM is the same type, should we just change the flag and save?
                     dataDB.VirtualMachines.Remove(pendingVM); //TODO: do we just want to remove this before starting to create the VM?
                     dataDB.VirtualMachines.Add(regVM);
                 }
