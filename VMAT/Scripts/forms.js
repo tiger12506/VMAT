@@ -37,7 +37,7 @@ function updatePreviewPane() {
 };
 
 function updateImageFilePreview() {
-    var machineSuffix = $("#MachineNameSuffix").val();
+    var machineSuffix = $("#MachineName").val();
     var projectNumber = $("#ProjectName").val();
 
     $(".pProject").text(projectNumber);
