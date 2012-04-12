@@ -34,15 +34,15 @@ namespace VMAT.Services
 		   return virtualHost;
 		}
 
-		public VMStatus GetStatus()
+		public int GetStatus()
 		{
-			if (VM.IsPaused) return VMStatus.Paused;
-			else if (VM.IsRunning) return VMStatus.Running;
-			else if (VM.IsSuspended) return VMStatus.Suspended;
-			else if (VM.IsRecording || VM.IsReplaying) return VMStatus.Running;
-			else if (VM.PowerState == 0x0001) return VMStatus.PoweringOff;
-			else if (VM.PowerState == 0x0004) return VMStatus.PoweringOn;
-			else return VMStatus.Stopped;
+			if (VM.IsPaused) return Models.VirtualMachine.PAUSED;
+			else if (VM.IsRunning) return Models.VirtualMachine.RUNNING;
+			else if (VM.IsSuspended) return Models.VirtualMachine.SUSPENDED;
+			else if (VM.IsRecording || VM.IsReplaying) return Models.VirtualMachine.RUNNING;
+			else if (VM.PowerState == 0x0001) return Models.VirtualMachine.POWERINGOFF;
+			else if (VM.PowerState == 0x0004) return Models.VirtualMachine.POWERINGON;
+			else return Models.VirtualMachine.STOPPED;
 		}
 
 		public bool IsRunning()

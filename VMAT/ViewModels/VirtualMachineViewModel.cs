@@ -29,7 +29,6 @@ namespace VMAT.ViewModels
 			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
 			BaseImageName = vm.BaseImageName;
-			Status = vm.Status.ToString().ToLower();
 			MachineName = vm.MachineName;
 			IP = vm.IP;
 			CreatedTime = vm.CreatedTime.ToString();
@@ -37,6 +36,34 @@ namespace VMAT.ViewModels
 			LastStarted = vm.LastStarted.ToString();
 			LastArchived = vm.LastArchived.ToString();
 			LastBackuped = vm.LastBackuped.ToString();
+
+			switch (vm.Status)
+			{
+				case VirtualMachine.STOPPED:
+					Status = "stopped";
+					break;
+				case VirtualMachine.PAUSED:
+					Status = "paused";
+					break;
+				case VirtualMachine.SUSPENDED:
+					Status = "suspended";
+					break;
+				case VirtualMachine.RUNNING:
+					Status = "running";
+					break;
+				case VirtualMachine.POWERINGON:
+					Status = "powering-on";
+					break;
+				case VirtualMachine.POWERINGOFF:
+					Status = "powering-off";
+					break;
+				case VirtualMachine.PENDING:
+					Status = "pending";
+					break;
+				case VirtualMachine.ARCHIVED:
+					Status = "archived";
+					break;
+			}
 
 			if (vm.BaseImageName == "Windows 7")
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";

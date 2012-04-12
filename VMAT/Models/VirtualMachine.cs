@@ -3,23 +3,21 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VMAT.ViewModels;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace VMAT.Models
 {
-	public enum VMStatus
-	{
-		Stopped,
-		Paused, // Still in memory, like sleep
-		Suspended, // Still in disk, like hibernate. May not be supported
-		Running,
-		PoweringOn,
-		PoweringOff,
-		Pending,
-		Archived
-	}
-
 	public class VirtualMachine
 	{
+		public const int STOPPED = 0;
+		public const int PAUSED = 1; // Still in memory, like sleep
+		public const int SUSPENDED = 2; // Still in disk, like hibernate. May not be supported
+		public const int RUNNING = 3;
+		public const int POWERINGON = 4;
+		public const int POWERINGOFF = 5;
+		public const int PENDING = 6;
+		public const int ARCHIVED = 7;
+
 		[ScaffoldColumn(false)]
 		public int VirtualMachineId { get; set; }
 
@@ -39,7 +37,7 @@ namespace VMAT.Models
 		public string Hostname { get; set; }
 
 		[DisplayName("Status")]
-		public VMStatus Status { get; set; }
+		public int Status { get; set; }
 
 		[DisplayName("IP Address")]
 		public string IP { get; set; }

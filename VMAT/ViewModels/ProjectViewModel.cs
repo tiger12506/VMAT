@@ -29,9 +29,9 @@ namespace VMAT.ViewModels
 			{
 				var vmView = new VirtualMachineViewModel(vm);
 
-				if (vm.Status == VMStatus.Pending)
+				if (vm.Status == VirtualMachine.PENDING)
 					PendingVMs.Add(vmView);
-				else if (vm.Status == VMStatus.Archived)
+				else if (vm.Status == VirtualMachine.ARCHIVED)
 					ArchivedVMs.Add(vmView);
 				else if (vm.IsPendingArchive)
 					PendingArchiveVMs.Add(vmView);

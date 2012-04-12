@@ -151,15 +151,10 @@ namespace VMAT.Controllers
 		[HttpPost]
 		public ActionResult ToggleStatus(int id)
 		{
-			VMStatus status = vmRepo.ToggleVMStatus(id);
+			int status = vmRepo.ToggleVMStatus(id);
 			VirtualMachine vm = vmRepo.GetVirtualMachine(id);
 
-			var results = new ToggleStatusViewModel
-			{
-				Status = status.ToString().ToLower(),
-				LastStartTime = vm.LastStarted,
-				LastShutdownTime = vm.LastStopped
-			};
+			var results = new ToggleStatusViewModel(status, vm.LastStarted, vm.LastStopped);
 
 			return Json(results);
 		}

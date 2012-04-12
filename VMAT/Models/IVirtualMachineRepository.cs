@@ -19,7 +19,7 @@ namespace VMAT.Models
 		void UndoScheduleArchiveVirtualMachine(int id);
 		void ScheduleArchiveProject(int id);
 		string GetNextAvailableIP();
-		VMStatus ToggleVMStatus(int id);
+		int ToggleVMStatus(int id);
 		void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service);
 		void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service);
 	}

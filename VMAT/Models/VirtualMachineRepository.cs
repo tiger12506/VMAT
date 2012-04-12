@@ -106,7 +106,7 @@ namespace VMAT.Models
 
 		public IEnumerable<VirtualMachine> GetAllPendingVirtualMachines()
 		{
-			return dataDB.VirtualMachines.Where(v => v.Status == VMStatus.Pending);
+			return dataDB.VirtualMachines.Where(v => v.Status == VirtualMachine.PENDING);
 		}
 
 		private IEnumerable<VirtualMachine> GetAllRegisteredVirtualMachines()
@@ -145,7 +145,7 @@ namespace VMAT.Models
 
 				var service = new RegisteredVirtualMachineService(image);
 
-				if (service.GetStatus() == VMStatus.Running)
+				if (service.GetStatus() == VirtualMachine.RUNNING)
 				{
 					vm.IP = service.GetIP();
 				}
@@ -249,7 +249,7 @@ namespace VMAT.Models
 			}
 		}
 
-		public VMStatus ToggleVMStatus(int id)
+		public int ToggleVMStatus(int id)
 		{
 			VirtualMachine vm = dataDB.VirtualMachines.Single(d => d.VirtualMachineId == id);
 			var service = new RegisteredVirtualMachineService(vm.ImagePathName);
@@ -306,20 +306,20 @@ namespace VMAT.Models
 
 		public void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
-			vm.Status = VMStatus.PoweringOn;
+			vm.Status = VirtualMachine.POWERINGON;
 			dataDB.SaveChanges();
 			service.PowerOn();
-			vm.Status = VMStatus.Running;
+			vm.Status = VirtualMachine.RUNNING;
 			vm.LastStarted = DateTime.Now;
 			dataDB.SaveChanges();
 		}
 
 		public void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
-			vm.Status = VMStatus.PoweringOff;
+			vm.Status = VirtualMachine.POWERINGOFF;
 			dataDB.SaveChanges();
 			service.PowerOff();
-			vm.Status = VMStatus.Stopped;
+			vm.Status = VirtualMachine.STOPPED;
 			vm.LastStopped = DateTime.Now;
 			dataDB.SaveChanges();
 		}
