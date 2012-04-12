@@ -109,7 +109,7 @@ namespace VMAT.Controllers
 		public ActionResult Edit(int id)
 		{
 			VirtualMachine vm = vmRepo.GetVirtualMachine(id);
-			string project = vmRepo.GetProject(vm.VirtualMachineId).ProjectName;
+			string project = vm.Project.ProjectName;
 			var form = new VirtualMachineFormViewModel(vm, project);
 
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
