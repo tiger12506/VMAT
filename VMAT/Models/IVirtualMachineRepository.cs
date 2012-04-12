@@ -12,7 +12,7 @@ namespace VMAT.Models
 		IEnumerable<Project> GetAllProjectsWithVirtualMachines();
 		IEnumerable<VirtualMachine> GetAllVirtualMachines();
 		IEnumerable<VirtualMachine> GetAllPendingVirtualMachines();
-		void CreateVirtualMachine(VirtualMachine vm);
+		void CreateVirtualMachine(VirtualMachine vm, string projectName);
 		VirtualMachine GetVirtualMachine(int id);
 		void DeleteVirtualMachine(int id);
 		void ScheduleArchiveVirtualMachine(int id);

@@ -57,7 +57,7 @@ namespace VMAT.Tests.Controllers
 
             var vm = new VirtualMachine();
 
-            mockVmRepo.Setup(v => v.CreateVirtualMachine(vm));
+            mockVmRepo.Setup(v => v.CreateVirtualMachine(vm, ""));
 
             var projects = new List<ProjectViewModel>();
             projects.Add(new ProjectViewModel());

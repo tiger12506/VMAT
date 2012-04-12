@@ -56,7 +56,6 @@ namespace VMAT.Controllers
 			ViewBag.ProjectName = projectName;
 			ViewBag.BaseImageFile = new SelectList(
 				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
-			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 			vmForm.IP = vmRepo.GetNextAvailableIP();
 
 			return View(vmForm);
@@ -70,8 +69,8 @@ namespace VMAT.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var vm = new VirtualMachine(vmForm);
-				vmRepo.CreateVirtualMachine(vm);
+				var vm = new VirtualMachine(vmForm, configRepo.GetVmCreationTime());
+				vmRepo.CreateVirtualMachine(vm, vmForm.ProjectName);
 
 				return RedirectToAction("Index");
 			}
@@ -194,6 +193,7 @@ namespace VMAT.Controllers
 			var vm = vmRepo.GetVirtualMachine(id);
 			
 			var viewModel = new VirtualMachineViewModel(vm);
+			ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
 
 			return PartialView("_PendingArchiveVirtualMachine", viewModel);
 		}
@@ -207,6 +207,7 @@ namespace VMAT.Controllers
 			vmRepo.ScheduleArchiveProject(id);
 			var proj = vmRepo.GetProject(id);
 			var viewModel = new ProjectViewModel(proj);
+			ViewBag.ArchiveTime = configRepo.GetVmArchiveTime();
 
 			return PartialView("_Project", viewModel);
 		}

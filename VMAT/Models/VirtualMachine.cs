@@ -77,7 +77,7 @@ namespace VMAT.Models
 			CreatedTime = DateTime.Now;
 		}
 
-		public VirtualMachine(VirtualMachineFormViewModel vmForm)
+		public VirtualMachine(VirtualMachineFormViewModel vmForm, DateTime creationTime)
 		{
 			MachineName = "gapdev" + vmForm.ProjectName.Trim('G') + vmForm.MachineName;
 			ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + 
@@ -85,6 +85,13 @@ namespace VMAT.Models
 			BaseImageName = vmForm.BaseImageFile;
 			IP = vmForm.IP;
 			IsAutoStarted = vmForm.IsAutoStarted;
+			Status = PENDING;
+			IsPendingArchive = false;
+			LastArchived = creationTime;
+			LastBackuped = creationTime;
+			LastStarted = creationTime;
+			LastStopped = creationTime;
+			CreatedTime = creationTime;
 		}
 
 		public static bool ArchiveFile(string sourceName, string outName)

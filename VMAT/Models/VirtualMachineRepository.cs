@@ -157,9 +157,12 @@ namespace VMAT.Models
 			return vmList;
 		}
 
-		public void CreateVirtualMachine(VirtualMachine vm)
+		public void CreateVirtualMachine(VirtualMachine vm, string projectName)
 		{
+			vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
 			dataDB.VirtualMachines.Add(vm);
+
+			dataDB.SaveChanges();
 		}
 
 		public VirtualMachine GetVirtualMachine(int id)
