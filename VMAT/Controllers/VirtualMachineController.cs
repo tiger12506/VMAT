@@ -109,20 +109,7 @@ namespace VMAT.Controllers
 		public ActionResult Edit(int id)
 		{
 			VirtualMachine vm = vmRepo.GetVirtualMachine(id);
-			string project = vm.Project.ProjectName;
-			var form = new VirtualMachineFormViewModel(vm, project);
-
-			var projectName = new SelectList(vmRepo.GetAllProjects(),
-				"ProjectName", "ProjectName");
-
-			foreach (var item in projectName)
-			{
-				item.Value = item.Value.Substring(item.Value.LastIndexOf('G') + 1);
-				item.Text = item.Value;
-			}
-
-			ViewBag.ProjectName = projectName;
-			ViewBag.Hostname = AppConfiguration.GetVMHostName();
+			var form = new VirtualMachineFormViewModel(vm);
 
 			return View(form);
 		}
@@ -137,10 +124,6 @@ namespace VMAT.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-
-			ViewBag.ProjectName = new SelectList(vmRepo.GetAllProjects(),
-				"ProjectName", "ProjectName");
-			ViewBag.Hostname = AppConfiguration.GetVMHostName();
 
 			return View(vm);
 		}
