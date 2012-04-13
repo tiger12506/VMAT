@@ -84,19 +84,9 @@ namespace VMAT.Models
 			return dataDB.Projects.Single(p => p.ProjectId == id);
 		}
 
-		public Project GetProjectWithVirtualMachines(int id)
-		{
-			return dataDB.Projects.Include("VirtualMachines").Single(p => p.ProjectId == id);
-		}
-
 		public IEnumerable<Project> GetAllProjects()
 		{
 			return dataDB.Projects.ToList();
-		}
-
-		public IEnumerable<Project> GetAllProjectsWithVirtualMachines()
-		{
-			return dataDB.Projects.Include("VirtualMachines").ToList();
 		}
 
 		public IEnumerable<VirtualMachine> GetAllVirtualMachines()
@@ -159,9 +149,18 @@ namespace VMAT.Models
 
 		public void CreateVirtualMachine(VirtualMachine vm, string projectName)
 		{
-			vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
-			dataDB.VirtualMachines.Add(vm);
+			try
+			{
+				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
+			}
+			catch (InvalidOperationException)
+			{
+				var project = new Project(projectName);
+				dataDB.Projects.Add(project);
+				vm.Project = project;
+			}
 
+			dataDB.VirtualMachines.Add(vm);
 			dataDB.SaveChanges();
 		}
 
@@ -286,7 +285,6 @@ namespace VMAT.Models
 
 					int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
 					ipUsed[ipTail] = true;
-
 				}
 				catch (NullReferenceException)
 				{
