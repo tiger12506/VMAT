@@ -55,20 +55,13 @@ namespace VMAT.Models
 					dataDB.VirtualMachines.Add(vm);
 				}
 
+				service = PowerOn(vm, service);
 				vm.MachineName = machineName;
 				vm.ImagePathName = image;
 				vm.Status = service.GetStatus();
 				vm.Hostname = service.GetHostname();
 				vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
-
-				/*if (vm.IP == "ip_error" || vm.Hostname == "hostname_error")
-				{
-					service.PowerOn();
-					vm.IP = service.GetIP();
-					vm.Hostname = service.GetHostname();
-					service.PowerOff();
-				}*/
 
 				dataDB.SaveChanges();
 			}
@@ -272,8 +265,6 @@ namespace VMAT.Models
 
 			ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
 
-			ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
-
 			bool[] ipUsed = new bool[256];
 			ipUsed[0] = true;
 
@@ -305,7 +296,8 @@ namespace VMAT.Models
 			return null;
 		}
 
-		public void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service)
+		private RegisteredVirtualMachineService PowerOn(
+			VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VirtualMachine.POWERINGON;
 			dataDB.SaveChanges();
@@ -313,9 +305,12 @@ namespace VMAT.Models
 			vm.Status = VirtualMachine.RUNNING;
 			vm.LastStarted = DateTime.Now;
 			dataDB.SaveChanges();
+
+			return service;
 		}
 
-		public void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service)
+		private RegisteredVirtualMachineService PowerOff(
+			VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VirtualMachine.POWERINGOFF;
 			dataDB.SaveChanges();
@@ -323,6 +318,8 @@ namespace VMAT.Models
 			vm.Status = VirtualMachine.STOPPED;
 			vm.LastStopped = DateTime.Now;
 			dataDB.SaveChanges();
+
+			return service;
 		}
 	}
 }

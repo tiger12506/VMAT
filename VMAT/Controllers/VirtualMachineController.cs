@@ -77,22 +77,7 @@ namespace VMAT.Controllers
 
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
-			bool projectNameExists = false;
-
-			foreach (var item in projectName)
-			{
-				if (item.Value == vmForm.ProjectName)
-				{
-					projectNameExists = true;
-					break;
-				}
-			}
-
-			if (!projectNameExists)
-			{
-				// TODO: Add in new project numbers
-			}
-
+			
 			ViewBag.ProjectName = projectName;
 			ViewBag.BaseImageFile = new SelectList(
 				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());

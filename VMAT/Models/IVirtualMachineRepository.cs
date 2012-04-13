@@ -18,7 +18,5 @@ namespace VMAT.Models
 		void ScheduleArchiveProject(int id);
 		string GetNextAvailableIP();
 		int ToggleVMStatus(int id);
-		void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service);
-		void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service);
 	}
 }
