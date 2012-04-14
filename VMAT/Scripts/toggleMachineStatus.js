@@ -1,18 +1,18 @@
 ﻿// File: toggleMachineStatus.js
 
 var toggleStatusClick = function () {
-    var $imagePath = $(this).closest(".machine-info").attr("id");
+    var id = $(this).closest(".machine-info").attr("machineid");
     $(this).addClass("transition");
     $(this).attr("disabled", "disabled");
 
-    toggleMachineStatus($imagePath, this);
+    toggleMachineStatus(id, this);
 }
 
 $(document).ready(function () {
     $(".status > button").click(toggleStatusClick);
 });
 
-function toggleMachineStatus(machineName, button) {
+function toggleMachineStatus(id, button) {
     var successCallback = function(data, button) {
         var status = ((String)(data.Status)).toLowerCase();
         var $machine = $(button).closest(".machine-info");
@@ -30,8 +30,8 @@ function toggleMachineStatus(machineName, button) {
         resetTransitionButton(button);
     };
 
-    var failureCallback = function (error, machineName, button) {
-        alert("Failed to change machine " + machineName + "'s status: " + error.status);
+    var failureCallback = function (error, id, button) {
+        alert("Failed to change machine " + id + "'s status: " + error.status);
         resetTransitionButton(button);
     };
 
@@ -39,10 +39,10 @@ function toggleMachineStatus(machineName, button) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: $.url("toggleMachineStatus"),
-        data: "{'image': '" + machineName + "'}",
+        data: "{'id': '" + id + "'}",
         dataType: "json",
         success: function (data) { successCallback(data, button); },
-        error: function (error) { failureCallback(error, machineName, button); }
+        error: function (error) { failureCallback(error, id, button); }
     });
 }
 

@@ -1,13 +1,13 @@
 ﻿@model VMAT.ViewModels.ProjectViewModel
 
-<div class="project" id="@Model.ProjectName">
+<div class="project" projectid="@Model.ProjectId">
     <div class="project-header">
         <button type="button" class="project-collapse">v</button>
-        <h2>@Model.ProjectName</h2>
-        <h3>@Model.Hostname</h3>
+        <h2 class="project-name">@Model.ProjectName</h2>
+        @*<h3>@Model.Hostname</h3>*@
         <button type="button" class="project-close">
-            <img src="@Url.Content("~/Content/themes/images/icon_project-complete.png")" alt="X" />
-            Close
+            <img src='@Url.Content("~/Content/themes/images/icon_project-complete.png")' alt="X" />
+            Archive
         </button>
     </div>
 

@@ -7,24 +7,22 @@ namespace VMAT.Services
 {
     public class CreateVirtualMachineService
     {
-
-
-        PendingVirtualMachine VM;
+        VirtualMachine VM;
 
         public CreateVirtualMachineService() { }
 
-        public CreateVirtualMachineService(PendingVirtualMachine vm)
+        public CreateVirtualMachineService(VirtualMachine vm)
         {
             VM = vm;
         }
 
-        public RegisteredVirtualMachine CreateVM()
+        public VirtualMachine CreateVM()
         {
             if (RegisteredVirtualMachineService.GetRegisteredVMImagePaths().Contains(VM.ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
             if (!VM.ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !VM.BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
                 throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
-            if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7 || VM.Hostname.Length < 3)
+            if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
             
             //this all really needs to be async, report status, and handle errors in individual steps better
@@ -40,7 +38,7 @@ namespace VMAT.Services
             // Allot time to finish copying the file
             System.Threading.Thread.Sleep(16 * 1000);
 
-            RegisteredVirtualMachineService service=null;
+            RegisteredVirtualMachineService service = null;
             try
             {
                 RegisteredVirtualMachineService.GetVirtualHost().Register(VM.ImagePathName);
@@ -63,11 +61,8 @@ namespace VMAT.Services
             // Allow VM time to reboot
             service.Reboot();
             System.Threading.Thread.Sleep(250 * 1000);
-            
 
-            var newVM = new RegisteredVirtualMachine(VM);
-
-            return newVM;
+            return VM;
 
             //http://vmwaretasks.codeplex.com/discussions/276715
             //"[ha-datacenter/standard] Windows Server 2003/Windows Server 2003.vmx"

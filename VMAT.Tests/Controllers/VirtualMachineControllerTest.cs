@@ -5,6 +5,7 @@ using VMAT.Controllers;
 using VMAT.Models;
 using VMAT.ViewModels;
 using Moq;
+using Vestris.VMWareLib;
 
 namespace VMAT.Tests.Controllers
 {
@@ -55,9 +56,9 @@ namespace VMAT.Tests.Controllers
             var mockVmRepo = new Mock<IVirtualMachineRepository>();
             var mockConfigRepo = new Mock<IConfigurationRepository>();
 
-            var vm = new PendingVirtualMachine();
+            var vm = new VirtualMachine();
 
-            mockVmRepo.Setup(v => v.CreatePendingVirtualMachine(vm));
+            mockVmRepo.Setup(v => v.CreateVirtualMachine(vm, ""));
 
             var projects = new List<ProjectViewModel>();
             projects.Add(new ProjectViewModel());

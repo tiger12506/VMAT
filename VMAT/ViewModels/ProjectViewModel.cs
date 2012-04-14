@@ -3,79 +3,41 @@ using VMAT.Models;
 
 namespace VMAT.ViewModels
 {
-    public class ProjectViewModel
-    {
-        public string ProjectName { get; set; }
-        public string Hostname { get; set; }
-        public IEnumerable<RegisteredVirtualMachineViewModel> RegisteredVMs { get; set; }
-        public IEnumerable<PendingVirtualMachineViewModel> PendingVMs { get; set; }
-        public IEnumerable<PendingArchiveVirtualMachineViewModel> PendingArchiveVMs { get; set; }
-        public IEnumerable<ArchiveVirtualMachineViewModel> ArchivedVMs { get; set; }
+	public class ProjectViewModel
+	{
+		public int ProjectId { get; set; }
+		public string ProjectName { get; set; }
+		public List<VirtualMachineViewModel> RegisteredVMs { get; set; }
+		public List<VirtualMachineViewModel> PendingVMs { get; set; }
+		public List<VirtualMachineViewModel> PendingArchiveVMs { get; set; }
+		public List<VirtualMachineViewModel> ArchivedVMs { get; set; }
 
-        public ProjectViewModel()
-        {
-            RegisteredVMs = new List<RegisteredVirtualMachineViewModel>();
-            PendingVMs = new List<PendingVirtualMachineViewModel>();
-            PendingArchiveVMs = new List<PendingArchiveVirtualMachineViewModel>();
-            ArchivedVMs = new List<ArchiveVirtualMachineViewModel>();
-        }
+		public ProjectViewModel()
+		{
+			RegisteredVMs = new List<VirtualMachineViewModel>();
+			PendingVMs = new List<VirtualMachineViewModel>();
+			PendingArchiveVMs = new List<VirtualMachineViewModel>();
+			ArchivedVMs = new List<VirtualMachineViewModel>();
+		}
 
-        public ProjectViewModel(Project project) : this()
-        {
-            ProjectName = project.ProjectName;
-            Hostname = project.Hostname;
+		public ProjectViewModel(Project project) : this()
+		{
+			ProjectId = project.ProjectId;
+			ProjectName = project.ProjectName;
 
-            foreach (var vm in project.VirtualMachines)
-            {
-                if (vm.GetType() == typeof(RegisteredVirtualMachine))
-                {
-                    var vmView = new RegisteredVirtualMachineViewModel(
-                        vm as RegisteredVirtualMachine);
+			foreach (var vm in project.VirtualMachines)
+			{
+				var vmView = new VirtualMachineViewModel(vm);
 
-                    AddRegisteredVirtualMachineViewModel(vmView);
-                }
-                else if (vm.GetType() == typeof(PendingVirtualMachine))
-                {
-                    var vmView = new PendingVirtualMachineViewModel(
-                        vm as PendingVirtualMachine);
-
-                    AddPendingVirtualMachineViewModel(vmView);
-                }
-                else if (vm.GetType() == typeof(PendingArchiveVirtualMachine))
-                {
-                    var vmView = new PendingArchiveVirtualMachineViewModel(
-                        vm as PendingArchiveVirtualMachine);
-
-                    AddPendingArchiveVirtualMachineViewModel(vmView);
-                }
-                else if (vm.GetType() == typeof(ArchivedVirtualMachine))
-                {
-                    var vmView = new ArchiveVirtualMachineViewModel(
-                        vm as ArchivedVirtualMachine);
-
-                    AddArchivedVirtualMachineViewModel(vmView);
-                }
-            }
-        }
-
-        public void AddRegisteredVirtualMachineViewModel(RegisteredVirtualMachineViewModel vm)
-        {
-            (RegisteredVMs as List<RegisteredVirtualMachineViewModel>).Add(vm);
-        }
-
-        public void AddPendingVirtualMachineViewModel(PendingVirtualMachineViewModel vm)
-        {
-            (PendingVMs as List<PendingVirtualMachineViewModel>).Add(vm);
-        }
-
-        public void AddPendingArchiveVirtualMachineViewModel(PendingArchiveVirtualMachineViewModel vm)
-        {
-            (PendingArchiveVMs as List<PendingArchiveVirtualMachineViewModel>).Add(vm);
-        }
-
-        public void AddArchivedVirtualMachineViewModel(ArchiveVirtualMachineViewModel vm)
-        {
-            (ArchivedVMs as List<ArchiveVirtualMachineViewModel>).Add(vm);
-        }
-    }
+				if (vm.Status == VirtualMachine.PENDING)
+					PendingVMs.Add(vmView);
+				else if (vm.Status == VirtualMachine.ARCHIVED)
+					ArchivedVMs.Add(vmView);
+				else if (vm.IsPendingArchive)
+					PendingArchiveVMs.Add(vmView);
+				else
+					RegisteredVMs.Add(vmView);
+			}
+		}
+	}
 }
