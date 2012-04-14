@@ -24,5 +24,13 @@ namespace VMAT.Tests.Models
             // Assert
             mockRepo.Verify();
         }
+
+        [TestMethod]
+        public void CreateSnapshotTest()
+        {
+            VirtualMachineRepository target = new VirtualMachineRepository(); // TODO: Initialize to an appropriate value
+            target.CreateSnapshot();
+            Assert.IsTrue(true);
+        }
     }
 }
