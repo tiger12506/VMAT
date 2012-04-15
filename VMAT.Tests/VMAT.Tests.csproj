@@ -129,7 +129,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Services\CreateVirtualMachineServiceTest.cs" />
-    <Compile Include="VirtualMachineRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
