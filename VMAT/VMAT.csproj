@@ -184,6 +184,7 @@
     <Compile Include="Models\VMware\VirtualMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ClosingProjectViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationFormViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\ToggleStatusViewModel.cs" />
     <Compile Include="ViewModels\VirtualMachineFormViewModel.cs" />

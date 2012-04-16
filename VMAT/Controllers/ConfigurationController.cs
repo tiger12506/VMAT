@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using VMAT.Models;
+using VMAT.ViewModels;
 
 namespace VMAT.Controllers
 {
@@ -48,14 +46,14 @@ namespace VMAT.Controllers
 
         public ActionResult Host()
         {
-            return View(configRepo.GetHostConfiguration());
+            return View(new ConfigurationFormViewModel(configRepo.GetHostConfiguration()));
         }
 
         //
         // POST: /Configuration/Host
 
         [HttpPost]
-        public ActionResult Host(HostConfiguration config)
+        public ActionResult Host(ConfigurationFormViewModel config)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +73,5 @@ namespace VMAT.Controllers
             ViewData["ConfigCheckOutput"] = AppConfiguration.CheckConfigSettings();
             return View();
         }
-
     }
 }
