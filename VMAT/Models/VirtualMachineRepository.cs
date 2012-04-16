@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VMAT.Services;
+﻿using VMAT.Services;
 using Vestris.VMWareLib;
 
 namespace VMAT.Models
@@ -16,45 +16,7 @@ namespace VMAT.Models
 		public VirtualMachineRepository(DataEntities db)
 		{
 			dataDB = db;
-		}
 
-		public void Test()
-		{
-			Console.Write("HI");
-		}
-
-		public void CreateSnapshot()
-		{
-			VMWareVirtualHost virtualHost = new VMWareVirtualHost();
-
-			// connect to a local VMWare Workstation virtual host
-			virtualHost.ConnectToVMWareWorkstation();
-			// open an existing virtual machine
-			VMWareVirtualMachine virtualMachine = virtualHost.Open(@"Z:\1234\gapdev1234b355\gapdev1234b355.vmx");
-			//// power on this virtual machine
-			//virtualMachine.PowerOn();
-			//// wait for VMWare Tools
-			//virtualMachine.WaitForToolsInGuest();
-			//// login to the virtual machine
-			//virtualMachine.LoginInGuest("Administrator", "password");
-			//// run notepad
-			//virtualMachine.RunProgramInGuest("notepad.exe", string.Empty);
-			// create a new snapshot
-			string name = "New Snapshot";
-			// take a snapshot at the current state
-			virtualMachine.Snapshots.CreateSnapshot(name, "test snapshot");
-			// power off
-			//virtualMachine.PowerOff();
-			// find the newly created snapshot
-			//VMWareSnapshot snapshot = virtualMachine.Snapshots.GetNamedSnapshot(name);
-			// revert to the new snapshot
-			//snapshot.RevertToSnapshot();
-			// delete snapshot
-			//snapshot.RemoveSnapshot();
-		}
-
-		public void CreateProject(Project proj)
-		{
 			if (dataDB.Projects == null || dataDB.Projects.Count() <= 0 ||
 				dataDB.VirtualMachines == null || dataDB.VirtualMachines.Count() <= 0)
 				InitializeDataContext();
@@ -106,10 +68,10 @@ namespace VMAT.Models
 			}
 		}
 
-		//public void CreateProject(Project proj)
-		//{
-		//    dataDB.Projects.Add(proj);
-		//}
+		public void CreateProject(Project proj)
+		{
+			dataDB.Projects.Add(proj);
+		}
 
 		public Project GetProject(int id)
 		{
@@ -333,6 +295,36 @@ namespace VMAT.Models
 			}
 
 			return null;
+		}
+
+		public void CreateSnapshot()
+		{
+			VMWareVirtualHost virtualHost = new VMWareVirtualHost();
+
+			// connect to a local VMWare Workstation virtual host
+			virtualHost.ConnectToVMWareWorkstation();
+			// open an existing virtual machine
+			VMWareVirtualMachine virtualMachine = virtualHost.Open(@"Z:\1234\gapdev1234b355\gapdev1234b355.vmx");
+			//// power on this virtual machine
+			//virtualMachine.PowerOn();
+			//// wait for VMWare Tools
+			//virtualMachine.WaitForToolsInGuest();
+			//// login to the virtual machine
+			//virtualMachine.LoginInGuest("Administrator", "password");
+			//// run notepad
+			//virtualMachine.RunProgramInGuest("notepad.exe", string.Empty);
+			// create a new snapshot
+			string name = "New Snapshot";
+			// take a snapshot at the current state
+			virtualMachine.Snapshots.CreateSnapshot(name, "test snapshot");
+			// power off
+			//virtualMachine.PowerOff();
+			// find the newly created snapshot
+			//VMWareSnapshot snapshot = virtualMachine.Snapshots.GetNamedSnapshot(name);
+			// revert to the new snapshot
+			//snapshot.RevertToSnapshot();
+			// delete snapshot
+			//snapshot.RemoveSnapshot();
 		}
 
 		private RegisteredVirtualMachineService PowerOn(
