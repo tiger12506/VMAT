@@ -7,7 +7,6 @@ namespace VMAT.Models
 {
 	public class HostConfiguration
 	{
-		[Key]
 		[ScaffoldColumn(false)]
 		public int HostConfigurationId { get; set; }
 
