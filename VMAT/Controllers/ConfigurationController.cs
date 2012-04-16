@@ -44,6 +44,17 @@ namespace VMAT.Controllers
         }
 
         //
+        // GET: /Configuration/Snapshot
+
+        public ActionResult Snapshot()
+        {
+
+            VirtualMachineRepository target = new VirtualMachineRepository(); // TODO: Initialize to an appropriate value
+            target.CreateSnapshot(null);
+            return RedirectToAction("Host");
+        }
+
+        //
         // GET: /Configuration/Host
 
         public ActionResult Host()

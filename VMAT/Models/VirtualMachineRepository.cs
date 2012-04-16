@@ -25,11 +25,11 @@ namespace VMAT.Models
 
         public void CreateSnapshot(VirtualMachine vm)
         {
-            VMWareVirtualHost virtualHost = (VMWareVirtualHost)RegisteredVirtualMachineService.GetVirtualHost();
+            var virtualHost = RegisteredVirtualMachineService.GetVirtualHost();
             // connect to a local VMWare Workstation virtual host
             //virtualHost.ConnectToVMWareWorkstation();
             // open an existing virtual machine
-            VMWareVirtualMachine virtualMachine = virtualHost.Open(@"Z:\1234\gapdev1234b355\gapdev1234b355.vmx");
+            var virtualMachine = virtualHost.Open(@"Z:\1234\gapdev1234b355\gapdev1234b355.vmx");
             //// power on this virtual machine
             //virtualMachine.PowerOn();
             //// wait for VMWare Tools
