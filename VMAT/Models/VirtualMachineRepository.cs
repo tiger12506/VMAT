@@ -23,12 +23,11 @@ namespace VMAT.Models
             Console.Write("HI");
         }
 
-        public void CreateSnapshot()
+        public void CreateSnapshot(VirtualMachine vm)
         {
-            VMWareVirtualHost virtualHost = new VMWareVirtualHost();
-
+            VMWareVirtualHost virtualHost = (VMWareVirtualHost)RegisteredVirtualMachineService.GetVirtualHost();
             // connect to a local VMWare Workstation virtual host
-            virtualHost.ConnectToVMWareWorkstation();
+            //virtualHost.ConnectToVMWareWorkstation();
             // open an existing virtual machine
             VMWareVirtualMachine virtualMachine = virtualHost.Open(@"Z:\1234\gapdev1234b355\gapdev1234b355.vmx");
             //// power on this virtual machine

@@ -165,6 +165,24 @@ namespace VMAT.Services
             new SchedulerInfo("All creation completed").LogElmah();
 
         }
+
+        public static void CreateSnapshots()
+        {
+            var ls = dataDB.VirtualMachines.OfType<Models.RegisteredVirtualMachine>();
+            foreach (Models.RegisteredVirtualMachine vm in ls)
+            {
+                new SchedulerInfo("Beginning creation of snapshot for " + vm.Hostname).LogElmah();
+                try
+                {
+                    var vmr = new Models.VirtualMachineRepository();
+                    vmr.CreateSnapshot(vm);
+                }
+                catch (Exception ex)
+                {
+                    new SchedulerInfo("Uncaught snapshot creation error", ex).LogElmah();
+                }
+            }
+        }
     }
 
     public class CreateVMsJob : IJob
@@ -198,4 +216,15 @@ namespace VMAT.Services
         #endregion
 
     }
+
+    public class CreateSnapshotsJob : IJob
+    {
+        #region IJob Members
+        public void Execute(JobExecutionContext context)
+        {
+            QuartzJobs.CreateSnapshots();
+        }
+        #endregion
+    }
+
 }
