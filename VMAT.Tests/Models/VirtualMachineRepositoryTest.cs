@@ -29,7 +29,7 @@ namespace VMAT.Tests.Models
         public void CreateSnapshotTest()
         {
             VirtualMachineRepository target = new VirtualMachineRepository(); // TODO: Initialize to an appropriate value
-            target.CreateSnapshot(null);
+            target.CreateSnapshot(null, "Test", "test snapshot"); //TODO: Fill in values for these
             Assert.IsTrue(true);
         }
     }

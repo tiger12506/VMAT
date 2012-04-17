@@ -175,7 +175,7 @@ namespace VMAT.Services
                 try
                 {
                     var vmr = new Models.VirtualMachineRepository();
-                    vmr.CreateSnapshot(vm);
+                    vmr.CreateSnapshot(vm, DateTime.Today.DayOfWeek.ToString(), "Snapshot taken on " + DateTime.Now);
                 }
                 catch (Exception ex)
                 {

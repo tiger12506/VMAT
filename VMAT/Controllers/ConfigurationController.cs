@@ -16,6 +16,7 @@ namespace VMAT.Controllers
         {
             VMAT.Services.QuartzJobs.CreatePendingVMs();
             VMAT.Services.QuartzJobs.ArchivePendingVMs();
+            VMAT.Services.QuartzJobs.CreateSnapshots();
             return RedirectToAction("Host");
         }
 
@@ -50,7 +51,7 @@ namespace VMAT.Controllers
         {
 
             VirtualMachineRepository target = new VirtualMachineRepository(); // TODO: Initialize to an appropriate value
-            target.CreateSnapshot(null);
+            target.CreateSnapshot(target.GetAllRegisteredVirtualMachines().First(), DateTime.Today.DayOfWeek.ToString(), "Snapshot taken on " + DateTime.Now);
             return RedirectToAction("Host");
         }
 
