@@ -135,6 +135,7 @@
     <Reference Include="Vestris.VMWareLib, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Vestris.VMWareLib.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Vestris.VMWareLib.MSBuildTasks, Version=1.5.24311.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

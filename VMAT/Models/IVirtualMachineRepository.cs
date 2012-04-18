@@ -7,9 +7,10 @@ namespace VMAT.Models
 	{
 		void CreateProject(Project proj);
 		Project GetProject(int id);
-		IEnumerable<Project> GetAllProjects();
-		IEnumerable<VirtualMachine> GetAllVirtualMachines();
-		IEnumerable<VirtualMachine> GetAllPendingVirtualMachines();
+		ICollection<Project> GetAllProjects();
+		ICollection<VirtualMachine> GetAllVirtualMachines();
+		ICollection<VirtualMachine> GetAllPendingVirtualMachines();
+		ICollection<VirtualMachine> GetAllRegisteredVirtualMachines();
 		void CreateVirtualMachine(VirtualMachine vm, string projectName);
 		VirtualMachine GetVirtualMachine(int id);
 		void DeleteVirtualMachine(int id);

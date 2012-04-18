@@ -234,21 +234,21 @@ namespace VMAT.Services
 			return PathName.Replace(AppConfiguration.GetWebserverVmPath(), AppConfiguration.GetDatastore()).Replace('\\', '/');
 		}
 
-		public static IEnumerable<string> GetRegisteredVMImagePaths()
+		public static ICollection<string> GetRegisteredVMImagePaths()
 		{
 			GetVirtualHost();
-			var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName);
+			var ret = virtualHost.RegisteredVirtualMachines.Select(v => v.PathName).ToList();
 
 			return ret;
 		}
 
-		public static IEnumerable<string> GetBaseImageFiles()
+		public static ICollection<string> GetBaseImageFiles()
 		{
 			List<string> filePaths = new List<string>(Directory.GetFiles(
 				AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
 
 			return filePaths.Where(foo => foo.Substring(foo.Length - 4) == ".vmx").
-				Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo));
+				Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo)).ToList();
 		}
 	}
 }

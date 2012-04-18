@@ -78,25 +78,38 @@ namespace VMAT.Models
 			return dataDB.Projects.Single(p => p.ProjectId == id);
 		}
 
-		public IEnumerable<Project> GetAllProjects()
+		public ICollection<Project> GetAllProjects()
 		{
+			foreach (var vm in dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED ||
+				v.Status != VirtualMachine.PENDING))
+			{
+				var service = new RegisteredVirtualMachineService(vm.ImagePathName);
+				vm.Status = service.GetStatus();
+			}
+
+			dataDB.SaveChanges();
 			return dataDB.Projects.ToList();
 		}
 
-		public IEnumerable<VirtualMachine> GetAllVirtualMachines()
+		public ICollection<VirtualMachine> GetAllVirtualMachines()
 		{
-			return dataDB.VirtualMachines as IEnumerable<VirtualMachine>;
+			return dataDB.VirtualMachines as ICollection<VirtualMachine>;
 		}
 
-		public IEnumerable<VirtualMachine> GetAllPendingVirtualMachines()
+		public ICollection<VirtualMachine> GetAllPendingVirtualMachines()
 		{
-			return dataDB.VirtualMachines.Where(v => v.Status == VirtualMachine.PENDING);
+			return dataDB.VirtualMachines.Where(v => v.Status == VirtualMachine.PENDING).ToList();
 		}
 
-		private IEnumerable<VirtualMachine> GetAllRegisteredVirtualMachines()
+		public ICollection<VirtualMachine> GetAllRegisteredVirtualMachines()
+		{
+			return dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED ||
+				v.Status != VirtualMachine.PENDING).ToList();
+		}
+
+		private void ReinitializeAllRegisteredVirtualMachines()
 		{
 			var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
-			var vmList = new List<VirtualMachine>();
 
 			foreach (var image in imagePathNames)
 			{
@@ -133,16 +146,14 @@ namespace VMAT.Models
 				{
 					vm.IP = service.GetIP();
 				}
-
-				vmList.Add(vm);
 			}
 
 			dataDB.SaveChanges();
-			return vmList;
 		}
 
 		public void CreateVirtualMachine(VirtualMachine vm, string projectName)
 		{
+			
 			try
 			{
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);

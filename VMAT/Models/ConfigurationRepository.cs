@@ -29,6 +29,19 @@ namespace VMAT.Models
 			dataDB.SaveChanges();
 		}
 
+		public int GetMaxVmCount()
+		{
+			return dataDB.HostConfiguration.First().MaxVMCount;
+		}
+
+		public Tuple<string, string> GetIpRange()
+		{
+			var pair = new Tuple<string, string>(dataDB.HostConfiguration.First().MinIP,
+				dataDB.HostConfiguration.First().MaxIP);
+
+			return pair;
+		}
+
 		public DateTime GetVmCreationTime()
 		{
 			return dataDB.HostConfiguration.First().CreateVMTime;

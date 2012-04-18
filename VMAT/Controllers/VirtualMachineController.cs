@@ -29,7 +29,7 @@ namespace VMAT.Controllers
 
 		public ActionResult Index()
 		{
-			IEnumerable<Project> projectList = vmRepo.GetAllProjects();
+			ICollection<Project> projectList = vmRepo.GetAllProjects();
 			var projectViewList = new List<ProjectViewModel>();
 
 			foreach (var project in projectList)
@@ -67,17 +67,20 @@ namespace VMAT.Controllers
 		[HttpPost]
 		public ActionResult Create(VirtualMachineFormViewModel vmForm)
 		{
-			if (ModelState.IsValid)
+			if (vmRepo.GetAllRegisteredVirtualMachines().Count < configRepo.GetMaxVmCount())
 			{
-				var vm = new VirtualMachine(vmForm, configRepo.GetVmCreationTime());
-				vmRepo.CreateVirtualMachine(vm, vmForm.ProjectName);
+				if (ModelState.IsValid)
+				{
+					var vm = new VirtualMachine(vmForm, configRepo.GetVmCreationTime());
+					vmRepo.CreateVirtualMachine(vm, vmForm.ProjectName);
 
-				return RedirectToAction("Index");
+					return RedirectToAction("Index");
+				}
 			}
 
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
-			
+
 			ViewBag.ProjectName = projectName;
 			ViewBag.BaseImageFile = new SelectList(
 				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
