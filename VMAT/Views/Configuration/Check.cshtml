@@ -1,6 +1,14 @@
 ﻿@{
     ViewBag.Title = "Check";
 }
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <strong>@Html.Raw(ViewData["ConfigCheckOutput"])</strong><br />
+    </fieldset>
+    <div>
+        @Html.ActionLink("Back to Host Configuration", "Host", "Configuration")<br />
+        @Html.ActionLink("Back to List", "Index", "VirtualMachine")
+    </div>
+}
 
-<h2>Check</h2>
-@Html.Raw( ViewData["ConfigCheckOutput"])

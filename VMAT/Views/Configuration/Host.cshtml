@@ -1,4 +1,4 @@
-﻿@model VMAT.Models.HostConfiguration
+﻿@model VMAT.ViewModels.ConfigurationFormViewModel
 
 @{
     ViewBag.Title = "Host Configuration";
@@ -27,7 +27,7 @@
                 @Html.ValidationMessageFor(model => model.MaxIP)
             </li>
             <li>
-                Note: application must be restarted (in IIS) for schedule changes to take effect. Dates are ignored but required.
+                Note: application must be restarted (in IIS) for schedule changes to take effect. 
             </li>
             <li>
                 @Html.LabelFor(model => model.CreateVMTime)
@@ -52,8 +52,8 @@
     <input type="submit" value="Save" />
     
     <div>
+        @Html.ActionLink("See Log Output (info & exceptions)", "", "elmah")<br />
         @Html.ActionLink("Check Web.config Settings", "Check")<br />
-        @Html.ActionLink("See Exception Log", "", "elmah")<br />
         @Html.ActionLink("Run All Scheduled Tasks Now (may be slow)", "ScheduleRunAll")<br />
         @Html.ActionLink("Back to List", "Index", "VirtualMachine")
     </div>

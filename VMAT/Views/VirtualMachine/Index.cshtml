@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<VMAT.ViewModels.ProjectViewModel>
 
 @{
-    ViewBag.Title = "Virtual Machine Management";
+    ViewBag.Title = "Virtual Machine Administration Tool";
 }
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/popups.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/vmManagement.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/toggleMachineStatus.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/date.format.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/archiveProject.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/archiveMachine.js")"></script>
 
 <script type="text/javascript">
     // URL Lookup Table
@@ -15,7 +17,7 @@
     urlTable['undoPendingArchiveOperation'] = '@Url.Action("UndoPendingArchiveOperation")';
     urlTable['toggleMachineStatus'] =  '@Url.Action("ToggleStatus")';
     urlTable['archiveProject'] = '@Url.Action("ArchiveProject")';
-    urlTable['deleteProject'] = '@Url.Action("DeleteProject")';
+    urlTable['archiveMachine'] = '@Url.Action("ArchiveMachine")';
     urlTable['getNextIP'] = '@Url.Action("GetNextIP")';
 </script>
 
@@ -49,4 +51,4 @@
 
 @Html.Partial("_Popup")
 
-@Html.Partial("_ProjectCloseForm")
+@Html.Partial("_ConfirmationForm")

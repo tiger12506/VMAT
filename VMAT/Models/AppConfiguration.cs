@@ -28,6 +28,7 @@ namespace VMAT.Models
 
             ret+=CheckPath(GetWebserverVmPath(),"WebserverVmPath");
             ret += CheckPath(GetWebserverTmpPath(), "WebserverTmpPath");
+            ret += CheckPath(GetWebserverBaseImagePath(), "WebserverBaseImagePath");
 
             c = GetNetworkInterfaceName();
             if (c.Length < 6)
@@ -60,8 +61,14 @@ namespace VMAT.Models
             }
 
             //usernames, passwords, GetDataFilesDirectory skipped
-
-            ret += "<br />Check complete.<br />";
+            if (ret.Length < 2)
+            {
+                ret += "Web.config settings check succeeded, no errors found.<br />";
+            }
+            else
+            {
+                ret += "<br />Web.config settings check failed, errors listed above.<br />";
+            }
 
             return ret;
         }
@@ -109,6 +116,21 @@ namespace VMAT.Models
         public static string GetWebserverVmPath()
         {
             return appSettings.Settings["WebserverVMPath"].Value;
+        }
+
+        // Virtual machine folder on host must be accessible by webserver,
+        // no opportunity to provide user/pass yet (unless map network drive)
+        /// <summary>
+        /// Return the local directory containing the virtual machines
+        /// on the VMware server.
+        /// </summary>
+        /// <returns>
+        /// The full path of the directory containing the base images
+        /// relative the local file system of the VMware server.
+        /// </returns>
+        public static string GetWebserverBaseImagePath()
+        {
+            return appSettings.Settings["WebserverBaseImagePath"].Value;
         }
 
         // A script file will be placed here for copy from webserver to guest

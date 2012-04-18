@@ -1,47 +1,51 @@
 ﻿using System;
 using System.ComponentModel;
+using VMAT.ViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace VMAT.Models
 {
-    public class HostConfiguration
-    {
-        [Key]
-        [ScaffoldColumn(false)]
-        [DisplayName("Hostname")]
-        public string Hostname { get; set; }
+	public class HostConfiguration
+	{
+		[ScaffoldColumn(false)]
+		public int HostConfigurationId { get; set; }
 
-        [DisplayName("Maximum VM Count")]
-        public int MaxVMCount { get; set; }
+		[DisplayName("Maximum VM Count")]
+		public int MaxVMCount { get; set; }
 
-        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
-        [DisplayName("Minimum IP Address")]
-        public string MinIP { get; set; }
+		[DisplayName("Minimum IP Address")]
+		public string MinIP { get; set; }
 
-        [RegularExpression("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-            ErrorMessage = "IP must be of the for a,b,c,d are int from 0-255")]
-        [DisplayName("Maximum IP Address")]
-        public string MaxIP { get; set; }
+		[DisplayName("Maximum IP Address")]
+		public string MaxIP { get; set; }
 
-        [DisplayName("Create VM Time")]
-        public DateTime CreateVMTime { get; set; }
+		[DisplayName("Create VM Time")]
+		public DateTime CreateVMTime { get; set; }
 
-        [DisplayName("Backup VM Time")]
-        public DateTime BackupVMTime { get; set; }
+		[DisplayName("Backup VM Time")]
+		public DateTime BackupVMTime { get; set; }
 
-        [DisplayName("Archive VM Time")]
-        public DateTime ArchiveVMTime { get; set; }
+		[DisplayName("Archive VM Time")]
+		public DateTime ArchiveVMTime { get; set; }
 
-        public HostConfiguration()
-        {
-            Hostname = "vmat.rose-hulman.edu";
-            MaxVMCount = 0;
-            MinIP = "192.168.1.1";
-            MaxIP = "192.168.1.255";
-            CreateVMTime = DateTime.Now.AddHours(12);
-            BackupVMTime = DateTime.Now.AddHours(12);
-            ArchiveVMTime = DateTime.Now.AddHours(12);
-        }
-    }
+		public HostConfiguration()
+		{
+			MaxVMCount = 0;
+			MinIP = "192.168.1.1";
+			MaxIP = "192.168.1.255";
+			CreateVMTime = DateTime.Now.AddHours(12);
+			BackupVMTime = DateTime.Now.AddHours(12);
+			ArchiveVMTime = DateTime.Now.AddHours(12);
+		}
+		
+		public HostConfiguration(ConfigurationFormViewModel cfg)
+		{
+			MaxVMCount = cfg.MaxVMCount;
+			MinIP = cfg.MinIP;
+			MaxIP = cfg.MaxIP;
+			CreateVMTime = DateTime.Now + cfg.CreateVMTime;
+			BackupVMTime = DateTime.Now + cfg.BackupVMTime;
+			ArchiveVMTime = DateTime.Now + cfg.ArchiveVMTime;
+		}
+	}
 }
