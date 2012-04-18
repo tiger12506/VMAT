@@ -67,7 +67,8 @@ namespace VMAT.Controllers
 		[HttpPost]
 		public ActionResult Create(VirtualMachineFormViewModel vmForm)
 		{
-			if (vmRepo.GetAllRegisteredVirtualMachines().Count < configRepo.GetMaxVmCount())
+			if (vmRepo.GetAllRegisteredVirtualMachines().Count < configRepo.GetMaxVmCount() &&
+				configRepo.GetMaxVmCount() > 0)
 			{
 				if (ModelState.IsValid)
 				{

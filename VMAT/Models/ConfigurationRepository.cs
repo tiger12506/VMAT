@@ -25,7 +25,8 @@ namespace VMAT.Models
 		public void SetHostConfiguration(ConfigurationFormViewModel config)
 		{
 			var delete = dataDB.HostConfiguration.First();
-			delete = new HostConfiguration(config);
+			dataDB.HostConfiguration.Remove(delete);
+			dataDB.HostConfiguration.Add(new HostConfiguration(config));
 			dataDB.SaveChanges();
 		}
 

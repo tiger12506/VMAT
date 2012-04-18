@@ -24,6 +24,7 @@ namespace VMAT.Controllers
             return RedirectToAction("Host");
 
         }
+
         private IConfigurationRepository configRepo;
 
         public ConfigurationController() : this(new ConfigurationRepository()) { }

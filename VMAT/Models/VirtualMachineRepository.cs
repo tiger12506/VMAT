@@ -80,7 +80,7 @@ namespace VMAT.Models
 
 		public ICollection<Project> GetAllProjects()
 		{
-			foreach (var vm in dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED ||
+			foreach (var vm in dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED &&
 				v.Status != VirtualMachine.PENDING))
 			{
 				var service = new RegisteredVirtualMachineService(vm.ImagePathName);
@@ -103,7 +103,7 @@ namespace VMAT.Models
 
 		public ICollection<VirtualMachine> GetAllRegisteredVirtualMachines()
 		{
-			return dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED ||
+			return dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED &&
 				v.Status != VirtualMachine.PENDING).ToList();
 		}
 
@@ -153,7 +153,6 @@ namespace VMAT.Models
 
 		public void CreateVirtualMachine(VirtualMachine vm, string projectName)
 		{
-			
 			try
 			{
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
@@ -177,7 +176,12 @@ namespace VMAT.Models
 		public void DeleteVirtualMachine(int id)
 		{
 			VirtualMachine vm = dataDB.VirtualMachines.Single(v => v.VirtualMachineId == id);
+			Project project = vm.Project;
 			dataDB.VirtualMachines.Remove(vm);
+
+			if (project.VirtualMachines.Count <= 0)
+				dataDB.Projects.Remove(project);
+
 			dataDB.SaveChanges();
 		}
 
