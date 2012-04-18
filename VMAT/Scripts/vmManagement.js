@@ -72,7 +72,7 @@ $(document).ready(function () {
 
 	$(".toggle-details").click(toggleDetailsClick);
 
-	$(".project-close").click(projectArchiveClick);
+	$(".project-archive").click(projectArchiveClick);
 
 	$(".project-collapse").click(projectCollapseClick);
 
