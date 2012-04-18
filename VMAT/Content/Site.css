@@ -573,7 +573,7 @@ button.confirm:active
 	font-weight: normal;
 }
 
-.project-header .project-close
+.project-header .project-archive
 {
 	float: right;
 	font-size: 120%;
@@ -583,7 +583,7 @@ button.confirm:active
 	height: 45px;
 }
 
-.project-header .project-close, button.deny
+.project-header .project-archive, button.deny
 {
 	background: #db7676; /* Old browsers */
 	background: -moz-linear-gradient(top, #db7676 0%, #a52727 99%); /* FF3.6+ */
@@ -593,7 +593,7 @@ button.confirm:active
 	background: linear-gradient(top, #db7676 0%,#a52727 99%); /* W3C */
 }
 
-.project-header .project-close:hover, button.deny:hover
+.project-header .project-archive:hover, button.deny:hover
 {
 	background: #aa6b6b; /* Old browsers */
 	background: -moz-linear-gradient(top, #aa6b6b 1%, #823131 99%); /* FF3.6+ */
@@ -603,7 +603,7 @@ button.confirm:active
 	background: linear-gradient(top, #aa6b6b 1%,#823131 99%); /* W3C */
 }
 
-.project-header .project-close:active, button.deny:active
+.project-header .project-archive:active, button.deny:active
 {
 	background: #823131; /* Old browsers */
 	background: -moz-linear-gradient(top, #823131 0%, #aa6b6b 100%); /* FF3.6+ */
@@ -613,7 +613,7 @@ button.confirm:active
 	background: linear-gradient(top, #823131 0%,#aa6b6b 100%); /* W3C */
 }
 
-.project-header .project-close img
+.project-header .project-archive img
 {
 	width: 15px;
 	height: 15px;
@@ -697,7 +697,7 @@ button.confirm:active
 	border-color: #96a4ad;
 }
 
-.machine-info .status button[status="running"]
+.machine-info .status button[status="running"], .machine-info .status button[status="powering-off"]
 {
 	background: #bde2b3; /* Old browsers */
 	background: -moz-linear-gradient(top,  #bde2b3 0%, #7fd82b 100%); /* FF3.6+ */
@@ -707,7 +707,7 @@ button.confirm:active
 	background: linear-gradient(top,  #bde2b3 0%,#7fd82b 100%); /* W3C */
 }
 
-.machine-info .status button[status="stopped"]
+.machine-info .status button[status="stopped"], .machine-info .status button[status="powering-on"]
 {
 	background: #e5c8b3; /* Old browsers */
 	background: -moz-linear-gradient(top,  #e5c8b3 0%, #db462b 100%); /* FF3.6+ */
@@ -724,15 +724,15 @@ button.confirm:active
 	margin: 0;
 }
 
-.machine-info .status button.transition
-{
-	opacity: 0.8;
-}
+	.machine-info .status button[status|="powering"]
+	{
+		opacity: 0.6;
+	}
 
-.machine-info .status button.transition img
-{
-	visibility: visible;
-}
+	.machine-info .status button[status|="powering"] img
+	{
+		visibility: visible;
+	}
 
 .machine-info .edit-machine
 {

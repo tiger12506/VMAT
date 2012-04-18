@@ -3,7 +3,10 @@
 <div class="machine-info registered" machineid="@Model.VirtualMachineId">
 	<div class="primary">
 		<div class="status">
-			<button type="button" status="@Model.Status"><img src="@Url.Content("~/Content/themes/images/icon_loading.gif")" alt="?" /></button>
+			<button type="button" status="@Model.Status"
+				@(Model.Status.Contains("powering") ? "disabled=disabled" : "")>
+				<img src="@Url.Content("~/Content/themes/images/icon_loading.gif")" alt="?" />
+			</button>
 		</div>
 		<table>
 			<tr>
