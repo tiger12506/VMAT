@@ -70,6 +70,14 @@ namespace VMAT.Services
             archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(archiveStartTime); //only want to use time part from DB
             archiveTrigger.Name = "ArchiveVMsTrigger";
 
+            // Create Snaphots
+            JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
+
+            var snapshotStartTime = dataDB.HostConfiguration.Single().ArchiveVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
+            Trigger snapshotTrigger = TriggerUtils.MakeHourlyTrigger(24);
+            archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(snapshotStartTime);
+            snapshotTrigger.Name = "SnapshotsTrigger";
+
             sched.ScheduleJob(archiveJD, archiveTrigger);
 
             new SchedulerInfo("Jobs scheduled (Application_Start fired)").LogElmah();
