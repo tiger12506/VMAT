@@ -83,6 +83,7 @@ namespace VMAT.Models
 			ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + 
 				MachineName + "/" + MachineName + ".vmx";
 			BaseImageName = vmForm.BaseImageFile;
+		    Hostname = MachineName; //nathan added
 			IP = vmForm.IP;
 			IsAutoStarted = vmForm.IsAutoStarted;
 			Status = PENDING;

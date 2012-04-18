@@ -25,7 +25,7 @@ namespace VMAT.Services
             if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
             
-            //this all really needs to be async, report status, and handle errors in individual steps better
+            //this will run async, but probably should report status and handle errors in individual steps better
             try
             {
                 CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
@@ -75,7 +75,7 @@ namespace VMAT.Services
         {
             try
             {
-                System.Threading.Thread.Sleep(8 * 1000);
+                System.Threading.Thread.Sleep(12 * 1000);
                 service.SetHostname(VM.Hostname);
                 System.Threading.Thread.Sleep(8 * 1000);
                 service.SetIP(VM.IP);

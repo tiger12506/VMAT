@@ -126,7 +126,7 @@ namespace VMAT.Services
 			var ls = dataDB.VirtualMachines.Where(v => v.Status == VirtualMachine.PENDING);
 			foreach (Models.VirtualMachine pendingVM in ls)
 			{
-				new SchedulerInfo("Beginning creation of hostname " + pendingVM.Hostname).LogElmah();
+                new SchedulerInfo("Beginning creation of machine " + pendingVM.MachineName).LogElmah(); //todo Hostname field is empty
 				var service = new CreateVirtualMachineService(pendingVM);
 				Models.VirtualMachine regVM = null;
 				try
@@ -141,9 +141,10 @@ namespace VMAT.Services
 				//if that excepts, this should still continue
 				try
 				{
-					//TODO now that every VM is the same type, should we just change the flag and save?
-					dataDB.VirtualMachines.Remove(pendingVM); //TODO: do we just want to remove this before starting to create the VM?
-					dataDB.VirtualMachines.Add(regVM);
+					//done: now that every VM is the same type, should we just change the flag and save?
+				    pendingVM.Status = VirtualMachine.STOPPED;
+					//dataDB.VirtualMachines.Remove(pendingVM); //TODO: do we just want to remove this before starting to create the VM?
+					//dataDB.VirtualMachines.Add(regVM);
 				}
 				catch (Exception ex)
 				{
@@ -153,15 +154,12 @@ namespace VMAT.Services
 				{
 					dataDB.SaveChanges();
 				}
-
 				catch (Exception ex)
 				{
-					new SchedulerInfo("Error updating database post-VM creation, may need manual modification", ex).LogElmah();
+					new SchedulerInfo("Error saving database post-VM creation, may need manual modification", ex).LogElmah();
 				}
-
 			}
 			new SchedulerInfo("All creation completed").LogElmah();
-
 		}
 	}
 
