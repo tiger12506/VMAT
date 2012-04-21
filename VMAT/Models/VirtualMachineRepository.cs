@@ -56,7 +56,7 @@ namespace VMAT.Models
 					dataDB.VirtualMachines.Add(vm);
 				}
 
-				service = PowerOn(vm, service);
+				//PowerOn(vm, service);
 				vm.MachineName = machineName;
 				vm.ImagePathName = image;
 				vm.Status = service.GetStatus();
@@ -85,6 +85,12 @@ namespace VMAT.Models
 			{
 				var service = new RegisteredVirtualMachineService(vm.ImagePathName);
 				vm.Status = service.GetStatus();
+
+				if (vm.IP == null && vm.Status == VirtualMachine.RUNNING)
+					vm.IP = service.GetIP();
+
+				if (vm.Hostname == null && vm.Status == VirtualMachine.RUNNING)
+					vm.Hostname = service.GetHostname();
 			}
 
 			dataDB.SaveChanges();
@@ -113,42 +119,37 @@ namespace VMAT.Models
 
 			foreach (var image in imagePathNames)
 			{
-				VirtualMachine vm;
-
-				try
-				{
-					vm = dataDB.VirtualMachines.Single(d => d.ImagePathName == image);
-				}
-				catch (Exception)
-				{
-					int startIndex = image.IndexOf("] ") + "] ".Length;
-					int length = image.IndexOf('\\', startIndex) - startIndex;
-					string projectName = image.Substring(startIndex, length);
-
-					startIndex = image.LastIndexOf('\\');
-					length = image.LastIndexOf('.') - startIndex;
-					string machineName = image.Substring(startIndex, length);
-
-					vm = new VirtualMachine
-					{
-						MachineName = machineName,
-						ImagePathName = image,
-						IsAutoStarted = false,
-						Project = dataDB.Projects.Single(p => p.ProjectName == image)
-					};
-
-					dataDB.VirtualMachines.Add(vm);
-				}
-
+				int startIndex = image.IndexOf("] ") + "] ".Length;
+				int length = image.IndexOf('/', startIndex) - startIndex;
+				string projectName = image.Substring(startIndex, length);
 				var service = new RegisteredVirtualMachineService(image);
 
-				if (service.GetStatus() == VirtualMachine.RUNNING)
+				if (!dataDB.Projects.Select(p => p.ProjectName).Contains(projectName))
 				{
+					var project = new Project(projectName);
+					dataDB.Projects.Add(project);
+					dataDB.SaveChanges();
+				}
+
+				startIndex = image.LastIndexOf('/') + 1;
+				length = image.LastIndexOf('.') - startIndex;
+				string machineName = image.Substring(startIndex, length);
+
+				if (!dataDB.VirtualMachines.Select(v => v.MachineName).Contains(machineName))
+				{
+					VirtualMachine vm = new VirtualMachine();
+					
+					vm.MachineName = machineName;
+					vm.ImagePathName = image;
+					vm.Status = service.GetStatus();
+					vm.Hostname = service.GetHostname();
 					vm.IP = service.GetIP();
+					vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
+
+					dataDB.VirtualMachines.Add(vm);
+					dataDB.SaveChanges();
 				}
 			}
-
-			dataDB.SaveChanges();
 		}
 
 		public void CreateVirtualMachine(VirtualMachine vm, string projectName)
@@ -342,8 +343,7 @@ namespace VMAT.Models
 			//snapshot.RemoveSnapshot();
 		}
 
-		private RegisteredVirtualMachineService PowerOn(
-			VirtualMachine vm, RegisteredVirtualMachineService service)
+		private void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VirtualMachine.POWERINGON;
 			dataDB.SaveChanges();
@@ -351,12 +351,9 @@ namespace VMAT.Models
 			vm.Status = VirtualMachine.RUNNING;
 			vm.LastStarted = DateTime.Now;
 			dataDB.SaveChanges();
-
-			return service;
 		}
 
-		private RegisteredVirtualMachineService PowerOff(
-			VirtualMachine vm, RegisteredVirtualMachineService service)
+		private void PowerOff(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VirtualMachine.POWERINGOFF;
 			dataDB.SaveChanges();
@@ -364,8 +361,6 @@ namespace VMAT.Models
 			vm.Status = VirtualMachine.STOPPED;
 			vm.LastStopped = DateTime.Now;
 			dataDB.SaveChanges();
-
-			return service;
 		}
 	}
 }

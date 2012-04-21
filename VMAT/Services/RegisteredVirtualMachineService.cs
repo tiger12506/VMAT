@@ -58,7 +58,7 @@ namespace VMAT.Services
 			}
 			catch (Exception)
 			{
-				return "ip_error";
+				return null;
 			}
 
 			return VM.GuestVariables["ip"].Replace("\n", "").Replace("\r", "");
@@ -100,13 +100,9 @@ namespace VMAT.Services
 				Shell.ShellOutput output = guestShell.RunCommandInGuest("hostname");
 				return output.StdOut.Replace("\n", "").Replace("\r", "");
 			}
-			catch (TimeoutException)
-			{
-				return "hostname_timeout";
-			}
 			catch (Exception)
 			{
-				return "hostname_error";
+				return null;
 			}
 		}
 
