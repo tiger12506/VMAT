@@ -1,61 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using VMAT.Models;
-using System.Management;
-using System.IO;
 
 
 namespace VMAT.Controllers
 {
-    [HandleError]
-    public class HomeController : Controller
-    {
-        //
-        // GET: /
+	[HandleError]
+	public class HomeController : Controller
+	{
+		private IConfigurationRepository configRepo;
 
-        public ActionResult Index()
-        {
-            return RedirectToAction("Index", "VirtualMachine");
-        }
+		public HomeController() : 
+			this(new ConfigurationRepository()) { }
 
-        //
-        // GET: /Help
+		public HomeController(IConfigurationRepository config)
+		{
+			configRepo = config;
+		}
 
-        public ActionResult Help()
-        {
-            return View();
-        }
+		//
+		// GET: /
 
-        //
-        // GET: /About
+		public ActionResult Index()
+		{
+			return RedirectToAction("Index", "VirtualMachine");
+		}
 
-        public ActionResult About()
-        {
-            var companies = new List<Organization>();
+		//
+		// GET: /Help
 
-            companies.Add(new Organization { 
-                Name = "Rose-Hulman Institute of Technology",
-                Authors = new List<string> { 
-                    "Nathan Mendel",
-                    "Anthony Sylvain",
-                    "Calvin Mlynarczyk",
-                    "Jacob Schmidt"
-                },
-                LogoFile = "logo_rhit.png"
-            });
+		public ActionResult Help()
+		{
+			ViewBag.SupportEmail = AppConfiguration.GetSupportEmail();
+			return View();
+		}
 
-            companies.Add(new Organization {
-                Name = "Global Automation Partners",
-                Authors = new List<string> {
-                    "Brian Klimaszewski"
-                },
-                LogoFile = "logo_gap.png"
-            });
+		//
+		// GET: /About
 
-            return View(companies);
-        }
-    }
+		public ActionResult About()
+		{
+			var companies = new List<Organization>();
+
+			companies.Add(new Organization { 
+				Name = "Rose-Hulman Institute of Technology",
+				Authors = new List<string> { 
+					"Nathan Mendel",
+					"Anthony Sylvain",
+					"Calvin Mlynarczyk",
+					"Jacob Schmidt"
+				},
+				LogoFile = "logo_rhit.png"
+			});
+
+			companies.Add(new Organization {
+				Name = AppConfiguration.GetClientCompany(),
+				Authors = new List<string> {
+					AppConfiguration.GetClientName()
+				},
+				LogoFile = "logo_gap.png"
+			});
+
+			return View(companies);
+		}
+	}
 }
