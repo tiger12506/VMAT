@@ -67,6 +67,14 @@ namespace VMAT.Services
 			archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(archiveStartTime); //only want to use time part from DB
 			archiveTrigger.Name = "ArchiveVMsTrigger";
 
+            // Create Snaphots
+            JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
+
+            var snapshotStartTime = dataDB.HostConfiguration.Single().ArchiveVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
+            Trigger snapshotTrigger = TriggerUtils.MakeHourlyTrigger(24);
+            archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(snapshotStartTime);
+            snapshotTrigger.Name = "SnapshotsTrigger";
+
 			sched.ScheduleJob(archiveJD, archiveTrigger);
 
 			new SchedulerInfo("Jobs scheduled (likely Application_Start fired). Create start time is " + createTrigger.StartTimeUtc).LogElmah();
@@ -161,6 +169,24 @@ namespace VMAT.Services
 			}
 			new SchedulerInfo("All creation completed").LogElmah();
 		}
+
+        public static void CreateSnapshots()
+        {
+            var ls = dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.PENDING && v.Status != VirtualMachine.ARCHIVED);
+            foreach (Models.VirtualMachine vm in ls)
+            {
+                new SchedulerInfo("Beginning creation of snapshot for " + vm.Hostname).LogElmah();
+                try
+                {
+                    var vmr = new Models.VirtualMachineRepository();
+                    vmr.CreateSnapshot(vm, DateTime.Today.DayOfWeek.ToString(), "Snapshot taken on " + DateTime.Now);
+                }
+                catch (Exception ex)
+                {
+                    new SchedulerInfo("Uncaught snapshot creation error", ex).LogElmah();
+                }
+            }
+        }
 	}
 
 	public class CreateVMsJob : IJob
