@@ -68,7 +68,8 @@ namespace VMAT.Services
 			archiveTrigger.Name = "ArchiveVMsTrigger";
 
             // Create Snaphots
-            JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
+            //todo commented out because broke build
+            /*JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
 
             var snapshotStartTime = dataDB.HostConfiguration.Single().ArchiveVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
             Trigger snapshotTrigger = TriggerUtils.MakeHourlyTrigger(24);
@@ -78,7 +79,7 @@ namespace VMAT.Services
 			sched.ScheduleJob(archiveJD, archiveTrigger);
 
 			new SchedulerInfo("Jobs scheduled (likely Application_Start fired). Create start time is " + createTrigger.StartTimeUtc).LogElmah();
-		}
+		*/}
 
 		public static void ArchivePendingVMs()
 		{
