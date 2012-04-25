@@ -220,4 +220,14 @@ namespace VMAT.Services
 		#endregion
 
 	}
+
+    public class CreateSnapshotsJob : IJob
+    {
+        #region IJob Members
+        public void Execute(JobExecutionContext context)
+        {
+            QuartzJobs.CreateSnapshots();
+        }
+        #endregion
+    }
 }
