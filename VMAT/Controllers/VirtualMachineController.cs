@@ -78,7 +78,7 @@ namespace VMAT.Controllers
 					return RedirectToAction("Index");
 				}
 			}
-
+            //TODO: Add comments to what this does
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
 
