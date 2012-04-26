@@ -110,6 +110,7 @@ namespace VMAT.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+                // save changes (removed)
 				return RedirectToAction("Index");
 			}
 

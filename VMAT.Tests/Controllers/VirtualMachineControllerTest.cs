@@ -70,8 +70,10 @@ namespace VMAT.Tests.Controllers
             var result = controller.Create() as ViewResult;
 
             // Assert
+            Assert.IsNotNull(result);
             var model = result.ViewData.Model as IList<ProjectViewModel>;
             Assert.AreEqual(3, model.Count);
+            mockVmRepo.Verify();
         }
 
         [TestMethod]

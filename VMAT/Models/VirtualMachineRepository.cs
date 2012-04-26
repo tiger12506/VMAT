@@ -21,7 +21,10 @@ namespace VMAT.Models
 				dataDB.VirtualMachines == null || dataDB.VirtualMachines.Count() <= 0)
 				InitializeDataContext();
 		}
-
+        public VirtualMachineRepository(bool skip)
+        {
+            
+        }
 		private void InitializeDataContext()
 		{
 			var registeredImages = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
@@ -276,42 +279,46 @@ namespace VMAT.Models
 
 		public string GetNextAvailableIP()
 		{
-			List<string> ipList = new List<string>();
-			ipList = dataDB.VirtualMachines.Select(v => v.IP).
-				ToList<string>();
+            List<string> ipList = new List<string>();
+            ipList = dataDB.VirtualMachines.Select(v => v.IP).
+                ToList<string>();
 
-			ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
+            ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
 
-			bool[] ipUsed = new bool[256];
-			ipUsed[0] = true;
-
-			foreach (var ip in ipList)
-			{
-				try
-				{
-					string longIP = ip;
-
-					int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-					ipUsed[ipTail] = true;
-				}
-				catch (NullReferenceException)
-				{
-					// Ignore if a stored IP address is NULL
-				}
-				catch (FormatException)
-				{
-					// Ignore if a stored IP address is invalid
-				}
-			}
-
-			for (int index = 0; index < ipUsed.Length; index++)
-			{
-				if (!ipUsed[index])
-					return "192.168.1." + index.ToString();
-			}
-
-			return null;
+		    return GetNextAvailableIP(ipList);
 		}
+        public string GetNextAvailableIP(List<string> ipList )
+        {
+	        bool[] ipUsed = new bool[256];
+	        ipUsed[0] = true;
+
+	        foreach (var ip in ipList)
+	        {
+		        try
+		        {
+			        string longIP = ip;
+
+			        int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
+			        ipUsed[ipTail] = true;
+		        }
+		        catch (NullReferenceException)
+		        {
+			        // Ignore if a stored IP address is NULL
+		        }
+		        catch (FormatException)
+		        {
+			        // Ignore if a stored IP address is invalid
+		        }
+	        }
+
+	        for (int index = 0; index < ipUsed.Length; index++)
+	        {
+		        if (!ipUsed[index])
+			        return "192.168.1." + index.ToString();
+	        }
+
+	        return null;
+        }
 
 		public void CreateSnapshot(VirtualMachine vm, string name, string description)
 		{

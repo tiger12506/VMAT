@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using VMAT.Models;
+using VMAT.Models.VMware;
+using VirtualMachine = VMAT.Models.VirtualMachine;
 
 namespace VMAT.Services
 {
@@ -15,7 +17,10 @@ namespace VMAT.Services
         {
             VM = vm;
         }
-
+        public CreateVirtualMachineService(IVirtualMachine ivm)
+        {
+            
+        }
         public VirtualMachine CreateVM()
         {
             if (RegisteredVirtualMachineService.GetRegisteredVMImagePaths().Contains(VM.ImagePathName))
