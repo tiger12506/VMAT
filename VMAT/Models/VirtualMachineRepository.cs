@@ -298,7 +298,28 @@ namespace VMAT.Models
         public string GetNextAvailableIP(List<string> ipList )
         {
 	        bool[] ipUsed = new bool[256];
-	        ipUsed[0] = true;
+            //TODO: get the correct HostConfiguration
+            ConfigurationRepository configRepo = new ConfigurationRepository();
+            HostConfiguration config = configRepo.GetHostConfiguration();
+            //remove low and high end IP's from being available
+            int min, max;
+            ipUsed[0] = true;
+            bool canMin = int.TryParse(config.MinIP.Substring(config.MinIP.LastIndexOf('.')), out min);
+            bool canMax = int.TryParse(config.MaxIP.Substring(config.MaxIP.LastIndexOf('.')), out max);
+            if (canMin)
+            {
+                for (int i = 0; i < min; i++)
+                {
+                    ipUsed[i] = true;
+                }
+            }
+            if(canMax)
+            {
+                for (int i = 255; i > max; i--)
+                {
+                    ipUsed[i] = true;
+                }
+            }
 
 	        foreach (var ip in ipList)
 	        {
