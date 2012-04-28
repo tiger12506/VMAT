@@ -43,9 +43,9 @@ namespace VMAT.Models
 			MaxVMCount = cfg.MaxVMCount;
 			MinIP = cfg.MinIP;
 			MaxIP = cfg.MaxIP;
-			CreateVMTime = DateTime.Now + cfg.CreateVMTime;
-			BackupVMTime = DateTime.Now + cfg.BackupVMTime;
-			ArchiveVMTime = DateTime.Now + cfg.ArchiveVMTime;
+			CreateVMTime = DateTime.Parse(cfg.CreateVMTime.ToString());
+			BackupVMTime = DateTime.Parse(cfg.BackupVMTime.ToString());
+			ArchiveVMTime = DateTime.Parse(cfg.ArchiveVMTime.ToString());
 		}
 	}
 }
