@@ -217,58 +217,49 @@ namespace VMAT.Models
 
         public void CreatePendingVirtualMachine(VirtualMachine vm)
         {
-            ConfigurationRepository configRepo = new ConfigurationRepository();
-            if (GetAllRegisteredVirtualMachines().Count + GetAllPendingVirtualMachines().Count < configRepo.GetMaxVmCount() ||
-                configRepo.GetMaxVmCount() <= 0)
+            long freeSpace = 0;
+            long fileSize = 0;
+            long currentlyPendingSize = 0;
+            int fudgeFactor = (int)Math.Pow(2, 12); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
+            //try
+            //{
+            string[] a = Directory.GetFiles(vm.ImagePathName);
+            foreach (string name in a)
             {
-                long freeSpace = 0;
-                long fileSize = 0;
-                long currentlyPendingSize = 0;
-                int fudgeFactor = (int)Math.Pow(2, 12); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
-                //try
-                //{
-                string[] a = Directory.GetFiles(vm.ImagePathName);
+                FileInfo info = new FileInfo(name);
+                fileSize += info.Length + fudgeFactor;
+            }
+            foreach (VirtualMachine pvm in GetAllPendingVirtualMachines())
+            {
+                a = Directory.GetFiles(pvm.ImagePathName);
                 foreach (string name in a)
                 {
                     FileInfo info = new FileInfo(name);
-                    fileSize += info.Length + fudgeFactor;
+                    currentlyPendingSize += info.Length + fudgeFactor;
                 }
-                foreach (VirtualMachine pvm in GetAllPendingVirtualMachines())
-                {
-                    a = Directory.GetFiles(pvm.ImagePathName);
-                    foreach (string name in a)
-                    {
-                        FileInfo info = new FileInfo(name);
-                        currentlyPendingSize += info.Length + fudgeFactor;
-                    }
-                }
-                DriveInfo dI = new DriveInfo("Z:");
-                freeSpace = dI.AvailableFreeSpace;
-                //}
-                //catch (IOException ex)
-                //{
-                //    //drive not ready or exist
-                //    throw new IOException("Drive not ready or does not exist");
-                //}
-                //catch (ArgumentException ex)
-                //{
-                //    //drive does not exist
-                //    throw new 
-                //}
-                if (freeSpace > fileSize + currentlyPendingSize)
-                {
-                    dataDB.VirtualMachines.Add(vm);
-                    dataDB.SaveChanges();
-                }
-                else
-                {
-                    //error message
-                    throw new Exception("Not enough free space");
-                }
+            }
+            DriveInfo dI = new DriveInfo("Z:");
+            freeSpace = dI.AvailableFreeSpace;
+            //}
+            //catch (IOException ex)
+            //{
+            //    //drive not ready or exist
+            //    throw new IOException("Drive not ready or does not exist");
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    //drive does not exist
+            //    throw new 
+            //}
+            if (freeSpace > fileSize + currentlyPendingSize)
+            {
+                dataDB.VirtualMachines.Add(vm);
+                dataDB.SaveChanges();
             }
             else
             {
-                throw new Exception("Maximum VMs reached.");
+                //error message
+                throw new Exception("Not enough free space");
             }
         }
 

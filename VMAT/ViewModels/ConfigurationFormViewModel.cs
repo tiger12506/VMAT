@@ -38,7 +38,7 @@ namespace VMAT.ViewModels
 			MaxIP = cfg.MaxIP;
 			CreateVMTime = cfg.CreateVMTime.TimeOfDay;
 			BackupVMTime = cfg.BackupVMTime.TimeOfDay;
-			ArchiveVMTime = cfg.BackupVMTime.TimeOfDay;
+			ArchiveVMTime = cfg.ArchiveVMTime.TimeOfDay;
 		}
 	}
 }

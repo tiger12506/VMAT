@@ -14,6 +14,7 @@ namespace VMAT.Controllers
         {
             VMAT.Services.QuartzJobs.CreatePendingVMs();
             VMAT.Services.QuartzJobs.ArchivePendingVMs();
+            VMAT.Services.QuartzJobs.CreateSnapshots();
             return RedirectToAction("Host");
         }
 
