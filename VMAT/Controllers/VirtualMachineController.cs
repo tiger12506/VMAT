@@ -78,7 +78,7 @@ namespace VMAT.Controllers
 					return RedirectToAction("Index");
 				}
 			}
-            //TODO: Add comments to what this does
+			//TODO: Add comments to what this does
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
 
@@ -110,7 +110,7 @@ namespace VMAT.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                // save changes (removed)
+				// save changes (removed)
 				return RedirectToAction("Index");
 			}
 
