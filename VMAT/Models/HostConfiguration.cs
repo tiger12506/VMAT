@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using VMAT.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using VMAT.ViewModels;
 
 namespace VMAT.Models
 {

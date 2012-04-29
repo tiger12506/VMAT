@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-﻿using VMAT.Services;
-using Vestris.VMWareLib;
 using System.Net;
+using Vestris.VMWareLib;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -290,57 +290,38 @@ namespace VMAT.Models
 
 		public string GetNextAvailableIP(List<string> ipList )
 		{
-			bool[] ipUsed = new bool[256];
 			//TODO: get the correct HostConfiguration
 			ConfigurationRepository configRepo = new ConfigurationRepository();
 			HostConfiguration config = configRepo.GetHostConfiguration();
 
 			//remove low and high end IP's from being available
-			IPAddress minIp = IPAddress.Parse(config.MinIP);
-			IPAddress maxIp = IPAddress.Parse(config.MaxIP);
-			int min, max;
-			ipUsed[0] = true;
-			bool canMin = int.TryParse(config.MinIP.Substring(config.MinIP.LastIndexOf('.')), out min);
-			bool canMax = int.TryParse(config.MaxIP.Substring(config.MaxIP.LastIndexOf('.')), out max);
-			if (canMin)
-			{
-				for (int i = 0; i < min; i++)
-				{
-					ipUsed[i] = true;
-				}
-			}
-			if(canMax)
-			{
-				for (int i = 255; i > max; i--)
-				{
-					ipUsed[i] = true;
-				}
-			}
+			string minIp = config.MinIP;
+			string maxIp = config.MaxIP;
 
-			foreach (var ip in ipList)
+			do
 			{
-				try
+				if (ipList.Contains(minIp))
 				{
-					string longIP = ip;
+					string[] bytes = minIp.Split('.');
 
-					int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-					ipUsed[ipTail] = true;
-				}
-				catch (NullReferenceException)
-				{
-					// Ignore if a stored IP address is NULL
-				}
-				catch (FormatException)
-				{
-					// Ignore if a stored IP address is invalid
-				}
-			}
+					for (int i = bytes.Length; i > 0; i--)
+					{
+						bytes[i] = (int.Parse(bytes[i]) + 1).ToString();
 
-			for (int index = 0; index < ipUsed.Length; index++)
-			{
-				if (!ipUsed[index])
-					return "192.168.1." + index.ToString();
-			}
+						if (int.Parse(bytes[i]) < 256)
+							break;
+						else
+							bytes[i] = "1";
+					}
+
+					minIp = bytes[0];
+
+					foreach (var nibble in bytes.Skip(1))
+						minIp += "." + nibble;
+				}
+				else
+					return minIp;
+			} while (!minIp.Equals(maxIp));
 
 			return null;
 		}

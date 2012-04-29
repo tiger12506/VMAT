@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using VMAT.ViewModels;
 using System.Diagnostics;
-using System.Collections.Generic;
+using VMAT.ViewModels;
 
 namespace VMAT.Models
 {
