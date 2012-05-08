@@ -17,7 +17,6 @@ namespace VMAT.Services
 		public RegisteredVirtualMachineService(string imagePathName)
 		{
 			GetVirtualHost();
-
 			VM = virtualHost.Open(imagePathName);
 		}
 

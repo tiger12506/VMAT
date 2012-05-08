@@ -87,7 +87,18 @@ namespace VMAT.Models
 			foreach (var vm in dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED &&
 				v.Status != VirtualMachine.PENDING))
 			{
-				var service = new RegisteredVirtualMachineService(vm.ImagePathName);
+				RegisteredVirtualMachineService service = null;
+
+				try
+				{
+					service = new RegisteredVirtualMachineService(vm.ImagePathName);
+				}
+				catch (Vestris.VMWareLib.VMWareException)
+				{
+					dataDB.VirtualMachines.Remove(vm);
+					continue;
+				}
+
 				vm.Status = service.GetStatus();
 
 				if (vm.IP == null && vm.Status == VirtualMachine.RUNNING)
