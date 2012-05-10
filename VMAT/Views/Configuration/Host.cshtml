@@ -7,6 +7,10 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
+    if (IsPost)
+    {
+        @Html.Label("Finished running scheduled tasks.")
+    }
     <fieldset>
         <ul>
             <li>
@@ -55,6 +59,13 @@
         @Html.ActionLink("See Log Output (info & exceptions)", "", "elmah")<br />
         @Html.ActionLink("Check Web.config Settings", "Check")<br />
         @Html.ActionLink("Run All Scheduled Tasks Now (may be slow)", "ScheduleRunAll")<br />
+        @Ajax.ActionLink("click ", "ScheduleRunAll", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace, OnSuccess = "openPopup" })
         @Html.ActionLink("Back to List", "Index", "VirtualMachine")
     </div>
+    
+    <script type="text/javascript">
+        function openPopup() {
+            alert("Finished running all scheduled tasks.");
+        }
+    </script>
 }

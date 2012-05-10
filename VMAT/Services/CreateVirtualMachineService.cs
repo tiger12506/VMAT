@@ -67,6 +67,9 @@ namespace VMAT.Services
             service.Reboot();
             System.Threading.Thread.Sleep(250 * 1000);
 
+            if (!VM.IsAutoStarted)
+                service.PowerOff();
+
             return VM;
 
             //http://vmwaretasks.codeplex.com/discussions/276715

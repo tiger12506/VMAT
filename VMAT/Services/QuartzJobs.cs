@@ -67,19 +67,20 @@ namespace VMAT.Services
 			archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(archiveStartTime); //only want to use time part from DB
 			archiveTrigger.Name = "ArchiveVMsTrigger";
 
+            sched.ScheduleJob(archiveJD, archiveTrigger);
+
             // Create Snaphots
-            //todo commented out because broke build
-            /*JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
+            JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
 
             var snapshotStartTime = dataDB.HostConfiguration.Single().ArchiveVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
             Trigger snapshotTrigger = TriggerUtils.MakeHourlyTrigger(24);
             archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(snapshotStartTime);
             snapshotTrigger.Name = "SnapshotsTrigger";
 
-			sched.ScheduleJob(archiveJD, archiveTrigger);
+		    sched.ScheduleJob(snapshotJD, snapshotTrigger);
 
 			new SchedulerInfo("Jobs scheduled (likely Application_Start fired). Create start time is " + createTrigger.StartTimeUtc).LogElmah();
-		*/}
+		}
 
 		public static void ArchivePendingVMs()
 		{
@@ -91,6 +92,8 @@ namespace VMAT.Services
 				try
 				{
 					//TODO insert archiving code
+                    RegisteredVirtualMachineService rvms = new RegisteredVirtualMachineService(pendingVM);
+                    rvms.PowerOff();
 					string vmFilename = RegisteredVirtualMachineService.ConvertPathToPhysical(pendingVM.ImagePathName);
 					vmFilename = vmFilename.Substring(0, vmFilename.LastIndexOf('\\'));
 					if (!Models.VirtualMachine.ArchiveFile(vmFilename, vmFilename + ".7z"))
