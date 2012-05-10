@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-﻿using VMAT.Services;
+using System.Net;
 using Vestris.VMWareLib;
+using VMAT.Services;
 
 namespace VMAT.Models
 {
@@ -21,10 +22,10 @@ namespace VMAT.Models
 				dataDB.VirtualMachines == null || dataDB.VirtualMachines.Count() <= 0)
 				InitializeDataContext();
 		}
-        public VirtualMachineRepository(bool skip)
-        {
-            
-        }
+		public VirtualMachineRepository(bool skip)
+		{
+			
+		}
 		private void InitializeDataContext()
 		{
 			var registeredImages = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
@@ -86,7 +87,18 @@ namespace VMAT.Models
 			foreach (var vm in dataDB.VirtualMachines.Where(v => v.Status != VirtualMachine.ARCHIVED &&
 				v.Status != VirtualMachine.PENDING))
 			{
-				var service = new RegisteredVirtualMachineService(vm.ImagePathName);
+				RegisteredVirtualMachineService service = null;
+
+				try
+				{
+					service = new RegisteredVirtualMachineService(vm.ImagePathName);
+				}
+				catch (Vestris.VMWareLib.VMWareException)
+				{
+					dataDB.VirtualMachines.Remove(vm);
+					continue;
+				}
+
 				vm.Status = service.GetStatus();
 
 				if (vm.IP == null && vm.Status == VirtualMachine.RUNNING)
@@ -215,53 +227,53 @@ namespace VMAT.Models
 			dataDB.SaveChanges();
 		}
 
-        public void CreatePendingVirtualMachine(VirtualMachine vm)
-        {
-            long freeSpace = 0;
-            long fileSize = 0;
-            long currentlyPendingSize = 0;
-            int fudgeFactor = (int)Math.Pow(2, 12); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
-            //try
-            //{
-            string[] a = Directory.GetFiles(vm.ImagePathName);
-            foreach (string name in a)
-            {
-                FileInfo info = new FileInfo(name);
-                fileSize += info.Length + fudgeFactor;
-            }
-            foreach (VirtualMachine pvm in GetAllPendingVirtualMachines())
-            {
-                a = Directory.GetFiles(pvm.ImagePathName);
-                foreach (string name in a)
-                {
-                    FileInfo info = new FileInfo(name);
-                    currentlyPendingSize += info.Length + fudgeFactor;
-                }
-            }
-            DriveInfo dI = new DriveInfo("Z:");
-            freeSpace = dI.AvailableFreeSpace;
-            //}
-            //catch (IOException ex)
-            //{
-            //    //drive not ready or exist
-            //    throw new IOException("Drive not ready or does not exist");
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    //drive does not exist
-            //    throw new 
-            //}
-            if (freeSpace > fileSize + currentlyPendingSize)
-            {
-                dataDB.VirtualMachines.Add(vm);
-                dataDB.SaveChanges();
-            }
-            else
-            {
-                //error message
-                throw new Exception("Not enough free space");
-            }
-        }
+		public void CreatePendingVirtualMachine(VirtualMachine vm)
+		{
+			long freeSpace = 0;
+			long fileSize = 0;
+			long currentlyPendingSize = 0;
+			int fudgeFactor = (int)Math.Pow(2, 12); //windows has 4 kilobyte partitions, so a given file is at least 4 kilobytes on disk, while this just gives us the base size
+			//try
+			//{
+			string[] a = Directory.GetFiles(vm.ImagePathName);
+			foreach (string name in a)
+			{
+				FileInfo info = new FileInfo(name);
+				fileSize += info.Length + fudgeFactor;
+			}
+			foreach (VirtualMachine pvm in GetAllPendingVirtualMachines())
+			{
+				a = Directory.GetFiles(pvm.ImagePathName);
+				foreach (string name in a)
+				{
+					FileInfo info = new FileInfo(name);
+					currentlyPendingSize += info.Length + fudgeFactor;
+				}
+			}
+			DriveInfo dI = new DriveInfo("Z:");
+			freeSpace = dI.AvailableFreeSpace;
+			//}
+			//catch (IOException ex)
+			//{
+			//    //drive not ready or exist
+			//    throw new IOException("Drive not ready or does not exist");
+			//}
+			//catch (ArgumentException ex)
+			//{
+			//    //drive does not exist
+			//    throw new 
+			//}
+			if (freeSpace > fileSize + currentlyPendingSize)
+			{
+				dataDB.VirtualMachines.Add(vm);
+				dataDB.SaveChanges();
+			}
+			else
+			{
+				//error message
+				throw new Exception("Not enough free space");
+			}
+		}
 
 		public int ToggleVMStatus(int id)
 		{
@@ -278,67 +290,52 @@ namespace VMAT.Models
 
 		public string GetNextAvailableIP()
 		{
-            List<string> ipList = new List<string>();
-            ipList = dataDB.VirtualMachines.Select(v => v.IP).
-                ToList<string>();
+			List<string> ipList = new List<string>();
+			ipList = dataDB.VirtualMachines.Select(v => v.IP).
+				ToList<string>();
 
-            ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
+			ipList.AddRange(dataDB.VirtualMachines.Select(v => v.IP).ToList<string>());
 
-		    return GetNextAvailableIP(ipList);
+			return GetNextAvailableIP(ipList);
 		}
-        public string GetNextAvailableIP(List<string> ipList )
-        {
-	        bool[] ipUsed = new bool[256];
-            //TODO: get the correct HostConfiguration
-            ConfigurationRepository configRepo = new ConfigurationRepository();
-            HostConfiguration config = configRepo.GetHostConfiguration();
-            //remove low and high end IP's from being available
-            int min, max;
-            ipUsed[0] = true;
-            bool canMin = int.TryParse(config.MinIP.Substring(config.MinIP.LastIndexOf('.')), out min);
-            bool canMax = int.TryParse(config.MaxIP.Substring(config.MaxIP.LastIndexOf('.')), out max);
-            if (canMin)
-            {
-                for (int i = 0; i < min; i++)
-                {
-                    ipUsed[i] = true;
-                }
-            }
-            if(canMax)
-            {
-                for (int i = 255; i > max; i--)
-                {
-                    ipUsed[i] = true;
-                }
-            }
 
-	        foreach (var ip in ipList)
-	        {
-		        try
-		        {
-			        string longIP = ip;
+		public string GetNextAvailableIP(List<string> ipList )
+		{
+			//TODO: get the correct HostConfiguration
+			ConfigurationRepository configRepo = new ConfigurationRepository();
+			HostConfiguration config = configRepo.GetHostConfiguration();
 
-			        int ipTail = int.Parse(longIP.Substring(longIP.LastIndexOf('.') + 1));
-			        ipUsed[ipTail] = true;
-		        }
-		        catch (NullReferenceException)
-		        {
-			        // Ignore if a stored IP address is NULL
-		        }
-		        catch (FormatException)
-		        {
-			        // Ignore if a stored IP address is invalid
-		        }
-	        }
+			//remove low and high end IP's from being available
+			string minIp = config.MinIP;
+			string maxIp = config.MaxIP;
 
-	        for (int index = 0; index < ipUsed.Length; index++)
-	        {
-		        if (!ipUsed[index])
-			        return "192.168.1." + index.ToString();
-	        }
+			do
+			{
+				if (ipList.Contains(minIp))
+				{
+					string[] bytes = minIp.Split('.');
 
-	        return null;
-        }
+					for (int i = bytes.Length; i > 0; i--)
+					{
+						bytes[i] = (int.Parse(bytes[i]) + 1).ToString();
+
+						if (int.Parse(bytes[i]) < 256)
+							break;
+						else
+							bytes[i] = "1";
+					}
+
+					minIp = bytes[0];
+
+					foreach (var nibble in bytes.Skip(1))
+						minIp += "." + nibble;
+				}
+				else
+					return minIp;
+			} while (!minIp.Equals(maxIp));
+
+			return null;
+		}
 
 		public void CreateSnapshot(VirtualMachine vm, string name, string description)
 		{

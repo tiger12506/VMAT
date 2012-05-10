@@ -56,7 +56,7 @@ namespace VMAT.Controllers
 			ViewBag.ProjectName = projectName;
 			ViewBag.BaseImageFile = new SelectList(
 				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
-			vmForm.IP = vmRepo.GetNextAvailableIP();
+			vmForm.IP = vmRepo.GetNextAvailableIP().ToString();
 
 			return View(vmForm);
 		}
@@ -78,7 +78,7 @@ namespace VMAT.Controllers
 					return RedirectToAction("Index");
 				}
 			}
-            //TODO: Add comments to what this does
+			//TODO: Add comments to what this does
 			var projectName = new SelectList(vmRepo.GetAllProjects(),
 				"ProjectName", "ProjectName");
 
@@ -86,7 +86,7 @@ namespace VMAT.Controllers
 			ViewBag.BaseImageFile = new SelectList(
 				VMAT.Services.RegisteredVirtualMachineService.GetBaseImageFiles());
 			ViewBag.Hostname = AppConfiguration.GetVMHostName();
-			vmForm.IP = vmRepo.GetNextAvailableIP();
+			vmForm.IP = vmRepo.GetNextAvailableIP().ToString();
 
 			return View(vmForm);
 		}
@@ -110,7 +110,7 @@ namespace VMAT.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                // save changes (removed)
+				// save changes (removed)
 				return RedirectToAction("Index");
 			}
 
@@ -168,7 +168,7 @@ namespace VMAT.Controllers
 
 		public ActionResult GetNextIP()
 		{
-			string nextIP = vmRepo.GetNextAvailableIP();
+			string nextIP = vmRepo.GetNextAvailableIP().ToString();
 
 			return Json(nextIP);
 		}
