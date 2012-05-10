@@ -169,10 +169,12 @@ namespace VMAT.Services
 		{
 			try
 			{
+                //tries to shut the machine down from inside the OS
 				VM.PowerOff(0x0004, 120); //VIX_VMPOWEROP_FROM_GUEST from vix.h
 			}
 			catch (Exception)
 			{
+                //otherwise, forcefully cuts the power to it
 				VM.PowerOff();
 			}
 		}
@@ -240,7 +242,7 @@ namespace VMAT.Services
 		public static ICollection<string> GetBaseImageFiles()
 		{
 			List<string> filePaths = new List<string>(Directory.GetFiles(
-				AppConfiguration.GetWebserverVmPath(), "*.vmx", SearchOption.AllDirectories));
+				AppConfiguration.GetWebserverBaseImagePath(), "*.vmx", SearchOption.AllDirectories));
 
 			return filePaths.Where(foo => foo.Substring(foo.Length - 4) == ".vmx").
 				Select(foo => RegisteredVirtualMachineService.ConvertPathToDatasource(foo)).ToList();
