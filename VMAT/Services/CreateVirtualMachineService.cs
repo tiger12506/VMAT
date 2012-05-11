@@ -25,15 +25,15 @@ namespace VMAT.Services
         {
             if (RegisteredVirtualMachineService.GetRegisteredVMImagePaths().Contains(VM.ImagePathName))
                 throw new InvalidDataException("Specified VM path already exists");
-            if (!VM.ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || !VM.BaseImageName.StartsWith(AppConfiguration.GetDatastore()))
-                throw new InvalidDataException("Invalid ImagePathName or BaseImageName: doesn't contain datastore name");
-            if (VM.ImagePathName.Length < 8 || VM.BaseImageName.Length < 8 || VM.IP.Length < 7)
+            if (!VM.ImagePathName.StartsWith(AppConfiguration.GetDatastore()) || VM.BaseImageFullPhysicalPath.StartsWith(AppConfiguration.GetDatastore()))
+                throw new InvalidDataException("Invalid ImagePathName: doesn't contain datastore name, or BaseImageFullPhysicalPath does contain datastore name");
+            if (VM.ImagePathName.Length < 8 || VM.BaseImageFullPhysicalPath.Length < 8 || VM.IP.Length < 7)
                 throw new InvalidDataException("CreateVM required field unspecified or too short");
             
             //this will run async, but probably should report status and handle errors in individual steps better
             try
             {
-                CopyVMFiles(VM.BaseImageName, VM.ImagePathName);
+                CopyVMFiles(VM.BaseImageFullPhysicalPath, VM.ImagePathName);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,8 @@ namespace VMAT.Services
         }
         private void CopyVMFiles(string baseImageName, string imagePathName)
         {
-            string sourceVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(baseImageName);
+            //string sourceVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(baseImageName);
+            string sourceVMX = baseImageName;
             string sourceName = Path.GetFileNameWithoutExtension(sourceVMX);
             string sourcePath = Path.GetDirectoryName(sourceVMX);
             string destVMX = RegisteredVirtualMachineService.ConvertPathToPhysical(imagePathName);

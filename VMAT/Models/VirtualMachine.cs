@@ -27,7 +27,7 @@ namespace VMAT.Models
 		public string ImagePathName { get; set; }
 
 		[DisplayName("Base Image File")]
-		public string BaseImageName { get; set; }
+		public string BaseImageFullPhysicalPath { get; set; }
 
 		[DisplayName("Operating System")]
 		public string OS { get; set; }
@@ -81,7 +81,7 @@ namespace VMAT.Models
 			MachineName = "gapdev" + vmForm.ProjectName.Trim('G') + vmForm.MachineName;
 			ImagePathName = AppConfiguration.GetDatastore() + vmForm.ProjectName + "/" + 
 				MachineName + "/" + MachineName + ".vmx";
-			BaseImageName = vmForm.BaseImageFile;
+			BaseImageFullPhysicalPath = vmForm.BaseImageFile;
 		    Hostname = MachineName; //nathan added
 			IP = vmForm.IP;
 			IsAutoStarted = vmForm.IsAutoStarted;

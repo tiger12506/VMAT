@@ -28,7 +28,7 @@ namespace VMAT.ViewModels
 		{
 			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
-			BaseImageName = vm.BaseImageName;
+			BaseImageName = vm.BaseImageFullPhysicalPath;
 			MachineName = vm.MachineName;
 			IP = vm.IP;
 			CreatedTime = vm.CreatedTime.ToString();
@@ -65,9 +65,9 @@ namespace VMAT.ViewModels
 					break;
 			}
 
-			if (vm.BaseImageName == "Windows 7")
+			if (vm.BaseImageFullPhysicalPath == "Windows 7")
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";
-			else if (vm.BaseImageName == "Windows Server 2008")
+			else if (vm.BaseImageFullPhysicalPath == "Windows Server 2008")
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-server-2008.png";
 			else
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";

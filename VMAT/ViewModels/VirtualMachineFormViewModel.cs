@@ -41,7 +41,7 @@ namespace VMAT.ViewModels
 		{
 			ProjectName = projectName;
 			MachineName = vm.MachineName;
-			BaseImageFile = vm.BaseImageName;
+			BaseImageFile = vm.BaseImageFullPhysicalPath;
 			IP = vm.IP;
 			IsAutoStarted = vm.IsAutoStarted;
 		}
