@@ -64,7 +64,9 @@ namespace VMAT.ViewModels
 					Status = "archived";
 					break;
 			}
+            BaseImageName = System.IO.Path.GetFileNameWithoutExtension(vm.BaseImageFullPhysicalPath);
 
+            //todo doesn't work
 			if (vm.BaseImageFullPhysicalPath == "Windows 7")
 				OperatingSystemIcon = "~/Content/themes/images/logo_windows-7.png";
 			else if (vm.BaseImageFullPhysicalPath == "Windows Server 2008")

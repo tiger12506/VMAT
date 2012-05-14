@@ -76,6 +76,15 @@ namespace VMAT.Models
 		private static string CheckPath(string path, string name)
 		{
 			string ret="";
+            try
+            {
+                var di = new System.IO.DirectoryInfo(path);
+                
+                di.EnumerateDirectories();
+            } catch(Exception e)
+            {
+                ret += name + " can't enumerate, error "+e.Message+"<br />";
+            }
 			if (!System.IO.Directory.Exists(path))
 				ret += name + " doesn't exist<br />";
 			if (!(path.EndsWith("/") || path.EndsWith("\\")))
