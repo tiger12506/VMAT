@@ -352,6 +352,20 @@ namespace VMAT.Models
 			virtualMachine.Snapshots.CreateSnapshot(name, description);
 		}
 
+        public void ConsolidateSnapshot(VirtualMachine vm, string name, string description)
+        {
+            VMWareVirtualHost virtualHost = new VMWareVirtualHost();
+
+            // connect to a local VMWare Workstation virtual host
+            virtualHost.ConnectToVMWareWorkstation();
+            // open an existing virtual machine
+            VMWareVirtualMachine virtualMachine = virtualHost.Open(vm.ImagePathName);
+            foreach(VMWareSnapshot snapshot in virtualMachine.Snapshots)
+                snapshot.RemoveSnapshot();
+            // take a snapshot at the current state
+            virtualMachine.Snapshots.CreateSnapshot(name, description);
+        }
+
 		private void PowerOn(VirtualMachine vm, RegisteredVirtualMachineService service)
 		{
 			vm.Status = VirtualMachine.POWERINGON;
