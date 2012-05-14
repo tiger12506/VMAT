@@ -28,7 +28,7 @@ namespace VMAT.ViewModels
 		{
 			VirtualMachineId = vm.VirtualMachineId;
 			ImagePathName = vm.ImagePathName;
-			BaseImageName = vm.BaseImageFullPhysicalPath;
+			//BaseImageName = vm.BaseImageFullPhysicalPath;
 			MachineName = vm.MachineName;
 			IP = vm.IP;
 			CreatedTime = vm.CreatedTime.ToString();
