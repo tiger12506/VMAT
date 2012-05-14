@@ -64,6 +64,15 @@
     </div>
     
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#result").dialog({
+                autoOpen: false,
+                title: 'Title',
+                width: 500,
+                height: 'auto',
+                modal: true
+            });
+        });
         function openPopup() {
             alert("Finished running all scheduled tasks.");
         }

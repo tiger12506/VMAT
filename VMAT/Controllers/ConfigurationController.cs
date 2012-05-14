@@ -15,8 +15,8 @@ namespace VMAT.Controllers
             VMAT.Services.QuartzJobs.CreatePendingVMs();
             VMAT.Services.QuartzJobs.ArchivePendingVMs();
             VMAT.Services.QuartzJobs.CreateSnapshots();
-            
-            return RedirectToAction("Host");
+
+            return RedirectToAction("Success");
         }
 
         public ActionResult ThrowException()
@@ -42,6 +42,11 @@ namespace VMAT.Controllers
         public ActionResult Index()
         {
             return RedirectToAction("Host");
+        }
+
+        public ActionResult Success()
+        {
+            return View();
         }
 
         //
