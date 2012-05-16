@@ -318,7 +318,7 @@ namespace VMAT.Models
 				{
 					string[] bytes = minIp.Split('.');
 
-					for (int i = bytes.Length; i > 0; i--)
+					for (int i = bytes.Length-1; i > 0; i--)
 					{
 						bytes[i] = (int.Parse(bytes[i]) + 1).ToString();
 
