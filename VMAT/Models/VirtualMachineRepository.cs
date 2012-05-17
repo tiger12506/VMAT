@@ -131,7 +131,7 @@ namespace VMAT.Models
 				v.Status != VirtualMachine.PENDING).ToList();
 		}
 
-		private void ReinitializeAllRegisteredVirtualMachines()
+		public void ReinitializeAllRegisteredVirtualMachines()
 		{
 			var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
 

@@ -81,5 +81,16 @@ namespace VMAT.Controllers
             ViewData["ConfigCheckOutput"] = AppConfiguration.CheckConfigSettings();
             return View();
         }
+
+		//
+		// GET: /Configuration/ManualSync
+
+		public ActionResult ManualSync()
+		{
+			IVirtualMachineRepository vmRepo = new VirtualMachineRepository();
+			vmRepo.ReinitializeAllRegisteredVirtualMachines();
+
+			return RedirectToAction("Index");
+		}
     }
 }
