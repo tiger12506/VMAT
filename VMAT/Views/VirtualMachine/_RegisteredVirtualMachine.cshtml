@@ -43,7 +43,7 @@
 		<table>
 			<tr>
 				<th>@* Empty *@</th>
-				<th>Operating System</th>
+				<th>Base Image</th>
 				<th>Last Start Time</th>
 				<th>Last Backup Time</th>
 				<th>Last Archive Time</th>
@@ -51,7 +51,7 @@
 			</tr>
 			<tr>
 				<td class="tStatus">@* Empty *@</td>
-				<td class="tOS"><img src="@Url.Content(Model.OperatingSystemIcon)" alt="" /></td>
+				<td class="tOS">@Model.BaseImageName</td>
 				<td class="tStarted">@Model.LastStarted</td>
 				<td class="tBackuped">@Model.LastBackuped</td>
 				<td class="tArchived">@Model.LastArchived</td>

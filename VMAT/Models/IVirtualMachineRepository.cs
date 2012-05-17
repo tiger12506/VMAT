@@ -4,6 +4,7 @@ namespace VMAT.Models
 {
 	public interface IVirtualMachineRepository
 	{
+		void ReinitializeAllRegisteredVirtualMachines();
 		void CreateProject(Project proj);
 		Project GetProject(int id);
 		ICollection<Project> GetAllProjects();

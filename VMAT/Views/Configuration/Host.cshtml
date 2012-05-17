@@ -59,6 +59,7 @@
         @Html.ActionLink("See Log Output (info & exceptions)", "", "elmah")<br />
         @Html.ActionLink("Check Web.config Settings", "Check")<br />
         @Html.ActionLink("Run All Scheduled Tasks Now (may be slow)", "ScheduleRunAll")<br />
+		@Html.ActionLink("Synchronize With VMware", "ManualSync")<br />
         @Ajax.ActionLink("click ", "ScheduleRunAll", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace, OnSuccess = "openPopup" })
         @Html.ActionLink("Back to List", "Index", "VirtualMachine")
     </div>

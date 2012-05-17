@@ -64,8 +64,11 @@ namespace VMAT.Models
 				vm.MachineName = machineName;
 				vm.ImagePathName = image;
 				vm.Status = service.GetStatus();
-				vm.Hostname = service.GetHostname();
-				vm.IP = service.GetIP();
+
+                //TODO reset
+			    vm.Hostname = "test-hostname";
+				//vm.Hostname = service.GetHostname();
+				//vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
 
 				dataDB.SaveChanges();
@@ -128,7 +131,7 @@ namespace VMAT.Models
 				v.Status != VirtualMachine.PENDING).ToList();
 		}
 
-		private void ReinitializeAllRegisteredVirtualMachines()
+		public void ReinitializeAllRegisteredVirtualMachines()
 		{
 			var imagePathNames = RegisteredVirtualMachineService.GetRegisteredVMImagePaths();
 

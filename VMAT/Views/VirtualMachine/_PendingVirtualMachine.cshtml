@@ -19,12 +19,12 @@
         <table>
             <tr>
                 <th>Image File</th>
-                <th>Operating System</th>
+                <th>Base Image</th>
                 <th>IP Address</th>
             </tr>
             <tr>
                 <td class="tImagefile">@Model.ImagePathName</td>
-				<td class="tOS"><img src="@Url.Content(Model.OperatingSystemIcon)" alt="" /></td>
+				<td class="tOS">@Model.BaseImageName</td>
                 <td class="tIP">@Model.IP</td>
             </tr>
         </table>
