@@ -176,7 +176,7 @@ namespace VMAT.Services
 
         public static void CreateSnapshots()
         {
-            if(DateTime.Now.DayOfWeek == DayOfWeek.Friday)
+            if(DateTime.Now.DayOfWeek == DayOfWeek.Thursday)
             {
                 CreateSnapshotsWeekly();
                 return;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using VMAT.Models.VMware;
 using Vestris.VMWareLib;
 using VMAT.Services;
 
@@ -342,24 +343,24 @@ namespace VMAT.Models
 
 		public void CreateSnapshot(VirtualMachine vm, string name, string description)
 		{
-			VMWareVirtualHost virtualHost = new VMWareVirtualHost();
+            var virtualHost = RegisteredVirtualMachineService.GetVirtualHost();
 
-			// connect to a local VMWare Workstation virtual host
-			virtualHost.ConnectToVMWareWorkstation();
+            //// connect to a local VMWare Workstation virtual host
+            //virtualHost.ConnectToVMWareWorkstation();
 			// open an existing virtual machine
-			VMWareVirtualMachine virtualMachine = virtualHost.Open(vm.ImagePathName);
+			IVirtualMachine virtualMachine = virtualHost.Open(vm.ImagePathName);
 			// take a snapshot at the current state
 			virtualMachine.Snapshots.CreateSnapshot(name, description);
 		}
 
         public void ConsolidateSnapshot(VirtualMachine vm, string name, string description)
         {
-            VMWareVirtualHost virtualHost = new VMWareVirtualHost();
+            var virtualHost = RegisteredVirtualMachineService.GetVirtualHost();
 
-            // connect to a local VMWare Workstation virtual host
-            virtualHost.ConnectToVMWareWorkstation();
+            //// connect to a local VMWare Workstation virtual host
+            //virtualHost.ConnectToVMWareWorkstation();
             // open an existing virtual machine
-            VMWareVirtualMachine virtualMachine = virtualHost.Open(vm.ImagePathName);
+            IVirtualMachine virtualMachine = virtualHost.Open(vm.ImagePathName);
             foreach(VMWareSnapshot snapshot in virtualMachine.Snapshots)
                 snapshot.RemoveSnapshot();
             // take a snapshot at the current state
