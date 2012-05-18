@@ -72,9 +72,9 @@ namespace VMAT.Services
             // Create Snaphots
             JobDetail snapshotJD = new JobDetail("Snapshots", null, typeof(CreateSnapshotsJob));
 
-            var snapshotStartTime = dataDB.HostConfiguration.Single().ArchiveVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
+            var snapshotStartTime = dataDB.HostConfiguration.Single().BackupVMTime.ToUniversalTime().TimeOfDay;//Quartz uses UTC time for Trigger
             Trigger snapshotTrigger = TriggerUtils.MakeHourlyTrigger(24);
-            archiveTrigger.StartTimeUtc = DateTime.Now.Date.Add(snapshotStartTime);
+            snapshotTrigger.StartTimeUtc = DateTime.Now.Date.Add(snapshotStartTime);
             snapshotTrigger.Name = "SnapshotsTrigger";
 
 		    sched.ScheduleJob(snapshotJD, snapshotTrigger);
