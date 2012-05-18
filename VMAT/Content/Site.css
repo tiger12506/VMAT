@@ -401,6 +401,10 @@ fieldset#preview
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+fieldset#preview td
+{
+    max-width: 240px;
+}
 
 fieldset label.inline
 {
