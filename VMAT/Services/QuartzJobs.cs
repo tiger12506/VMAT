@@ -176,7 +176,7 @@ namespace VMAT.Services
 
         public static void CreateSnapshots()
         {
-            if(DateTime.Now.DayOfWeek == DayOfWeek.Thursday)
+            if(DateTime.Now.DayOfWeek == DayOfWeek.Friday)
             {
                 CreateSnapshotsWeekly();
                 return;
@@ -195,6 +195,7 @@ namespace VMAT.Services
                     new SchedulerInfo("Uncaught snapshot creation error", ex).LogElmah();
                 }
             }
+            new SchedulerInfo("All snapshots completed").LogElmah();
         }
 
         public static void CreateSnapshotsWeekly()
@@ -213,6 +214,7 @@ namespace VMAT.Services
                     new SchedulerInfo("Uncaught snapshot creation error", ex).LogElmah();
                 }
             }
+            new SchedulerInfo("All snapshots completed").LogElmah();
         }
 	}
 
