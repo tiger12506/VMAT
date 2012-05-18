@@ -66,9 +66,9 @@ namespace VMAT.Models
 				vm.Status = service.GetStatus();
 
                 //TODO reset
-			    vm.Hostname = "test-hostname";
-				//vm.Hostname = service.GetHostname();
-				//vm.IP = service.GetIP();
+			    //vm.Hostname = "test-hostname";
+				vm.Hostname = service.GetHostname();
+				vm.IP = service.GetIP();
 				vm.Project = dataDB.Projects.Single(p => p.ProjectName == projectName);
 
 				dataDB.SaveChanges();
